@@ -1,18 +1,8 @@
-# README #
+# Tower Defense #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+This is a tower defense game
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
 * Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+** This game relies on the LOVE2D game engine and also requires Moonscript
