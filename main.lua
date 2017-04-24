@@ -1,6 +1,11 @@
-local init
-init = function()
-  love.graphics.setBackgroundColor(200, 200, 200)
-  return love.graphics.setDefaultFilter("nearest", "nearest")
-end
-return init()
+require("logic.classLoader")
+love.graphics.setBackgroundColor(200, 200, 200)
+love.graphics.setDefaultFilter("nearest", "nearest", 1)
+MathHelper = MathHelper()
+MusicHandler = MusicHandler()
+UI = UI()
+Renderer = Renderer()
+State = State()
+Player = Player(100, 1024, Sprite("test.tga", 16, 16, 1, 4))
+Player.sprite:setRotationSpeed(11)
+Driver()

@@ -1,26 +1,29 @@
---require("logic.classLoader")
+require "logic.classLoader"
 
---+---------------------------------------+
---| Remaps functions and sets up the game |
---+---------------------------------------+
-init = ->
-  -- Register key events
-  --love.keypressed = Driver.keyPressed
-  --love.keyreleased = Driver.keyReleased
+-- Set love environment
+love.graphics.setBackgroundColor 200, 200, 200
+love.graphics.setDefaultFilter "nearest", "nearest", 1
 
-  -- Register mouse events
-  --love.mousepressed = Driver.mousePressed
+-- Global MathHelper
+export MathHelper = MathHelper!
 
-  -- Register window events
-  --love.focus = Driver.focus
+-- Global MusicHandler
+export MusicHandler = MusicHandler!
 
-  -- Register love events
-  --love.load = Driver.load
-  --love.update = Driver.update
-  --love.draw = Driver.draw
+-- Global UI
+export UI = UI!
 
-  -- Set love environment
-  love.graphics.setBackgroundColor(200, 200, 200)
-  love.graphics.setDefaultFilter("nearest", "nearest")
+-- Global Renderer
+export Renderer = Renderer!
 
-init!
+-- Global State
+export State = State!
+
+-- Global Player
+export Player = Player 100, 1024, Sprite "test.tga", 16, 16, 1, 4
+Player.sprite\setRotationSpeed 11
+
+-- Create Driver object
+Driver!
+
+return
