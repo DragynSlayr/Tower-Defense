@@ -5,12 +5,15 @@ export class GameObject
     @sprite = sprite
     @ai = ai
     @elapsed = 0
+    @health = 5
+    @damage = 1
 
   getHitBox: =>
     return @sprite\getBounds @position.x, @position.y
 
   onCollide: (object) =>
     print @__name .. " hit " .. object.__name
+    @health -= object.damage
 
   update: (dt) =>
     @sprite\update dt

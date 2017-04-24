@@ -5,7 +5,8 @@ do
       return self.sprite:getBounds(self.position.x, self.position.y)
     end,
     onCollide = function(self, object)
-      return print(self.__name .. " hit " .. object.__name)
+      print(self.__name .. " hit " .. object.__name)
+      self.health = self.health - object.damage
     end,
     update = function(self, dt)
       self.sprite:update(dt)
@@ -48,6 +49,8 @@ do
       self.sprite = sprite
       self.ai = ai
       self.elapsed = 0
+      self.health = 5
+      self.damage = 1
     end,
     __base = _base_0,
     __name = "GameObject"

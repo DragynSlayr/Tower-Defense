@@ -1,24 +1,39 @@
 do
   local _class_0
   local _base_0 = {
+    addObject = function(self, object, id)
+      if self.objects[id] then
+        self.objects[id][#self.objects[id] + 1] = object
+        return Renderer:add(object, EntityTypes.layers[id])
+      else
+        self.objects[id] = { }
+        return self:addObject(object, id)
+      end
+    end,
     keypressed = function(key, scancode, isrepeat)
       if key == "escape" then
         return love.event.quit()
       else
-        return Player:keypressed(key)
+        for k, v in pairs(Driver.objects[EntityTypes.player]) do
+          v:keypressed(key)
+        end
       end
     end,
     keyreleased = function(key)
-      Player:keyreleased(key)
+      for k, v in pairs(Driver.objects[EntityTypes.player]) do
+        v:keyreleased(key)
+      end
     end,
     mouspressed = function(x, y, button, isTouch) end,
     mousereleased = function(x, y, button, isTouch) end,
     focus = function(focus) end,
-    load = function(arg)
-      Renderer:add(Player, 1)
-    end,
+    load = function(arg) end,
     update = function(dt)
-      Player:update(dt)
+      for k, v in pairs(Driver.objects) do
+        for k2, o in pairs(v) do
+          o:update(dt)
+        end
+      end
     end,
     draw = function()
       love.graphics.push("all")
@@ -29,6 +44,7 @@ do
   _base_0.__index = _base_0
   _class_0 = setmetatable({
     __init = function(self)
+      self.objects = { }
       love.keypressed = self.keypressed
       love.keyreleased = self.keyreleased
       love.mousepressed = self.mousepressed

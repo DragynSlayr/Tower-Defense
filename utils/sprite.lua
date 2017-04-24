@@ -14,6 +14,9 @@ do
     setRotationSpeed = function(self, speed)
       self.rotation_speed = speed
     end,
+    setRotation = function(self, angle)
+      self.rotation = angle
+    end,
     getBounds = function(self, x, y)
       local radius = math.min(self.scaled_height / 2, self.scaled_width / 2)
       return Circle(x, y, radius)
@@ -36,6 +39,11 @@ do
         love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.color[4])
       end
       love.graphics.draw(self.image, self.sprites[self.current_frame], math.floor(x), math.floor(y), self.rotation, self.x_scale, self.y_scale, self.width / 2, self.height / 2)
+      if DEBUGGING then
+        love.graphics.setColor(0, 255, 0, 255)
+        local circle = self:getBounds(x, y)
+        love.graphics.circle("line", circle.center.x, circle.center.y, circle.radius, 25)
+      end
       return love.graphics.pop()
     end
   }

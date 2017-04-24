@@ -32,12 +32,14 @@ require "ui.ui"
 --| State and Type constants |--
 --+--------------------------+--
 require "logic.state"
+require "logic.entityTypes"
 
 --+-----------------------------+--
 --| Depends on sprite and types |--
 --+-----------------------------+--
 require "logic.gameObject"
 require "logic.player"
+require "logic.turret"
 
 --+------------------------------+--
 --| Dependent on everything else |--

@@ -10,7 +10,7 @@ do
     end,
     getRandomUnitStart = function(self, radius)
       if radius == nil then
-        radius = love.graphics:getHeight() / 2
+        radius = love.graphics.getHeight() / 2
       end
       local rand_num = (math.random() * 2) - 1
       local x = rand_num * radius

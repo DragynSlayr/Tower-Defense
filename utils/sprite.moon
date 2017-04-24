@@ -37,6 +37,9 @@ export class Sprite
   setRotationSpeed: (speed) =>
     @rotation_speed = speed
 
+  setRotation: (angle) =>
+    @rotation = angle
+
   getBounds: (x, y) =>
     radius = math.min @scaled_height / 2, @scaled_width / 2
     return Circle x, y, radius
@@ -57,4 +60,8 @@ export class Sprite
     if @colored
       love.graphics.setColor @color[1], @color[2], @color[3], @color[4]
     love.graphics.draw @image, @sprites[@current_frame], math.floor(x), math.floor(y), @rotation, @x_scale, @y_scale, @width / 2, @height / 2
+    if DEBUGGING
+      love.graphics.setColor 0, 255, 0, 255
+      circle = @getBounds x, y
+      love.graphics.circle "line", circle.center.x, circle.center.y, circle.radius, 25
     love.graphics.pop!
