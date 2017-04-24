@@ -14,15 +14,14 @@ export class GameObject
 
   update: (dt) =>
     @sprite\update dt
-    if @isOnScreen!
-      @elapsed += dt
-      if @ai
-        @ai dt
-      else
-        @position\add @speed\multiply dt
-        if not @isOnScreen!
-          @position\add @speed\multiply (-2 * dt)
-          @speed = Vector 0, 0
+    @elapsed += dt
+    if @ai
+      @ai dt
+    else
+      @position\add @speed\multiply dt
+    radius = @getHitBox!.radius
+    @position.x = MathHelper\clamp @position.x, radius, love.graphics.getWidth! - radius
+    @position.y = MathHelper\clamp @position.y, radius, love.graphics.getHeight! - radius
 
   draw: =>
     @sprite\draw @position.x, @position.y

@@ -19,6 +19,15 @@ do
         y = -y
       end
       return x, y
+    end,
+    clamp = function(self, x, min, max)
+      if x <= min then
+        return min
+      elseif x >= max then
+        return max
+      else
+        return x
+      end
     end
   }
   _base_0.__index = _base_0

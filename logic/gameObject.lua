@@ -9,18 +9,15 @@ do
     end,
     update = function(self, dt)
       self.sprite:update(dt)
-      if self:isOnScreen() then
-        self.elapsed = self.elapsed + dt
-        if self.ai then
-          return self:ai(dt)
-        else
-          self.position:add(self.speed:multiply(dt))
-          if not self:isOnScreen() then
-            self.position:add(self.speed:multiply((-2 * dt)))
-            self.speed = Vector(0, 0)
-          end
-        end
+      self.elapsed = self.elapsed + dt
+      if self.ai then
+        self:ai(dt)
+      else
+        self.position:add(self.speed:multiply(dt))
       end
+      local radius = self:getHitBox().radius
+      self.position.x = MathHelper:clamp(self.position.x, radius, love.graphics.getWidth() - radius)
+      self.position.y = MathHelper:clamp(self.position.y, radius, love.graphics.getHeight() - radius)
     end,
     draw = function(self)
       return self.sprite:draw(self.position.x, self.position.y)

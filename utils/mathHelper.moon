@@ -9,7 +9,7 @@ export class MathHelper
     else
       return -1
 
-  getRandomUnitStart: (radius = love.graphics\getHeight! / 2) =>
+  getRandomUnitStart: (radius = love.graphics.getHeight! / 2) =>
     rand_num = (math.random! * 2) - 1
 
     x = rand_num * radius
@@ -19,3 +19,11 @@ export class MathHelper
       y = -y
 
     return x, y
+    
+  clamp: (x, min, max) =>
+    if x <= min
+      return min
+    elseif x >= max
+      return max
+    else
+      return x
