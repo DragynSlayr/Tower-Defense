@@ -19,6 +19,11 @@ export class Player extends GameObject
         @max_speed, 0
       else
         @speed.x, @speed.y
+    if key == "q"
+      x = math.random love.graphics.getWidth!
+      y = math.random love.graphics.getHeight!
+      enemy = BasicEnemy x, y
+      Driver\addObject enemy, EntityTypes.enemy
     if key == "space"
       if @show_turret
         turret = BasicTurret @position.x, @position.y

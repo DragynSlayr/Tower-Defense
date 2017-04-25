@@ -16,6 +16,12 @@ do
       else
         self.speed.x, self.speed.y = self.speed.x, self.speed.y
       end
+      if key == "q" then
+        local x = math.random(love.graphics.getWidth())
+        local y = math.random(love.graphics.getHeight())
+        local enemy = BasicEnemy(x, y)
+        Driver:addObject(enemy, EntityTypes.enemy)
+      end
       if key == "space" then
         if self.show_turret then
           local turret = BasicTurret(self.position.x, self.position.y)

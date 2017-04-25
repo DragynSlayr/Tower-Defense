@@ -39,6 +39,16 @@ require "logic.entityTypes"
 --+-----------------------------+--
 require "logic.gameObject"
 require "logic.player"
+
+--+---------+--
+--| Enemies |--
+--+---------+--
+require "logic.enemy"
+require "logic.basicEnemy"
+
+--+---------+--
+--| Turrets |--
+--+---------+--
 require "logic.turret"
 require "logic.basicTurret"
 

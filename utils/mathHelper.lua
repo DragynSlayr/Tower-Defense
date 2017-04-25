@@ -10,15 +10,14 @@ do
     end,
     getRandomUnitStart = function(self, radius)
       if radius == nil then
-        radius = love.graphics.getHeight() / 2
+        radius = love.graphics.getHeight() / 3
       end
-      local rand_num = (math.random() * 2) - 1
-      local x = rand_num * radius
-      local y = math.sqrt((radius * radius) - (x * x))
-      if math.random(0, 1 == 1) then
-        y = -y
-      end
-      return x, y
+      local vec = Vector(0, 1)
+      local rand_num = ((math.random(0, 361)) / 360) * (2 * math.pi)
+      vec:rotate(rand_num)
+      vec = vec:multiply(radius)
+      vec:add(Vector(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2))
+      return vec:getComponents()
     end,
     clamp = function(self, x, min, max)
       if x <= min then

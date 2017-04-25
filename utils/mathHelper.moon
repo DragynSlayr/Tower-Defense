@@ -9,17 +9,14 @@ export class MathHelper
     else
       return -1
 
-  getRandomUnitStart: (radius = love.graphics.getHeight! / 2) =>
-    rand_num = (math.random! * 2) - 1
+  getRandomUnitStart: (radius = love.graphics.getHeight! / 3) =>
+    vec = Vector 0, 1
+    rand_num = ((math.random 0, 361) / 360) * (2 * math.pi)
+    vec\rotate rand_num
+    vec = vec\multiply radius
+    vec\add Vector love.graphics.getWidth! / 2, love.graphics.getHeight! / 2
+    return vec\getComponents!
 
-    x = rand_num * radius
-    y = math.sqrt (radius * radius) - (x * x)
-
-    if math.random 0, 1 == 1
-      y = -y
-
-    return x, y
-    
   clamp: (x, min, max) =>
     if x <= min
       return min
