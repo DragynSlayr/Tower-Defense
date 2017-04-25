@@ -1,5 +1,5 @@
 require("logic.classLoader")
-DEBUGGING = false
+DEBUGGING = not true
 love.graphics.setBackgroundColor(200, 200, 200)
 love.graphics.setDefaultFilter("nearest", "nearest", 1)
 MathHelper = MathHelper()
@@ -8,7 +8,6 @@ UI = UI()
 Renderer = Renderer()
 State = State()
 EntityTypes = EntityTypes()
-Player = Player(250, 250, Sprite("test.tga", 16, 16, 1, 4))
-Player.sprite:setRotationSpeed(0)
+Player = Player(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2, Sprite("test.tga", 16, 16, 1, 4))
 Driver = Driver()
 Driver:addObject(Player, EntityTypes.player)

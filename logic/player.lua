@@ -18,13 +18,12 @@ do
       end
       if key == "space" then
         if self.show_turret then
-          local turret = Turret(self.position.x, self.position.y, 250, Sprite("boss/shield.tga", 27, 26, 1, 2.5))
+          local turret = BasicTurret(self.position.x, self.position.y)
           if turret:isOnScreen() and self.num_turrets < self.max_turrets then
             Driver:addObject(turret, EntityTypes.turret)
             self.num_turrets = self.num_turrets + 1
             self.turret[#self.turret + 1] = turret
             self.show_turret = false
-            self.max_turrets = self.max_turrets + 1
           end
         else
           if self.num_turrets ~= self.max_turrets then
@@ -44,7 +43,7 @@ do
     update = function(self, dt)
       _class_0.__parent.__base.update(self, dt)
       if self.show_turret then
-        local turret = Turret(self.position.x, self.position.y, 250, Sprite("boss/shield.tga", 27, 26, 1, 2.5))
+        local turret = BasicTurret(self.position.x, self.position.y)
         return Renderer:enqueue((function()
           local _base_1 = turret
           local _fn_0 = _base_1.drawFaded

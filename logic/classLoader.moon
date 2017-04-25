@@ -40,6 +40,7 @@ require "logic.entityTypes"
 require "logic.gameObject"
 require "logic.player"
 require "logic.turret"
+require "logic.basicTurret"
 
 --+------------------------------+--
 --| Dependent on everything else |--

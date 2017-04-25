@@ -21,7 +21,14 @@ do
       self.position.y = MathHelper:clamp(self.position.y, radius, love.graphics.getHeight() - radius)
     end,
     draw = function(self)
-      return self.sprite:draw(self.position.x, self.position.y)
+      self.sprite:draw(self.position.x, self.position.y)
+      love.graphics.push("all")
+      love.graphics.setColor(0, 0, 0, 255)
+      local radius = self:getHitBox().radius
+      love.graphics.rectangle("fill", (self.position.x - radius) - 3, (self.position.y + radius) + 3, (radius * 2) + 6, 16)
+      love.graphics.setColor(0, 255, 0, 255)
+      love.graphics.rectangle("fill", self.position.x - radius, (self.position.y + radius) + 6, radius * 2, 10)
+      return love.graphics.pop()
     end,
     isOnScreen = function(self)
       local circle = self:getHitBox()

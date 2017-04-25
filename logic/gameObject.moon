@@ -28,6 +28,13 @@ export class GameObject
 
   draw: =>
     @sprite\draw @position.x, @position.y
+    love.graphics.push "all"
+    love.graphics.setColor 0, 0, 0, 255
+    radius = @getHitBox!.radius
+    love.graphics.rectangle "fill", (@position.x - radius) - 3, (@position.y + radius) + 3, (radius * 2) + 6, 16
+    love.graphics.setColor 0, 255, 0, 255
+    love.graphics.rectangle "fill", @position.x - radius, (@position.y + radius) + 6, radius * 2, 10
+    love.graphics.pop!
 
   isOnScreen: =>
     circle = @getHitBox!

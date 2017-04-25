@@ -21,7 +21,7 @@ export class Player extends GameObject
         @speed.x, @speed.y
     if key == "space"
       if @show_turret
-        turret = Turret @position.x, @position.y, 250, Sprite "boss/shield.tga", 27, 26, 1, 2.5
+        turret = BasicTurret @position.x, @position.y
         if turret\isOnScreen! and @num_turrets < @max_turrets
           Driver\addObject turret, EntityTypes.turret
           @num_turrets += 1
@@ -41,5 +41,5 @@ export class Player extends GameObject
   update: (dt) =>
     super dt
     if @show_turret
-      turret = Turret @position.x, @position.y, 250, Sprite "boss/shield.tga", 27, 26, 1, 2.5
+      turret = BasicTurret @position.x, @position.y
       Renderer\enqueue turret\drawFaded
