@@ -3,6 +3,9 @@ do
   local _parent_0 = GameObject
   local _base_0 = {
     keypressed = function(self, key)
+      if not self.alive then
+        return 
+      end
       self.last_pressed = key
       local _exp_0 = key
       if "w" == _exp_0 then
@@ -22,6 +25,11 @@ do
         local enemy = BasicEnemy(x, y)
         Driver:addObject(enemy, EntityTypes.enemy)
       end
+      if key == "e" then
+        if self.num_turrets ~= self.max_turrets then
+          self.show_turret = not self.show_turret
+        end
+      end
       if key == "space" then
         if self.show_turret then
           local turret = BasicTurret(self.position.x, self.position.y)
@@ -32,13 +40,23 @@ do
             self.show_turret = false
           end
         else
-          if self.num_turrets ~= self.max_turrets then
-            self.show_turret = true
+          if Driver.objects[EntityTypes.enemy] then
+            for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
+              local enemy = v:getHitBox()
+              local player = self:getHitBox()
+              enemy.radius = enemy.radius + (player.radius + self.attack_range)
+              if enemy:contains(player.center) then
+                v:onCollide(self)
+              end
+            end
           end
         end
       end
     end,
     keyreleased = function(self, key)
+      if not self.alive then
+        return 
+      end
       self.last_released = key
       if key == "d" or key == "a" then
         self.speed.x = 0
@@ -47,10 +65,13 @@ do
       end
     end,
     update = function(self, dt)
+      if not self.alive then
+        return 
+      end
       _class_0.__parent.__base.update(self, dt)
       if self.show_turret then
         local turret = BasicTurret(self.position.x, self.position.y)
-        return Renderer:enqueue((function()
+        Renderer:enqueue((function()
           local _base_1 = turret
           local _fn_0 = _base_1.drawFaded
           return function(...)
@@ -58,6 +79,25 @@ do
           end
         end)())
       end
+      for k, v in pairs(self.turret) do
+        if not v.alive then
+          self.num_turrets = self.num_turrets - 1
+          self.turret[k] = nil
+        end
+      end
+    end,
+    draw = function(self)
+      if not self.alive then
+        return 
+      end
+      if DEBUGGING then
+        love.graphics.push("all")
+        love.graphics.setColor(0, 0, 255, 255)
+        local player = self:getHitBox()
+        love.graphics.circle("fill", self.position.x, self.position.y, self.attack_range + player.radius, 25)
+        love.graphics.pop()
+      end
+      return _class_0.__parent.__base.draw(self)
     end
   }
   _base_0.__index = _base_0
@@ -65,6 +105,7 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y, sprite)
       _class_0.__parent.__init(self, x, y, sprite)
+      self.attack_range = 50
       self.max_speed = 275
       self.max_turrets = 1
       self.num_turrets = 0

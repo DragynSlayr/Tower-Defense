@@ -32,6 +32,10 @@ do
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do
           o:update(dt)
+          if o.health <= 0 then
+            v[k2]:kill()
+            v[k2] = nil
+          end
         end
       end
     end,

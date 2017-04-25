@@ -24,12 +24,10 @@ export class Driver
       else
         for k, v in pairs Driver.objects[EntityTypes.player]
           v\keypressed key
-          --Player\keypressed key
 
     keyreleased: (key) ->
       for k, v in pairs Driver.objects[EntityTypes.player]
         v\keyreleased key
-      --Player\keyreleased key
       return
 
     mouspressed: (x, y, button, isTouch) ->
@@ -42,14 +40,15 @@ export class Driver
       return
 
     load: (arg) ->
-      --Renderer\add Player, 1
       return
 
     update: (dt) ->
       for k, v in pairs Driver.objects
         for k2, o in pairs v
           o\update dt
-      --Player\update dt
+          if o.health <= 0
+            v[k2]\kill!
+            v[k2] = nil
       return
 
     draw: ->

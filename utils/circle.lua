@@ -2,17 +2,11 @@ do
   local _class_0
   local _base_0 = {
     contains = function(self, point)
-      if type(point == "circle") then
-        self.radius = self.radius + point.radius
-      end
       local x = point.x - self.center.x
       local y = point.y - self.center.y
       local distance = (x * x) + (y * y)
       local colliding = distance <= (self.radius * self.radius)
       local collision_distance = distance - (self.radius * self.radius)
-      if type(point == "circle") then
-        self.radius = self.radius - point.radius
-      end
       return colliding, collision_distance
     end,
     getCollisionDistance = function(self, point)

@@ -1,3 +1,3 @@
 export class BasicTurret extends Turret
   new: (x, y) =>
-    super x, y, 250, Sprite "boss/shield.tga", 27, 26, 1, 2.5
+    super x, y, 250, Sprite "turret.tga", 34, 16, 2, 2.5

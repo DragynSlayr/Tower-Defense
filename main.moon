@@ -3,7 +3,7 @@ require "logic.classLoader"
 export DEBUGGING = not true
 
 -- Set love environment
-love.graphics.setBackgroundColor 200, 200, 200
+love.graphics.setBackgroundColor 50, 75, 50, 255
 love.graphics.setDefaultFilter "nearest", "nearest", 1
 
 -- Global MathHelper

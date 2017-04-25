@@ -4,8 +4,8 @@ export class Circle
     @radius = radius
 
   contains: (point) =>
-    if type point == "circle"
-      @radius += point.radius
+--    if type point == "circle"
+--      @radius += point.radius
 
     x = point.x - @center.x
     y = point.y - @center.y
@@ -14,8 +14,8 @@ export class Circle
     colliding = distance <= (@radius * @radius)
     collision_distance = distance - (@radius * @radius)
 
-    if type point == "circle"
-      @radius -= point.radius
+--    if type point == "circle"
+--      @radius -= point.radius
 
     return colliding, collision_distance
 
