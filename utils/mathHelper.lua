@@ -12,12 +12,14 @@ do
       if radius == nil then
         radius = love.graphics.getHeight() / 3
       end
-      local vec = Vector(0, 1)
+      local point = Point(0, 1)
       local rand_num = ((math.random(0, 361)) / 360) * (2 * math.pi)
-      vec:rotate(rand_num)
-      vec = vec:multiply(radius)
-      vec:add(Vector(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2))
-      return vec:getComponents()
+      point:rotate(rand_num)
+      point.x = point.x * radius
+      point.y = point.y * radius
+      point.x = point.x + (love.graphics.getWidth() / 2)
+      point.y = point.y + (love.graphics.getHeight() / 2)
+      return point:getComponents()
     end,
     clamp = function(self, x, min, max)
       if x <= min then

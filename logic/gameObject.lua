@@ -8,7 +8,6 @@ do
       if not self.alive then
         return 
       end
-      print("Collision")
       self.health = self.health - object.damage
     end,
     kill = function(self)

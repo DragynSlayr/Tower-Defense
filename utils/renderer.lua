@@ -42,11 +42,7 @@ do
       if font == nil then
         font = self.status_font
       end
-      love.graphics.push("all")
-      love.graphics.setColor(0, 0, 0)
-      love.graphics.setFont(font)
-      love.graphics.printf(message, 0, y, love.graphics:getWidth(), "center")
-      return love.graphics.pop()
+      return self:drawAlignedMessage(message, y, "center", font)
     end,
     drawAlignedMessage = function(self, message, y, alignment, font)
       if alignment == nil then

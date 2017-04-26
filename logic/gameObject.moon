@@ -15,7 +15,7 @@ export class GameObject
   onCollide: (object) =>
     if not @alive return
     --print @__name .. " hit " .. object.__name
-    print "Collision"
+    --print "Collision"
     @health -= object.damage
 
   kill: =>
