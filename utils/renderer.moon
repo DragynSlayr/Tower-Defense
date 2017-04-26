@@ -10,6 +10,9 @@ export class Renderer
     @status_font = love.graphics.newFont "assets/fonts/opsb.ttf", 50
     @hud_font = love.graphics.newFont "assets/fonts/opsb.ttf", 30
 
+    for i = 1, 10
+      @layers[i] = {}
+
   -- Adds an object to the layers
   -- object: The object to add
   -- layer: The layer to add to

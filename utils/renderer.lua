@@ -66,6 +66,9 @@ do
       self.title_font = love.graphics.newFont("assets/fonts/opsb.ttf", 70)
       self.status_font = love.graphics.newFont("assets/fonts/opsb.ttf", 50)
       self.hud_font = love.graphics.newFont("assets/fonts/opsb.ttf", 30)
+      for i = 1, 10 do
+        self.layers[i] = { }
+      end
     end,
     __base = _base_0,
     __name = "Renderer"
