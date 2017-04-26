@@ -82,6 +82,7 @@ do
       self.delay = 1
       self.max_speed = 150
       self.speed_multiplier = 150
+      self.id = EntityTypes.enemy
     end,
     __base = _base_0,
     __name = "Enemy",

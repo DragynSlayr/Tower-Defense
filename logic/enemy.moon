@@ -6,6 +6,7 @@ export class Enemy extends GameObject
     @delay = 1
     @max_speed = 150
     @speed_multiplier = 150
+    @id = EntityTypes.enemy
 
   update: (dt) =>
     if not @alive return
@@ -28,16 +29,6 @@ export class Enemy extends GameObject
         @speed_multiplier = 0
         if @target.health <= 0
           @findNearestTarget!
---      if Driver.objects[EntityTypes.player]
---        for k, v in pairs Driver.objects[EntityTypes.player]
---          player = v\getHitBox!
---          enemy = @getHitBox!
---          player.radius += enemy.radius + @attack_range
---          if player\contains enemy.center
---            v\onCollide @
---            @speed_multiplier = 0
---            if v.health <= 0
---              @findNearestTarget!
 
   draw: =>
     if not @alive return
