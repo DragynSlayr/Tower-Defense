@@ -19,10 +19,8 @@ do
     end,
     rotate = function(self, angle)
       local cos_angle, sin_angle = self:getCosSin(angle)
-      local x = (cos_angle * self.x) - (sin_angle * self.y)
-      local y = (sin_angle * self.x) + (cos_angle * self.y)
-      self.x = x
-      self.y = y
+      self.x = (cos_angle * self.x) - (sin_angle * self.y)
+      self.y = (sin_angle * self.x) + (cos_angle * self.y)
     end,
     getCosSin = function(self, angle)
       local cos_angle = math.cos(angle)

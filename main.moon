@@ -1,5 +1,6 @@
 require "logic.classLoader"
 
+-- Enable to show extra info
 export DEBUGGING = not true
 
 -- Set love environment
@@ -23,7 +24,8 @@ export State = State!
 export EntityTypes = EntityTypes!
 
 -- Global Player
-export Player = Player love.graphics.getWidth! / 2, love.graphics.getHeight! / 2, Sprite "test.tga", 16, 16, 1, 4
+export Player = Player love.graphics.getWidth! / 2, love.graphics.getHeight! / 2, Sprite "test.tga", 16, 16, 0.29, 4
+Player.sprite\setRotationSpeed -math.pi / 2
 
 -- Create Driver object
 export Driver = Driver!

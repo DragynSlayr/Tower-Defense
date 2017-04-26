@@ -3,7 +3,6 @@ do
   local _base_0 = {
     setColor = function(self, color)
       self.color = color
-      self.colored = true
     end,
     setScale = function(self, x, y)
       self.x_scale = x
@@ -35,7 +34,7 @@ do
     end,
     draw = function(self, x, y)
       love.graphics.push("all")
-      if self.colored then
+      if self.color then
         love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.color[4])
       end
       love.graphics.draw(self.image, self.sprites[self.current_frame], math.floor(x), math.floor(y), self.rotation, self.x_scale, self.y_scale, self.width / 2, self.height / 2)
