@@ -2,6 +2,10 @@ do
   local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
+    getHitBox = function(self)
+      local radius = math.max(self.sprite.scaled_height / 2, self.sprite.scaled_width / 2)
+      return Circle(self.position.x, self.position.y, radius)
+    end,
     update = function(self, dt)
       if not self.alive then
         return 
@@ -15,10 +19,13 @@ do
           self.target = nil
           return self:findTarget()
         else
-          self.target:onCollide(self)
-          if self.target.health <= 0 then
-            self.target = nil
-            return self:findTarget()
+          if self.target then
+            local bullet = Bullet(self.position.x, self.position.y, self.target)
+            Driver:addObject(bullet, EntityTypes.bullet)
+            if self.target.health <= 0 then
+              self.target = nil
+              return self:findTarget()
+            end
           end
         end
       else
@@ -82,8 +89,10 @@ do
     __init = function(self, x, y, range, sprite)
       _class_0.__parent.__init(self, x, y, sprite, 0, 0)
       self.range = self.sprite:getBounds().radius + range
-      self.damage = 1 / 60
       self.target = nil
+      self.id = EntityTypes.turret
+      self.health = 5
+      self.max_health = self.health
     end,
     __base = _base_0,
     __name = "Turret",

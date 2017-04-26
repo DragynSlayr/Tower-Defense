@@ -49,6 +49,7 @@ require "logic.basicEnemy"
 --+---------+--
 --| Turrets |--
 --+---------+--
+require "logic.bullet"
 require "logic.turret"
 require "logic.basicTurret"
 

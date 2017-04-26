@@ -2,8 +2,14 @@ export class Turret extends GameObject
   new: (x, y, range, sprite) =>
     super x, y, sprite, 0, 0
     @range = @sprite\getBounds!.radius + range
-    @damage = 1 / 60
     @target = nil
+    @id = EntityTypes.turret
+    @health = 5
+    @max_health = @health
+
+  getHitBox: =>
+    radius = math.max @sprite.scaled_height / 2, @sprite.scaled_width / 2
+    return Circle @position.x, @position.y, radius
 
   update: (dt) =>
     if not @alive return
@@ -16,10 +22,13 @@ export class Turret extends GameObject
         @target = nil
         @findTarget!
       else
-        @target\onCollide @
-        if @target.health <= 0
-          @target = nil
-          @findTarget!
+        --@target\onCollide @
+        if @target
+          bullet = Bullet @position.x, @position.y, @target
+          Driver\addObject bullet, EntityTypes.bullet
+          if @target.health <= 0
+            @target = nil
+            @findTarget!
     else
       @findTarget!
 
