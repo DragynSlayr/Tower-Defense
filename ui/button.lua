@@ -10,13 +10,37 @@ do
       self.hover_sprite = hover
       self.sprited = true
     end,
+    isHovering = function(self, x, y)
+      local xOn = self.x <= x and self.x + self.width >= x
+      local yOn = self.y <= y and self.y + self.height >= y
+      return xOn and yOn
+    end,
+    update = function(self, dt)
+      local x, y = love.mouse.getPosition()
+      self.selected = self:isHovering(x, y)
+      if self.selected and love.mouse.isDown(1) then
+        if self.clickable then
+          self:action()
+          self.clickable = false
+          self.elapsed = 0
+        end
+      end
+      self.elapsed = self.elapsed + dt
+      if self.elapsed >= self.max_time then
+        self.clickable = true
+      end
+      if self.sprited then
+        self.idle_sprite:update(dt)
+        return self.hover_sprite:update(dt)
+      end
+    end,
     draw = function(self)
       love.graphics.push("all")
       if self.sprited then
         if self.selected then
-          self.hover_sprite:draw(self.x, self.y)
+          self.hover_sprite:draw(self.x + (self.width / 2), self.y + (self.height / 2))
         else
-          self.idle_sprite:draw(self.x, self.y)
+          self.idle_sprite:draw(self.x + (self.width / 2), self.y + (self.height / 2))
         end
       else
         if self.selected then
@@ -27,24 +51,8 @@ do
         love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
       end
       love.graphics.setColor(0, 0, 0)
-      love.graphics.printf(self.text, self.x, self.y + ((self.height - love.graphics.getFont:getHeight()) / 2), self.width, "center")
+      love.graphics.printf(self.text, self.x, self.y + ((self.height - love.graphics.getFont():getHeight()) / 2), self.width, "center")
       return love.graphics.pop()
-    end,
-    update = function(self, dt)
-      local x, y = love.mouse.getPosition()
-      self.selected = self:isHovering(x, y)
-      if self.selected and love.mouse.isDown(1) then
-        self:action()
-      end
-      if self.sprited then
-        self.idle_sprite:update(dt)
-        return self.hover_sprite:update(dt)
-      end
-    end,
-    isHovering = function(self, x, y)
-      local xOn = self.x <= x and self.x + self.width >= x
-      local yOn = self.y <= y and self.y + self.height >= y
-      return xOn and yOn
     end
   }
   _base_0.__index = _base_0
@@ -67,6 +75,9 @@ do
         100
       }
       self.selected = false
+      self.clickable = true
+      self.elapsed = 0
+      self.max_time = 0.3
     end,
     __base = _base_0,
     __name = "Button"
