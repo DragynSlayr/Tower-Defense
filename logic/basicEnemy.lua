@@ -1,7 +1,17 @@
 do
   local _class_0
   local _parent_0 = Enemy
-  local _base_0 = { }
+  local _base_0 = {
+    kill = function(self)
+      _class_0.__parent.kill(self)
+      for i = 1, 2 do
+        local x = math.random(love.graphics.getWidth())
+        local y = math.random(love.graphics.getHeight())
+        local enemy = BasicEnemy(x, y)
+        Driver:addObject(enemy, EntityTypes.enemy)
+      end
+    end
+  }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
