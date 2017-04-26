@@ -12,17 +12,36 @@ do
     end,
     kill = function(self)
       self.alive = false
+      self.health = 0
     end,
     update = function(self, dt)
       if not self.alive then
         return 
       end
       self.sprite:update(dt)
+      local start = Vector(self.position.x, self.position.y)
       self.elapsed = self.elapsed + dt
       self.position:add(self.speed:multiply(dt))
       local radius = self:getHitBox().radius
       self.position.x = MathHelper:clamp(self.position.x, radius, love.graphics.getWidth() - radius)
       self.position.y = MathHelper:clamp(self.position.y, radius, love.graphics.getHeight() - radius)
+      if self.id == "Bullet" then
+        return 
+      end
+      for k, v in pairs(Driver.objects) do
+        for k2, o in pairs(v) do
+          if not (self.id == "Player" and o.id == "Turret") then
+            if o ~= self and o.id ~= "Bullet" then
+              local other = o:getHitBox()
+              local this = self:getHitBox()
+              other.radius = other.radius + this.radius
+              if other:contains(this.center) then
+                self.position = start
+              end
+            end
+          end
+        end
+      end
     end,
     draw = function(self)
       if not self.alive then
@@ -30,12 +49,14 @@ do
       end
       self.sprite:draw(self.position.x, self.position.y)
       love.graphics.push("all")
-      love.graphics.setColor(0, 0, 0, 255)
-      local radius = self.sprite.scaled_height / 2
-      love.graphics.rectangle("fill", (self.position.x - radius) - 3, (self.position.y + radius) + 3, (radius * 2) + 6, 16)
-      love.graphics.setColor(0, 255, 0, 255)
-      local ratio = self.health / self.max_health
-      love.graphics.rectangle("fill", self.position.x - radius, (self.position.y + radius) + 6, (radius * 2) * ratio, 10)
+      if self.draw_health then
+        love.graphics.setColor(0, 0, 0, 255)
+        local radius = self.sprite.scaled_height / 2
+        love.graphics.rectangle("fill", (self.position.x - radius) - 3, (self.position.y + radius) + 3, (radius * 2) + 6, 16)
+        love.graphics.setColor(0, 255, 0, 255)
+        local ratio = self.health / self.max_health
+        love.graphics.rectangle("fill", self.position.x - radius, (self.position.y + radius) + 6, (radius * 2) * ratio, 10)
+      end
       return love.graphics.pop()
     end,
     isOnScreen = function(self)
@@ -67,6 +88,8 @@ do
       self.max_health = self.health
       self.damage = 1
       self.alive = true
+      self.id = nil
+      self.draw_health = true
     end,
     __base = _base_0,
     __name = "GameObject"

@@ -10,13 +10,15 @@ do
       self.item = "Item"
       self.health = "Health"
       self.coin = "Coin"
+      self.bullet = "Bullet"
       self.layers = { }
-      self.layers[self.player] = 4
-      self.layers[self.turret] = 1
-      self.layers[self.enemy] = 3
-      self.layers[self.item] = 2
-      self.layers[self.health] = 2
-      self.layers[self.coin] = 2
+      self.layers[self.player] = 5
+      self.layers[self.turret] = 2
+      self.layers[self.enemy] = 4
+      self.layers[self.item] = 3
+      self.layers[self.health] = 3
+      self.layers[self.coin] = 3
+      self.layers[self.bullet] = 1
     end,
     __base = _base_0,
     __name = "EntityTypes"
