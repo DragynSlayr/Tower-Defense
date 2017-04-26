@@ -6,6 +6,8 @@ export class Player extends GameObject
     @max_turrets = 1
     @num_turrets = 0
     @turret = {}
+    @id = EntityTypes.player
+    @repair_range = 30
 
   keypressed: (key) =>
     if not @alive return
@@ -45,7 +47,14 @@ export class Player extends GameObject
             enemy.radius += player.radius + @attack_range
             if enemy\contains player.center
               v\onCollide @
-
+        if @turret
+          for k, v in pairs @turret
+            turret = v\getHitBox!
+            player = @getHitBox!
+            turret.radius += player.radius + @repair_range
+            if turret\contains player.center
+              v.health += 0.6
+              v.health = MathHelper\clamp v.health, 0, v.max_health
 
   keyreleased: (key) =>
     if not @alive return

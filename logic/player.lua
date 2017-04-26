@@ -50,6 +50,17 @@ do
               end
             end
           end
+          if self.turret then
+            for k, v in pairs(self.turret) do
+              local turret = v:getHitBox()
+              local player = self:getHitBox()
+              turret.radius = turret.radius + (player.radius + self.repair_range)
+              if turret:contains(player.center) then
+                v.health = v.health + 0.6
+                v.health = MathHelper:clamp(v.health, 0, v.max_health)
+              end
+            end
+          end
         end
       end
     end,
@@ -110,6 +121,8 @@ do
       self.max_turrets = 1
       self.num_turrets = 0
       self.turret = { }
+      self.id = EntityTypes.player
+      self.repair_range = 30
     end,
     __base = _base_0,
     __name = "Player",
