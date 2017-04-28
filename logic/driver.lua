@@ -27,7 +27,11 @@ do
     mouspressed = function(x, y, button, isTouch) end,
     mousereleased = function(x, y, button, isTouch) end,
     focus = function(focus) end,
-    load = function(arg) end,
+    load = function(arg)
+      local player = Player(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2, Sprite("test.tga", 16, 16, 0.29, 4))
+      player.sprite:setRotationSpeed(-math.pi / 2)
+      return Driver:addObject(player, EntityTypes.player)
+    end,
     update = function(dt)
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do

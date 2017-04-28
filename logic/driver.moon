@@ -40,7 +40,10 @@ export class Driver
       return
 
     load: (arg) ->
-      return
+      -- Create a player
+      player = Player love.graphics.getWidth! / 2, love.graphics.getHeight! / 2, Sprite "test.tga", 16, 16, 0.29, 4
+      player.sprite\setRotationSpeed -math.pi / 2
+      Driver\addObject player, EntityTypes.player
 
     update: (dt) ->
       for k, v in pairs Driver.objects
