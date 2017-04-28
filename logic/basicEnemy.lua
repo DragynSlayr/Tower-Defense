@@ -4,11 +4,12 @@ do
   local _base_0 = {
     kill = function(self)
       _class_0.__parent.kill(self)
-      for i = 1, 2 do
+      local num = math.random(2)
+      if num == 1 then
         local x = math.random(love.graphics.getWidth())
         local y = math.random(love.graphics.getHeight())
         local enemy = BasicEnemy(x, y)
-        Driver:addObject(enemy, EntityTypes.enemy)
+        return Driver:addObject(enemy, EntityTypes.enemy)
       end
     end
   }

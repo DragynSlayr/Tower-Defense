@@ -5,7 +5,8 @@ export class BasicEnemy extends Enemy
 
   kill: =>
     super\kill!
-    for i = 1, 2
+    num = math.random 2
+    if num == 1
       x = math.random love.graphics.getWidth!
       y = math.random love.graphics.getHeight!
       enemy = BasicEnemy x, y
