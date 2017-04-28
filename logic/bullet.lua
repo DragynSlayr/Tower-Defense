@@ -29,7 +29,7 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y, target)
-      local sprite = Sprite("enemy/bullet.tga", 26, 20, 1, 0.5)
+      local sprite = Sprite("beam.tga", 16, 8, 1, 1.5)
       _class_0.__parent.__init(self, x, y, sprite, target)
       self.attack_range = 15
       self.damage = 1 / 10

@@ -1,6 +1,6 @@
 export class Bullet extends Enemy
   new: (x, y, target) =>
-    sprite = Sprite "enemy/bullet.tga", 26, 20, 1, 0.5
+    sprite = Sprite "beam.tga", 16, 8, 1, 1.5
     super x, y, sprite, target
     @attack_range = 15
     @damage = 1 / 10
