@@ -1,1 +1,1 @@
-"C:\Program Files\LOVE\love.exe" "%cd%"
+moonc . && love .
