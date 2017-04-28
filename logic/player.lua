@@ -7,30 +7,33 @@ do
         return 
       end
       self.last_pressed = key
-      local _exp_0 = key
-      if "w" == _exp_0 then
-        self.speed.x, self.speed.y = 0, -self.max_speed
-      elseif "a" == _exp_0 then
-        self.speed.x, self.speed.y = -self.max_speed, 0
-      elseif "s" == _exp_0 then
-        self.speed.x, self.speed.y = 0, self.max_speed
-      elseif "d" == _exp_0 then
-        self.speed.x, self.speed.y = self.max_speed, 0
-      else
-        self.speed.x, self.speed.y = self.speed.x, self.speed.y
+      if key == "a" then
+        if self.speed.x ~= self.max_speed then
+          self.speed.x = -self.max_speed
+        end
+      elseif key == "d" then
+        if self.speed.x ~= -self.max_speed then
+          self.speed.x = self.max_speed
+        end
+      elseif key == "w" then
+        if self.speed.y ~= self.max_speed then
+          self.speed.y = -self.max_speed
+        end
+      elseif key == "s" then
+        if self.speed.y ~= -self.max_speed then
+          self.speed.y = self.max_speed
+        end
       end
       if key == "q" then
         local x = math.random(love.graphics.getWidth())
         local y = math.random(love.graphics.getHeight())
         local enemy = BasicEnemy(x, y)
-        Driver:addObject(enemy, EntityTypes.enemy)
-      end
-      if key == "e" then
+        return Driver:addObject(enemy, EntityTypes.enemy)
+      elseif key == "e" then
         if self.num_turrets ~= self.max_turrets then
           self.show_turret = not self.show_turret
         end
-      end
-      if key == "space" then
+      elseif key == "space" then
         if self.show_turret then
           local turret = BasicTurret(self.position.x, self.position.y)
           if turret:isOnScreen() and self.num_turrets < self.max_turrets then
@@ -69,10 +72,22 @@ do
         return 
       end
       self.last_released = key
-      if key == "d" or key == "a" then
-        self.speed.x = 0
-      elseif key == "w" or key == "s" then
-        self.speed.y = 0
+      if key == "a" then
+        if self.speed.x == -self.max_speed then
+          self.speed.x = 0
+        end
+      elseif key == "d" then
+        if self.speed.x == self.max_speed then
+          self.speed.x = 0
+        end
+      elseif key == "w" then
+        if self.speed.y == -self.max_speed then
+          self.speed.y = 0
+        end
+      elseif key == "s" then
+        if self.speed.y == self.max_speed then
+          self.speed.y = 0
+        end
       end
     end,
     update = function(self, dt)
@@ -109,6 +124,11 @@ do
         love.graphics.pop()
       end
       return _class_0.__parent.__base.draw(self)
+    end,
+    kill = function(self)
+      _class_0.__parent.kill(self)
+      local player = Player(self.position.x, self.position.y, self.sprite)
+      return Driver:addObject(player, EntityTypes.player)
     end
   }
   _base_0.__index = _base_0
