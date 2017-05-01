@@ -30,7 +30,8 @@ do
     load = function(arg)
       local player = Player(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2, Sprite("test.tga", 16, 16, 0.29, 4))
       player.sprite:setRotationSpeed(-math.pi / 2)
-      return Driver:addObject(player, EntityTypes.player)
+      Driver:addObject(player, EntityTypes.player)
+      return Objectives:nextMode()
     end,
     update = function(dt)
       for k, v in pairs(Driver.objects) do
@@ -38,15 +39,18 @@ do
           o:update(dt)
           if o.health <= 0 then
             v[k2]:kill()
+            Objectives:entityKilled(v[k2])
             v[k2] = nil
           end
         end
       end
+      return Objectives:update(dt)
     end,
     draw = function()
       love.graphics.push("all")
       Renderer:drawAll()
-      love.graphics.pop()
+      Objectives:draw()
+      return love.graphics.pop()
     end
   }
   _base_0.__index = _base_0

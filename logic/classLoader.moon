@@ -53,6 +53,12 @@ require "logic.bullet"
 require "logic.turret"
 require "logic.basicTurret"
 
+--+------------+--
+--| Objectives |--
+--+------------+--
+require "logic.eliminationMode"
+require "logic.objectives"
+
 --+------------------------------+--
 --| Dependent on everything else |--
 --+------------------------------+--

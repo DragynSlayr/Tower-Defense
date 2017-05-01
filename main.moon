@@ -23,6 +23,9 @@ export Renderer = Renderer!
 export State = State!
 export EntityTypes = EntityTypes!
 
+-- Global objectives
+export Objectives = Objectives!
+
 -- Create Driver object
 export Driver = Driver!
 

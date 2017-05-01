@@ -44,6 +44,7 @@ export class Driver
       player = Player love.graphics.getWidth! / 2, love.graphics.getHeight! / 2, Sprite "test.tga", 16, 16, 0.29, 4
       player.sprite\setRotationSpeed -math.pi / 2
       Driver\addObject player, EntityTypes.player
+      Objectives\nextMode!
 
     update: (dt) ->
       for k, v in pairs Driver.objects
@@ -51,11 +52,12 @@ export class Driver
           o\update dt
           if o.health <= 0
             v[k2]\kill!
+            Objectives\entityKilled v[k2]
             v[k2] = nil
-      return
+      Objectives\update dt
 
     draw: ->
       love.graphics.push "all"
       Renderer\drawAll!
+      Objectives\draw!
       love.graphics.pop!
-      return
