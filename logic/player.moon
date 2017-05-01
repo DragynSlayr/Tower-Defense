@@ -12,55 +12,32 @@ export class Player extends GameObject
   keypressed: (key) =>
     if not @alive return
     @last_pressed = key
-    --@speed.x, @speed.y = switch key
-      --when "w"
-        --0, -@max_speed
-      --when "a"
-        ---@max_speed, 0
-      --when "s"
-        --0, @max_speed
-      --when "d"
-        --@max_speed, 0
-      --else
-        --@speed.x, @speed.y
     if key == "a"
-      if @speed.x ~= @max_speed
+      --if @speed.x ~= @max_speed
         @speed.x = -@max_speed
     elseif key == "d"
-      if @speed.x ~= -@max_speed
+      --if @speed.x ~= -@max_speed
         @speed.x = @max_speed
     elseif key == "w"
-      if @speed.y ~= @max_speed
+      --if @speed.y ~= @max_speed
         @speed.y = -@max_speed
     elseif key == "s"
-      if @speed.y ~= -@max_speed
+      --if @speed.y ~= -@max_speed
         @speed.y = @max_speed
-    --@speed.x = switch key
-      --when "a"
-        ---@max_speed
-      --when "d"
-        --@max_speed
-      --else
-        --@speed.x
-    --@speed.y = switch key
-      --when "w"
-        ---@max_speed
-      --when "s"
-        --@max_speed
-      --else
-        --@speed.y
     if key == "q"
-      x = math.random love.graphics.getWidth!
-      y = math.random love.graphics.getHeight!
-      enemy = BasicEnemy x, y
-      Driver\addObject enemy, EntityTypes.enemy
+      if DEBUGGING
+        x = math.random love.graphics.getWidth!
+        y = math.random love.graphics.getHeight!
+        enemy = BasicEnemy x, y
+        Driver\addObject enemy, EntityTypes.enemy
     elseif key == "e"
       if @num_turrets != @max_turrets
         @show_turret = not @show_turret
     elseif key == "space"
       if @show_turret
         turret = BasicTurret @position.x, @position.y
-        if turret\isOnScreen! and @num_turrets < @max_turrets
+        --if turret\isOnScreen! and @num_turrets < @max_turrets
+        if @num_turrets < @max_turrets
           Driver\addObject turret, EntityTypes.turret
           @num_turrets += 1
           @turret[#@turret + 1] = turret
@@ -73,6 +50,7 @@ export class Player extends GameObject
             enemy.radius += player.radius + @attack_range
             if enemy\contains player.center
               v\onCollide @
+              v.speed_multiplier = 0
         if @turret
           for k, v in pairs @turret
             turret = v\getHitBox!
@@ -85,22 +63,23 @@ export class Player extends GameObject
   keyreleased: (key) =>
     if not @alive return
     @last_released = key
-    if key == "a"
-      if @speed.x == -@max_speed
-        @speed.x = 0
-    elseif key == "d"
-      if @speed.x == @max_speed
-        @speed.x =0
-    elseif key == "w"
-      if @speed.y == -@max_speed
-        @speed.y = 0
-    elseif key == "s"
-      if @speed.y == @max_speed
-        @speed.y = 0
-    --if key == "d" or key == "a"
-      --@speed.x = 0
-    --elseif key == "w" or key == "s"
-      --@speed.y = 0
+    --if key == "a"
+      --if @speed.x == -@max_speed
+        --@speed.x = 0
+    --elseif key == "d"
+      --if @speed.x == @max_speed
+        --@speed.x = 0
+    --elseif key == "w"
+      --if @speed.y == -@max_speed
+        --@speed.y = 0
+    --elseif key == "s"
+      --if @speed.y == @max_speed
+        --@speed.y = 0
+
+    if key == "d" or key == "a"
+      @speed.x = 0
+    elseif key == "w" or key == "s"
+      @speed.y = 0
 
   update: (dt) =>
     if not @alive return

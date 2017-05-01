@@ -8,27 +8,21 @@ do
       end
       self.last_pressed = key
       if key == "a" then
-        if self.speed.x ~= self.max_speed then
-          self.speed.x = -self.max_speed
-        end
+        self.speed.x = -self.max_speed
       elseif key == "d" then
-        if self.speed.x ~= -self.max_speed then
-          self.speed.x = self.max_speed
-        end
+        self.speed.x = self.max_speed
       elseif key == "w" then
-        if self.speed.y ~= self.max_speed then
-          self.speed.y = -self.max_speed
-        end
+        self.speed.y = -self.max_speed
       elseif key == "s" then
-        if self.speed.y ~= -self.max_speed then
-          self.speed.y = self.max_speed
-        end
+        self.speed.y = self.max_speed
       end
       if key == "q" then
-        local x = math.random(love.graphics.getWidth())
-        local y = math.random(love.graphics.getHeight())
-        local enemy = BasicEnemy(x, y)
-        return Driver:addObject(enemy, EntityTypes.enemy)
+        if DEBUGGING then
+          local x = math.random(love.graphics.getWidth())
+          local y = math.random(love.graphics.getHeight())
+          local enemy = BasicEnemy(x, y)
+          return Driver:addObject(enemy, EntityTypes.enemy)
+        end
       elseif key == "e" then
         if self.num_turrets ~= self.max_turrets then
           self.show_turret = not self.show_turret
@@ -36,7 +30,7 @@ do
       elseif key == "space" then
         if self.show_turret then
           local turret = BasicTurret(self.position.x, self.position.y)
-          if turret:isOnScreen() and self.num_turrets < self.max_turrets then
+          if self.num_turrets < self.max_turrets then
             Driver:addObject(turret, EntityTypes.turret)
             self.num_turrets = self.num_turrets + 1
             self.turret[#self.turret + 1] = turret
@@ -50,6 +44,7 @@ do
               enemy.radius = enemy.radius + (player.radius + self.attack_range)
               if enemy:contains(player.center) then
                 v:onCollide(self)
+                v.speed_multiplier = 0
               end
             end
           end
@@ -72,22 +67,10 @@ do
         return 
       end
       self.last_released = key
-      if key == "a" then
-        if self.speed.x == -self.max_speed then
-          self.speed.x = 0
-        end
-      elseif key == "d" then
-        if self.speed.x == self.max_speed then
-          self.speed.x = 0
-        end
-      elseif key == "w" then
-        if self.speed.y == -self.max_speed then
-          self.speed.y = 0
-        end
-      elseif key == "s" then
-        if self.speed.y == self.max_speed then
-          self.speed.y = 0
-        end
+      if key == "d" or key == "a" then
+        self.speed.x = 0
+      elseif key == "w" or key == "s" then
+        self.speed.y = 0
       end
     end,
     update = function(self, dt)
