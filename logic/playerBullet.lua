@@ -6,8 +6,7 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y, target)
-      _class_0.__parent.__init(self, x, y, target)
-      self.slowing = true
+      return _class_0.__parent.__init(self, x, y, target)
     end,
     __base = _base_0,
     __name = "PlayerBullet",
