@@ -9,20 +9,45 @@ do
         end
       end
     end,
+    spawn = function(self, i)
+      if i == nil then
+        i = 0
+      end
+      if i > 0 then
+        print(i)
+      end
+      local x = math.random(love.graphics.getWidth())
+      local y = math.random(love.graphics.getHeight())
+      local enemy = BasicEnemy(x, y)
+      local touching = false
+      for k, v in pairs(Driver.objects) do
+        for k2, o in pairs(v) do
+          local object = o:getHitBox()
+          local e = enemy:getHitBox()
+          object.radius = object.radius + e.radius
+          if object:contains(e.center) then
+            touching = true
+            break
+          end
+        end
+      end
+      if touching then
+        return self:spawn(i + 1)
+      else
+        return Driver:addObject(enemy, EntityTypes.enemy)
+      end
+    end,
     update = function(self, dt)
       if self.waiting then
         self.elapsed = self.elapsed + dt
         if self.elapsed >= self.delay then
-          self.spawnable = math.min(4, self.target)
+          self.spawnable = 14
           self.waiting = false
         end
       else
         if self.spawned + self.spawnable <= self.target then
           for i = 1, self.spawnable do
-            local x = math.random(love.graphics.getWidth())
-            local y = math.random(love.graphics.getHeight())
-            local enemy = BasicEnemy(x, y)
-            Driver:addObject(enemy, EntityTypes.enemy)
+            self:spawn()
           end
           self.spawned = self.spawned + self.spawnable
           self.spawnable = 0

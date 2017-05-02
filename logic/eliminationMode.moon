@@ -15,6 +15,26 @@ export class EliminationMode
       if @killed + 1 < @target
         @spawnable += 1
 
+  spawn: (i = 0) =>
+    if i > 0
+      print i
+    x = math.random love.graphics.getWidth!
+    y = math.random love.graphics.getHeight!
+    enemy = BasicEnemy x, y
+    touching = false
+    for k, v in pairs Driver.objects
+      for k2, o in pairs v
+        object = o\getHitBox!
+        e = enemy\getHitBox!
+        object.radius += e.radius
+        if object\contains e.center
+          touching = true
+          break
+    if touching
+      @spawn i + 1
+    else
+      Driver\addObject enemy, EntityTypes.enemy
+
   update: (dt) =>
     if @waiting
       @elapsed += dt
@@ -24,10 +44,7 @@ export class EliminationMode
     else
       if @spawned + @spawnable <= @target
         for i = 1, @spawnable
-          x = math.random love.graphics.getWidth!
-          y = math.random love.graphics.getHeight!
-          enemy = BasicEnemy x, y
-          Driver\addObject enemy, EntityTypes.enemy
+          @spawn!
         @spawned += @spawnable
         @spawnable = 0
     if @killed >= @target
