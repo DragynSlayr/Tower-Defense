@@ -24,7 +24,7 @@ do
           return Driver:addObject(enemy, EntityTypes.enemy)
         end
       elseif key == "e" then
-        if self.num_turrets ~= self.max_turrets then
+        if self.num_turrets ~= self.max_turrets and self.can_place then
           self.show_turret = not self.show_turret
         end
       elseif key == "space" then
@@ -35,6 +35,8 @@ do
             self.num_turrets = self.num_turrets + 1
             self.turret[#self.turret + 1] = turret
             self.show_turret = false
+            self.can_place = false
+            self.elapsed = 0
           end
         end
         if self.turret then
@@ -66,6 +68,9 @@ do
         return 
       end
       _class_0.__parent.__base.update(self, dt)
+      if self.elapsed > self.turret_cooldown then
+        self.can_place = true
+      end
       if Driver.objects[EntityTypes.enemy] then
         for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
           local enemy = v:getHitBox()
@@ -105,7 +110,16 @@ do
         love.graphics.circle("fill", self.position.x, self.position.y, self.attack_range + player.radius, 25)
         love.graphics.pop()
       end
-      return _class_0.__parent.__base.draw(self)
+      _class_0.__parent.__base.draw(self)
+      local remaining = MathHelper:clamp(self.turret_cooldown - self.elapsed, 0, self.turret_cooldown)
+      remaining = math.floor(remaining)
+      local message = ""
+      if remaining == 0 or self.can_place then
+        message = "Turret Available!"
+      else
+        message = "Turret Cooldown " .. remaining .. " seconds"
+      end
+      return Renderer:drawAlignedMessage(message, 30, "right")
     end,
     kill = function(self)
       _class_0.__parent.kill(self)
@@ -118,13 +132,15 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y, sprite)
       _class_0.__parent.__init(self, x, y, sprite)
-      self.attack_range = 35
+      self.attack_range = 75
       self.max_speed = 275
       self.max_turrets = 1
       self.num_turrets = 0
       self.turret = { }
       self.id = EntityTypes.player
       self.repair_range = 30
+      self.can_place = true
+      self.turret_cooldown = 20
     end,
     __base = _base_0,
     __name = "Player",

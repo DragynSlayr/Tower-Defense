@@ -1,13 +1,15 @@
 export class Player extends GameObject
   new: (x, y, sprite) =>
     super x, y, sprite
-    @attack_range = 35
+    @attack_range = 75
     @max_speed = 275
     @max_turrets = 1
     @num_turrets = 0
     @turret = {}
     @id = EntityTypes.player
     @repair_range = 30
+    @can_place = true
+    @turret_cooldown = 20
 
   keypressed: (key) =>
     if not @alive return
@@ -31,7 +33,7 @@ export class Player extends GameObject
         enemy = BasicEnemy x, y
         Driver\addObject enemy, EntityTypes.enemy
     elseif key == "e"
-      if @num_turrets != @max_turrets
+      if @num_turrets != @max_turrets and @can_place
         @show_turret = not @show_turret
     elseif key == "space"
       if @show_turret
@@ -42,6 +44,8 @@ export class Player extends GameObject
           @num_turrets += 1
           @turret[#@turret + 1] = turret
           @show_turret = false
+          @can_place = false
+          @elapsed = 0
       --else
         --if Driver.objects[EntityTypes.enemy]
           --for k, v in pairs Driver.objects[EntityTypes.enemy]
@@ -84,6 +88,8 @@ export class Player extends GameObject
   update: (dt) =>
     if not @alive return
     super dt
+    if @elapsed > @turret_cooldown
+      @can_place = true
     if Driver.objects[EntityTypes.enemy]
       for k, v in pairs Driver.objects[EntityTypes.enemy]
         enemy = v\getHitBox!
@@ -109,6 +115,14 @@ export class Player extends GameObject
       love.graphics.circle "fill", @position.x, @position.y, @attack_range + player.radius, 25
       love.graphics.pop!
     super!
+    remaining = MathHelper\clamp @turret_cooldown - @elapsed, 0, @turret_cooldown
+    remaining = math.floor remaining
+    message = ""
+    if remaining == 0 or @can_place
+      message = "Turret Available!"
+    else
+      message = "Turret Cooldown " .. remaining .. " seconds"
+    Renderer\drawAlignedMessage message, 30, "right"
 
   kill: =>
     super\kill!
