@@ -41,7 +41,7 @@ do
       if self.waiting then
         self.elapsed = self.elapsed + dt
         if self.elapsed >= self.delay then
-          self.spawnable = 14
+          self.spawnable = math.min(4, self.target)
           self.waiting = false
         end
       else
