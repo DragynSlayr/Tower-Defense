@@ -8,6 +8,12 @@ export class Enemy extends GameObject
     @speed_multiplier = 150
     @id = EntityTypes.enemy
 
+  onCollide: (object) =>
+    if not @alive return
+    super object
+    if object.slowing
+      @speed_multiplier = 0
+
   update: (dt) =>
     if not @alive return
     @findNearestTarget!

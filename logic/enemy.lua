@@ -2,6 +2,15 @@ do
   local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
+    onCollide = function(self, object)
+      if not self.alive then
+        return 
+      end
+      _class_0.__parent.__base.onCollide(self, object)
+      if object.slowing then
+        self.speed_multiplier = 0
+      end
+    end,
     update = function(self, dt)
       if not self.alive then
         return 
