@@ -8,13 +8,23 @@ do
       end
       self.last_pressed = key
       if key == "a" then
-        self.speed.x = -self.max_speed
+        self.speed.x = self.speed.x - self.max_speed
       elseif key == "d" then
-        self.speed.x = self.max_speed
+        self.speed.x = self.speed.x + self.max_speed
       elseif key == "w" then
-        self.speed.y = -self.max_speed
+        self.speed.y = self.speed.y - self.max_speed
       elseif key == "s" then
-        self.speed.y = self.max_speed
+        self.speed.y = self.speed.y + self.max_speed
+      end
+      for k, v in pairs({
+        "w",
+        "a",
+        "s",
+        "d"
+      }) do
+        if key == v then
+          self.keys_pushed = self.keys_pushed + 1
+        end
       end
       if key == "q" then
         if DEBUGGING then
@@ -57,15 +67,34 @@ do
         return 
       end
       self.last_released = key
-      if key == "d" or key == "a" then
-        self.speed.x = 0
-      elseif key == "w" or key == "s" then
-        self.speed.y = 0
+      if self.keys_pushed > 0 then
+        if key == "a" then
+          self.speed.x = self.speed.x + self.max_speed
+        elseif key == "d" then
+          self.speed.x = self.speed.x - self.max_speed
+        elseif key == "w" then
+          self.speed.y = self.speed.y + self.max_speed
+        elseif key == "s" then
+          self.speed.y = self.speed.y - self.max_speed
+        end
+        for k, v in pairs({
+          "w",
+          "a",
+          "s",
+          "d"
+        }) do
+          if key == v then
+            self.keys_pushed = self.keys_pushed - 1
+          end
+        end
       end
     end,
     update = function(self, dt)
       if not self.alive then
         return 
+      end
+      if self.keys_pushed == 0 then
+        self.speed = Vector(0, 0)
       end
       _class_0.__parent.__base.update(self, dt)
       if self.elapsed > self.turret_cooldown then
@@ -141,6 +170,7 @@ do
       self.repair_range = 30
       self.can_place = true
       self.turret_cooldown = 20
+      self.keys_pushed = 0
     end,
     __base = _base_0,
     __name = "Player",

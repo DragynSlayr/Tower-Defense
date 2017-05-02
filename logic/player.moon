@@ -10,22 +10,23 @@ export class Player extends GameObject
     @repair_range = 30
     @can_place = true
     @turret_cooldown = 20
+    @keys_pushed = 0
 
   keypressed: (key) =>
     if not @alive return
     @last_pressed = key
     if key == "a"
-      --if @speed.x ~= @max_speed
-        @speed.x = -@max_speed
+      @speed.x -= @max_speed
     elseif key == "d"
-      --if @speed.x ~= -@max_speed
-        @speed.x = @max_speed
+      @speed.x += @max_speed
     elseif key == "w"
-      --if @speed.y ~= @max_speed
-        @speed.y = -@max_speed
+      @speed.y -= @max_speed
     elseif key == "s"
-      --if @speed.y ~= -@max_speed
-        @speed.y = @max_speed
+      @speed.y += @max_speed
+    for k, v in pairs {"w", "a", "s", "d"}
+      if key == v
+        @keys_pushed += 1
+
     if key == "q"
       if DEBUGGING
         x = math.random love.graphics.getWidth!
@@ -38,7 +39,6 @@ export class Player extends GameObject
     elseif key == "space"
       if @show_turret
         turret = BasicTurret @position.x, @position.y
-        --if turret\isOnScreen! and @num_turrets < @max_turrets
         if @num_turrets < @max_turrets
           Driver\addObject turret, EntityTypes.turret
           @num_turrets += 1
@@ -46,15 +46,6 @@ export class Player extends GameObject
           @show_turret = false
           @can_place = false
           @elapsed = 0
-      --else
-        --if Driver.objects[EntityTypes.enemy]
-          --for k, v in pairs Driver.objects[EntityTypes.enemy]
-            --enemy = v\getHitBox!
-            --player = @getHitBox!
-            --enemy.radius += player.radius + @attack_range
-            --if enemy\contains player.center
-              --v\onCollide @
-              --v.speed_multiplier = 0
       if @turret
         for k, v in pairs @turret
           turret = v\getHitBox!
@@ -67,26 +58,23 @@ export class Player extends GameObject
   keyreleased: (key) =>
     if not @alive return
     @last_released = key
-    --if key == "a"
-      --if @speed.x == -@max_speed
-        --@speed.x = 0
-    --elseif key == "d"
-      --if @speed.x == @max_speed
-        --@speed.x = 0
-    --elseif key == "w"
-      --if @speed.y == -@max_speed
-        --@speed.y = 0
-    --elseif key == "s"
-      --if @speed.y == @max_speed
-        --@speed.y = 0
-
-    if key == "d" or key == "a"
-      @speed.x = 0
-    elseif key == "w" or key == "s"
-      @speed.y = 0
+    if @keys_pushed > 0
+      if key == "a"
+        @speed.x += @max_speed
+      elseif key == "d"
+        @speed.x -= @max_speed
+      elseif key == "w"
+        @speed.y += @max_speed
+      elseif key == "s"
+        @speed.y -= @max_speed
+      for k, v in pairs {"w", "a", "s", "d"}
+        if key == v
+          @keys_pushed -= 1
 
   update: (dt) =>
     if not @alive return
+    if @keys_pushed == 0
+      @speed = Vector 0, 0
     super dt
     if @elapsed > @turret_cooldown
       @can_place = true
