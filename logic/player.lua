@@ -36,27 +36,15 @@ do
             self.turret[#self.turret + 1] = turret
             self.show_turret = false
           end
-        else
-          if Driver.objects[EntityTypes.enemy] then
-            for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
-              local enemy = v:getHitBox()
-              local player = self:getHitBox()
-              enemy.radius = enemy.radius + (player.radius + self.attack_range)
-              if enemy:contains(player.center) then
-                v:onCollide(self)
-                v.speed_multiplier = 0
-              end
-            end
-          end
-          if self.turret then
-            for k, v in pairs(self.turret) do
-              local turret = v:getHitBox()
-              local player = self:getHitBox()
-              turret.radius = turret.radius + (player.radius + self.repair_range)
-              if turret:contains(player.center) then
-                v.health = v.health + 0.6
-                v.health = MathHelper:clamp(v.health, 0, v.max_health)
-              end
+        end
+        if self.turret then
+          for k, v in pairs(self.turret) do
+            local turret = v:getHitBox()
+            local player = self:getHitBox()
+            turret.radius = turret.radius + (player.radius + self.repair_range)
+            if turret:contains(player.center) then
+              v.health = v.health + 0.6
+              v.health = MathHelper:clamp(v.health, 0, v.max_health)
             end
           end
         end
@@ -78,6 +66,17 @@ do
         return 
       end
       _class_0.__parent.__base.update(self, dt)
+      if Driver.objects[EntityTypes.enemy] then
+        for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
+          local enemy = v:getHitBox()
+          local player = self:getHitBox()
+          enemy.radius = enemy.radius + (player.radius + self.attack_range)
+          if enemy:contains(player.center) then
+            local bullet = PlayerBullet(self.position.x, self.position.y, v)
+            Driver:addObject(bullet, EntityTypes.bullet)
+          end
+        end
+      end
       if self.show_turret then
         local turret = BasicTurret(self.position.x, self.position.y)
         Renderer:enqueue((function()
@@ -119,7 +118,7 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y, sprite)
       _class_0.__parent.__init(self, x, y, sprite)
-      self.attack_range = 50
+      self.attack_range = 35
       self.max_speed = 275
       self.max_turrets = 1
       self.num_turrets = 0

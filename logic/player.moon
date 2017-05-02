@@ -1,7 +1,7 @@
 export class Player extends GameObject
   new: (x, y, sprite) =>
     super x, y, sprite
-    @attack_range = 50
+    @attack_range = 35
     @max_speed = 275
     @max_turrets = 1
     @num_turrets = 0
@@ -42,23 +42,23 @@ export class Player extends GameObject
           @num_turrets += 1
           @turret[#@turret + 1] = turret
           @show_turret = false
-      else
-        if Driver.objects[EntityTypes.enemy]
-          for k, v in pairs Driver.objects[EntityTypes.enemy]
-            enemy = v\getHitBox!
-            player = @getHitBox!
-            enemy.radius += player.radius + @attack_range
-            if enemy\contains player.center
-              v\onCollide @
-              v.speed_multiplier = 0
-        if @turret
-          for k, v in pairs @turret
-            turret = v\getHitBox!
-            player = @getHitBox!
-            turret.radius += player.radius + @repair_range
-            if turret\contains player.center
-              v.health += 0.6
-              v.health = MathHelper\clamp v.health, 0, v.max_health
+      --else
+        --if Driver.objects[EntityTypes.enemy]
+          --for k, v in pairs Driver.objects[EntityTypes.enemy]
+            --enemy = v\getHitBox!
+            --player = @getHitBox!
+            --enemy.radius += player.radius + @attack_range
+            --if enemy\contains player.center
+              --v\onCollide @
+              --v.speed_multiplier = 0
+      if @turret
+        for k, v in pairs @turret
+          turret = v\getHitBox!
+          player = @getHitBox!
+          turret.radius += player.radius + @repair_range
+          if turret\contains player.center
+            v.health += 0.6
+            v.health = MathHelper\clamp v.health, 0, v.max_health
 
   keyreleased: (key) =>
     if not @alive return
@@ -84,6 +84,14 @@ export class Player extends GameObject
   update: (dt) =>
     if not @alive return
     super dt
+    if Driver.objects[EntityTypes.enemy]
+      for k, v in pairs Driver.objects[EntityTypes.enemy]
+        enemy = v\getHitBox!
+        player = @getHitBox!
+        enemy.radius += player.radius + @attack_range
+        if enemy\contains player.center
+          bullet = PlayerBullet @position.x, @position.y, v
+          Driver\addObject bullet, EntityTypes.bullet
     if @show_turret
       turret = BasicTurret @position.x, @position.y
       Renderer\enqueue turret\drawFaded
