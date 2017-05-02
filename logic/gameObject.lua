@@ -25,13 +25,13 @@ do
       local radius = self:getHitBox().radius
       self.position.x = MathHelper:clamp(self.position.x, radius, love.graphics.getWidth() - radius)
       self.position.y = MathHelper:clamp(self.position.y, radius, love.graphics.getHeight() - radius)
-      if self.id == "Bullet" then
+      if self.id == EntityTypes.bullet then
         return 
       end
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do
-          if not (self.id == "Player" and o.id == "Turret") then
-            if o ~= self and o.id ~= "Bullet" then
+          if not (self.id == "Player" and o.id == EntityTypes.turret) then
+            if o ~= self and o.id ~= EntityTypes.bullet then
               local other = o:getHitBox()
               local this = self:getHitBox()
               other.radius = other.radius + this.radius

@@ -33,12 +33,12 @@ export class GameObject
     radius = @getHitBox!.radius
     @position.x = MathHelper\clamp @position.x, radius, love.graphics.getWidth! - radius
     @position.y = MathHelper\clamp @position.y, radius, love.graphics.getHeight! - radius
-    if @id == "Bullet"
+    if @id == EntityTypes.bullet
       return
     for k, v in pairs Driver.objects
       for k2, o in pairs v
-        if not (@id == "Player" and o.id == "Turret")
-          if o ~= @ and o.id ~= "Bullet"
+        if not (@id == "Player" and o.id == EntityTypes.turret)
+          if o ~= @ and o.id ~= EntityTypes.bullet
             other = o\getHitBox!
             this = @getHitBox!
             other.radius += this.radius
