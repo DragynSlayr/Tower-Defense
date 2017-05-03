@@ -60,6 +60,10 @@ do
             end
           end
         end
+      elseif key == "z" then
+        SHOW_RANGE = not SHOW_RANGE
+      elseif key == "`" then
+        DEBUGGING = not DEBUGGING
       end
     end,
     keyreleased = function(self, key)
@@ -132,9 +136,9 @@ do
       if not self.alive then
         return 
       end
-      if DEBUGGING then
+      if DEBUGGING or SHOW_RANGE then
         love.graphics.push("all")
-        love.graphics.setColor(0, 0, 255, 255)
+        love.graphics.setColor(0, 0, 255, 100)
         local player = self:getHitBox()
         love.graphics.circle("fill", self.position.x, self.position.y, self.attack_range + player.radius, 25)
         love.graphics.pop()

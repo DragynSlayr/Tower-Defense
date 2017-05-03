@@ -54,6 +54,10 @@ export class Player extends GameObject
           if turret\contains player.center
             v.health += 0.6
             v.health = MathHelper\clamp v.health, 0, v.max_health
+    elseif key == "z"
+      export SHOW_RANGE = not SHOW_RANGE
+    elseif key == "`"
+      export DEBUGGING = not DEBUGGING
 
   keyreleased: (key) =>
     if not @alive return
@@ -96,9 +100,9 @@ export class Player extends GameObject
 
   draw: =>
     if not @alive return
-    if DEBUGGING
+    if DEBUGGING or SHOW_RANGE
       love.graphics.push "all"
-      love.graphics.setColor 0, 0, 255, 255
+      love.graphics.setColor 0, 0, 255, 100
       player = @getHitBox!
       love.graphics.circle "fill", @position.x, @position.y, @attack_range + player.radius, 25
       love.graphics.pop!
