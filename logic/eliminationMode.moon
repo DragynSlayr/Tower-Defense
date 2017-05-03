@@ -16,11 +16,23 @@ export class EliminationMode
         @spawnable += 1
 
   spawn: (i = 0) =>
-    if i > 0
-      print i
+    --if i > 0
+      --print i
     x = math.random love.graphics.getWidth!
     y = math.random love.graphics.getHeight!
-    enemy = BasicEnemy x, y
+    num = math.random 5
+    --print num
+    enemy = switch num
+      when 1
+        PlayerEnemy x, y
+      when 2
+        TurretEnemy x, y
+      when 3
+        SpawnerEnemy x, y
+      when 4
+        StrongEnemy x, y
+      else
+        BasicEnemy x, y
     touching = false
     for k, v in pairs Driver.objects
       for k2, o in pairs v

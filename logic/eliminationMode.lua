@@ -13,12 +13,22 @@ do
       if i == nil then
         i = 0
       end
-      if i > 0 then
-        print(i)
-      end
       local x = math.random(love.graphics.getWidth())
       local y = math.random(love.graphics.getHeight())
-      local enemy = BasicEnemy(x, y)
+      local num = math.random(5)
+      local enemy
+      local _exp_0 = num
+      if 1 == _exp_0 then
+        enemy = PlayerEnemy(x, y)
+      elseif 2 == _exp_0 then
+        enemy = TurretEnemy(x, y)
+      elseif 3 == _exp_0 then
+        enemy = SpawnerEnemy(x, y)
+      elseif 4 == _exp_0 then
+        enemy = StrongEnemy(x, y)
+      else
+        enemy = BasicEnemy(x, y)
+      end
       local touching = false
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do
