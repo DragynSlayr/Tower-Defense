@@ -1,7 +1,8 @@
 require "logic.classLoader"
 
 -- Enable to show extra info
-export DEBUGGING = not true
+export DEBUGGING = false
+export SHOW_RANGE = false
 
 -- Set love environment
 love.graphics.setBackgroundColor 50, 75, 50, 255

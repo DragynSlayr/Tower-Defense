@@ -1,5 +1,6 @@
 require("logic.classLoader")
-DEBUGGING = not true
+DEBUGGING = false
+SHOW_RANGE = false
 love.graphics.setBackgroundColor(50, 75, 50, 255)
 love.graphics.setDefaultFilter("nearest", "nearest", 1)
 MathHelper = MathHelper()
