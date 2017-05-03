@@ -11,11 +11,14 @@ do
         self.speed_multiplier = 0
       end
     end,
-    update = function(self, dt)
+    update = function(self, dt, search)
+      if search == nil then
+        search = false
+      end
       if not self.alive then
         return 
       end
-      self:findNearestTarget()
+      self:findNearestTarget(search)
       if not self.target then
         return 
       end
@@ -46,14 +49,17 @@ do
       end
       if DEBUGGING then
         love.graphics.push("all")
-        love.graphics.setColor(255, 0, 255, 255)
+        love.graphics.setColor(255, 0, 255, 127)
         local enemy = self:getHitBox()
         love.graphics.circle("fill", self.position.x, self.position.y, self.attack_range + enemy.radius, 25)
         love.graphics.pop()
       end
       return _class_0.__parent.__base.draw(self)
     end,
-    findNearestTarget = function(self)
+    findNearestTarget = function(self, all)
+      if all == nil then
+        all = false
+      end
       local closest = nil
       local closest_distance = math.max(love.graphics.getWidth() * 2, love.graphics.getHeight() * 2)
       if Driver.objects[EntityTypes.player] then
@@ -85,12 +91,15 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y, sprite, target)
+      if target == nil then
+        target = nil
+      end
       _class_0.__parent.__init(self, x, y, sprite)
       self.target = target
       self.attack_range = 30
       self.delay = 1
       self.max_speed = 150
-      self.speed_multiplier = 150
+      self.speed_multiplier = self.max_speed
       self.id = EntityTypes.enemy
     end,
     __base = _base_0,

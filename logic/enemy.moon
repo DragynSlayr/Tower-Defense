@@ -1,11 +1,11 @@
 export class Enemy extends GameObject
-  new: (x, y, sprite, target) =>
+  new: (x, y, sprite, target = nil) =>
     super x, y, sprite
     @target = target
     @attack_range = 30
     @delay = 1
     @max_speed = 150
-    @speed_multiplier = 150
+    @speed_multiplier = @max_speed
     @id = EntityTypes.enemy
 
   onCollide: (object) =>
@@ -14,9 +14,9 @@ export class Enemy extends GameObject
     if object.slowing
       @speed_multiplier = 0
 
-  update: (dt) =>
+  update: (dt, search = false) =>
     if not @alive return
-    @findNearestTarget!
+    @findNearestTarget search
     if not @target return
     @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
     @speed\toUnitVector!
@@ -40,13 +40,13 @@ export class Enemy extends GameObject
     if not @alive return
     if DEBUGGING
       love.graphics.push "all"
-      love.graphics.setColor 255, 0, 255, 255
+      love.graphics.setColor 255, 0, 255, 127
       enemy = @getHitBox!
       love.graphics.circle "fill", @position.x, @position.y, @attack_range + enemy.radius, 25
       love.graphics.pop!
     super!
 
-  findNearestTarget: =>
+  findNearestTarget: (all = false) =>
     closest = nil
     closest_distance = math.max love.graphics.getWidth! * 2, love.graphics.getHeight! * 2
     if Driver.objects[EntityTypes.player]

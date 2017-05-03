@@ -6,11 +6,16 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
-      local sprite = Sprite("enemy/tracker.tga", 25, 25, 1, 2)
-      return _class_0.__parent.__init(self, x, y, sprite)
+      local sprite = Sprite("enemy/bullet.tga", 26, 20, 1, 2)
+      _class_0.__parent.__init(self, x, y, sprite)
+      self.damage = 2
+      self.health = 8
+      self.max_health = self.health
+      self.max_speed = 100
+      self.speed_multiplier = 100
     end,
     __base = _base_0,
-    __name = "BasicEnemy",
+    __name = "StrongEnemy",
     __parent = _parent_0
   }, {
     __index = function(cls, name)
@@ -34,5 +39,5 @@ do
   if _parent_0.__inherited then
     _parent_0.__inherited(_parent_0, _class_0)
   end
-  BasicEnemy = _class_0
+  StrongEnemy = _class_0
 end
