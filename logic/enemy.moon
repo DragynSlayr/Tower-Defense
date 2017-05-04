@@ -18,23 +18,39 @@ export class Enemy extends GameObject
     if not @alive return
     @findNearestTarget search
     if not @target return
-    @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
-    @speed\toUnitVector!
-    @speed = @speed\multiply MathHelper\clamp @speed_multiplier, 0, @max_speed
-    @speed_multiplier += 1
-    super dt
-    vec = Vector 0, 0
-    @sprite.rotation = @speed\getAngleBetween vec
-    if @elapsed >= @delay
-      @elapsed = 0
-      target = @target\getHitBox!
-      enemy = @getHitBox!
-      target.radius += enemy.radius + @attack_range
-      if target\contains enemy.center
-        @target\onCollide @
-        @speed_multiplier = 0
-        if @target.health <= 0
-          @findNearestTarget!
+    dist = @position\getDistanceBetween @target.position
+    if dist < love.graphics.getWidth! / 4
+      @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
+      @speed\toUnitVector!
+      @speed = @speed\multiply MathHelper\clamp @speed_multiplier, 0, @max_speed
+      @speed_multiplier += 1
+      super dt
+      vec = Vector 0, 0
+      @sprite.rotation = @speed\getAngleBetween vec
+      if @elapsed >= @delay
+        @elapsed = 0
+        target = @target\getHitBox!
+        enemy = @getHitBox!
+        target.radius += enemy.radius + @attack_range
+        if target\contains enemy.center
+          @target\onCollide @
+          @speed_multiplier = 0
+          if @target.health <= 0
+            @findNearestTarget!
+    else
+      @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
+      copy = @speed\getAbsolute!
+      --print @speed\__tostring! .. ", " .. copy\__tostring!
+      if copy.x > copy.y
+        @speed = Vector @speed.x, 0
+      elseif copy.x < copy.y
+        @speed = Vector 0, @speed.y
+      @speed\toUnitVector!
+      @speed = @speed\multiply MathHelper\clamp @speed_multiplier, 0, @max_speed
+      @speed_multiplier += 1
+      super dt
+      vec = Vector 0, 0
+      @sprite.rotation = @speed\getAngleBetween vec
 
   draw: =>
     if not @alive return

@@ -22,25 +22,42 @@ do
       if not self.target then
         return 
       end
-      self.speed = Vector(self.target.position.x - self.position.x, self.target.position.y - self.position.y)
-      self.speed:toUnitVector()
-      self.speed = self.speed:multiply(MathHelper:clamp(self.speed_multiplier, 0, self.max_speed))
-      self.speed_multiplier = self.speed_multiplier + 1
-      _class_0.__parent.__base.update(self, dt)
-      local vec = Vector(0, 0)
-      self.sprite.rotation = self.speed:getAngleBetween(vec)
-      if self.elapsed >= self.delay then
-        self.elapsed = 0
-        local target = self.target:getHitBox()
-        local enemy = self:getHitBox()
-        target.radius = target.radius + (enemy.radius + self.attack_range)
-        if target:contains(enemy.center) then
-          self.target:onCollide(self)
-          self.speed_multiplier = 0
-          if self.target.health <= 0 then
-            return self:findNearestTarget()
+      local dist = self.position:getDistanceBetween(self.target.position)
+      if dist < love.graphics.getWidth() / 4 then
+        self.speed = Vector(self.target.position.x - self.position.x, self.target.position.y - self.position.y)
+        self.speed:toUnitVector()
+        self.speed = self.speed:multiply(MathHelper:clamp(self.speed_multiplier, 0, self.max_speed))
+        self.speed_multiplier = self.speed_multiplier + 1
+        _class_0.__parent.__base.update(self, dt)
+        local vec = Vector(0, 0)
+        self.sprite.rotation = self.speed:getAngleBetween(vec)
+        if self.elapsed >= self.delay then
+          self.elapsed = 0
+          local target = self.target:getHitBox()
+          local enemy = self:getHitBox()
+          target.radius = target.radius + (enemy.radius + self.attack_range)
+          if target:contains(enemy.center) then
+            self.target:onCollide(self)
+            self.speed_multiplier = 0
+            if self.target.health <= 0 then
+              return self:findNearestTarget()
+            end
           end
         end
+      else
+        self.speed = Vector(self.target.position.x - self.position.x, self.target.position.y - self.position.y)
+        local copy = self.speed:getAbsolute()
+        if copy.x > copy.y then
+          self.speed = Vector(self.speed.x, 0)
+        elseif copy.x < copy.y then
+          self.speed = Vector(0, self.speed.y)
+        end
+        self.speed:toUnitVector()
+        self.speed = self.speed:multiply(MathHelper:clamp(self.speed_multiplier, 0, self.max_speed))
+        self.speed_multiplier = self.speed_multiplier + 1
+        _class_0.__parent.__base.update(self, dt)
+        local vec = Vector(0, 0)
+        self.sprite.rotation = self.speed:getAngleBetween(vec)
       end
     end,
     draw = function(self)
