@@ -70,8 +70,8 @@ do
     draw = function(self)
       love.graphics.push("all")
       love.graphics.setColor(0, 0, 0, 255)
-      local message = (self.target - self.killed) .. " enemies remaining!"
-      Renderer:drawHUDMessage(message, 10, 10)
+      local message = "\t" .. (self.target - self.killed) .. " enemies remaining!"
+      Renderer:drawAlignedMessage(message, 20, "left", Renderer.hud_font)
       return love.graphics.pop()
     end
   }

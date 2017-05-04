@@ -65,6 +65,6 @@ export class EliminationMode
   draw: =>
     love.graphics.push "all"
     love.graphics.setColor(0, 0, 0, 255)
-    message = (@target - @killed) .. " enemies remaining!"
-    Renderer\drawHUDMessage message, 10, 10
+    message = "\t" .. (@target - @killed) .. " enemies remaining!"
+    Renderer\drawAlignedMessage message, 20, "left", Renderer.hud_font
     love.graphics.pop!
