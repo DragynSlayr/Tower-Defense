@@ -77,6 +77,15 @@ export class Vector
     -- Return a new scaled Vector
     return Vector @x * factor, @y * factor
 
+  -- Get the magnitude Vector from this vector
+  getAbsolute: =>
+    -- Get absolute value
+    x = math.abs @x
+    y = math.abs @y
+
+    -- Return absolute Vector
+    return Vector x, y
+
   -- Get the x and y of this Vector
   getComponents: =>
     -- Return x and y

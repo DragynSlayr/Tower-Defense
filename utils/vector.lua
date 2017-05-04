@@ -35,6 +35,11 @@ do
     multiply = function(self, factor)
       return Vector(self.x * factor, self.y * factor)
     end,
+    getAbsolute = function(self)
+      local x = math.abs(self.x)
+      local y = math.abs(self.y)
+      return Vector(x, y)
+    end,
     getComponents = function(self)
       return self.x, self.y
     end,
