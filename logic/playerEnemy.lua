@@ -26,8 +26,8 @@ do
       local sprite = Sprite("enemy/enemy.tga", 26, 26, 1, 0.75)
       _class_0.__parent.__init(self, x, y, sprite)
       self.damage = 0.5
-      self.max_speed = 350
-      self.speed_multiplier = 350
+      self.max_speed = 300
+      self.speed_multiplier = self.max_speed
     end,
     __base = _base_0,
     __name = "PlayerEnemy",

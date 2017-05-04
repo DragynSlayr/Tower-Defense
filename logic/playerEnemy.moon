@@ -3,8 +3,8 @@ export class PlayerEnemy extends Enemy
     sprite = Sprite "enemy/enemy.tga", 26, 26, 1, 0.75
     super x, y, sprite
     @damage = 0.5
-    @max_speed = 350
-    @speed_multiplier = 350
+    @max_speed = 300
+    @speed_multiplier = @max_speed
 
   findNearestTarget: =>
     closest = nil
