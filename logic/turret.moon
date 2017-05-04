@@ -24,7 +24,7 @@ export class Turret extends GameObject
       else
         --@target\onCollide @
         if @target
-          bullet = Bullet @position.x, @position.y, @target
+          bullet = Bullet @position.x, @position.y - @sprite.scaled_height / 2 + 10, @target
           Driver\addObject bullet, EntityTypes.bullet
           if @target.health <= 0
             @target = nil

@@ -20,7 +20,7 @@ do
           return self:findTarget()
         else
           if self.target then
-            local bullet = Bullet(self.position.x, self.position.y, self.target)
+            local bullet = Bullet(self.position.x, self.position.y - self.sprite.scaled_height / 2 + 10, self.target)
             Driver:addObject(bullet, EntityTypes.bullet)
             if self.target.health <= 0 then
               self.target = nil
