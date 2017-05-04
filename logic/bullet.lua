@@ -23,6 +23,11 @@ do
         self.target:onCollide(self)
         return self:kill()
       end
+    end,
+    draw = function(self)
+      if self.speed:getLength() > 0 then
+        return _class_0.__parent.__base.draw(self)
+      end
     end
   }
   _base_0.__index = _base_0

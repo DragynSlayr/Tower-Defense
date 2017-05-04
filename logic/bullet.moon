@@ -28,3 +28,7 @@ export class Bullet extends Enemy
     if target\contains bullet.center
       @target\onCollide @
       @kill!
+
+  draw: =>
+    if @speed\getLength! > 0
+      super!
