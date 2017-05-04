@@ -148,11 +148,11 @@ do
       remaining = math.floor(remaining)
       local message = ""
       if remaining == 0 or self.can_place then
-        message = "Turret Available!"
+        message = "Turret Available!\t"
       else
-        message = "Turret Cooldown " .. remaining .. " seconds"
+        message = "Turret Cooldown " .. remaining .. " seconds\t"
       end
-      return Renderer:drawAlignedMessage(message, 30, "right")
+      return Renderer:drawAlignedMessage(message, 20, "right", Renderer.hud_font)
     end,
     kill = function(self)
       _class_0.__parent.kill(self)

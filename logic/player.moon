@@ -111,10 +111,10 @@ export class Player extends GameObject
     remaining = math.floor remaining
     message = ""
     if remaining == 0 or @can_place
-      message = "Turret Available!"
+      message = "Turret Available!\t"
     else
-      message = "Turret Cooldown " .. remaining .. " seconds"
-    Renderer\drawAlignedMessage message, 30, "right"
+      message = "Turret Cooldown " .. remaining .. " seconds\t"
+    Renderer\drawAlignedMessage message, 20, "right", Renderer.hud_font
 
   kill: =>
     super\kill!
