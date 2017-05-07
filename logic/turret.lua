@@ -40,8 +40,8 @@ do
         for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
           local enemy = v:getHitBox()
           local turret = self:getHitBox()
-          enemy.radius = enemy.radius + self.range
-          if enemy:contains(turret.center) then
+          turret.radius = turret.radius + self.range
+          if enemy:contains(turret) then
             self.target = v
             break
           end

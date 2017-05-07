@@ -1,16 +1,19 @@
 do
   local _class_0
   local _base_0 = {
-    contains = function(self, point)
+    contains = function(self, circ)
+      self.radius = self.radius + circ.radius
+      local point = circ.center
       local x = point.x - self.center.x
       local y = point.y - self.center.y
       local distance = (x * x) + (y * y)
       local colliding = distance <= (self.radius * self.radius)
       local collision_distance = distance - (self.radius * self.radius)
+      self.radius = self.radius - circ.radius
       return colliding, collision_distance
     end,
-    getCollisionDistance = function(self, point)
-      local colliding, collision_distance = self:contains(point)
+    getCollisionDistance = function(self, circ)
+      local colliding, collision_distance = self:contains(circ)
       if colliding then
         return -collision_distance
       else

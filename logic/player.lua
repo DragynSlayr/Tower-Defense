@@ -53,8 +53,8 @@ do
           for k, v in pairs(self.turret) do
             local turret = v:getHitBox()
             local player = self:getHitBox()
-            turret.radius = turret.radius + (player.radius + self.repair_range)
-            if turret:contains(player.center) then
+            player.radius = player.radius + self.repair_range
+            if turret:contains(player) then
               v.health = v.health + 0.6
               v.health = MathHelper:clamp(v.health, 0, v.max_health)
             end
@@ -108,8 +108,8 @@ do
         for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
           local enemy = v:getHitBox()
           local player = self:getHitBox()
-          enemy.radius = enemy.radius + (player.radius + self.attack_range)
-          if enemy:contains(player.center) then
+          player.radius = player.radius + self.attack_range
+          if enemy:contains(player) then
             local bullet = PlayerBullet(self.position.x, self.position.y, v)
             Driver:addObject(bullet, EntityTypes.bullet)
           end

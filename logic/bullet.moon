@@ -24,8 +24,8 @@ export class Bullet extends Enemy
 
     target = @target\getHitBox!
     bullet = @getHitBox!
-    target.radius += bullet.radius + @attack_range
-    if target\contains bullet.center
+    bullet.radius += @attack_range
+    if target\contains bullet
       @target\onCollide @
       @kill!
 

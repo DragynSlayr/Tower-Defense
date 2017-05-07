@@ -38,8 +38,7 @@ export class EliminationMode
       for k2, o in pairs v
         object = o\getHitBox!
         e = enemy\getHitBox!
-        object.radius += e.radius
-        if object\contains e.center
+        if object\contains e
           touching = true
           break
     if touching

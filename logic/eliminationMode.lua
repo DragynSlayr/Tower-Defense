@@ -34,8 +34,7 @@ do
         for k2, o in pairs(v) do
           local object = o:getHitBox()
           local e = enemy:getHitBox()
-          object.radius = object.radius + e.radius
-          if object:contains(e.center) then
+          if object:contains(e) then
             touching = true
             break
           end

@@ -31,8 +31,8 @@ export class Enemy extends GameObject
         @elapsed = 0
         target = @target\getHitBox!
         enemy = @getHitBox!
-        target.radius += enemy.radius + @attack_range
-        if target\contains enemy.center
+        enemy.radius += @attack_range
+        if target\contains enemy
           @target\onCollide @
           @speed_multiplier = 0
           if @target.health <= 0

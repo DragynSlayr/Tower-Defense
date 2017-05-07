@@ -38,8 +38,8 @@ export class Turret extends GameObject
       for k, v in pairs Driver.objects[EntityTypes.enemy]
         enemy = v\getHitBox!
         turret = @getHitBox!
-        enemy.radius += @range
-        if enemy\contains turret.center
+        turret.radius += @range
+        if enemy\contains turret
           @target = v
           break
 

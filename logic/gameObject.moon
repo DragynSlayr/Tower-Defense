@@ -41,8 +41,7 @@ export class GameObject
           if o ~= @ and o.id ~= EntityTypes.bullet
             other = o\getHitBox!
             this = @getHitBox!
-            other.radius += this.radius
-            if other\contains this.center
+            if other\contains this
               @position = start
 
   draw: =>

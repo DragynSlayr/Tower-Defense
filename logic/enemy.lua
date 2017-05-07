@@ -35,8 +35,8 @@ do
           self.elapsed = 0
           local target = self.target:getHitBox()
           local enemy = self:getHitBox()
-          target.radius = target.radius + (enemy.radius + self.attack_range)
-          if target:contains(enemy.center) then
+          enemy.radius = enemy.radius + self.attack_range
+          if target:contains(enemy) then
             self.target:onCollide(self)
             self.speed_multiplier = 0
             if self.target.health <= 0 then

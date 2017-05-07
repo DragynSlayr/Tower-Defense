@@ -34,8 +34,7 @@ do
             if o ~= self and o.id ~= EntityTypes.bullet then
               local other = o:getHitBox()
               local this = self:getHitBox()
-              other.radius = other.radius + this.radius
-              if other:contains(this.center) then
+              if other:contains(this) then
                 self.position = start
               end
             end

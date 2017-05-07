@@ -9,9 +9,15 @@ export class Circle
     @center = Point x, y
     @radius = radius
 
-  -- Check if this Circle contains a Point
-  -- point: The Point to check for
-  contains: (point) =>
+  -- Check if this Circle contains a Circle
+  -- circ: The Circle to check for
+  contains: (circ) =>
+    -- Expand this circle
+    @radius += circ.radius
+
+    -- Find the Point to check collision with
+    point = circ.center
+
     -- Get a 1D Vector from the Points
     x = point.x - @center.x
     y = point.y - @center.y
@@ -23,14 +29,17 @@ export class Circle
     colliding = distance <= (@radius * @radius)
     collision_distance = distance - (@radius * @radius)
 
+    -- Contract this circle
+    @radius -= circ.radius
+
     -- Return the results
     return colliding, collision_distance
 
-  -- Get the extent of the collision with a Point
-  -- point: The point to check
-  getCollisionDistance: (point) =>
+  -- Get the extent of the collision with a Circle
+  -- circ: The Circle to check
+  getCollisionDistance: (circ) =>
     -- Check for a collision
-    colliding, collision_distance = @contains point
+    colliding, collision_distance = @contains circ
 
     -- Return the distance
     if colliding

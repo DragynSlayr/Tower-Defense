@@ -50,8 +50,8 @@ export class Player extends GameObject
         for k, v in pairs @turret
           turret = v\getHitBox!
           player = @getHitBox!
-          turret.radius += player.radius + @repair_range
-          if turret\contains player.center
+          player.radius += @repair_range
+          if turret\contains player
             v.health += 0.6
             v.health = MathHelper\clamp v.health, 0, v.max_health
     elseif key == "z"
@@ -86,8 +86,8 @@ export class Player extends GameObject
       for k, v in pairs Driver.objects[EntityTypes.enemy]
         enemy = v\getHitBox!
         player = @getHitBox!
-        enemy.radius += player.radius + @attack_range
-        if enemy\contains player.center
+        player.radius += @attack_range
+        if enemy\contains player
           bullet = PlayerBullet @position.x, @position.y, v
           Driver\addObject bullet, EntityTypes.bullet
     if @show_turret

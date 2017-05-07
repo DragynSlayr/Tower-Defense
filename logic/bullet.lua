@@ -18,8 +18,8 @@ do
       self.sprite.rotation = self.speed:getAngleBetween(vec)
       local target = self.target:getHitBox()
       local bullet = self:getHitBox()
-      target.radius = target.radius + (bullet.radius + self.attack_range)
-      if target:contains(bullet.center) then
+      bullet.radius = bullet.radius + self.attack_range
+      if target:contains(bullet) then
         self.target:onCollide(self)
         return self:kill()
       end
