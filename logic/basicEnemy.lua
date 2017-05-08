@@ -7,7 +7,8 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("enemy/tracker.tga", 25, 25, 1, 2)
-      return _class_0.__parent.__init(self, x, y, sprite)
+      _class_0.__parent.__init(self, x, y, sprite)
+      self.enemyType = EnemyTypes.basic
     end,
     __base = _base_0,
     __name = "BasicEnemy",

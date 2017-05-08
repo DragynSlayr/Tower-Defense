@@ -2,6 +2,7 @@ export class TurretEnemy extends Enemy
   new: (x, y) =>
     sprite = Sprite "enemy/circle.tga", 26, 26, 1, 2
     super x, y, sprite
+    @enemyType = EnemyTypes.turret
 
   update: (dt) =>
     if not @alive return

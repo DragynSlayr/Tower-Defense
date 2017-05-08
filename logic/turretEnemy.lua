@@ -54,7 +54,8 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("enemy/circle.tga", 26, 26, 1, 2)
-      return _class_0.__parent.__init(self, x, y, sprite)
+      _class_0.__parent.__init(self, x, y, sprite)
+      self.enemyType = EnemyTypes.turret
     end,
     __base = _base_0,
     __name = "TurretEnemy",

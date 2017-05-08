@@ -23,7 +23,8 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("projectile/dart.tga", 17, 17, 1, 2)
-      return _class_0.__parent.__init(self, x, y, sprite)
+      _class_0.__parent.__init(self, x, y, sprite)
+      self.enemyType = EnemyTypes.spawner
     end,
     __base = _base_0,
     __name = "SpawnerEnemy",

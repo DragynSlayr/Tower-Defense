@@ -49,6 +49,7 @@ require "logic.playerEnemy"
 require "logic.turretEnemy"
 require "logic.strongEnemy"
 require "logic.spawnerEnemy"
+require "logic.enemyTypes"
 
 --+---------+--
 --| Turrets |--

@@ -7,3 +7,4 @@ export class StrongEnemy extends Enemy
     @max_health = @health
     @max_speed = 100
     @speed_multiplier = 100
+    @enemyType = EnemyTypes.strong

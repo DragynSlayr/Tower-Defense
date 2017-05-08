@@ -28,6 +28,7 @@ do
       self.damage = 0.5
       self.max_speed = 300
       self.speed_multiplier = self.max_speed
+      self.enemyType = EnemyTypes.player
     end,
     __base = _base_0,
     __name = "PlayerEnemy",
