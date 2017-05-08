@@ -1,5 +1,6 @@
 do
   local _class_0
+  local _parent_0 = Mode
   local _base_0 = {
     entityKilled = function(self, entity)
       if entity.id == EntityTypes.enemy then
@@ -46,14 +47,12 @@ do
         return Driver:addObject(enemy, EntityTypes.enemy)
       end
     end,
+    start = function(self)
+      self.spawnable = math.min(4, self.target)
+    end,
     update = function(self, dt)
-      if self.waiting then
-        self.elapsed = self.elapsed + dt
-        if self.elapsed >= self.delay then
-          self.spawnable = math.min(4, self.target)
-          self.waiting = false
-        end
-      else
+      _class_0.__parent.__base.update(self, dt)
+      if not self.waiting then
         if self.spawned + self.spawnable <= self.target then
           for i = 1, self.spawnable do
             self:spawn()
@@ -61,35 +60,41 @@ do
           self.spawned = self.spawned + self.spawnable
           self.spawnable = 0
         end
-      end
-      if self.killed >= self.target then
-        self.complete = true
+        if self.killed >= self.target then
+          self.complete = true
+        end
       end
     end,
     draw = function(self)
-      love.graphics.push("all")
-      love.graphics.setColor(0, 0, 0, 255)
-      local message = "\t" .. (self.target - self.killed) .. " enemies remaining!"
-      Renderer:drawAlignedMessage(message, 20, "left", Renderer.hud_font)
-      return love.graphics.pop()
+      self.message = "\t" .. (self.target - self.killed) .. " enemies remaining!"
+      return _class_0.__parent.__base.draw(self)
     end
   }
   _base_0.__index = _base_0
+  setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, num)
+      _class_0.__parent.__init(self)
       self.target = num
       self.killed = 0
       self.spawnable = 0
-      self.elapsed = 0
-      self.delay = 5
-      self.waiting = true
-      self.complete = false
       self.spawned = 0
     end,
     __base = _base_0,
-    __name = "EliminationMode"
+    __name = "EliminationMode",
+    __parent = _parent_0
   }, {
-    __index = _base_0,
+    __index = function(cls, name)
+      local val = rawget(_base_0, name)
+      if val == nil then
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
+      else
+        return val
+      end
+    end,
     __call = function(cls, ...)
       local _self_0 = setmetatable({}, _base_0)
       cls.__init(_self_0, ...)
@@ -97,5 +102,8 @@ do
     end
   })
   _base_0.__class = _class_0
+  if _parent_0.__inherited then
+    _parent_0.__inherited(_parent_0, _class_0)
+  end
   EliminationMode = _class_0
 end

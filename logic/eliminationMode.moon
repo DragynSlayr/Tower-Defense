@@ -1,12 +1,9 @@
-export class EliminationMode
+export class EliminationMode extends Mode
   new: (num) =>
+    super!
     @target = num
     @killed = 0
     @spawnable = 0
-    @elapsed = 0
-    @delay = 5
-    @waiting = true
-    @complete = false
     @spawned = 0
 
   entityKilled: (entity) =>
@@ -16,12 +13,9 @@ export class EliminationMode
         @spawnable += 1
 
   spawn: (i = 0) =>
-    --if i > 0
-      --print i
     x = math.random love.graphics.getWidth!
     y = math.random love.graphics.getHeight!
     num = math.random 5
-    --print num
     enemy = switch num
       when 1
         PlayerEnemy x, y
@@ -46,24 +40,20 @@ export class EliminationMode
     else
       Driver\addObject enemy, EntityTypes.enemy
 
+  start: =>
+    @spawnable = math.min 4, @target
+
   update: (dt) =>
-    if @waiting
-      @elapsed += dt
-      if @elapsed >= @delay
-        @spawnable = math.min 4, @target
-        @waiting = false
-    else
+    super dt
+    if not @waiting
       if @spawned + @spawnable <= @target
         for i = 1, @spawnable
           @spawn!
         @spawned += @spawnable
         @spawnable = 0
-    if @killed >= @target
-      @complete = true
+      if @killed >= @target
+        @complete = true
 
   draw: =>
-    love.graphics.push "all"
-    love.graphics.setColor(0, 0, 0, 255)
-    message = "\t" .. (@target - @killed) .. " enemies remaining!"
-    Renderer\drawAlignedMessage message, 20, "left", Renderer.hud_font
-    love.graphics.pop!
+    @message = "\t" .. (@target - @killed) .. " enemies remaining!"
+    super!
