@@ -6,9 +6,10 @@ export class Renderer
     @layers = {}
 
     -- Load fonts
-    @title_font = love.graphics.newFont "assets/fonts/opsb.ttf", 70
+    @giant_font  = love.graphics.newFont "assets/fonts/opsb.ttf", 250
+    @title_font  = love.graphics.newFont "assets/fonts/opsb.ttf", 70
     @status_font = love.graphics.newFont "assets/fonts/opsb.ttf", 50
-    @hud_font = love.graphics.newFont "assets/fonts/opsb.ttf", 30
+    @hud_font    = love.graphics.newFont "assets/fonts/opsb.ttf", 30
 
     for i = 1, 10
       @layers[i] = {}

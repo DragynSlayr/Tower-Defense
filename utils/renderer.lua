@@ -63,6 +63,7 @@ do
     __init = function(self)
       self.queue = { }
       self.layers = { }
+      self.giant_font = love.graphics.newFont("assets/fonts/opsb.ttf", 250)
       self.title_font = love.graphics.newFont("assets/fonts/opsb.ttf", 70)
       self.status_font = love.graphics.newFont("assets/fonts/opsb.ttf", 50)
       self.hud_font = love.graphics.newFont("assets/fonts/opsb.ttf", 30)
