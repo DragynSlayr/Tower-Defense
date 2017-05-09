@@ -11,6 +11,8 @@ do
       self.health = self.health - object.damage
     end,
     kill = function(self)
+      local score = SCORE + self.score_value
+      SCORE = score
       self.alive = false
       self.health = 0
     end,
@@ -89,6 +91,7 @@ do
       self.alive = true
       self.id = nil
       self.draw_health = true
+      self.score_value = 0
     end,
     __base = _base_0,
     __name = "GameObject"

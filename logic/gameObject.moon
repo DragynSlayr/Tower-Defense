@@ -10,6 +10,7 @@ export class GameObject
     @alive = true
     @id = nil
     @draw_health = true
+    @score_value = 0
 
   getHitBox: =>
     return @sprite\getBounds @position.x, @position.y
@@ -21,6 +22,8 @@ export class GameObject
     @health -= object.damage
 
   kill: =>
+    score = SCORE + @score_value
+    export SCORE = score
     @alive = false
     @health = 0
 
