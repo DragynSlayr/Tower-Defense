@@ -58,8 +58,7 @@ export class Turret extends GameObject
   drawFaded: =>
     if not @alive return
     love.graphics.push "all"
-    r, g, b, a = love.graphics.getColor!
-    love.graphics.setColor r, g, b, 50
+    love.graphics.setColor 255, 255, 255, 50
     love.graphics.circle "fill", @position.x, @position.y, @range, 25
     @sprite\draw @position.x, @position.y
     love.graphics.pop!

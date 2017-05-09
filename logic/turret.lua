@@ -65,8 +65,7 @@ do
         return 
       end
       love.graphics.push("all")
-      local r, g, b, a = love.graphics.getColor()
-      love.graphics.setColor(r, g, b, 50)
+      love.graphics.setColor(255, 255, 255, 50)
       love.graphics.circle("fill", self.position.x, self.position.y, self.range, 25)
       self.sprite:draw(self.position.x, self.position.y)
       return love.graphics.pop()
