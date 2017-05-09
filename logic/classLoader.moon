@@ -62,7 +62,8 @@ require "logic.basicTurret"
 --+------------+--
 --| Objectives |--
 --+------------+--
-require "logic.mode"
+require "logic.wave"
+require "logic.eliminationWave"
 require "logic.eliminationMode"
 require "logic.objectives"
 
