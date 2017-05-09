@@ -3,6 +3,7 @@ export class TurretEnemy extends Enemy
     sprite = Sprite "enemy/circle.tga", 26, 26, 1, 2
     super x, y, sprite
     @enemyType = EnemyTypes.turret
+    @score_value = 150
 
   update: (dt) =>
     if not @alive return

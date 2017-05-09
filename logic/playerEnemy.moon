@@ -6,6 +6,7 @@ export class PlayerEnemy extends Enemy
     @max_speed = 300
     @speed_multiplier = @max_speed
     @enemyType = EnemyTypes.player
+    @score_value = 150
 
   findNearestTarget: =>
     closest = nil

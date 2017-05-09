@@ -56,6 +56,7 @@ do
       local sprite = Sprite("enemy/circle.tga", 26, 26, 1, 2)
       _class_0.__parent.__init(self, x, y, sprite)
       self.enemyType = EnemyTypes.turret
+      self.score_value = 150
     end,
     __base = _base_0,
     __name = "TurretEnemy",

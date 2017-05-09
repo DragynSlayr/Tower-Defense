@@ -14,6 +14,7 @@ do
       self.max_speed = 100
       self.speed_multiplier = 100
       self.enemyType = EnemyTypes.strong
+      self.score_value = 200
     end,
     __base = _base_0,
     __name = "StrongEnemy",

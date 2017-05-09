@@ -3,6 +3,7 @@ export class SpawnerEnemy extends Enemy
     sprite = Sprite "projectile/dart.tga", 17, 17, 1, 2
     super x, y, sprite
     @enemyType = EnemyTypes.spawner
+    @score_value = 50
 
   kill: =>
     super!

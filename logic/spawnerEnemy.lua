@@ -25,6 +25,7 @@ do
       local sprite = Sprite("projectile/dart.tga", 17, 17, 1, 2)
       _class_0.__parent.__init(self, x, y, sprite)
       self.enemyType = EnemyTypes.spawner
+      self.score_value = 50
     end,
     __base = _base_0,
     __name = "SpawnerEnemy",
