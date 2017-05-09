@@ -9,6 +9,7 @@ do
       local sprite = Sprite("enemy/tracker.tga", 25, 25, 1, 2)
       _class_0.__parent.__init(self, x, y, sprite)
       self.enemyType = EnemyTypes.basic
+      self.score_value = 100
     end,
     __base = _base_0,
     __name = "BasicEnemy",

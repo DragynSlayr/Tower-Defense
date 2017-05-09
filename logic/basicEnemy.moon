@@ -3,3 +3,4 @@ export class BasicEnemy extends Enemy
     sprite = Sprite "enemy/tracker.tga", 25, 25, 1, 2
     super x, y, sprite
     @enemyType = EnemyTypes.basic
+    @score_value = 100

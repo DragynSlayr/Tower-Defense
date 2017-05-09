@@ -7,7 +7,7 @@ export class Enemy extends GameObject
     @max_speed = 150
     @speed_multiplier = @max_speed
     @id = EntityTypes.enemy
-    
+
   onCollide: (object) =>
     if not @alive return
     super object
