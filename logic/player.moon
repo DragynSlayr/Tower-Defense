@@ -11,6 +11,7 @@ export class Player extends GameObject
     @can_place = true
     @turret_cooldown = 20
     @keys_pushed = 0
+    @draw_health = false
 
   keypressed: (key) =>
     if not @alive return
@@ -107,16 +108,29 @@ export class Player extends GameObject
       love.graphics.circle "fill", @position.x, @position.y, @attack_range + player.radius, 25
       love.graphics.pop!
     super!
+
+    love.graphics.setColor 0, 0, 0, 255
+    love.graphics.rectangle "fill", 10, love.graphics.getHeight! - 30, 200, 20
+    love.graphics.setColor 255, 0, 0, 255
+    ratio = @health / @max_health
+    love.graphics.rectangle "fill", 13, love.graphics.getHeight! - 27, 194 * ratio, 14
+
+    love.graphics.setColor 255, 255, 255, 255
+    love.graphics.line 10, love.graphics.getHeight! - 31, 210, love.graphics.getHeight! - 31
+
     remaining = MathHelper\clamp @turret_cooldown - @elapsed, 0, @turret_cooldown
     remaining = math.floor remaining
-    message = ""
+    love.graphics.setColor 0, 0, 0, 255
+    love.graphics.rectangle "fill", 10, love.graphics.getHeight! - 51, 200, 20
+    love.graphics.setColor 0, 0, 255, 255
     if remaining == 0 or @can_place
-      message = "Turret Available!\t"
+      ratio = 1
     else
-      message = "Turret Cooldown " .. remaining .. " seconds\t"
-    Renderer\drawAlignedMessage message, 20, "right", Renderer.hud_font
+      ratio = 1 - (remaining / @turret_cooldown)
+    love.graphics.rectangle "fill", 13, love.graphics.getHeight! - 48, 194 * ratio, 14
 
   kill: =>
     super\kill!
+    --export GAME_OVER = true
     player = Player @position.x, @position.y, @sprite
     Driver\addObject player, EntityTypes.player

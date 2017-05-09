@@ -144,15 +144,24 @@ do
         love.graphics.pop()
       end
       _class_0.__parent.__base.draw(self)
+      love.graphics.setColor(0, 0, 0, 255)
+      love.graphics.rectangle("fill", 10, love.graphics.getHeight() - 30, 200, 20)
+      love.graphics.setColor(255, 0, 0, 255)
+      local ratio = self.health / self.max_health
+      love.graphics.rectangle("fill", 13, love.graphics.getHeight() - 27, 194 * ratio, 14)
+      love.graphics.setColor(255, 255, 255, 255)
+      love.graphics.line(10, love.graphics.getHeight() - 31, 210, love.graphics.getHeight() - 31)
       local remaining = MathHelper:clamp(self.turret_cooldown - self.elapsed, 0, self.turret_cooldown)
       remaining = math.floor(remaining)
-      local message = ""
+      love.graphics.setColor(0, 0, 0, 255)
+      love.graphics.rectangle("fill", 10, love.graphics.getHeight() - 51, 200, 20)
+      love.graphics.setColor(0, 0, 255, 255)
       if remaining == 0 or self.can_place then
-        message = "Turret Available!\t"
+        ratio = 1
       else
-        message = "Turret Cooldown " .. remaining .. " seconds\t"
+        ratio = 1 - (remaining / self.turret_cooldown)
       end
-      return Renderer:drawAlignedMessage(message, 20, "right", Renderer.hud_font)
+      return love.graphics.rectangle("fill", 13, love.graphics.getHeight() - 48, 194 * ratio, 14)
     end,
     kill = function(self)
       _class_0.__parent.kill(self)
@@ -175,6 +184,7 @@ do
       self.can_place = true
       self.turret_cooldown = 20
       self.keys_pushed = 0
+      self.draw_health = false
     end,
     __base = _base_0,
     __name = "Player",
