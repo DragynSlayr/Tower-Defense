@@ -21,6 +21,8 @@ export class Driver
     keypressed: (key, scancode, isrepeat) ->
       if key == "escape"
         love.event.quit()
+      elseif key == "p"
+        export PAUSED = not PAUSED
       else
         for k, v in pairs Driver.objects[EntityTypes.player]
           v\keypressed key
@@ -47,6 +49,7 @@ export class Driver
       Objectives\nextMode!
 
     update: (dt) ->
+      if PAUSED or GAME_OVER return
       for k, v in pairs Driver.objects
         for k2, o in pairs v
           o\update dt
@@ -58,6 +61,12 @@ export class Driver
 
     draw: ->
       love.graphics.push "all"
-      Renderer\drawAll!
-      Objectives\draw!
+      Renderer\drawAlignedMessage SCORE .. "\t", 20, "right", Renderer.hud_font
+      if not GAME_OVER
+        Renderer\drawAll!
+        Objectives\draw!
+        if PAUSED
+          Renderer\drawStatusMessage "PAUSED", love.graphics.getHeight! / 2, Renderer.giant_font
+      else
+        Renderer\drawStatusMessage "YOU DIED!", love.graphics.getHeight! / 2, Renderer.giant_font
       love.graphics.pop!

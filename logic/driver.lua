@@ -13,6 +13,8 @@ do
     keypressed = function(key, scancode, isrepeat)
       if key == "escape" then
         return love.event.quit()
+      elseif key == "p" then
+        PAUSED = not PAUSED
       else
         for k, v in pairs(Driver.objects[EntityTypes.player]) do
           v:keypressed(key)
@@ -34,6 +36,9 @@ do
       return Objectives:nextMode()
     end,
     update = function(dt)
+      if PAUSED or GAME_OVER then
+        return 
+      end
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do
           o:update(dt)
@@ -48,8 +53,16 @@ do
     end,
     draw = function()
       love.graphics.push("all")
-      Renderer:drawAll()
-      Objectives:draw()
+      Renderer:drawAlignedMessage(SCORE .. "\t", 20, "right", Renderer.hud_font)
+      if not GAME_OVER then
+        Renderer:drawAll()
+        Objectives:draw()
+        if PAUSED then
+          Renderer:drawStatusMessage("PAUSED", love.graphics.getHeight() / 2, Renderer.giant_font)
+        end
+      else
+        Renderer:drawStatusMessage("YOU DIED!", love.graphics.getHeight() / 2, Renderer.giant_font)
+      end
       return love.graphics.pop()
     end
   }
