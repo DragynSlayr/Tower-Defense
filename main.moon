@@ -4,6 +4,11 @@ require "logic.classLoader"
 export DEBUGGING = false
 export SHOW_RANGE = false
 
+-- Global stats
+export SCORE = 0
+export GAME_OVER = false
+export PAUSED = false
+
 -- Set love environment
 love.graphics.setBackgroundColor 50, 75, 50, 255
 love.graphics.setDefaultFilter "nearest", "nearest", 1
