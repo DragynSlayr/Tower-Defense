@@ -1,85 +1,47 @@
-export class EliminationMode extends Mode
-  new: (num) =>
-    super!
-    @killed = 0
-    @target = 0
-    @queue = {}
-
-    for i = 1, num
-      num = math.random EnemyTypes.num_enemies
-      enemy = ""
-      value = 0
-      if num == 1
-        enemy = EnemyTypes.player
-        value = 1
-      elseif num == 2
-        enemy = EnemyTypes.turret
-        value = 1
-      elseif num == 3
-        enemy = EnemyTypes.spawner
-        value = 5
-      elseif num == 4
-        enemy = EnemyTypes.strong
-        value = 1
-      else
-        enemy = EnemyTypes.basic
-        value = 1
-      @target += value
-      @queue[#@queue + 1] = enemy
-
-    for k, v in pairs @queue
-      print k .. ", " .. v
+export class EliminationMode
+  new: =>
+    @level = 1
+    @counter = 1
+    @complete = false
+    @wave = nil
+    @message1 = ""
+    @message2 = ""
+    @started = false
 
   entityKilled: (entity) =>
-    if entity.id == EntityTypes.enemy or entity.enemyType
-      @killed += 1
-      if #@queue ~= 0
-        enemy = @queue[1]
-        print "Spawning: " .. enemy
-        @spawn enemy
-        table.remove @queue, 1
+    @wave\entityKilled entity
 
-  spawn: (typeof, i = 0) =>
-    x = math.random love.graphics.getWidth!
-    y = math.random love.graphics.getHeight!
-    enemy = switch typeof
-      when EnemyTypes.player
-        PlayerEnemy x, y
-      when EnemyTypes.turret
-        TurretEnemy x, y
-      when EnemyTypes.spawner
-        SpawnerEnemy x, y
-      when EnemyTypes.strong
-        StrongEnemy x, y
-      when EnemyTypes.basic
-        BasicEnemy x, y
-    touching = false
-    for k, v in pairs Driver.objects
-      for k2, o in pairs v
-        object = o\getHitBox!
-        e = enemy\getHitBox!
-        if object\contains e
-          touching = true
-          break
-    if touching
-      @spawn typeof, i + 1
-    else
-      Driver\addObject enemy, EntityTypes.enemy
+
+  nextWave: =>
+    num = (((@counter - 1) * 3) + @level) * 3
+    @wave = EliminationWave @, num + 5
 
   start: =>
-    num = math.min 4, #@queue
-    for i = 1, num
-      enemy = @queue[1]
-      print "Spawning: " .. enemy
-      @spawn enemy
-      table.remove @queue, 1
-
+    @complete = false
+    @level = 1
+    @nextWave!
+    @started = true
 
   update: (dt) =>
-    super dt
-    if @killed == @target
-      @complete = true
+    if not @complete
+      if not @started
+        @start!
+      if not @wave.complete
+        @wave\update dt
+        @message2 = "Level " .. @counter .. "\tWave " .. @level .. "/3"
+      else
+        @level += 1
+        if (@level - 1) % 3 == 0
+          @counter += 1
+          @complete = true
+          @started = false
+        else
+          @nextWave!
 
   draw: =>
-    @message = "\t" .. (@target - @killed) .. " enemies remaining!"
-    super!
+    @wave\draw!
+    love.graphics.push "all"
+    love.graphics.setColor 0, 0, 0, 255
+    Renderer\drawAlignedMessage @message1, 20, "left", Renderer.hud_font
+    Renderer\drawAlignedMessage @message2, 20, "center", Renderer.hud_font
+    love.graphics.pop!

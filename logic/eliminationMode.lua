@@ -1,124 +1,63 @@
 do
   local _class_0
-  local _parent_0 = Mode
   local _base_0 = {
     entityKilled = function(self, entity)
-      if entity.id == EntityTypes.enemy or entity.enemyType then
-        self.killed = self.killed + 1
-        if #self.queue ~= 0 then
-          local enemy = self.queue[1]
-          print("Spawning: " .. enemy)
-          self:spawn(enemy)
-          return table.remove(self.queue, 1)
-        end
-      end
+      return self.wave:entityKilled(entity)
     end,
-    spawn = function(self, typeof, i)
-      if i == nil then
-        i = 0
-      end
-      local x = math.random(love.graphics.getWidth())
-      local y = math.random(love.graphics.getHeight())
-      local enemy
-      local _exp_0 = typeof
-      if EnemyTypes.player == _exp_0 then
-        enemy = PlayerEnemy(x, y)
-      elseif EnemyTypes.turret == _exp_0 then
-        enemy = TurretEnemy(x, y)
-      elseif EnemyTypes.spawner == _exp_0 then
-        enemy = SpawnerEnemy(x, y)
-      elseif EnemyTypes.strong == _exp_0 then
-        enemy = StrongEnemy(x, y)
-      elseif EnemyTypes.basic == _exp_0 then
-        enemy = BasicEnemy(x, y)
-      end
-      local touching = false
-      for k, v in pairs(Driver.objects) do
-        for k2, o in pairs(v) do
-          local object = o:getHitBox()
-          local e = enemy:getHitBox()
-          if object:contains(e) then
-            touching = true
-            break
+    nextWave = function(self)
+      local num = (((self.counter - 1) * 3) + self.level) * 3
+      self.wave = EliminationWave(self, num + 5)
+    end,
+    start = function(self)
+      self.complete = false
+      self.level = 1
+      self:nextWave()
+      self.started = true
+    end,
+    update = function(self, dt)
+      if not self.complete then
+        if not self.started then
+          self:start()
+        end
+        if not self.wave.complete then
+          self.wave:update(dt)
+          self.message2 = "Level " .. self.counter .. "\tWave " .. self.level .. "/3"
+        else
+          self.level = self.level + 1
+          if (self.level - 1) % 3 == 0 then
+            self.counter = self.counter + 1
+            self.complete = true
+            self.started = false
+          else
+            return self:nextWave()
           end
         end
       end
-      if touching then
-        return self:spawn(typeof, i + 1)
-      else
-        return Driver:addObject(enemy, EntityTypes.enemy)
-      end
-    end,
-    start = function(self)
-      local num = math.min(4, #self.queue)
-      for i = 1, num do
-        local enemy = self.queue[1]
-        print("Spawning: " .. enemy)
-        self:spawn(enemy)
-        table.remove(self.queue, 1)
-      end
-    end,
-    update = function(self, dt)
-      _class_0.__parent.__base.update(self, dt)
-      if self.killed == self.target then
-        self.complete = true
-      end
     end,
     draw = function(self)
-      self.message = "\t" .. (self.target - self.killed) .. " enemies remaining!"
-      return _class_0.__parent.__base.draw(self)
+      self.wave:draw()
+      love.graphics.push("all")
+      love.graphics.setColor(0, 0, 0, 255)
+      Renderer:drawAlignedMessage(self.message1, 20, "left", Renderer.hud_font)
+      Renderer:drawAlignedMessage(self.message2, 20, "center", Renderer.hud_font)
+      return love.graphics.pop()
     end
   }
   _base_0.__index = _base_0
-  setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, num)
-      _class_0.__parent.__init(self)
-      self.killed = 0
-      self.target = 0
-      self.queue = { }
-      for i = 1, num do
-        num = math.random(EnemyTypes.num_enemies)
-        local enemy = ""
-        local value = 0
-        if num == 1 then
-          enemy = EnemyTypes.player
-          value = 1
-        elseif num == 2 then
-          enemy = EnemyTypes.turret
-          value = 1
-        elseif num == 3 then
-          enemy = EnemyTypes.spawner
-          value = 5
-        elseif num == 4 then
-          enemy = EnemyTypes.strong
-          value = 1
-        else
-          enemy = EnemyTypes.basic
-          value = 1
-        end
-        self.target = self.target + value
-        self.queue[#self.queue + 1] = enemy
-      end
-      for k, v in pairs(self.queue) do
-        print(k .. ", " .. v)
-      end
+    __init = function(self)
+      self.level = 1
+      self.counter = 1
+      self.complete = false
+      self.wave = nil
+      self.message1 = ""
+      self.message2 = ""
+      self.started = false
     end,
     __base = _base_0,
-    __name = "EliminationMode",
-    __parent = _parent_0
+    __name = "EliminationMode"
   }, {
-    __index = function(cls, name)
-      local val = rawget(_base_0, name)
-      if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
-      else
-        return val
-      end
-    end,
+    __index = _base_0,
     __call = function(cls, ...)
       local _self_0 = setmetatable({}, _base_0)
       cls.__init(_self_0, ...)
@@ -126,8 +65,5 @@ do
     end
   })
   _base_0.__class = _class_0
-  if _parent_0.__inherited then
-    _parent_0.__inherited(_parent_0, _class_0)
-  end
   EliminationMode = _class_0
 end
