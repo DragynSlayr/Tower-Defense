@@ -13,6 +13,9 @@ export class Turret extends GameObject
 
   update: (dt) =>
     if not @alive return
+--    if Driver.objects[EntityTypes.player]
+--      if #Driver.objects[EntityTypes.player] ~= 0
+--        @speed = Driver.objects[EntityTypes.player][#Driver.objects[EntityTypes.player]].speed\multiply -1
     super dt
     if @target
       enemy = @target\getHitBox!

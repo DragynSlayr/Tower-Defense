@@ -1,7 +1,6 @@
 export class EliminationMode extends Mode
   new: (num) =>
     super!
-    --@target = num
     @killed = 0
     @target = 0
     @queue = {}
