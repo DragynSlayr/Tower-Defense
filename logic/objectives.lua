@@ -2,12 +2,14 @@ do
   local _class_0
   local _base_0 = {
     nextMode = function(self)
-      local num = math.random(self.num_modes)
-      local _exp_0 = num
-      if 1 == _exp_0 then
-        self.mode = EliminationMode(15)
+      self.counter = self.counter + 1
+      if self.counter <= #self.modes then
+        self.mode = self.modes[self.counter]
+        return self.mode:start()
       else
-        self.mode = nil
+        self.counter = 0
+        MathHelper:shuffle(self.modes)
+        return self:nextMode()
       end
     end,
     entityKilled = function(self, entity)
@@ -41,6 +43,12 @@ do
       self.mode = nil
       self.elapsed = 0
       self.delay = 10
+      self.modes = {
+        EliminationMode(),
+        EliminationMode(),
+        EliminationMode()
+      }
+      self.counter = 0
     end,
     __base = _base_0,
     __name = "Objectives"

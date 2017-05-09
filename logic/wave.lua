@@ -13,23 +13,25 @@ do
       end
     end,
     draw = function(self)
-      love.graphics.push("all")
-      love.graphics.setColor(0, 0, 0, 255)
-      Renderer:drawAlignedMessage(self.message, 20, "left", Renderer.hud_font)
-      return love.graphics.pop()
+      if self.waiting then
+        love.graphics.push("all")
+        local message = (self.delay - math.floor(self.elapsed))
+        Renderer:drawStatusMessage(message, love.graphics.getHeight() / 2, Renderer.giant_font)
+        return love.graphics.pop()
+      end
     end
   }
   _base_0.__index = _base_0
   _class_0 = setmetatable({
-    __init = function(self)
+    __init = function(self, parent)
       self.elapsed = 0
       self.delay = 5
       self.waiting = true
       self.complete = false
-      self.message = "DEFAULT MODE"
+      self.parent = parent
     end,
     __base = _base_0,
-    __name = "Mode"
+    __name = "Wave"
   }, {
     __index = _base_0,
     __call = function(cls, ...)
@@ -39,5 +41,5 @@ do
     end
   })
   _base_0.__class = _class_0
-  Mode = _class_0
+  Wave = _class_0
 end

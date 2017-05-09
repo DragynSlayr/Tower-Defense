@@ -1,10 +1,10 @@
-export class Mode
-  new: =>
+export class Wave
+  new: (parent) =>
     @elapsed = 0
     @delay = 5
     @waiting = true
     @complete = false
-    @message = "DEFAULT MODE"
+    @parent = parent
 
   start: =>
     return
@@ -20,7 +20,8 @@ export class Mode
         @start!
 
   draw: =>
-    love.graphics.push "all"
-    love.graphics.setColor 0, 0, 0, 255
-    Renderer\drawAlignedMessage @message, 20, "left", Renderer.hud_font
-    love.graphics.pop!
+    if @waiting
+      love.graphics.push "all"
+      message = (@delay - math.floor @elapsed)
+      Renderer\drawStatusMessage message, love.graphics.getHeight! / 2, Renderer.giant_font
+      love.graphics.pop!

@@ -4,14 +4,19 @@ export class Objectives
     @mode = nil
     @elapsed = 0
     @delay = 10
+    @modes = {EliminationMode!, EliminationMode!, EliminationMode!}
+    @counter = 0
 
   nextMode: =>
-    num = math.random @num_modes
-    @mode = switch num
-      when 1
-        EliminationMode 15
-      else
-        nil
+    @counter += 1
+    if @counter <= #@modes
+      @mode = @modes[@counter]
+      @mode\start!
+    else
+      @counter = 0
+      MathHelper\shuffle @modes
+      -- Boss Wave
+      @nextMode!
 
   entityKilled: (entity) =>
     @mode\entityKilled entity
