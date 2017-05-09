@@ -47,3 +47,17 @@ export class MathHelper
       return max
     else
       return x
+
+  -- Shuffles a list in place
+  -- list: The list to shuffle
+  shuffle: (list) =>
+    copy = {}
+    -- Copy the list
+    for k, v in pairs list
+      copy[k] = v
+
+    -- Shuffle the list
+    for k, v in pairs list
+      i = math.random #copy
+      list[k] = copy[i]
+      table.remove copy, i

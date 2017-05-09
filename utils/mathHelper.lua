@@ -29,6 +29,17 @@ do
       else
         return x
       end
+    end,
+    shuffle = function(self, list)
+      local copy = { }
+      for k, v in pairs(list) do
+        copy[k] = v
+      end
+      for k, v in pairs(list) do
+        local i = math.random(#copy)
+        list[k] = copy[i]
+        table.remove(copy, i)
+      end
     end
   }
   _base_0.__index = _base_0
