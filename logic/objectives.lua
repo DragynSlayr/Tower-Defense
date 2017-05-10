@@ -44,8 +44,6 @@ do
       self.elapsed = 0
       self.delay = 10
       self.modes = {
-        EliminationMode(),
-        EliminationMode(),
         EliminationMode()
       }
       self.counter = 0

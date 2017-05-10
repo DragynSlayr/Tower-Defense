@@ -4,7 +4,7 @@ export class Objectives
     @mode = nil
     @elapsed = 0
     @delay = 10
-    @modes = {EliminationMode!, EliminationMode!, EliminationMode!}
+    @modes = {EliminationMode!}
     @counter = 0
 
   nextMode: =>
