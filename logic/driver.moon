@@ -18,19 +18,29 @@ export class Driver
         @objects[id] = {}
         @addObject(object, id)
 
+    removeObject: (object) =>
+      for k, v in pairs Driver.objects
+        for k2, o in pairs v
+          if object == o
+            Renderer.layers[EntityTypes.layers[k]][k2] = nil
+            v[k2]\kill!
+            Objectives\entityKilled v[k2]
+            v[k2] = nil
+
     keypressed: (key, scancode, isrepeat) ->
       if key == "escape"
         love.event.quit()
       elseif key == "p"
         export PAUSED = not PAUSED
       else
-        for k, v in pairs Driver.objects[EntityTypes.player]
-          v\keypressed key
+        if not (PAUSED or GAME_OVER)
+          for k, v in pairs Driver.objects[EntityTypes.player]
+            v\keypressed key
 
     keyreleased: (key) ->
-      for k, v in pairs Driver.objects[EntityTypes.player]
-        v\keyreleased key
-      return
+      if not (PAUSED or GAME_OVER)
+        for k, v in pairs Driver.objects[EntityTypes.player]
+          v\keyreleased key
 
     mouspressed: (x, y, button, isTouch) ->
       return
@@ -49,14 +59,15 @@ export class Driver
       Objectives\nextMode!
 
     update: (dt) ->
+      if GAME_OVER
+        Driver.objects = nil
+        Renderer.layers = nil
       if PAUSED or GAME_OVER return
       for k, v in pairs Driver.objects
         for k2, o in pairs v
           o\update dt
           if o.health <= 0
-            v[k2]\kill!
-            Objectives\entityKilled v[k2]
-            v[k2] = nil
+            Driver\removeObject o
       Objectives\update dt
 
     draw: ->
@@ -70,3 +81,8 @@ export class Driver
       else
         Renderer\drawStatusMessage "YOU DIED!", love.graphics.getHeight! / 2, Renderer.giant_font
       love.graphics.pop!
+
+      before = math.floor collectgarbage "count"
+      collectgarbage "step"
+      after = math.floor collectgarbage "count"
+      print "B: " .. before .. "; A: " .. after .. "; R: " .. (before - after)

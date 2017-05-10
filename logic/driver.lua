@@ -10,20 +10,36 @@ do
         return self:addObject(object, id)
       end
     end,
+    removeObject = function(self, object)
+      for k, v in pairs(Driver.objects) do
+        for k2, o in pairs(v) do
+          if object == o then
+            Renderer.layers[EntityTypes.layers[k]][k2] = nil
+            v[k2]:kill()
+            Objectives:entityKilled(v[k2])
+            v[k2] = nil
+          end
+        end
+      end
+    end,
     keypressed = function(key, scancode, isrepeat)
       if key == "escape" then
         return love.event.quit()
       elseif key == "p" then
         PAUSED = not PAUSED
       else
-        for k, v in pairs(Driver.objects[EntityTypes.player]) do
-          v:keypressed(key)
+        if not (PAUSED or GAME_OVER) then
+          for k, v in pairs(Driver.objects[EntityTypes.player]) do
+            v:keypressed(key)
+          end
         end
       end
     end,
     keyreleased = function(key)
-      for k, v in pairs(Driver.objects[EntityTypes.player]) do
-        v:keyreleased(key)
+      if not (PAUSED or GAME_OVER) then
+        for k, v in pairs(Driver.objects[EntityTypes.player]) do
+          v:keyreleased(key)
+        end
       end
     end,
     mouspressed = function(x, y, button, isTouch) end,
@@ -36,6 +52,10 @@ do
       return Objectives:nextMode()
     end,
     update = function(dt)
+      if GAME_OVER then
+        Driver.objects = nil
+        Renderer.layers = nil
+      end
       if PAUSED or GAME_OVER then
         return 
       end
@@ -43,9 +63,7 @@ do
         for k2, o in pairs(v) do
           o:update(dt)
           if o.health <= 0 then
-            v[k2]:kill()
-            Objectives:entityKilled(v[k2])
-            v[k2] = nil
+            Driver:removeObject(o)
           end
         end
       end
@@ -63,7 +81,11 @@ do
       else
         Renderer:drawStatusMessage("YOU DIED!", love.graphics.getHeight() / 2, Renderer.giant_font)
       end
-      return love.graphics.pop()
+      love.graphics.pop()
+      local before = math.floor(collectgarbage("count"))
+      collectgarbage("step")
+      local after = math.floor(collectgarbage("count"))
+      return print("B: " .. before .. "; A: " .. after .. "; R: " .. (before - after))
     end
   }
   _base_0.__index = _base_0
