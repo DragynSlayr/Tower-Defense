@@ -43,8 +43,9 @@ export class Turret extends GameObject
         turret = @getHitBox!
         turret.radius += @range
         if enemy\contains turret
-          @target = v
-          break
+          if v.alive
+            @target = v
+            break
 
   draw: =>
     if not @alive return

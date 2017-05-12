@@ -42,8 +42,10 @@ do
           local turret = self:getHitBox()
           turret.radius = turret.radius + self.range
           if enemy:contains(turret) then
-            self.target = v
-            break
+            if v.alive then
+              self.target = v
+              break
+            end
           end
         end
       end
