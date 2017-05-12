@@ -2,7 +2,7 @@ export class Enemy extends GameObject
   new: (x, y, sprite, target = nil) =>
     super x, y, sprite
     @target = target
-    @attack_range = 30
+    @attack_range = 60
     @delay = 1
     @max_speed = 150
     @speed_multiplier = @max_speed

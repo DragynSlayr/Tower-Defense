@@ -113,7 +113,7 @@ do
       end
       _class_0.__parent.__init(self, x, y, sprite)
       self.target = target
-      self.attack_range = 30
+      self.attack_range = 60
       self.delay = 1
       self.max_speed = 150
       self.speed_multiplier = self.max_speed
