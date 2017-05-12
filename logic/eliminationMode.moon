@@ -11,10 +11,9 @@ export class EliminationMode
   entityKilled: (entity) =>
     @wave\entityKilled entity
 
-
   nextWave: =>
     num = (((@counter - 1) * 3) + @level) * 3
-    @wave = EliminationWave @, num + 5
+    @wave = EliminationWave @, num + 5, num / 3
 
   start: =>
     @complete = false

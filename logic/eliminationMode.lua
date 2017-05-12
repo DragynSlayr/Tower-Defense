@@ -6,7 +6,7 @@ do
     end,
     nextWave = function(self)
       local num = (((self.counter - 1) * 3) + self.level) * 3
-      self.wave = EliminationWave(self, num + 5)
+      self.wave = EliminationWave(self, num + 5, num / 3)
     end,
     start = function(self)
       self.complete = false

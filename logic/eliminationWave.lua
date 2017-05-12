@@ -2,6 +2,20 @@ do
   local _class_0
   local _parent_0 = Wave
   local _base_0 = {
+    getRandomEnemy = function(self, basicChance, playerChance, turretChance, strongChance, spawnerChance)
+      local num = math.random()
+      if num <= basicChance then
+        return EnemyTypes.basic, 1
+      elseif num <= basicChance + playerChance then
+        return EnemyTypes.player, 1
+      elseif num <= basicChance + playerChance + turretChance then
+        return EnemyTypes.turret, 1
+      elseif num <= basicChance + playerChance + turretChance + strongChance then
+        return EnemyTypes.strong, 1
+      else
+        return EnemyTypes.spawner, 5
+      end
+    end,
     entityKilled = function(self, entity)
       if entity.id == EntityTypes.enemy or entity.enemyType then
         self.killed = self.killed + 1
@@ -70,31 +84,19 @@ do
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, parent, num)
+    __init = function(self, parent, num, difficulty)
       _class_0.__parent.__init(self, parent)
       self.killed = 0
       self.target = 0
       self.queue = { }
       for i = 1, num do
-        num = math.random(EnemyTypes.num_enemies)
-        local enemy = ""
-        local value = 0
-        if num == 1 then
-          enemy = EnemyTypes.player
-          value = 1
-        elseif num == 2 then
-          enemy = EnemyTypes.turret
-          value = 1
-        elseif num == 3 then
-          enemy = EnemyTypes.spawner
-          value = 5
-        elseif num == 4 then
-          enemy = EnemyTypes.strong
-          value = 1
-        else
-          enemy = EnemyTypes.basic
-          value = 1
-        end
+        local factor = (difficulty - 1) * 0.02
+        self.basicChance = MathHelper:clamp(0.80 - factor, 0.20, 0.80)
+        self.playerChance = MathHelper:clamp(0.05 + (factor / 4), 0.05, 0.20)
+        self.turretChance = MathHelper:clamp(0.05 + (factor / 4), 0.05, 0.20)
+        self.strongChance = MathHelper:clamp(0.05 + (factor / 4), 0.05, 0.20)
+        self.spawnerChance = MathHelper:clamp(0.05 + (factor / 4), 0.05, 0.20)
+        local enemy, value = self:getRandomEnemy(self.basicChance, self.playerChance, self.turretChance, self.strongChance, self.spawnerChance)
         self.target = self.target + value
         self.queue[#self.queue + 1] = enemy
       end
