@@ -9,6 +9,16 @@ do
         return self:add(object, layer)
       end
     end,
+    removeObject = function(self, object)
+      for k, layer in pairs(self.layers) do
+        for i, o in pairs(layer) do
+          if object == o then
+            layer[i] = nil
+            break
+          end
+        end
+      end
+    end,
     enqueue = function(self, func)
       self.queue[#self.queue + 1] = func
     end,

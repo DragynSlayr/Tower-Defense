@@ -26,6 +26,18 @@ export class Renderer
       @layers[layer] = {}
       @add(object, layer)
 
+  -- Removes an object from the layers
+  -- object: The object to remove
+  removeObject: (object) =>
+    -- Search for the object
+    for k, layer in pairs @layers
+      for i, o in pairs layer
+
+        -- Remove object when found
+        if object == o
+          layer[i] = nil
+          break
+
   -- Adds a drawing function to the queue
   -- func: The drawing function
   enqueue: (func) =>
