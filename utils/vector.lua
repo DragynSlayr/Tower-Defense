@@ -13,6 +13,10 @@ do
       local angle = math.atan2(self.y - vec.y, self.x - vec.x)
       return angle + (math.pi / 2)
     end,
+    getAngle = function(self)
+      local angle = self:getAngleBetween(Vector(0, 0))
+      return angle - (math.pi / 2)
+    end,
     getDistanceBetween = function(self, vec)
       local newVec = Vector(self.x - vec.x, self.y - vec.y)
       return newVec:getLength()

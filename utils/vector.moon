@@ -32,6 +32,11 @@ export class Vector
     -- Add half a rotation to account for orientation
     return angle + (math.pi / 2)
 
+  -- Gets the angle of this Vector
+  getAngle: =>
+    angle = @getAngleBetween Vector 0, 0
+    return angle - (math.pi / 2)
+
   -- Gets the distance between 2 vectors
   -- vec: The other Vector
   getDistanceBetween: (vec) =>
