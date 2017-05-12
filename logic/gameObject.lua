@@ -32,12 +32,25 @@ do
       end
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do
-          if not (self.id == "Player" and o.id == EntityTypes.turret) then
+          if not ((self.id == EntityTypes.player and o.id == EntityTypes.turret) or (self.id == EntityTypes.turret and o.id == EntityTypes.player)) then
             if o ~= self and o.id ~= EntityTypes.bullet then
               local other = o:getHitBox()
               local this = self:getHitBox()
               if other:contains(this) then
                 self.position = start
+                local dist = other:getCollisionDistance(this)
+                dist = math.sqrt(math.sqrt(dist))
+                local dist_vec = Vector(dist, dist)
+                if self.speed:getLength() > 0 then
+                  if self.id ~= EntityTypes.player then
+                    self.position:add(dist_vec:multiply(-1))
+                  end
+                end
+                if o.speed:getLength() > 0 then
+                  if o.id ~= EntityTypes.player then
+                    o.position:add(dist_vec)
+                  end
+                end
               end
             end
           end
@@ -45,11 +58,8 @@ do
       end
     end,
     draw = function(self)
-      if not self.alive then
-        return 
-      end
-      self.sprite:draw(self.position.x, self.position.y)
       love.graphics.push("all")
+      self.sprite:draw(self.position.x, self.position.y)
       if self.draw_health then
         love.graphics.setColor(0, 0, 0, 255)
         local radius = self.sprite.scaled_height / 2

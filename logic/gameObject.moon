@@ -40,17 +40,25 @@ export class GameObject
       return
     for k, v in pairs Driver.objects
       for k2, o in pairs v
-        if not (@id == "Player" and o.id == EntityTypes.turret)
+        if not ((@id == EntityTypes.player and o.id == EntityTypes.turret) or (@id == EntityTypes.turret and o.id == EntityTypes.player))
           if o ~= @ and o.id ~= EntityTypes.bullet
             other = o\getHitBox!
             this = @getHitBox!
             if other\contains this
               @position = start
+              dist = other\getCollisionDistance this
+              dist = math.sqrt math.sqrt dist
+              dist_vec = Vector dist, dist
+              if @speed\getLength! > 0
+                if @id ~= EntityTypes.player
+                  @position\add dist_vec\multiply -1
+              if o.speed\getLength! > 0
+                if o.id ~= EntityTypes.player
+                  o.position\add dist_vec
 
   draw: =>
-    if not @alive return
-    @sprite\draw @position.x, @position.y
     love.graphics.push "all"
+    @sprite\draw @position.x, @position.y
     if @draw_health
       love.graphics.setColor 0, 0, 0, 255
       radius = @sprite.scaled_height / 2
