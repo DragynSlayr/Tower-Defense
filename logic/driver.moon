@@ -22,16 +22,20 @@ export class Driver
       for k, v in pairs Driver.objects
         for k2, o in pairs v
           if object == o
-            Renderer.layers[EntityTypes.layers[k]][k2] = nil
+            Renderer\removeObject object
             v[k2]\kill!
             Objectives\entityKilled v[k2]
             v[k2] = nil
+            break
 
     keypressed: (key, scancode, isrepeat) ->
       if key == "escape"
         love.event.quit()
       elseif key == "p"
         export PAUSED = not PAUSED
+      elseif key == "n"
+        Objectives.mode.counter += 1
+        Objectives.mode\nextWave!
       else
         if not (PAUSED or GAME_OVER)
           for k, v in pairs Driver.objects[EntityTypes.player]
@@ -66,7 +70,7 @@ export class Driver
       for k, v in pairs Driver.objects
         for k2, o in pairs v
           o\update dt
-          if o.health <= 0
+          if o.health <= 0 or not o.alive
             Driver\removeObject o
       Objectives\update dt
 
@@ -85,4 +89,4 @@ export class Driver
       before = math.floor collectgarbage "count"
       collectgarbage "step"
       after = math.floor collectgarbage "count"
-      print "B: " .. before .. "; A: " .. after .. "; R: " .. (before - after)
+      --print "B: " .. before .. "; A: " .. after .. "; R: " .. (before - after)

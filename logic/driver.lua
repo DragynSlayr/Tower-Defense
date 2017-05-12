@@ -14,10 +14,11 @@ do
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do
           if object == o then
-            Renderer.layers[EntityTypes.layers[k]][k2] = nil
+            Renderer:removeObject(object)
             v[k2]:kill()
             Objectives:entityKilled(v[k2])
             v[k2] = nil
+            break
           end
         end
       end
@@ -27,6 +28,9 @@ do
         return love.event.quit()
       elseif key == "p" then
         PAUSED = not PAUSED
+      elseif key == "n" then
+        Objectives.mode.counter = Objectives.mode.counter + 1
+        return Objectives.mode:nextWave()
       else
         if not (PAUSED or GAME_OVER) then
           for k, v in pairs(Driver.objects[EntityTypes.player]) do
@@ -62,7 +66,7 @@ do
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do
           o:update(dt)
-          if o.health <= 0 then
+          if o.health <= 0 or not o.alive then
             Driver:removeObject(o)
           end
         end
@@ -85,7 +89,6 @@ do
       local before = math.floor(collectgarbage("count"))
       collectgarbage("step")
       local after = math.floor(collectgarbage("count"))
-      return print("B: " .. before .. "; A: " .. after .. "; R: " .. (before - after))
     end
   }
   _base_0.__index = _base_0
