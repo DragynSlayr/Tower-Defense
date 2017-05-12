@@ -31,4 +31,5 @@ export class Bullet extends Enemy
 
   draw: =>
     if @speed\getLength! > 0
-      super!
+      if @target and @target.health > 0
+        super!

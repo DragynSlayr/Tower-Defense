@@ -26,7 +26,9 @@ do
     end,
     draw = function(self)
       if self.speed:getLength() > 0 then
-        return _class_0.__parent.__base.draw(self)
+        if self.target and self.target.health > 0 then
+          return _class_0.__parent.__base.draw(self)
+        end
       end
     end
   }
