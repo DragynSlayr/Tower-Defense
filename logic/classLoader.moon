@@ -33,6 +33,7 @@ require "ui.ui"
 --+--------------------------+--
 require "logic.state"
 require "logic.entityTypes"
+require "logic.goalTypes"
 
 --+-----------------------------+--
 --| Depends on sprite and types |--
@@ -59,12 +60,23 @@ require "logic.playerBullet"
 require "logic.turret"
 require "logic.basicTurret"
 
+--+-------+--
+--| Goals |--
+--+-------+--
+require "logic.attackGoal"
+require "logic.defendGoal"
+
 --+------------+--
 --| Objectives |--
 --+------------+--
 require "logic.wave"
 require "logic.eliminationWave"
+require "logic.attackWave"
+-- New waves here
+require "logic.mode"
 require "logic.eliminationMode"
+require "logic.attackMode"
+-- Corresponding new modes here
 require "logic.objectives"
 
 --+------------------------------+--
