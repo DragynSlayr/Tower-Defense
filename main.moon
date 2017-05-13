@@ -29,6 +29,7 @@ export Renderer = Renderer!
 export State = State!
 export EntityTypes = EntityTypes!
 export EnemyTypes = EnemyTypes!
+export GoalTypes = GoalTypes!
 
 -- Global objectives
 export Objectives = Objectives!
