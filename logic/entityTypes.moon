@@ -7,6 +7,7 @@ export class EntityTypes
     @health = "Health"
     @coin   = "Coin"
     @bullet = "Bullet"
+    @goal   = "Goal"
 
     @layers = {}
     @layers[@player] = 5
@@ -16,3 +17,4 @@ export class EntityTypes
     @layers[@health] = 3
     @layers[@coin]   = 3
     @layers[@bullet] = 1
+    @layers[@goal]   = 2

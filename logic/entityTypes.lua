@@ -11,6 +11,7 @@ do
       self.health = "Health"
       self.coin = "Coin"
       self.bullet = "Bullet"
+      self.goal = "Goal"
       self.layers = { }
       self.layers[self.player] = 5
       self.layers[self.turret] = 2
@@ -19,6 +20,7 @@ do
       self.layers[self.health] = 3
       self.layers[self.coin] = 3
       self.layers[self.bullet] = 1
+      self.layers[self.goal] = 2
     end,
     __base = _base_0,
     __name = "EntityTypes"
