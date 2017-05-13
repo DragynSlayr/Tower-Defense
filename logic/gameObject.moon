@@ -68,9 +68,10 @@ export class GameObject
       love.graphics.rectangle "fill", @position.x - radius, (@position.y + radius) + 6, (radius * 2) * ratio, 10
     love.graphics.pop!
 
-  isOnScreen: =>
+  isOnScreen: (radius = 0) =>
     if not @alive return false
     circle = @getHitBox!
+    circle.radius += radius
     x, y = circle.center\getComponents!
     radius = circle.radius
     xOn = x - radius >= 0 and x + radius <= love.graphics.getWidth!

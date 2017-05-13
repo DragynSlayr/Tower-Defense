@@ -70,13 +70,17 @@ do
       end
       return love.graphics.pop()
     end,
-    isOnScreen = function(self)
+    isOnScreen = function(self, radius)
+      if radius == nil then
+        radius = 0
+      end
       if not self.alive then
         return false
       end
       local circle = self:getHitBox()
+      circle.radius = circle.radius + radius
       local x, y = circle.center:getComponents()
-      local radius = circle.radius
+      radius = circle.radius
       local xOn = x - radius >= 0 and x + radius <= love.graphics.getWidth()
       local yOn = y - radius >= 0 and y + radius <= love.graphics.getHeight()
       return xOn and yOn
