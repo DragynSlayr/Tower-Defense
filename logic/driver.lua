@@ -23,14 +23,22 @@ do
         end
       end
     end,
+    isClear = function(self)
+      local sum = 0
+      for k, v in pairs(Driver.objects) do
+        for k2, o in pairs(v) do
+          if k ~= EntityTypes.player and k ~= EntityTypes.turret then
+            sum = sum + 1
+          end
+        end
+      end
+      return sum == 0
+    end,
     keypressed = function(key, scancode, isrepeat)
       if key == "escape" then
         return love.event.quit()
       elseif key == "p" then
         PAUSED = not PAUSED
-      elseif key == "n" then
-        Objectives.mode.counter = Objectives.mode.counter + 1
-        return Objectives.mode:nextWave()
       else
         if not (PAUSED or GAME_OVER) then
           for k, v in pairs(Driver.objects[EntityTypes.player]) do

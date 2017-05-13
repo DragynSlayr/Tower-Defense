@@ -28,14 +28,22 @@ export class Driver
             v[k2] = nil
             break
 
+    isClear: =>
+      sum = 0
+      for k, v in pairs Driver.objects
+        for k2, o in pairs v
+          if k ~= EntityTypes.player and k ~= EntityTypes.turret
+            sum += 1
+      return sum == 0
+
     keypressed: (key, scancode, isrepeat) ->
       if key == "escape"
         love.event.quit()
       elseif key == "p"
         export PAUSED = not PAUSED
-      elseif key == "n"
-        Objectives.mode.counter += 1
-        Objectives.mode\nextWave!
+--      elseif key == "n"
+--        Objectives.difficulty += 1
+--        Objectives.mode\nextWave!
       else
         if not (PAUSED or GAME_OVER)
           for k, v in pairs Driver.objects[EntityTypes.player]
