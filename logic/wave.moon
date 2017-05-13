@@ -16,6 +16,7 @@ export class Wave
     if @waiting
       @elapsed += dt
       if @elapsed >= @delay
+        @elapsed = 0
         @waiting = false
         @start!
 

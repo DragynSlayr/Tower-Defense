@@ -7,6 +7,7 @@ do
       if self.waiting then
         self.elapsed = self.elapsed + dt
         if self.elapsed >= self.delay then
+          self.elapsed = 0
           self.waiting = false
           return self:start()
         end
