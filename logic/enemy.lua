@@ -46,11 +46,17 @@ do
         end
       else
         self.speed = Vector(self.target.position.x - self.position.x, self.target.position.y - self.position.y)
-        local copy = self.speed:getAbsolute()
-        if copy.x > copy.y then
-          self.speed = Vector(self.speed.x, 0)
-        elseif copy.x < copy.y then
-          self.speed = Vector(0, self.speed.y)
+        local length = self.speed:getLength()
+        local x = self.speed.x / length
+        local y = self.speed.y / length
+        local diff = math.abs(x - y)
+        if diff <= 1.3 and diff >= 0.05 then
+          local copy = self.speed:getAbsolute()
+          if copy.x > copy.y then
+            self.speed = Vector(self.speed.x, 0)
+          elseif copy.x < copy.y then
+            self.speed = Vector(0, self.speed.y)
+          end
         end
         self.speed:toUnitVector()
         self.speed = self.speed:multiply(MathHelper:clamp(self.speed_multiplier, 0, self.max_speed))

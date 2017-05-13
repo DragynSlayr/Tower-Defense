@@ -39,12 +39,17 @@ export class Enemy extends GameObject
             @findNearestTarget!
     else
       @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
-      copy = @speed\getAbsolute!
-      --print @speed\__tostring! .. ", " .. copy\__tostring!
-      if copy.x > copy.y
-        @speed = Vector @speed.x, 0
-      elseif copy.x < copy.y
-        @speed = Vector 0, @speed.y
+      length = @speed\getLength!
+      x = @speed.x / length
+      y = @speed.y / length
+      diff = math.abs x - y
+      if diff <= 1.3 and diff >= 0.05
+        copy = @speed\getAbsolute!
+        --print @speed\__tostring! .. ", " .. copy\__tostring!
+        if copy.x > copy.y
+          @speed = Vector @speed.x, 0
+        elseif copy.x < copy.y
+          @speed = Vector 0, @speed.y
       @speed\toUnitVector!
       @speed = @speed\multiply MathHelper\clamp @speed_multiplier, 0, @max_speed
       @speed_multiplier += 1
