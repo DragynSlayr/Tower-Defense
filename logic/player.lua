@@ -115,6 +115,19 @@ do
           end
         end
       end
+      if Driver.objects[EntityTypes.goal] then
+        for k, v in pairs(Driver.objects[EntityTypes.goal]) do
+          if v.goal_type == GoalTypes.attack then
+            local goal = v:getHitBox()
+            local player = self:getHitBox()
+            player.radius = player.radius + self.attack_range
+            if goal:contains(player) then
+              local bullet = PlayerBullet(self.position.x, self.position.y, v)
+              Driver:addObject(bullet, EntityTypes.bullet)
+            end
+          end
+        end
+      end
       if self.show_turret then
         local turret = BasicTurret(self.position.x, self.position.y)
         Renderer:enqueue((function()
