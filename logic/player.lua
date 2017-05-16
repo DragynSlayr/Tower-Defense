@@ -157,13 +157,13 @@ do
         love.graphics.pop()
       end
       _class_0.__parent.__base.draw(self)
+      love.graphics.setColor(255, 255, 255, 255)
+      love.graphics.rectangle("fill", 9, love.graphics.getHeight() - 52, 202, 43)
       love.graphics.setColor(0, 0, 0, 255)
       love.graphics.rectangle("fill", 10, love.graphics.getHeight() - 30, 200, 20)
       love.graphics.setColor(255, 0, 0, 255)
       local ratio = self.health / self.max_health
       love.graphics.rectangle("fill", 13, love.graphics.getHeight() - 27, 194 * ratio, 14)
-      love.graphics.setColor(255, 255, 255, 255)
-      love.graphics.line(10, love.graphics.getHeight() - 31, 210, love.graphics.getHeight() - 31)
       local remaining = MathHelper:clamp(self.turret_cooldown - self.elapsed, 0, self.turret_cooldown)
       remaining = math.floor(remaining)
       love.graphics.setColor(0, 0, 0, 255)
