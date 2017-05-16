@@ -28,13 +28,6 @@ require "utils.sprite"
 require "ui.button"
 require "ui.ui"
 
---+--------------------------+--
---| State and Type constants |--
---+--------------------------+--
-require "logic.state"
-require "logic.entityTypes"
-require "logic.goalTypes"
-
 --+-----------------------------+--
 --| Depends on sprite and types |--
 --+-----------------------------+--
@@ -50,7 +43,6 @@ require "logic.playerEnemy"
 require "logic.turretEnemy"
 require "logic.strongEnemy"
 require "logic.spawnerEnemy"
-require "logic.enemyTypes"
 
 --+---------+--
 --| Turrets |--
@@ -83,4 +75,3 @@ require "logic.objectives"
 --| Dependent on everything else |--
 --+------------------------------+--
 require "logic.driver"
-return

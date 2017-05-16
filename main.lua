@@ -1,3 +1,4 @@
+require("logic.constants")
 require("logic.classLoader")
 DEBUGGING = false
 SHOW_RANGE = false
@@ -10,9 +11,5 @@ MathHelper = MathHelper()
 MusicHandler = MusicHandler()
 UI = UI()
 Renderer = Renderer()
-State = State()
-EntityTypes = EntityTypes()
-EnemyTypes = EnemyTypes()
-GoalTypes = GoalTypes()
 Objectives = Objectives()
 Driver = Driver()

@@ -1,3 +1,4 @@
+require "logic.constants"
 require "logic.classLoader"
 
 -- Enable to show extra info
@@ -25,16 +26,8 @@ export UI = UI!
 -- Global Renderer
 export Renderer = Renderer!
 
--- Global State
-export State = State!
-export EntityTypes = EntityTypes!
-export EnemyTypes = EnemyTypes!
-export GoalTypes = GoalTypes!
-
 -- Global objectives
 export Objectives = Objectives!
 
 -- Create Driver object
 export Driver = Driver!
-
-return
