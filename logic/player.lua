@@ -55,7 +55,7 @@ do
             local player = self:getHitBox()
             player.radius = player.radius + self.repair_range
             if turret:contains(player) then
-              v.health = v.health + 0.6
+              v.health = v.health + 1
               v.health = MathHelper:clamp(v.health, 0, v.max_health)
             end
           end

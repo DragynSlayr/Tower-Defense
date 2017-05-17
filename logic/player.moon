@@ -53,7 +53,7 @@ export class Player extends GameObject
           player = @getHitBox!
           player.radius += @repair_range
           if turret\contains player
-            v.health += 0.6
+            v.health += 1
             v.health = MathHelper\clamp v.health, 0, v.max_health
     elseif key == "z"
       export SHOW_RANGE = not SHOW_RANGE
