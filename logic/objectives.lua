@@ -48,6 +48,11 @@ do
         return love.graphics.pop()
       end
     end,
+    getLevel = function(self)
+      local level = math.ceil(self.difficulty / 3)
+      level = level - 1
+      return level
+    end,
     getRandomEnemy = function(self, basicChance, playerChance, turretChance, strongChance, spawnerChance)
       if basicChance == nil then
         basicChance = self.basicChance

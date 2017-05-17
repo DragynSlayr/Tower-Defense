@@ -59,6 +59,11 @@ export class Objectives
       Renderer\drawStatusMessage "Objective Complete!", love.graphics.getHeight! / 2, Renderer.title_font
       love.graphics.pop!
 
+  getLevel: =>
+    level = math.ceil @difficulty / 3
+    level -= 1
+    return level
+
   getRandomEnemy: (basicChance = @basicChance, playerChance = @playerChance, turretChance = @turretChance, strongChance = @strongChance, spawnerChance = @spawnerChance) =>
     num = math.random!
     if num <= basicChance
@@ -104,4 +109,5 @@ export class Objectives
       if typeof == GoalTypes.attack or typeof == GoalTypes.defend
         Driver\addObject enemy, EntityTypes.goal
       else
+        --print enemy\__tostring!
         Driver\addObject enemy, EntityTypes.enemy
