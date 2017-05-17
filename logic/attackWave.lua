@@ -11,7 +11,7 @@ do
       return self.parent.parent:spawn(self.parent.parent:getRandomEnemy(basicChance, playerChance, turretChance, strongChance, 0))
     end,
     start = function(self)
-      for i = 1, self.parent.parent.difficulty do
+      for i = 1, self.target do
         self.parent.parent:spawn(GoalTypes.attack)
       end
     end,
@@ -52,7 +52,7 @@ do
     __init = function(self, parent)
       _class_0.__parent.__init(self, parent)
       self.killed = 0
-      self.target = self.parent.parent.difficulty
+      self.target = self.parent.wave_count
       self.spawn_count = self.target
       self.max_time = (3 / self.spawn_count) + (5 / 3)
     end,

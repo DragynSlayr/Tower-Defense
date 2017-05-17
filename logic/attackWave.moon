@@ -2,7 +2,7 @@ export class AttackWave extends Wave
   new: (parent) =>
     super parent
     @killed = 0
-    @target = @parent.parent.difficulty
+    @target = @parent.wave_count
     @spawn_count = @target
     @max_time = (3 / @spawn_count) + (5 / 3)
     --print "~~~~~~~~~~~~~~~~~~~~\nS: " .. @max_time
@@ -16,7 +16,7 @@ export class AttackWave extends Wave
     @parent.parent\spawn @parent.parent\getRandomEnemy basicChance, playerChance, turretChance, strongChance, 0
 
   start: =>
-    for i = 1, @parent.parent.difficulty
+    for i = 1, @target
       @parent.parent\spawn GoalTypes.attack
 
   entityKilled: (entity) =>
