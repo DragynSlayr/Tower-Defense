@@ -28,7 +28,8 @@ do
         if self.elapsed >= self.max_time and self.killed ~= self.target then
           self.elapsed = 0
           self.spawn_count = self.spawn_count + 1
-          self.max_time = (3 / self.spawn_count) + (5 / 3)
+          self.max_time = (3 / self.spawn_count) + 1
+          print("N: " .. self.max_time .. "\tS: " .. self.spawn_count)
           self:spawnRandomEnemy()
         end
       end
@@ -54,7 +55,7 @@ do
       self.killed = 0
       self.target = self.parent.wave_count
       self.spawn_count = self.target
-      self.max_time = (3 / self.spawn_count) + (5 / 3)
+      self.max_time = (3 / self.spawn_count) + 1
     end,
     __base = _base_0,
     __name = "AttackWave",

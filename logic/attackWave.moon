@@ -4,8 +4,7 @@ export class AttackWave extends Wave
     @killed = 0
     @target = @parent.wave_count
     @spawn_count = @target
-    @max_time = (3 / @spawn_count) + (5 / 3)
-    --print "~~~~~~~~~~~~~~~~~~~~\nS: " .. @max_time
+    @max_time = (3 / @spawn_count) + 1
 
   spawnRandomEnemy: =>
     spawnerChance = @parent.parent.spawnerChance / 4
@@ -31,8 +30,8 @@ export class AttackWave extends Wave
       if @elapsed >= @max_time and @killed ~= @target
         @elapsed = 0
         @spawn_count += 1
-        @max_time = (3 / @spawn_count) + (5 / 3)
-        --print "N: " .. @max_time
+        @max_time = (3 / @spawn_count) + 1
+        print "N: " .. @max_time .. "\tS: " .. @spawn_count
         @spawnRandomEnemy!
     if @killed == @target and Driver\isClear!
       @complete = true
