@@ -92,7 +92,7 @@ do
       self.range = self.sprite:getBounds().radius + range
       self.target = nil
       self.id = EntityTypes.turret
-      self.health = 5
+      self.health = 10
       self.max_health = self.health
     end,
     __base = _base_0,

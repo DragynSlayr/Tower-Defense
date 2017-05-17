@@ -4,7 +4,7 @@ export class Turret extends GameObject
     @range = @sprite\getBounds!.radius + range
     @target = nil
     @id = EntityTypes.turret
-    @health = 5
+    @health = 10
     @max_health = @health
 
   getHitBox: =>
