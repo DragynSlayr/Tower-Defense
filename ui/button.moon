@@ -17,8 +17,8 @@ export class Button
     @action = action
 
     -- State of the Button
-    @idle_color = {175, 175, 175}
-    @hover_color = {100, 100, 100}
+    @idle_color = {175, 175, 175, 255}
+    @hover_color = {100, 100, 100, 255}
     @selected = false
     @clickable = true
 

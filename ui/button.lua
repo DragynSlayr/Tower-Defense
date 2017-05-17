@@ -67,12 +67,14 @@ do
       self.idle_color = {
         175,
         175,
-        175
+        175,
+        255
       }
       self.hover_color = {
         100,
         100,
-        100
+        100,
+        255
       }
       self.selected = false
       self.clickable = true
