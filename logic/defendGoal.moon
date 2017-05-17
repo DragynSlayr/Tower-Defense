@@ -4,3 +4,6 @@ export class DefendGoal extends GameObject
     super x, y, sprite
     @id = EntityTypes.goal
     @goal_type = GoalTypes.defend
+    @health = 20 + (Scaling.health * Objectives\getLevel!)
+    @max_health = @health
+    --print "DG: " .. @max_health

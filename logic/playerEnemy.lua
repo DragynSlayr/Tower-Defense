@@ -2,6 +2,9 @@ do
   local _class_0
   local _parent_0 = Enemy
   local _base_0 = {
+    __tostring = function(self)
+      return "T: " .. self.enemyType .. "\tH: " .. self.max_health .. "\tD: " .. self.damage .. "\tS: " .. self.max_speed
+    end,
     findNearestTarget = function(self)
       local closest = nil
       local closest_distance = math.max(love.graphics.getWidth() * 2, love.graphics.getHeight() * 2)
@@ -25,11 +28,13 @@ do
     __init = function(self, x, y)
       local sprite = Sprite("enemy/enemy.tga", 26, 26, 1, 0.75)
       _class_0.__parent.__init(self, x, y, sprite)
-      self.damage = 0.5
-      self.max_speed = 300
-      self.speed_multiplier = self.max_speed
       self.enemyType = EnemyTypes.player
       self.score_value = 150
+      self.health = 5 + (1.5 * Objectives:getLevel())
+      self.max_health = self.health
+      self.max_speed = 300 + (2 * Objectives:getLevel())
+      self.speed_multiplier = self.max_speed
+      self.damage = 0.5 + (1 * Objectives:getLevel())
     end,
     __base = _base_0,
     __name = "PlayerEnemy",

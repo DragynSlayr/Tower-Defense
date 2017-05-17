@@ -2,6 +2,9 @@ do
   local _class_0
   local _parent_0 = Enemy
   local _base_0 = {
+    __tostring = function(self)
+      return "T: " .. self.enemyType .. "\tH: " .. self.max_health .. "\tD: " .. self.damage .. "\tS: " .. self.max_speed
+    end,
     update = function(self, dt)
       if not self.alive then
         return 
@@ -57,6 +60,11 @@ do
       _class_0.__parent.__init(self, x, y, sprite)
       self.enemyType = EnemyTypes.turret
       self.score_value = 150
+      self.health = 10 + (2.5 * Objectives:getLevel())
+      self.max_health = self.health
+      self.max_speed = 200 + (5 * Objectives:getLevel())
+      self.speed_multiplier = self.max_speed
+      self.damage = 2 + (2.5 * Objectives:getLevel())
     end,
     __base = _base_0,
     __name = "TurretEnemy",

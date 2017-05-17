@@ -2,6 +2,9 @@ do
   local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
+    __tostring = function(self)
+      return "Enemy"
+    end,
     onCollide = function(self, object)
       if not self.alive then
         return 
@@ -121,9 +124,9 @@ do
       self.target = target
       self.attack_range = 60
       self.delay = 1
+      self.id = EntityTypes.enemy
       self.max_speed = 150
       self.speed_multiplier = self.max_speed
-      self.id = EntityTypes.enemy
     end,
     __base = _base_0,
     __name = "Enemy",

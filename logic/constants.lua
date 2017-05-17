@@ -25,3 +25,7 @@ EnemyTypes.turret = "TurretEnemy"
 EnemyTypes.spawner = "SpawnerEnemy"
 EnemyTypes.strong = "StrongEnemy"
 EnemyTypes.basic = "BasicEnemy"
+Scaling = { }
+Scaling.health = 5
+Scaling.damage = 0.5
+Scaling.speed = 5

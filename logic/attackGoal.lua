@@ -18,6 +18,8 @@ do
       _class_0.__parent.__init(self, x, y, sprite)
       self.id = EntityTypes.goal
       self.goal_type = GoalTypes.attack
+      self.health = 20 + (Scaling.health * Objectives:getLevel())
+      self.max_health = self.health
     end,
     __base = _base_0,
     __name = "AttackGoal",

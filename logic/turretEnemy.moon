@@ -5,6 +5,15 @@ export class TurretEnemy extends Enemy
     @enemyType = EnemyTypes.turret
     @score_value = 150
 
+    @health = 10 + (2.5 * Objectives\getLevel!)
+    @max_health = @health
+    @max_speed = 200 + (5 * Objectives\getLevel!)
+    @speed_multiplier = @max_speed
+    @damage = 2 + (2.5 * Objectives\getLevel!)
+
+  __tostring: =>
+    return "T: " .. @enemyType .. "\tH: " .. @max_health .. "\tD: " .. @damage .. "\tS: " .. @max_speed
+
   update: (dt) =>
     if not @alive return
     if Driver.objects[EntityTypes.turret]

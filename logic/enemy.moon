@@ -4,9 +4,15 @@ export class Enemy extends GameObject
     @target = target
     @attack_range = 60
     @delay = 1
-    @max_speed = 150
-    @speed_multiplier = @max_speed
     @id = EntityTypes.enemy
+    --@health = @health + (Scaling.health * Objectives\getLevel!)
+    --@max_health = @health
+    --@damage = @damage + (Scaling.damage * Objectives\getLevel!)
+    @max_speed = 150-- + (Scaling.speed * Objectives\getLevel!)
+    @speed_multiplier = @max_speed
+
+  __tostring: =>
+    return "Enemy"
 
   onCollide: (object) =>
     if not @alive return

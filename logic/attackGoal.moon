@@ -7,3 +7,6 @@ export class AttackGoal extends GameObject
     super x, y, sprite
     @id = EntityTypes.goal
     @goal_type = GoalTypes.attack
+    @health = 20 + (Scaling.health * Objectives\getLevel!)
+    @max_health = @health
+    --print "AG: " .. @max_health
