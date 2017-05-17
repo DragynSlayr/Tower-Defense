@@ -20,7 +20,8 @@ do
         end
         if not self.wave.complete then
           self.wave:update(dt)
-          self.message2 = "Level " .. self.level_count .. "\tWave " .. self.wave_count .. "/3"
+          local level = self.parent:getLevel() + 1
+          self.message2 = "Level " .. level .. "\tWave " .. self.wave_count .. "/3"
         else
           self.wave_count = self.wave_count + 1
           if (self.wave_count - 1) % 3 == 0 then

@@ -27,7 +27,8 @@ export class Mode
         @start!
       if not @wave.complete
         @wave\update dt
-        @message2 = "Level " .. @level_count .. "\tWave " .. @wave_count .. "/3"
+        level = @parent\getLevel! + 1
+        @message2 = "Level " .. level .. "\tWave " .. @wave_count .. "/3"
       else
         @wave_count += 1
         if (@wave_count - 1) % 3 == 0
