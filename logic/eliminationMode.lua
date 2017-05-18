@@ -12,7 +12,8 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, parent)
-      return _class_0.__parent.__init(self, parent)
+      _class_0.__parent.__init(self, parent)
+      self.objective_text = "Eliminate all enemies"
     end,
     __base = _base_0,
     __name = "EliminationMode",

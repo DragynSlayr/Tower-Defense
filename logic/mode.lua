@@ -40,6 +40,7 @@ do
       love.graphics.setColor(0, 0, 0, 255)
       Renderer:drawAlignedMessage(self.message1, 20, "left", Renderer.hud_font)
       Renderer:drawAlignedMessage(self.message2, 20, "center", Renderer.hud_font)
+      Renderer:drawAlignedMessage(self.objective_text, 50, "center", Renderer.hud_font)
       return love.graphics.pop()
     end
   }
@@ -53,6 +54,7 @@ do
       self.wave = nil
       self.message1 = ""
       self.message2 = ""
+      self.objective_text = ""
       self.started = false
     end,
     __base = _base_0,

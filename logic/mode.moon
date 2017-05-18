@@ -7,6 +7,7 @@ export class Mode
     @wave = nil
     @message1 = ""
     @message2 = ""
+    @objective_text = ""
     @started = false
 
   entityKilled: (entity) =>
@@ -44,4 +45,5 @@ export class Mode
     love.graphics.setColor 0, 0, 0, 255
     Renderer\drawAlignedMessage @message1, 20, "left", Renderer.hud_font
     Renderer\drawAlignedMessage @message2, 20, "center", Renderer.hud_font
+    Renderer\drawAlignedMessage @objective_text, 50, "center", Renderer.hud_font
     love.graphics.pop!
