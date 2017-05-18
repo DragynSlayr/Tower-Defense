@@ -18,15 +18,21 @@ export class Driver
         @objects[id] = {}
         @addObject(object, id)
 
-    removeObject: (object) =>
+    removeObject: (object, player_kill = true) =>
       for k, v in pairs Driver.objects
         for k2, o in pairs v
           if object == o
             Renderer\removeObject object
-            v[k2]\kill!
-            Objectives\entityKilled v[k2]
+            if player_kill
+              v[k2]\kill!
+              Objectives\entityKilled v[k2]
             v[k2] = nil
             break
+
+    killEnemies: =>
+      if Driver.objects[EntityTypes.enemy]
+        for k, o in pairs Driver.objects[EntityTypes.enemy]
+          @removeObject o, false
 
     isClear: =>
       sum = 0

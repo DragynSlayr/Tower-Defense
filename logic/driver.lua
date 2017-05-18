@@ -10,16 +10,28 @@ do
         return self:addObject(object, id)
       end
     end,
-    removeObject = function(self, object)
+    removeObject = function(self, object, player_kill)
+      if player_kill == nil then
+        player_kill = true
+      end
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do
           if object == o then
             Renderer:removeObject(object)
-            v[k2]:kill()
-            Objectives:entityKilled(v[k2])
+            if player_kill then
+              v[k2]:kill()
+              Objectives:entityKilled(v[k2])
+            end
             v[k2] = nil
             break
           end
+        end
+      end
+    end,
+    killEnemies = function(self)
+      if Driver.objects[EntityTypes.enemy] then
+        for k, o in pairs(Driver.objects[EntityTypes.enemy]) do
+          self:removeObject(o, false)
         end
       end
     end,
