@@ -2,6 +2,7 @@ export class Driver
     new: =>
       @objects = {}
       @game_state = Game_State.none
+      @last_state = @game_state
       love.keypressed = @keypressed
       love.keyreleased = @keyreleased
       love.mousepressed = @mousepressed
@@ -45,19 +46,20 @@ export class Driver
 
     keypressed: (key, scancode, isrepeat) ->
       if key == "escape"
-        love.event.quit()
+        love.event.quit 0
       elseif key == "p"
-        export PAUSED = not PAUSED
---      elseif key == "n"
---        Objectives.difficulty += 1
---        Objectives.mode\nextWave!
+        if Driver.game_state == Game_State.paused
+          Driver.game_state = Driver.last_state
+        else
+          Driver.last_state = Driver.game_state
+          Driver.game_state = Game_State.paused
       else
-        if not (PAUSED or GAME_OVER)
+        if not (Driver.game_state == Game_State.paused or Driver.game_state == Game_State.game_over)
           for k, v in pairs Driver.objects[EntityTypes.player]
             v\keypressed key
 
     keyreleased: (key) ->
-      if not (PAUSED or GAME_OVER)
+      if not (Driver.game_state == Game_State.paused or Driver.game_state == Game_State.game_over)
         for k, v in pairs Driver.objects[EntityTypes.player]
           v\keyreleased key
 
@@ -68,14 +70,27 @@ export class Driver
       UI\mousereleased x, y, button, isTouch
 
     focus: (focus) ->
+      if focus
+        Driver.game_state = Driver.last_state
+      else
+        Driver.last_state = Driver.game_state
+        Driver.game_state = Game_State.paused
       UI\focus focus
 
     load: (arg) ->
-      --b = Button Screen_Size.width / 2, Screen_Size.height / 2, 100, 50, "Start", () -> Driver.game_state = Game_State.playing
-      --UI\add b
-      --t = Text Screen_Size.width / 2, (Screen_Size.height / 2) - 75, "Tower Defense"
-      --UI\add t
-      
+      UI\set_screen Screen_State.main_menu
+
+      start_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) - 32, 250, 60, "Start", () ->
+        Driver.game_state = Game_State.playing
+        UI\set_screen Screen_State.none
+      UI\add start_button
+
+      exit_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + 32, 250, 60, "Exit", () -> love.event.quit 0
+      UI\add exit_button
+
+      title = Text Screen_Size.width / 2, (Screen_Size.height / 4), "Tower Defense"
+      UI\add title
+
       -- Create a player
       player = Player love.graphics.getWidth! / 2, love.graphics.getHeight! / 2, Sprite "test.tga", 16, 16, 0.29, 4
       player.sprite\setRotationSpeed -math.pi / 2
@@ -83,29 +98,34 @@ export class Driver
       Objectives\nextMode!
 
     update: (dt) ->
-      if GAME_OVER
-        Driver.objects = nil
-        Renderer.layers = nil
-      if PAUSED or GAME_OVER return
-      for k, v in pairs Driver.objects
-        for k2, o in pairs v
-          o\update dt
-          if o.health <= 0 or not o.alive
-            Driver\removeObject o
-      Objectives\update dt
+      switch Driver.game_state
+        when Game_State.game_over
+          Driver.objects = nil
+          Renderer.layers = nil
+          return
+        when Game_State.paused
+          return
+        when Game_State.playing
+          for k, v in pairs Driver.objects
+            for k2, o in pairs v
+              o\update dt
+              if o.health <= 0 or not o.alive
+                Driver\removeObject o
+          Objectives\update dt
       UI\update dt
 
     draw: ->
       love.graphics.push "all"
       UI\draw!
-      Renderer\drawAlignedMessage SCORE .. "\t", 20, "right", Renderer.hud_font
-      if not GAME_OVER
-        Renderer\drawAll!
-        Objectives\draw!
-        if PAUSED
+      switch Driver.game_state
+        when Game_State.playing
+          Renderer\drawAlignedMessage SCORE .. "\t", 20, "right", Renderer.hud_font
+          Renderer\drawAll!
+          Objectives\draw!
+        when Game_State.paused
           Renderer\drawStatusMessage "PAUSED", love.graphics.getHeight! / 2, Renderer.giant_font
-      else
-        Renderer\drawStatusMessage "YOU DIED!", love.graphics.getHeight! / 2, Renderer.giant_font
+        when Game_State.game_over
+          Renderer\drawStatusMessage "YOU DIED!", love.graphics.getHeight! / 2, Renderer.giant_font
       love.graphics.pop!
 
       before = math.floor collectgarbage "count"
