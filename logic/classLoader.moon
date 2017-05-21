@@ -2,6 +2,7 @@
 --| No dependency |--
 --+---------------+--
 require "utils.renderer"
+require "utils.color"
 require "utils.sound"
 
 --+------------------+--
@@ -25,7 +26,6 @@ require "utils.sprite"
 --+-------------------+--
 --| Depends on sprite |--
 --+-------------------+--
-require "ui.button"
 require "ui.ui"
 
 --+-----------------------------+--
