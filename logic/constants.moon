@@ -10,6 +10,7 @@ EntityTypes.bullet = "Bullet"
 EntityTypes.goal   = "Goal"
 
 EntityTypes.layers = {}
+
 EntityTypes.layers[EntityTypes.player] = 5
 EntityTypes.layers[EntityTypes.turret] = 2
 EntityTypes.layers[EntityTypes.enemy]  = 4
@@ -36,4 +37,23 @@ export Scaling = {}
 
 Scaling.health = 5
 Scaling.damage = 0.5
-Scaling.speed  = 5 
+Scaling.speed  = 5
+
+export Screen_State = {}
+
+Screen_State.main_menu  = "Main Menu"
+Screen_State.pause_menu = "Pause Menu"
+Screen_State.game_over  = "Game Over"
+Screen_State.upgrade    = "Upgrade"
+Screen_State.scores     = "Scores"
+Screen_State.loading    = "Loading"
+Screen_State.none       = "None"
+
+export Game_State = {}
+
+Game_State.playing   = "Playing"
+Game_State.paused    = "Paused"
+Game_State.game_over = "Game Over"
+Game_State.upgrading = "Upgrading"
+Game_State.main_menu = "Main Menu"
+Game_State.none      = "None"
