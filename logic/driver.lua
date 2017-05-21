@@ -66,9 +66,15 @@ do
         end
       end
     end,
-    mouspressed = function(x, y, button, isTouch) end,
-    mousereleased = function(x, y, button, isTouch) end,
-    focus = function(focus) end,
+    mousepressed = function(x, y, button, isTouch)
+      return UI:mousepressed(x, y, button, isTouch)
+    end,
+    mousereleased = function(x, y, button, isTouch)
+      return UI:mousereleased(x, y, button, isTouch)
+    end,
+    focus = function(focus)
+      return UI:focus(focus)
+    end,
     load = function(arg)
       local player = Player(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2, Sprite("test.tga", 16, 16, 0.29, 4))
       player.sprite:setRotationSpeed(-math.pi / 2)
@@ -91,10 +97,12 @@ do
           end
         end
       end
-      return Objectives:update(dt)
+      Objectives:update(dt)
+      return UI:update(dt)
     end,
     draw = function()
       love.graphics.push("all")
+      UI:draw()
       Renderer:drawAlignedMessage(SCORE .. "\t", 20, "right", Renderer.hud_font)
       if not GAME_OVER then
         Renderer:drawAll()
@@ -115,6 +123,7 @@ do
   _class_0 = setmetatable({
     __init = function(self)
       self.objects = { }
+      self.game_state = Game_State.none
       love.keypressed = self.keypressed
       love.keyreleased = self.keyreleased
       love.mousepressed = self.mousepressed

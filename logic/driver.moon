@@ -1,6 +1,7 @@
 export class Driver
     new: =>
       @objects = {}
+      @game_state = Game_State.none
       love.keypressed = @keypressed
       love.keyreleased = @keyreleased
       love.mousepressed = @mousepressed
@@ -60,16 +61,21 @@ export class Driver
         for k, v in pairs Driver.objects[EntityTypes.player]
           v\keyreleased key
 
-    mouspressed: (x, y, button, isTouch) ->
-      return
+    mousepressed: (x, y, button, isTouch) ->
+      UI\mousepressed x, y, button, isTouch
 
     mousereleased: (x, y, button, isTouch) ->
-      return
+      UI\mousereleased x, y, button, isTouch
 
     focus: (focus) ->
-      return
+      UI\focus focus
 
     load: (arg) ->
+      --b = Button Screen_Size.width / 2, Screen_Size.height / 2, 100, 50, "Start", () -> Driver.game_state = Game_State.playing
+      --UI\add b
+      --t = Text Screen_Size.width / 2, (Screen_Size.height / 2) - 75, "Tower Defense"
+      --UI\add t
+      
       -- Create a player
       player = Player love.graphics.getWidth! / 2, love.graphics.getHeight! / 2, Sprite "test.tga", 16, 16, 0.29, 4
       player.sprite\setRotationSpeed -math.pi / 2
@@ -87,9 +93,11 @@ export class Driver
           if o.health <= 0 or not o.alive
             Driver\removeObject o
       Objectives\update dt
+      UI\update dt
 
     draw: ->
       love.graphics.push "all"
+      UI\draw!
       Renderer\drawAlignedMessage SCORE .. "\t", 20, "right", Renderer.hud_font
       if not GAME_OVER
         Renderer\drawAll!
