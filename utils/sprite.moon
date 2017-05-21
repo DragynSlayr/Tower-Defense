@@ -117,7 +117,7 @@ export class Sprite
     if DEBUGGING
       love.graphics.setColor 0, 255, 0, 255
       circle = @getBounds x, y
-      love.graphics.circle "line", circle.center.x, circle.center.y, circle.radius, 25
+      love.graphics.circle "line", circle.center.x, circle.center.y, circle.radius, 360
 
     -- Restore previous transforms
     love.graphics.pop!

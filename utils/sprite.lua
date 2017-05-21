@@ -41,7 +41,7 @@ do
       if DEBUGGING then
         love.graphics.setColor(0, 255, 0, 255)
         local circle = self:getBounds(x, y)
-        love.graphics.circle("line", circle.center.x, circle.center.y, circle.radius, 25)
+        love.graphics.circle("line", circle.center.x, circle.center.y, circle.radius, 360)
       end
       return love.graphics.pop()
     end

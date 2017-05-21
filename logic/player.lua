@@ -153,7 +153,7 @@ do
         love.graphics.push("all")
         love.graphics.setColor(0, 0, 255, 100)
         local player = self:getHitBox()
-        love.graphics.circle("fill", self.position.x, self.position.y, self.attack_range + player.radius, 25)
+        love.graphics.circle("fill", self.position.x, self.position.y, self.attack_range + player.radius, 360)
         love.graphics.pop()
       end
       _class_0.__parent.__base.draw(self)

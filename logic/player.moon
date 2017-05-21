@@ -114,7 +114,7 @@ export class Player extends GameObject
       love.graphics.push "all"
       love.graphics.setColor 0, 0, 255, 100
       player = @getHitBox!
-      love.graphics.circle "fill", @position.x, @position.y, @attack_range + player.radius, 25
+      love.graphics.circle "fill", @position.x, @position.y, @attack_range + player.radius, 360
       love.graphics.pop!
     super!
 

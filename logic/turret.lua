@@ -57,7 +57,7 @@ do
       if DEBUGGING or SHOW_RANGE then
         love.graphics.push("all")
         love.graphics.setColor(255, 0, 0, 127)
-        love.graphics.circle("fill", self.position.x, self.position.y, self.range, 25)
+        love.graphics.circle("fill", self.position.x, self.position.y, self.range, 360)
         love.graphics.pop()
       end
       return _class_0.__parent.__base.draw(self)
@@ -68,7 +68,7 @@ do
       end
       love.graphics.push("all")
       love.graphics.setColor(255, 255, 255, 50)
-      love.graphics.circle("fill", self.position.x, self.position.y, self.range, 25)
+      love.graphics.circle("fill", self.position.x, self.position.y, self.range, 360)
       self.sprite:draw(self.position.x, self.position.y)
       return love.graphics.pop()
     end,

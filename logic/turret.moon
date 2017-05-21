@@ -52,7 +52,7 @@ export class Turret extends GameObject
     if DEBUGGING or SHOW_RANGE
       love.graphics.push "all"
       love.graphics.setColor 255, 0, 0, 127
-      love.graphics.circle "fill", @position.x, @position.y, @range, 25
+      love.graphics.circle "fill", @position.x, @position.y, @range, 360
       love.graphics.pop!
     super!
 
@@ -60,7 +60,7 @@ export class Turret extends GameObject
     if not @alive return
     love.graphics.push "all"
     love.graphics.setColor 255, 255, 255, 50
-    love.graphics.circle "fill", @position.x, @position.y, @range, 25
+    love.graphics.circle "fill", @position.x, @position.y, @range, 360
     @sprite\draw @position.x, @position.y
     love.graphics.pop!
 

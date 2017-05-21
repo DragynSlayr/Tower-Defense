@@ -69,7 +69,7 @@ export class Enemy extends GameObject
       love.graphics.push "all"
       love.graphics.setColor 255, 0, 255, 127
       enemy = @getHitBox!
-      love.graphics.circle "fill", @position.x, @position.y, @attack_range + enemy.radius, 25
+      love.graphics.circle "fill", @position.x, @position.y, @attack_range + enemy.radius, 360
       love.graphics.pop!
     super!
 
