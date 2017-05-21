@@ -143,6 +143,6 @@ export class Player extends GameObject
 
   kill: =>
     super\kill!
-    --export GAME_OVER = true
+    --Driver.game_state = Game_State.game_over
     player = Player @position.x, @position.y, @sprite
     Driver\addObject player, EntityTypes.player
