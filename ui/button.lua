@@ -1,5 +1,6 @@
 do
   local _class_0
+  local _parent_0 = UIElement
   local _base_0 = {
     setColor = function(self, idle, hover)
       self.idle_color = idle
@@ -15,20 +16,22 @@ do
       local yOn = self.y <= y and self.y + self.height >= y
       return xOn and yOn
     end,
-    update = function(self, dt)
-      local x, y = love.mouse.getPosition()
-      self.selected = self:isHovering(x, y)
-      if self.selected and love.mouse.isDown(1) then
-        if self.clickable then
+    mousepressed = function(self, x, y, button, isTouch)
+      if button == 1 then
+        self.selected = self:isHovering(x, y)
+      end
+    end,
+    mousereleased = function(self, x, y, button, isTouch)
+      if button == 1 then
+        local selected = self:isHovering(x, y)
+        if selected and self.selected then
           self:action()
-          self.clickable = false
           self.elapsed = 0
         end
+        self.selected = false
       end
-      self.elapsed = self.elapsed + dt
-      if self.elapsed >= self.max_time then
-        self.clickable = true
-      end
+    end,
+    update = function(self, dt)
       if self.sprited then
         self.idle_sprite:update(dt)
         return self.hover_sprite:update(dt)
@@ -44,47 +47,51 @@ do
         end
       else
         if self.selected then
-          love.graphics.setColor(self.hover_color[1], self.hover_color[2], self.hover_color[3], self.hover_color[4])
+          love.graphics.setColor(self.hover_color:get())
         else
-          love.graphics.setColor(self.idle_color[1], self.idle_color[2], self.idle_color[3], self.idle_color[4])
+          love.graphics.setColor(self.idle_color:get())
         end
         love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
       end
+      love.graphics.setFont(self.font)
       love.graphics.setColor(0, 0, 0)
-      love.graphics.printf(self.text, self.x, self.y + ((self.height - love.graphics.getFont():getHeight()) / 2), self.width, "center")
+      local height = self.font:getHeight()
+      love.graphics.printf(self.text, self.x, self.y + ((self.height - height) / 2), self.width, "center")
       return love.graphics.pop()
     end
   }
   _base_0.__index = _base_0
+  setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y, width, height, text, action)
-      self.x = x
-      self.y = y
+    __init = function(self, x, y, width, height, text, action, font)
+      if font == nil then
+        font = Renderer.hud_font
+      end
+      _class_0.__parent.__init(self, x, y, text, font)
       self.width = width
       self.height = height
-      self.text = text
       self.action = action
-      self.idle_color = {
-        175,
-        175,
-        175,
-        255
-      }
-      self.hover_color = {
-        100,
-        100,
-        100,
-        255
-      }
+      self.x = self.x - (self.width / 2)
+      self.y = self.y - (self.height / 2)
+      self.idle_color = Color(175, 175, 175)
+      self.hover_color = Color(100, 100, 100)
       self.selected = false
-      self.clickable = true
-      self.elapsed = 0
-      self.max_time = 0.3
     end,
     __base = _base_0,
-    __name = "Button"
+    __name = "Button",
+    __parent = _parent_0
   }, {
-    __index = _base_0,
+    __index = function(cls, name)
+      local val = rawget(_base_0, name)
+      if val == nil then
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
+      else
+        return val
+      end
+    end,
     __call = function(cls, ...)
       local _self_0 = setmetatable({}, _base_0)
       cls.__init(_self_0, ...)
@@ -92,5 +99,8 @@ do
     end
   })
   _base_0.__class = _class_0
+  if _parent_0.__inherited then
+    _parent_0.__inherited(_parent_0, _class_0)
+  end
   Button = _class_0
 end
