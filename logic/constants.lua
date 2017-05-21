@@ -44,3 +44,6 @@ Game_State.game_over = "Game Over"
 Game_State.upgrading = "Upgrading"
 Game_State.main_menu = "Main Menu"
 Game_State.none = "None"
+Screen_Size = { }
+Screen_Size.width = love.graphics.getWidth()
+Screen_Size.height = love.graphics.getHeight()
