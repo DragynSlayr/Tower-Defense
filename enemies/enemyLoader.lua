@@ -1,0 +1,6 @@
+require("enemies.enemy")
+require("enemies.basicEnemy")
+require("enemies.playerEnemy")
+require("enemies.turretEnemy")
+require("enemies.strongEnemy")
+return require("enemies.spawnerEnemy")

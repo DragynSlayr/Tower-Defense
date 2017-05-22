@@ -1,75 +1,38 @@
---+---------------+--
---| No dependency |--
---+---------------+--
-require "utils.renderer"
-require "utils.color"
-require "utils.sound"
+--+------------+--
+--| Load utils |--
+--+------------+--
+require "utils.utilsLoader"
+
+--+---------+--
+--| Load ui |--
+--+---------+--
+require "ui.uiLoader"
 
 --+------------------+--
---| Depends on sound |--
+--| Depends on utils |--
 --+------------------+--
-require "utils.musicHandler"
-
---+--------------------+--
---| Basic math classes |--
---+--------------------+--
-require "utils.vector"
-require "utils.point"
-require "utils.circle"
-require "utils.mathHelper"
-
---+-------------------------+--
---| Depends on math classes |--
---+-------------------------+--
-require "utils.sprite"
-
---+-------------------+--
---| Depends on sprite |--
---+-------------------+--
-require "ui.ui"
-
---+-----------------------------+--
---| Depends on sprite and types |--
---+-----------------------------+--
 require "logic.gameObject"
 require "logic.player"
 
---+---------+--
---| Enemies |--
---+---------+--
-require "logic.enemy"
-require "logic.basicEnemy"
-require "logic.playerEnemy"
-require "logic.turretEnemy"
-require "logic.strongEnemy"
-require "logic.spawnerEnemy"
+--+--------------+--
+--| Load Enemies |--
+--+--------------+--
+require "enemies.enemyLoader"
 
---+---------+--
---| Turrets |--
---+---------+--
-require "logic.bullet"
-require "logic.playerBullet"
-require "logic.turret"
-require "logic.basicTurret"
+--+------------------+--
+--| Load Projectiles |--
+--+------------------+--
+require "projectiles.projectileLoader"
 
---+-------+--
---| Goals |--
---+-------+--
-require "logic.attackGoal"
-require "logic.defendGoal"
+--+--------------+--
+--| Load Turrets |--
+--+--------------+--
+require "turrets.turretLoader"
 
---+------------+--
---| Objectives |--
---+------------+--
-require "logic.wave"
-require "logic.eliminationWave"
-require "logic.attackWave"
--- New waves here
-require "logic.mode"
-require "logic.eliminationMode"
-require "logic.attackMode"
--- Corresponding new modes here
-require "logic.objectives"
+--+-----------------+--
+--| Load Objectives |--
+--+-----------------+--
+require "objectives.objectiveLoader"
 
 --+------------------------------+--
 --| Dependent on everything else |--

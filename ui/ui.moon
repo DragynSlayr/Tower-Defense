@@ -1,7 +1,3 @@
-require "ui.uiElement"
-require "ui.button"
-require "ui.text"
-
 -- Class for handling UI elements
 export class UI
   new: =>

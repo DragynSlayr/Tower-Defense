@@ -1,6 +1,3 @@
-require("ui.uiElement")
-require("ui.button")
-require("ui.text")
 do
   local _class_0
   local _base_0 = {
