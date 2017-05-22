@@ -2,7 +2,7 @@ export class Driver
     new: =>
       @objects = {}
       @game_state = Game_State.none
-      @last_state = @game_state
+      @state_stack = Stack!
       love.keypressed = @keypressed
       love.keyreleased = @keyreleased
       love.mousepressed = @mousepressed
@@ -49,10 +49,9 @@ export class Driver
         love.event.quit 0
       elseif key == "p"
         if Driver.game_state == Game_State.paused
-          Driver.game_state = Driver.last_state
+          Driver.unpause!
         else
-          Driver.last_state = Driver.game_state
-          Driver.game_state = Game_State.paused
+          Driver.pause!
       else
         if not (Driver.game_state == Game_State.paused or Driver.game_state == Game_State.game_over)
           for k, v in pairs Driver.objects[EntityTypes.player]
@@ -71,11 +70,19 @@ export class Driver
 
     focus: (focus) ->
       if focus
-        Driver.game_state = Driver.last_state
+        Driver.unpause!
       else
-        Driver.last_state = Driver.game_state
-        Driver.game_state = Game_State.paused
+        Driver.pause!
       UI\focus focus
+
+    pause: ->
+      Driver.state_stack\add Driver.game_state
+      Driver.game_state = Game_State.paused
+      for k, o in pairs Driver.objects[EntityTypes.player]
+        o.keys_pushed = 0
+
+    unpause: ->
+      Driver.game_state = Driver.state_stack\remove!
 
     load: (arg) ->
       UI\set_screen Screen_State.main_menu

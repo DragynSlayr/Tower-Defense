@@ -51,10 +51,9 @@ do
         return love.event.quit(0)
       elseif key == "p" then
         if Driver.game_state == Game_State.paused then
-          Driver.game_state = Driver.last_state
+          return Driver.unpause()
         else
-          Driver.last_state = Driver.game_state
-          Driver.game_state = Game_State.paused
+          return Driver.pause()
         end
       else
         if not (Driver.game_state == Game_State.paused or Driver.game_state == Game_State.game_over) then
@@ -79,12 +78,21 @@ do
     end,
     focus = function(focus)
       if focus then
-        Driver.game_state = Driver.last_state
+        Driver.unpause()
       else
-        Driver.last_state = Driver.game_state
-        Driver.game_state = Game_State.paused
+        Driver.pause()
       end
       return UI:focus(focus)
+    end,
+    pause = function()
+      Driver.state_stack:add(Driver.game_state)
+      Driver.game_state = Game_State.paused
+      for k, o in pairs(Driver.objects[EntityTypes.player]) do
+        o.keys_pushed = 0
+      end
+    end,
+    unpause = function()
+      Driver.game_state = Driver.state_stack:remove()
     end,
     load = function(arg)
       UI:set_screen(Screen_State.main_menu)
@@ -149,7 +157,7 @@ do
     __init = function(self)
       self.objects = { }
       self.game_state = Game_State.none
-      self.last_state = self.game_state
+      self.state_stack = Stack()
       love.keypressed = self.keypressed
       love.keyreleased = self.keyreleased
       love.mousepressed = self.mousepressed
