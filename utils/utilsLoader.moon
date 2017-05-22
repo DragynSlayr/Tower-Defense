@@ -4,11 +4,17 @@
 require "utils.renderer"
 require "utils.color"
 require "utils.sound"
+require "utils.linkedList"
 
 --+------------------+--
 --| Depends on sound |--
 --+------------------+--
 require "utils.musicHandler"
+
+--+------------------------+--
+--| Depends on linked list |--
+--+------------------------+--
+require "utils.stack"
 
 --+--------------------+--
 --| Basic math classes |--
