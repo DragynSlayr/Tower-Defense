@@ -5,8 +5,8 @@ do
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y, text)
-      return _class_0.__parent.__init(self, x, y, text)
+    __init = function(self, x, y, text, font)
+      return _class_0.__parent.__init(self, x, y, text, font)
     end,
     __base = _base_0,
     __name = "Text",

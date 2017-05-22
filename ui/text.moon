@@ -1,3 +1,3 @@
 export class Text extends UIElement
-  new: (x, y, text) =>
-    super x, y, text
+  new: (x, y, text, font) =>
+    super x, y, text, font
