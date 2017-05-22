@@ -3,6 +3,7 @@ export class Driver
       @objects = {}
       @game_state = Game_State.none
       @state_stack = Stack!
+      @state_stack\add Game_State.main_menu
       love.keypressed = @keypressed
       love.keyreleased = @keyreleased
       love.mousepressed = @mousepressed
@@ -80,23 +81,19 @@ export class Driver
       Driver.game_state = Game_State.paused
       for k, o in pairs Driver.objects[EntityTypes.player]
         o.keys_pushed = 0
+      UI.state_stack\add UI.current_screen
+      UI\set_screen Screen_State.pause_menu
 
     unpause: ->
       Driver.game_state = Driver.state_stack\remove!
+      UI\set_screen UI.state_stack\remove!
+
+    game_over: ->
+      Driver.game_state = Game_State.game_over
+      UI\set_screen Screen_State.game_over
 
     load: (arg) ->
-      UI\set_screen Screen_State.main_menu
-
-      start_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) - 32, 250, 60, "Start", () ->
-        Driver.game_state = Game_State.playing
-        UI\set_screen Screen_State.none
-      UI\add start_button
-
-      exit_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + 32, 250, 60, "Exit", () -> love.event.quit 0
-      UI\add exit_button
-
-      title = Text Screen_Size.width / 2, (Screen_Size.height / 4), "Tower Defense"
-      UI\add title
+      ScreenCreator!
 
       -- Create a player
       player = Player love.graphics.getWidth! / 2, love.graphics.getHeight! / 2, Sprite "test.tga", 16, 16, 0.29, 4
@@ -107,8 +104,6 @@ export class Driver
     update: (dt) ->
       switch Driver.game_state
         when Game_State.game_over
-          Driver.objects = nil
-          Renderer.layers = nil
           return
         when Game_State.paused
           return
@@ -129,10 +124,8 @@ export class Driver
           Renderer\drawAlignedMessage SCORE .. "\t", 20, "right", Renderer.hud_font
           Renderer\drawAll!
           Objectives\draw!
-        when Game_State.paused
-          Renderer\drawStatusMessage "PAUSED", love.graphics.getHeight! / 2, Renderer.giant_font
-        when Game_State.game_over
-          Renderer\drawStatusMessage "YOU DIED!", love.graphics.getHeight! / 2, Renderer.giant_font
+  --      when Game_State.game_over
+  --        Renderer\drawStatusMessage "YOU DIED!", love.graphics.getHeight! / 2, Renderer.giant_font
       love.graphics.pop!
 
       before = math.floor collectgarbage "count"

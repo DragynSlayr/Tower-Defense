@@ -4,6 +4,8 @@ export class UI
     -- List of elements of the GUI
     @screens = {}
     @current_screen = Screen_State.none
+    @state_stack = Stack!
+    @state_stack\add Screen_State.main_menu
 
     for k, v in pairs Screen_State
       @screens[v] = {}

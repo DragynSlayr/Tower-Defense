@@ -90,23 +90,19 @@ do
       for k, o in pairs(Driver.objects[EntityTypes.player]) do
         o.keys_pushed = 0
       end
+      UI.state_stack:add(UI.current_screen)
+      return UI:set_screen(Screen_State.pause_menu)
     end,
     unpause = function()
       Driver.game_state = Driver.state_stack:remove()
+      return UI:set_screen(UI.state_stack:remove())
+    end,
+    game_over = function()
+      Driver.game_state = Game_State.game_over
+      return UI:set_screen(Screen_State.game_over)
     end,
     load = function(arg)
-      UI:set_screen(Screen_State.main_menu)
-      local start_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) - 32, 250, 60, "Start", function()
-        Driver.game_state = Game_State.playing
-        return UI:set_screen(Screen_State.none)
-      end)
-      UI:add(start_button)
-      local exit_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + 32, 250, 60, "Exit", function()
-        return love.event.quit(0)
-      end)
-      UI:add(exit_button)
-      local title = Text(Screen_Size.width / 2, (Screen_Size.height / 4), "Tower Defense")
-      UI:add(title)
+      ScreenCreator()
       local player = Player(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2, Sprite("test.tga", 16, 16, 0.29, 4))
       player.sprite:setRotationSpeed(-math.pi / 2)
       Driver:addObject(player, EntityTypes.player)
@@ -115,8 +111,6 @@ do
     update = function(dt)
       local _exp_0 = Driver.game_state
       if Game_State.game_over == _exp_0 then
-        Driver.objects = nil
-        Renderer.layers = nil
         return 
       elseif Game_State.paused == _exp_0 then
         return 
@@ -141,10 +135,6 @@ do
         Renderer:drawAlignedMessage(SCORE .. "\t", 20, "right", Renderer.hud_font)
         Renderer:drawAll()
         Objectives:draw()
-      elseif Game_State.paused == _exp_0 then
-        Renderer:drawStatusMessage("PAUSED", love.graphics.getHeight() / 2, Renderer.giant_font)
-      elseif Game_State.game_over == _exp_0 then
-        Renderer:drawStatusMessage("YOU DIED!", love.graphics.getHeight() / 2, Renderer.giant_font)
       end
       love.graphics.pop()
       local before = math.floor(collectgarbage("count"))
@@ -158,6 +148,7 @@ do
       self.objects = { }
       self.game_state = Game_State.none
       self.state_stack = Stack()
+      self.state_stack:add(Game_State.main_menu)
       love.keypressed = self.keypressed
       love.keyreleased = self.keyreleased
       love.mousepressed = self.mousepressed

@@ -51,6 +51,8 @@ do
     __init = function(self)
       self.screens = { }
       self.current_screen = Screen_State.none
+      self.state_stack = Stack()
+      self.state_stack:add(Screen_State.main_menu)
       for k, v in pairs(Screen_State) do
         self.screens[v] = { }
       end
