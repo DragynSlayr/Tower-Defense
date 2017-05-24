@@ -26,7 +26,7 @@ do
     end,
     createGameOverMenu = function(self)
       UI:set_screen(Screen_State.game_over)
-      local title = Text(Screen_Size.width / 2, (Screen_Size.height / 2), "YOU DIED!", Renderer.giant_font)
+      local title = Text(Screen_Size.width / 2, (Screen_Size.height / 2), "YOU LOSE!", Renderer.giant_font)
       UI:add(title)
       local restart_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + 50, 250, 60, "Restart", function()
         return Driver.unpause()

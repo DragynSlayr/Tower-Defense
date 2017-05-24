@@ -31,7 +31,7 @@ export class ScreenCreator
   createGameOverMenu: =>
     UI\set_screen Screen_State.game_over
 
-    title = Text Screen_Size.width / 2, (Screen_Size.height / 2), "YOU DIED!", Renderer.giant_font
+    title = Text Screen_Size.width / 2, (Screen_Size.height / 2), "YOU LOSE!", Renderer.giant_font
     UI\add title
 
     restart_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + 50, 250, 60, "Restart", () ->
