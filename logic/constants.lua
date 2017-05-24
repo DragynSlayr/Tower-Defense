@@ -15,7 +15,7 @@ EntityTypes.layers[EntityTypes.item] = 3
 EntityTypes.layers[EntityTypes.health] = 3
 EntityTypes.layers[EntityTypes.coin] = 3
 EntityTypes.layers[EntityTypes.bullet] = 1
-EntityTypes.layers[EntityTypes.goal] = 2
+EntityTypes.layers[EntityTypes.goal] = 3
 GoalTypes = { }
 GoalTypes.attack = "Attack"
 GoalTypes.defend = "Defend"
@@ -49,3 +49,15 @@ Screen_Size.width = love.graphics.getWidth()
 Screen_Size.height = love.graphics.getHeight()
 Screen_Size.half_width = Screen_Size.width / 2
 Screen_Size.half_height = Screen_Size.height / 2
+Screen_Size.bounds = {
+  0,
+  0,
+  Screen_Size.width,
+  Screen_Size.height
+}
+Screen_Size.border = {
+  0,
+  70,
+  Screen_Size.width,
+  Screen_Size.height - 140
+}
