@@ -5,7 +5,8 @@ export class Objectives
     @delay = 10
     @modes = {
       AttackMode @,
-      EliminationMode @
+      EliminationMode @,
+      DefendMode @
     }
     @num_modes = #@modes
     MathHelper\shuffle @modes
@@ -38,6 +39,7 @@ export class Objectives
       if @mode.complete
         score = SCORE + (@difficulty * 1000)
         export SCORE = score
+        @mode\finish!
     else
       @elapsed += dt
       if @elapsed >= @delay
@@ -103,7 +105,7 @@ export class Objectives
         if object\contains e
           touching = true
           break
-    if touching or not enemy\isOnScreen 20
+    if touching or not enemy\isOnScreen Screen_Size.border
       @spawn typeof, i + 1
     else
       if typeof == GoalTypes.attack or typeof == GoalTypes.defend

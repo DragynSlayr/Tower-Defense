@@ -22,6 +22,7 @@ do
         if self.mode.complete then
           local score = SCORE + (self.difficulty * 1000)
           SCORE = score
+          self.mode:finish()
         end
       else
         self.elapsed = self.elapsed + dt
@@ -116,7 +117,7 @@ do
           end
         end
       end
-      if touching or not enemy:isOnScreen(20) then
+      if touching or not enemy:isOnScreen(Screen_Size.border) then
         return self:spawn(typeof, i + 1)
       else
         if typeof == GoalTypes.attack or typeof == GoalTypes.defend then
@@ -135,7 +136,8 @@ do
       self.delay = 10
       self.modes = {
         AttackMode(self),
-        EliminationMode(self)
+        EliminationMode(self),
+        DefendMode(self)
       }
       self.num_modes = #self.modes
       MathHelper:shuffle(self.modes)
