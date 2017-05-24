@@ -110,6 +110,19 @@ do
           end
         end
       end
+      if Driver.objects[EntityTypes.goal] then
+        for k, v in pairs(Driver.objects[EntityTypes.goal]) do
+          if v.goal_type == GoalTypes.defend then
+            local goal = v:getHitBox()
+            local enemy = self:getHitBox()
+            local dist = Vector(enemy.center.x - goal.center.x, enemy.center.y - goal.center.y)
+            if dist:getLength() < closest_distance then
+              closest_distance = dist:getLength()
+              closest = v
+            end
+          end
+        end
+      end
       self.target = closest
     end
   }

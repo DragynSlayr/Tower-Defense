@@ -92,4 +92,13 @@ export class Enemy extends GameObject
         if dist\getLength! < closest_distance
           closest_distance = dist\getLength!
           closest = v
+    if Driver.objects[EntityTypes.goal]
+      for k, v in pairs Driver.objects[EntityTypes.goal]
+        if v.goal_type == GoalTypes.defend
+          goal = v\getHitBox!
+          enemy = @getHitBox!
+          dist = Vector enemy.center.x - goal.center.x, enemy.center.y - goal.center.y
+          if dist\getLength! < closest_distance
+            closest_distance = dist\getLength!
+            closest = v
     @target = closest
