@@ -34,8 +34,8 @@ export class GameObject
     @elapsed += dt
     @position\add @speed\multiply dt
     radius = @getHitBox!.radius
-    @position.x = MathHelper\clamp @position.x, radius, love.graphics.getWidth! - radius
-    @position.y = MathHelper\clamp @position.y, radius, love.graphics.getHeight! - radius
+    @position.x = MathHelper\clamp @position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius
+    @position.y = MathHelper\clamp @position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius
     if @id == EntityTypes.bullet
       return
     for k, v in pairs Driver.objects
@@ -68,12 +68,11 @@ export class GameObject
       love.graphics.rectangle "fill", @position.x - radius, (@position.y + radius) + 6, (radius * 2) * ratio, 10
     love.graphics.pop!
 
-  isOnScreen: (radius = 0) =>
+  isOnScreen: (bounds = Screen_Size.bounds) =>
     if not @alive return false
     circle = @getHitBox!
-    circle.radius += radius
     x, y = circle.center\getComponents!
     radius = circle.radius
-    xOn = x - radius >= 0 and x + radius <= love.graphics.getWidth!
-    yOn = y - radius >= 0 and y + radius <= love.graphics.getHeight!
+    xOn = x - radius >= bounds[1] and x + radius <= bounds[3]
+    yOn = y - radius >= bounds[2] and y + radius <= bounds[4]
     return xOn and yOn

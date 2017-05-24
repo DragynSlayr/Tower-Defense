@@ -25,8 +25,8 @@ do
       self.elapsed = self.elapsed + dt
       self.position:add(self.speed:multiply(dt))
       local radius = self:getHitBox().radius
-      self.position.x = MathHelper:clamp(self.position.x, radius, love.graphics.getWidth() - radius)
-      self.position.y = MathHelper:clamp(self.position.y, radius, love.graphics.getHeight() - radius)
+      self.position.x = MathHelper:clamp(self.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius)
+      self.position.y = MathHelper:clamp(self.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius)
       if self.id == EntityTypes.bullet then
         return 
       end
@@ -70,19 +70,18 @@ do
       end
       return love.graphics.pop()
     end,
-    isOnScreen = function(self, radius)
-      if radius == nil then
-        radius = 0
+    isOnScreen = function(self, bounds)
+      if bounds == nil then
+        bounds = Screen_Size.bounds
       end
       if not self.alive then
         return false
       end
       local circle = self:getHitBox()
-      circle.radius = circle.radius + radius
       local x, y = circle.center:getComponents()
-      radius = circle.radius
-      local xOn = x - radius >= 0 and x + radius <= love.graphics.getWidth()
-      local yOn = y - radius >= 0 and y + radius <= love.graphics.getHeight()
+      local radius = circle.radius
+      local xOn = x - radius >= bounds[1] and x + radius <= bounds[3]
+      local yOn = y - radius >= bounds[2] and y + radius <= bounds[4]
       return xOn and yOn
     end
   }
