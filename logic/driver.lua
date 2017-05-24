@@ -129,14 +129,25 @@ do
     end,
     draw = function()
       love.graphics.push("all")
-      UI:draw()
       local _exp_0 = Driver.game_state
       if Game_State.playing == _exp_0 then
+        love.graphics.push("all")
+        love.graphics.setColor(15, 87, 132, 200)
+        local bounds = Screen_Size.border
+        love.graphics.rectangle("fill", 0, 0, bounds[3], bounds[2])
+        love.graphics.rectangle("fill", 0, bounds[2] + bounds[4], bounds[3], bounds[2])
+        love.graphics.pop()
         Renderer:drawAlignedMessage(SCORE .. "\t", 20, "right", Renderer.hud_font)
         Renderer:drawAll()
         Objectives:draw()
       end
+      if DEBUGGING then
+        love.graphics.setColor(200, 200, 200, 100)
+        local bounds = Screen_Size.border
+        love.graphics.rectangle("fill", bounds[1], bounds[2], bounds[3], bounds[4])
+      end
       love.graphics.pop()
+      UI:draw()
       local before = math.floor(collectgarbage("count"))
       collectgarbage("step")
       local after = math.floor(collectgarbage("count"))

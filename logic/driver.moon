@@ -98,10 +98,12 @@ export class Driver
       -- Create a player
       player = Player love.graphics.getWidth! / 2, love.graphics.getHeight! / 2, Sprite "test.tga", 16, 16, 0.29, 4
       player.sprite\setRotationSpeed -math.pi / 2
+      --player.sprite\setColor {0, 124, 124, 255}
       Driver\addObject player, EntityTypes.player
       Objectives\nextMode!
 
     update: (dt) ->
+      --print love.mouse.getPosition!
       switch Driver.game_state
         when Game_State.game_over
           return
@@ -118,15 +120,24 @@ export class Driver
 
     draw: ->
       love.graphics.push "all"
-      UI\draw!
       switch Driver.game_state
         when Game_State.playing
+          love.graphics.push "all"
+          love.graphics.setColor 15, 87, 132, 200
+          bounds = Screen_Size.border
+          love.graphics.rectangle "fill", 0, 0, bounds[3], bounds[2]
+          love.graphics.rectangle "fill", 0, bounds[2] + bounds[4], bounds[3], bounds[2]
+          love.graphics.pop!
+
           Renderer\drawAlignedMessage SCORE .. "\t", 20, "right", Renderer.hud_font
           Renderer\drawAll!
           Objectives\draw!
-  --      when Game_State.game_over
-  --        Renderer\drawStatusMessage "YOU DIED!", love.graphics.getHeight! / 2, Renderer.giant_font
+      if DEBUGGING
+        love.graphics.setColor 200, 200, 200, 100
+        bounds = Screen_Size.border
+        love.graphics.rectangle "fill", bounds[1], bounds[2], bounds[3], bounds[4]
       love.graphics.pop!
+      UI\draw!
 
       before = math.floor collectgarbage "count"
       collectgarbage "step"
