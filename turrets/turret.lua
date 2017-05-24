@@ -67,7 +67,7 @@ do
         return 
       end
       love.graphics.push("all")
-      love.graphics.setColor(255, 255, 255, 50)
+      love.graphics.setColor(100, 100, 100, 127)
       love.graphics.circle("fill", self.position.x, self.position.y, self.range, 360)
       self.sprite:draw(self.position.x, self.position.y)
       return love.graphics.pop()
@@ -94,6 +94,7 @@ do
       self.id = EntityTypes.turret
       self.health = 10
       self.max_health = self.health
+      self.draw_health = false
     end,
     __base = _base_0,
     __name = "Turret",

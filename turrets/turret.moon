@@ -6,6 +6,7 @@ export class Turret extends GameObject
     @id = EntityTypes.turret
     @health = 10
     @max_health = @health
+    @draw_health = false
 
   getHitBox: =>
     radius = math.max @sprite.scaled_height / 2, @sprite.scaled_width / 2
@@ -59,7 +60,7 @@ export class Turret extends GameObject
   drawFaded: =>
     if not @alive return
     love.graphics.push "all"
-    love.graphics.setColor 255, 255, 255, 50
+    love.graphics.setColor 100, 100, 100, 127
     love.graphics.circle "fill", @position.x, @position.y, @range, 360
     @sprite\draw @position.x, @position.y
     love.graphics.pop!
