@@ -9,7 +9,7 @@ export SHOW_RANGE = false
 export SCORE = 0
 
 -- Set love environment
-love.graphics.setBackgroundColor 50, 75, 50, 255
+love.graphics.setBackgroundColor 91, 192, 255, 255
 love.graphics.setDefaultFilter "nearest", "nearest", 1
 
 -- Global MathHelper
