@@ -121,28 +121,40 @@ export class Player extends GameObject
     love.graphics.setColor 255, 255, 255, 255
     love.graphics.rectangle "fill", 9, love.graphics.getHeight! - 52, 202, 43
 
-    love.graphics.setColor 0, 0, 0, 255
-    love.graphics.rectangle "fill", 10, love.graphics.getHeight! - 30, 200, 20
-    love.graphics.setColor 255, 0, 0, 255
-    ratio = @health / @max_health
-    love.graphics.rectangle "fill", 13, love.graphics.getHeight! - 27, 194 * ratio, 14
-
-    --love.graphics.setColor 255, 255, 255, 255
-    --love.graphics.line 10, love.graphics.getHeight! - 31, 210, love.graphics.getHeight! - 31
-
     remaining = MathHelper\clamp @turret_cooldown - @elapsed, 0, @turret_cooldown
     remaining = math.floor remaining
     love.graphics.setColor 0, 0, 0, 255
     love.graphics.rectangle "fill", 10, love.graphics.getHeight! - 51, 200, 20
     love.graphics.setColor 0, 0, 255, 255
+    ratio = 1 - (remaining / @turret_cooldown)
     if remaining == 0 or @can_place
       ratio = 1
-    else
-      ratio = 1 - (remaining / @turret_cooldown)
     love.graphics.rectangle "fill", 13, love.graphics.getHeight! - 48, 194 * ratio, 14
+
+    turret_health = 0
+    num = 0
+    if Driver.objects[EntityTypes.turret]
+      for k, t in pairs Driver.objects[EntityTypes.turret]
+        turret_health += t.health
+        num += t.max_health
+    else
+      turret_health = 1
+      num = 1
+    ratio = turret_health / num
+
+    love.graphics.setColor 0, 0, 0, 255
+    love.graphics.rectangle "fill", 10, love.graphics.getHeight! - 30, 200, 20
+    love.graphics.setColor 0, 255, 0, 255
+    love.graphics.rectangle "fill", 13, love.graphics.getHeight! - 27, 194 * ratio, 14
+
+    love.graphics.setColor 0, 0, 0, 255
+    love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - 200, love.graphics.getHeight! - 30, 400, 20
+    love.graphics.setColor 255, 0, 0, 255
+    ratio = @health / @max_health
+    love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - 197, love.graphics.getHeight! - 27, 394 * ratio, 14
 
   kill: =>
     super\kill!
-    --Driver.game_over!  
+    --Driver.game_over!
     player = Player @position.x, @position.y, @sprite
     Driver\addObject player, EntityTypes.player

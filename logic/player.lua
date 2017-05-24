@@ -159,22 +159,37 @@ do
       _class_0.__parent.__base.draw(self)
       love.graphics.setColor(255, 255, 255, 255)
       love.graphics.rectangle("fill", 9, love.graphics.getHeight() - 52, 202, 43)
-      love.graphics.setColor(0, 0, 0, 255)
-      love.graphics.rectangle("fill", 10, love.graphics.getHeight() - 30, 200, 20)
-      love.graphics.setColor(255, 0, 0, 255)
-      local ratio = self.health / self.max_health
-      love.graphics.rectangle("fill", 13, love.graphics.getHeight() - 27, 194 * ratio, 14)
       local remaining = MathHelper:clamp(self.turret_cooldown - self.elapsed, 0, self.turret_cooldown)
       remaining = math.floor(remaining)
       love.graphics.setColor(0, 0, 0, 255)
       love.graphics.rectangle("fill", 10, love.graphics.getHeight() - 51, 200, 20)
       love.graphics.setColor(0, 0, 255, 255)
+      local ratio = 1 - (remaining / self.turret_cooldown)
       if remaining == 0 or self.can_place then
         ratio = 1
-      else
-        ratio = 1 - (remaining / self.turret_cooldown)
       end
-      return love.graphics.rectangle("fill", 13, love.graphics.getHeight() - 48, 194 * ratio, 14)
+      love.graphics.rectangle("fill", 13, love.graphics.getHeight() - 48, 194 * ratio, 14)
+      local turret_health = 0
+      local num = 0
+      if Driver.objects[EntityTypes.turret] then
+        for k, t in pairs(Driver.objects[EntityTypes.turret]) do
+          turret_health = turret_health + t.health
+          num = num + t.max_health
+        end
+      else
+        turret_health = 1
+        num = 1
+      end
+      ratio = turret_health / num
+      love.graphics.setColor(0, 0, 0, 255)
+      love.graphics.rectangle("fill", 10, love.graphics.getHeight() - 30, 200, 20)
+      love.graphics.setColor(0, 255, 0, 255)
+      love.graphics.rectangle("fill", 13, love.graphics.getHeight() - 27, 194 * ratio, 14)
+      love.graphics.setColor(0, 0, 0, 255)
+      love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - 200, love.graphics.getHeight() - 30, 400, 20)
+      love.graphics.setColor(255, 0, 0, 255)
+      ratio = self.health / self.max_health
+      return love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - 197, love.graphics.getHeight() - 27, 394 * ratio, 14)
     end,
     kill = function(self)
       _class_0.__parent.kill(self)
