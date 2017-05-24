@@ -22,6 +22,15 @@ export class Mode
     @nextWave!
     @started = true
 
+  finish: =>
+    if Driver.objects[EntityTypes.turret]
+      for k, t in pairs Driver.objects[EntityTypes.turret]
+        Driver\removeObject t, false
+    if Driver.objects[EntityTypes.player]
+      for k, p in pairs Driver.objects[EntityTypes.player]
+        p.num_turrets = 0
+        p.can_place = true
+
   update: (dt) =>
     if not @complete
       if not @started

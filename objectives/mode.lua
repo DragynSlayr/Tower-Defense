@@ -13,6 +13,19 @@ do
       self:nextWave()
       self.started = true
     end,
+    finish = function(self)
+      if Driver.objects[EntityTypes.turret] then
+        for k, t in pairs(Driver.objects[EntityTypes.turret]) do
+          Driver:removeObject(t, false)
+        end
+      end
+      if Driver.objects[EntityTypes.player] then
+        for k, p in pairs(Driver.objects[EntityTypes.player]) do
+          p.num_turrets = 0
+          p.can_place = true
+        end
+      end
+    end,
     update = function(self, dt)
       if not self.complete then
         if not self.started then
