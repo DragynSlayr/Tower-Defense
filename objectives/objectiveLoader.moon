@@ -11,12 +11,14 @@ require "objectives.wave"
 --+-----------------+--
 require "objectives.eliminationMode"
 require "objectives.attackMode"
+require "objectives.defendMode"
 
 --+-----------------+--
 --| Depends on wave |--
 --+-----------------+--
 require "objectives.eliminationWave"
 require "objectives.attackWave"
+require "objectives.defendWave"
 
 --+------------------------------+--
 --| Dependent on everything else |--
