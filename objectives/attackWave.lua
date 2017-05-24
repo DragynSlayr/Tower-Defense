@@ -29,7 +29,6 @@ do
           self.elapsed = 0
           self.spawn_count = self.spawn_count + 1
           self.max_time = (3 / self.spawn_count) + 1
-          print("N: " .. self.max_time .. "\tS: " .. self.spawn_count)
           self:spawnRandomEnemy()
         end
       end
