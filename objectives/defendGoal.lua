@@ -7,10 +7,16 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("player/sentry.tga", 26, 26, 1, 2)
+      local color = {
+        0,
+        127,
+        100,
+        255
+      }
       _class_0.__parent.__init(self, x, y, sprite)
       self.id = EntityTypes.goal
       self.goal_type = GoalTypes.defend
-      self.health = 20 + (Scaling.health * Objectives:getLevel())
+      self.health = 10 + (Scaling.health * Objectives:getLevel())
       self.max_health = self.health
     end,
     __base = _base_0,
