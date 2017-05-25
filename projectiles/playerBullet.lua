@@ -1,6 +1,6 @@
 do
   local _class_0
-  local _parent_0 = Bullet
+  local _parent_0 = HomingProjectile
   local _base_0 = { }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)

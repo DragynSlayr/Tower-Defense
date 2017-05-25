@@ -1,9 +1,10 @@
 --+---------------+--
 --| No dependency |--
 --+---------------+--
-require "projectiles.bullet"
+require "projectiles.projectile"
 
---+-------------------+--
---| Depends on bullet |--
---+-------------------+--
+--+-----------------------+--
+--| Depends on projectile |--
+--+-----------------------+--
+require "projectiles.bullet"
 require "projectiles.playerBullet"
