@@ -1,6 +1,6 @@
 export class TurretEnemy extends Enemy
   new: (x, y) =>
-    sprite = Sprite "enemy/circle.tga", 26, 26, 1, 2
+    sprite = Sprite "enemy/circle.tga", 26, 26, 1, 1.75
     super x, y, sprite
     @enemyType = EnemyTypes.turret
     @score_value = 150
@@ -23,6 +23,7 @@ export class TurretEnemy extends Enemy
         super dt, true
     else
       super dt, true
+    @sprite.rotation -= math.pi / 4
 
   findNearestTarget: (all = false) =>
     closest = nil

@@ -11,13 +11,14 @@ do
       end
       if Driver.objects[EntityTypes.turret] then
         if #Driver.objects[EntityTypes.turret] ~= 0 then
-          return _class_0.__parent.__base.update(self, dt, false)
+          _class_0.__parent.__base.update(self, dt, false)
         else
-          return _class_0.__parent.__base.update(self, dt, true)
+          _class_0.__parent.__base.update(self, dt, true)
         end
       else
-        return _class_0.__parent.__base.update(self, dt, true)
+        _class_0.__parent.__base.update(self, dt, true)
       end
+      self.sprite.rotation = self.sprite.rotation - (math.pi / 4)
     end,
     findNearestTarget = function(self, all)
       if all == nil then
@@ -56,7 +57,7 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
-      local sprite = Sprite("enemy/circle.tga", 26, 26, 1, 2)
+      local sprite = Sprite("enemy/circle.tga", 26, 26, 1, 1.75)
       _class_0.__parent.__init(self, x, y, sprite)
       self.enemyType = EnemyTypes.turret
       self.score_value = 150
