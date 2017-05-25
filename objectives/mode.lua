@@ -25,6 +25,11 @@ do
           p.can_place = true
         end
       end
+      if Driver.objects[EntityTypes.bullet] then
+        for k, b in pairs(Driver.objects[EntityTypes.bullet]) do
+          Driver:removeObject(b, false)
+        end
+      end
     end,
     update = function(self, dt)
       if not self.complete then
