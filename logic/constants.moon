@@ -39,6 +39,13 @@ Scaling.health = 5
 Scaling.damage = 0.5
 Scaling.speed  = 5
 
+export Upgrade_Trees = {}
+
+Upgrade_Trees.player_stats   = "Player Stats"
+Upgrade_Trees.turret_stats   = "Turret Stats"
+Upgrade_Trees.player_special = "Player Special"
+Upgrade_Trees.turret_special = "Turret Special"
+
 export Screen_State = {}
 
 Screen_State.main_menu  = "Main Menu"
