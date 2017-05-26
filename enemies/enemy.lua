@@ -135,7 +135,8 @@ do
       end
       _class_0.__parent.__init(self, x, y, sprite)
       self.target = target
-      self.attack_range = 60
+      local bounds = self.sprite:getBounds(0, 0)
+      self.attack_range = bounds.radius * 2
       self.delay = 1
       self.id = EntityTypes.enemy
       self.max_speed = 150

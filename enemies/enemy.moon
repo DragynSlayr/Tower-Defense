@@ -2,7 +2,8 @@ export class Enemy extends GameObject
   new: (x, y, sprite, target = nil) =>
     super x, y, sprite
     @target = target
-    @attack_range = 60
+    bounds = @sprite\getBounds 0, 0
+    @attack_range = bounds.radius * 2
     @delay = 1
     @id = EntityTypes.enemy
     --@health = @health + (Scaling.health * Objectives\getLevel!)
