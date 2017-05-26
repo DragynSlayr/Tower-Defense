@@ -6,6 +6,7 @@ export class UI
     @current_screen = Screen_State.none
     @state_stack = Stack!
     @state_stack\add Screen_State.main_menu
+    --@state_stack\add Screen_State.upgrade
 
     for k, v in pairs Screen_State
       @screens[v] = {}
