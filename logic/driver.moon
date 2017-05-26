@@ -4,6 +4,8 @@ export class Driver
       @game_state = Game_State.none
       @state_stack = Stack!
       @state_stack\add Game_State.main_menu
+      --@state_stack\add Game_State.upgrading
+      @elapsed = 0
       love.keypressed = @keypressed
       love.keyreleased = @keyreleased
       love.mousepressed = @mousepressed
@@ -36,6 +38,9 @@ export class Driver
       if Driver.objects[EntityTypes.enemy]
         for k, o in pairs Driver.objects[EntityTypes.enemy]
           @removeObject o, false
+      if Driver.objects[EntityTypes.bullet]
+        for k, b in pairs Driver.objects[EntityTypes.bullet]
+          @removeObject b, false
 
     isClear: =>
       sum = 0
@@ -93,6 +98,8 @@ export class Driver
       UI\set_screen Screen_State.game_over
 
     load: (arg) ->
+      Driver.shader = love.graphics.newShader "shaders/normal.fs"
+
       ScreenCreator!
 
       -- Create a player
@@ -103,6 +110,10 @@ export class Driver
       Objectives\nextMode!
 
     update: (dt) ->
+      Driver.elapsed += dt
+      --alpha = math.cos Driver.elapsed
+      --alpha = math.abs alpha
+      --Driver.shader\send "alpha", alpha
       --print love.mouse.getPosition!
       switch Driver.game_state
         when Game_State.game_over
@@ -116,10 +127,13 @@ export class Driver
               if o.health <= 0 or not o.alive
                 Driver\removeObject o
           Objectives\update dt
+        when Game_State.upgrading
+          Upgrade\update dt
       UI\update dt
 
     draw: ->
       love.graphics.push "all"
+      UI\draw!
       switch Driver.game_state
         when Game_State.playing
           love.graphics.push "all"
@@ -130,14 +144,17 @@ export class Driver
           love.graphics.pop!
 
           Renderer\drawAlignedMessage SCORE .. "\t", 20, "right", Renderer.hud_font
+          love.graphics.setShader Driver.shader
           Renderer\drawAll!
           Objectives\draw!
+          love.graphics.setShader!
+        when Game_State.upgrading
+          Upgrade\draw!
       if DEBUGGING
         love.graphics.setColor 200, 200, 200, 100
         bounds = Screen_Size.border
         love.graphics.rectangle "fill", bounds[1], bounds[2], bounds[3], bounds[4]
       love.graphics.pop!
-      UI\draw!
 
       before = math.floor collectgarbage "count"
       collectgarbage "step"

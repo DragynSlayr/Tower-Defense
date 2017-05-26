@@ -34,6 +34,11 @@ do
           self:removeObject(o, false)
         end
       end
+      if Driver.objects[EntityTypes.bullet] then
+        for k, b in pairs(Driver.objects[EntityTypes.bullet]) do
+          self:removeObject(b, false)
+        end
+      end
     end,
     isClear = function(self)
       local sum = 0
@@ -102,6 +107,7 @@ do
       return UI:set_screen(Screen_State.game_over)
     end,
     load = function(arg)
+      Driver.shader = love.graphics.newShader("shaders/normal.fs")
       ScreenCreator()
       local player = Player(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2, Sprite("test.tga", 16, 16, 0.29, 4))
       player.sprite:setRotationSpeed(-math.pi / 2)
@@ -109,6 +115,7 @@ do
       return Objectives:nextMode()
     end,
     update = function(dt)
+      Driver.elapsed = Driver.elapsed + dt
       local _exp_0 = Driver.game_state
       if Game_State.game_over == _exp_0 then
         return 
@@ -124,11 +131,14 @@ do
           end
         end
         Objectives:update(dt)
+      elseif Game_State.upgrading == _exp_0 then
+        Upgrade:update(dt)
       end
       return UI:update(dt)
     end,
     draw = function()
       love.graphics.push("all")
+      UI:draw()
       local _exp_0 = Driver.game_state
       if Game_State.playing == _exp_0 then
         love.graphics.push("all")
@@ -138,8 +148,12 @@ do
         love.graphics.rectangle("fill", 0, bounds[2] + bounds[4], bounds[3], bounds[2])
         love.graphics.pop()
         Renderer:drawAlignedMessage(SCORE .. "\t", 20, "right", Renderer.hud_font)
+        love.graphics.setShader(Driver.shader)
         Renderer:drawAll()
         Objectives:draw()
+        love.graphics.setShader()
+      elseif Game_State.upgrading == _exp_0 then
+        Upgrade:draw()
       end
       if DEBUGGING then
         love.graphics.setColor(200, 200, 200, 100)
@@ -147,7 +161,6 @@ do
         love.graphics.rectangle("fill", bounds[1], bounds[2], bounds[3], bounds[4])
       end
       love.graphics.pop()
-      UI:draw()
       local before = math.floor(collectgarbage("count"))
       collectgarbage("step")
       local after = math.floor(collectgarbage("count"))
@@ -160,6 +173,7 @@ do
       self.game_state = Game_State.none
       self.state_stack = Stack()
       self.state_stack:add(Game_State.main_menu)
+      self.elapsed = 0
       love.keypressed = self.keypressed
       love.keyreleased = self.keyreleased
       love.mousepressed = self.mousepressed
