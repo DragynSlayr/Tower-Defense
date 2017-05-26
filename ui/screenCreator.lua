@@ -35,6 +35,88 @@ do
         return love.event.quit(0)
       end)
       return UI:add(quit_button)
+    end,
+    createUpgradeMenu = function(self)
+      UI:set_screen(Screen_State.upgrade)
+      local bg = Background({
+        255,
+        255,
+        255,
+        255
+      })
+      UI:add(bg)
+      local title = Text(Screen_Size.width / 2, 25, "Upgrade")
+      UI:add(title)
+      UI:add(Text(100, 100, "Player", Renderer.hud_font))
+      local stats = {
+        "Health",
+        "Range",
+        "Damage",
+        "Speed",
+        "Special"
+      }
+      for k, v in pairs(stats) do
+        local y = 100 + (k * 65)
+        UI:add(Text(200, y, v, Renderer.small_font))
+        if k ~= 5 then
+          local b = Button(280, y, 30, 30, "+", function()
+            return Upgrade:add_skill(Upgrade_Trees.player_stats, k)
+          end)
+          UI:add(b)
+        else
+          local specials = {
+            "1",
+            "2",
+            "3",
+            "4"
+          }
+          for k, v in pairs(specials) do
+            local x = 280 + ((k - 1) * 100)
+            local b = Button(x, y, 50, 30, v, function()
+              return Upgrade:add_skill(Upgrade_Trees.player_special, k)
+            end)
+            UI:add(b)
+          end
+        end
+      end
+      UI:add(Text(100, 500, "Turret", Renderer.hud_font))
+      stats = {
+        "Health",
+        "Range",
+        "Damage",
+        "Cooldown",
+        "Special"
+      }
+      for k, v in pairs(stats) do
+        local y = 500 + (k * 65)
+        UI:add(Text(200, y, v, Renderer.small_font))
+        if k ~= 5 then
+          local b = Button(280, y, 30, 30, "+", function()
+            return Upgrade:add_skill(Upgrade_Trees.turret_stats, k)
+          end)
+          UI:add(b)
+        else
+          local specials = {
+            "1",
+            "2",
+            "3",
+            "4"
+          }
+          for k, v in pairs(specials) do
+            local x = 280 + ((k - 1) * 100)
+            local b = Button(x, y, 50, 30, v, function()
+              return Upgrade:add_skill(Upgrade_Trees.turret_special, k)
+            end)
+            UI:add(b)
+          end
+        end
+      end
+      local continue_button = Button(Screen_Size.width / 2, Screen_Size.height - 35, 200, 50, "Continue", function()
+        UI:set_screen(Screen_State.none)
+        Driver.game_state = Game_State.playing
+        return Objectives:nextMode()
+      end)
+      return UI:add(continue_button)
     end
   }
   _base_0.__index = _base_0
@@ -42,7 +124,8 @@ do
     __init = function(self)
       self:createMainMenu()
       self:createPauseMenu()
-      return self:createGameOverMenu()
+      self:createGameOverMenu()
+      return self:createUpgradeMenu()
     end,
     __base = _base_0,
     __name = "ScreenCreator"
