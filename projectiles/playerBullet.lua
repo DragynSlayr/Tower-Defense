@@ -8,6 +8,7 @@ do
     __init = function(self, x, y, target)
       _class_0.__parent.__init(self, x, y, target)
       self.sprite = Sprite("enemy/bullet.tga", 26, 20, 1, 0.5)
+      self.damage = 0.1
     end,
     __base = _base_0,
     __name = "PlayerBullet",
