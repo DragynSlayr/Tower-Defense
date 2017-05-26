@@ -6,6 +6,7 @@ require "ui.uiElement"
 --+----------------------+--
 --| Depends on UIElement |--
 --+----------------------+--
+require "ui.background"
 require "ui.button"
 require "ui.text"
 

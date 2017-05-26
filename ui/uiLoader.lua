@@ -1,4 +1,5 @@
 require("ui.uiElement")
+require("ui.background")
 require("ui.button")
 require("ui.text")
 require("ui.ui")
