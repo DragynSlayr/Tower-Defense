@@ -1,7 +1,8 @@
 export class Player extends GameObject
   new: (x, y, sprite) =>
     super x, y, sprite
-    @attack_range = 75
+    bounds = @sprite\getBounds 0, 0
+    @attack_range = bounds.radius + 50
     @max_speed = 275
     @max_turrets = 1
     @num_turrets = 0

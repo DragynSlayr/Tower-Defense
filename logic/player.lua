@@ -202,7 +202,8 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y, sprite)
       _class_0.__parent.__init(self, x, y, sprite)
-      self.attack_range = 75
+      local bounds = self.sprite:getBounds(0, 0)
+      self.attack_range = bounds.radius + 50
       self.max_speed = 275
       self.max_turrets = 1
       self.num_turrets = 0
