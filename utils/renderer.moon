@@ -10,6 +10,7 @@ export class Renderer
     @title_font  = love.graphics.newFont "assets/fonts/opsb.ttf", 70
     @status_font = love.graphics.newFont "assets/fonts/opsb.ttf", 50
     @hud_font    = love.graphics.newFont "assets/fonts/opsb.ttf", 30
+    @small_font  = love.graphics.newFont "assets/fonts/opsb.ttf", 20
 
     for i = 1, 10
       @layers[i] = {}
@@ -73,6 +74,9 @@ export class Renderer
     -- Store transforms
     love.graphics.push "all"
 
+    -- Clear shader
+    love.graphics.setShader!
+
     -- Apply new transforms
     love.graphics.setColor 0, 0, 0
     love.graphics.setFont font
@@ -94,6 +98,9 @@ export class Renderer
   drawAlignedMessage: (message, y, alignment = "center", font = @status_font) =>
     -- Store transforms
     love.graphics.push "all"
+
+    -- Clear shader
+    love.graphics.setShader!
 
     -- Apply new transforms
     love.graphics.setColor 0, 0, 0

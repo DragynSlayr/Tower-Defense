@@ -40,6 +40,7 @@ do
         font = self.hud_font
       end
       love.graphics.push("all")
+      love.graphics.setShader()
       love.graphics.setColor(0, 0, 0)
       love.graphics.setFont(font)
       love.graphics.print(message, x, y)
@@ -62,6 +63,7 @@ do
         font = self.status_font
       end
       love.graphics.push("all")
+      love.graphics.setShader()
       love.graphics.setColor(0, 0, 0)
       love.graphics.setFont(font)
       love.graphics.printf(message, 0, y - (font:getHeight() / 2), love.graphics:getWidth(), alignment)
@@ -77,6 +79,7 @@ do
       self.title_font = love.graphics.newFont("assets/fonts/opsb.ttf", 70)
       self.status_font = love.graphics.newFont("assets/fonts/opsb.ttf", 50)
       self.hud_font = love.graphics.newFont("assets/fonts/opsb.ttf", 30)
+      self.small_font = love.graphics.newFont("assets/fonts/opsb.ttf", 20)
       for i = 1, 10 do
         self.layers[i] = { }
       end
