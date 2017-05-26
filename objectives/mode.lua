@@ -23,6 +23,7 @@ do
         for k, p in pairs(Driver.objects[EntityTypes.player]) do
           p.num_turrets = 0
           p.can_place = true
+          p.health = p.max_health
         end
       end
       if Driver.objects[EntityTypes.bullet] then

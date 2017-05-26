@@ -30,6 +30,7 @@ export class Mode
       for k, p in pairs Driver.objects[EntityTypes.player]
         p.num_turrets = 0
         p.can_place = true
+        p.health = p.max_health
     if Driver.objects[EntityTypes.bullet]
       for k, b in pairs Driver.objects[EntityTypes.bullet]
         Driver\removeObject b, false
