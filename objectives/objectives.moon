@@ -2,7 +2,7 @@ export class Objectives
   new: =>
     @mode = nil
     @elapsed = 0
-    @delay = 10
+    @delay = 3
     @modes = {
       AttackMode @,
       EliminationMode @,
@@ -44,7 +44,8 @@ export class Objectives
       @elapsed += dt
       if @elapsed >= @delay
         @elapsed = 0
-        @nextMode!
+        Driver.game_state = Game_State.upgrading
+        UI\set_screen Screen_State.upgrade
     if start_difficulty ~= @difficulty
       factor = (@difficulty - 1) * 0.02
       @basicChance = MathHelper\clamp 0.80 - factor, 0.20, 0.80

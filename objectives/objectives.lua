@@ -28,7 +28,8 @@ do
         self.elapsed = self.elapsed + dt
         if self.elapsed >= self.delay then
           self.elapsed = 0
-          self:nextMode()
+          Driver.game_state = Game_State.upgrading
+          UI:set_screen(Screen_State.upgrade)
         end
       end
       if start_difficulty ~= self.difficulty then
@@ -133,7 +134,7 @@ do
     __init = function(self)
       self.mode = nil
       self.elapsed = 0
-      self.delay = 10
+      self.delay = 3
       self.modes = {
         AttackMode(self),
         EliminationMode(self),
