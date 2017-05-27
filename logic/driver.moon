@@ -3,8 +3,8 @@ export class Driver
       @objects = {}
       @game_state = Game_State.none
       @state_stack = Stack!
-      @state_stack\add Game_State.main_menu
-      --@state_stack\add Game_State.upgrading
+      --@state_stack\add Game_State.main_menu
+      @state_stack\add Game_State.upgrading
       @elapsed = 0
       love.keypressed = @keypressed
       love.keyreleased = @keyreleased

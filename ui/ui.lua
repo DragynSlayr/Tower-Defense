@@ -52,7 +52,7 @@ do
       self.screens = { }
       self.current_screen = Screen_State.none
       self.state_stack = Stack()
-      self.state_stack:add(Screen_State.main_menu)
+      self.state_stack:add(Screen_State.upgrade)
       for k, v in pairs(Screen_State) do
         self.screens[v] = { }
       end

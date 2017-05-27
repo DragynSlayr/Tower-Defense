@@ -172,7 +172,7 @@ do
       self.objects = { }
       self.game_state = Game_State.none
       self.state_stack = Stack()
-      self.state_stack:add(Game_State.main_menu)
+      self.state_stack:add(Game_State.upgrading)
       self.elapsed = 0
       love.keypressed = self.keypressed
       love.keyreleased = self.keyreleased
