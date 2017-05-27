@@ -34,6 +34,7 @@ export class Mode
     if Driver.objects[EntityTypes.bullet]
       for k, b in pairs Driver.objects[EntityTypes.bullet]
         Driver\removeObject b, false
+    Upgrade\add_point 2
 
   update: (dt) =>
     if not @complete

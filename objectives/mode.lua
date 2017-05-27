@@ -31,6 +31,7 @@ do
           Driver:removeObject(b, false)
         end
       end
+      return Upgrade:add_point(2)
     end,
     update = function(self, dt)
       if not self.complete then
