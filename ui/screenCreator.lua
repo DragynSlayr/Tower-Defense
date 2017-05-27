@@ -59,10 +59,23 @@ do
         local y = 100 + (k * 65)
         UI:add(Text(200, y, v, Renderer.small_font))
         if k ~= 5 then
-          local b = Button(280, y, 30, 30, "+", function()
+          local tt = Tooltip(400, y - 30, "Increase  Player  " .. v .. "  by  " .. Upgrade.amount[1][k], Renderer:newFont(15))
+          local tt2 = Tooltip(Screen_Size.width * 0.9, y, "(+" .. math.abs(Upgrade.amount[1][k]) .. ")", Renderer:newFont(30))
+          tt2.color = {
+            0,
+            225,
+            0,
+            255
+          }
+          local b = TooltipButton(280, y, 30, 30, "+", (function()
             return Upgrade:add_skill(Upgrade_Trees.player_stats, k)
-          end)
+          end), nil, {
+            tt,
+            tt2
+          })
           UI:add(b)
+          UI:add(tt)
+          UI:add(tt2)
         else
           local specials = {
             "1",
@@ -91,10 +104,23 @@ do
         local y = 500 + (k * 65)
         UI:add(Text(200, y, v, Renderer.small_font))
         if k ~= 5 then
-          local b = Button(280, y, 30, 30, "+", function()
+          local tt = Tooltip(400, y - 30, "Increase  Turret  " .. v .. "  by  " .. Upgrade.amount[2][k], Renderer:newFont(15))
+          local tt2 = Tooltip(Screen_Size.width * 0.9, y, "(+" .. math.abs(Upgrade.amount[2][k]) .. ")", Renderer:newFont(30))
+          tt2.color = {
+            0,
+            225,
+            0,
+            255
+          }
+          local b = TooltipButton(280, y, 30, 30, "+", (function()
             return Upgrade:add_skill(Upgrade_Trees.turret_stats, k)
-          end)
+          end), nil, {
+            tt,
+            tt2
+          })
           UI:add(b)
+          UI:add(tt)
+          UI:add(tt2)
         else
           local specials = {
             "1",
