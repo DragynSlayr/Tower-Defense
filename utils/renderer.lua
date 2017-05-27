@@ -1,6 +1,9 @@
 do
   local _class_0
   local _base_0 = {
+    newFont = function(self, size)
+      return love.graphics.newFont("assets/fonts/opsb.ttf", size)
+    end,
     add = function(self, object, layer)
       if self.layers[layer] then
         self.layers[layer][#self.layers[layer] + 1] = object

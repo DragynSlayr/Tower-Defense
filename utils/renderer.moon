@@ -15,6 +15,9 @@ export class Renderer
     for i = 1, 10
       @layers[i] = {}
 
+  newFont: (size) =>
+    return love.graphics.newFont "assets/fonts/opsb.ttf", size
+
   -- Adds an object to the layers
   -- object: The object to add
   -- layer: The layer to add to
