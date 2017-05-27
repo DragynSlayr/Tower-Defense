@@ -13,6 +13,8 @@ require "ui.text"
 --+---------------------+--
 --| Depends on elements |--
 --+---------------------+--
+require "ui.tooltip"
+require "ui.tooltipButton"
 require "ui.ui"
 
 --+----------------------------+--
