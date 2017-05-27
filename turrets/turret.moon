@@ -1,12 +1,22 @@
 export class Turret extends GameObject
   new: (x, y, range, sprite) =>
     super x, y, sprite, 0, 0
-    @range = @sprite\getBounds!.radius + range
+    @base_health = 10
+    @base_range = @sprite\getBounds!.radius + range
+    @base_damage = 0.1
+    @base_cooldown = 20
+
+    @range = @base_range
     @target = nil
     @id = EntityTypes.turret
-    @health = 10
+    @health = @base_health
     @max_health = @health
     @draw_health = false
+
+
+  base_stats: ->
+    t = Turret 0, 0, 250, Sprite "turret.tga", 34, 16, 2, 2.5
+    return {t.base_health, t.base_range, t.base_damage, t.base_cooldown}
 
   getHitBox: =>
     radius = math.max @sprite.scaled_height / 2, @sprite.scaled_width / 2

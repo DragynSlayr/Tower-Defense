@@ -2,6 +2,15 @@ do
   local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
+    base_stats = function()
+      local p = Player(0, 0, Sprite("test.tga", 16, 16, 0.29, 4))
+      return {
+        p.base_health,
+        p.base_range,
+        p.base_damage,
+        p.base_speed
+      }
+    end,
     keypressed = function(self, key)
       if not self.alive then
         return 
@@ -203,8 +212,12 @@ do
     __init = function(self, x, y, sprite)
       _class_0.__parent.__init(self, x, y, sprite)
       local bounds = self.sprite:getBounds(0, 0)
-      self.attack_range = bounds.radius + 50
-      self.max_speed = 275
+      self.base_health = 5
+      self.base_range = bounds.radius + 50
+      self.base_damage = 1
+      self.base_speed = 275
+      self.attack_range = self.base_range
+      self.max_speed = self.base_speed
       self.max_turrets = 1
       self.num_turrets = 0
       self.turret = { }

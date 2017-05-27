@@ -2,6 +2,15 @@ do
   local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
+    base_stats = function()
+      local t = Turret(0, 0, 250, Sprite("turret.tga", 34, 16, 2, 2.5))
+      return {
+        t.base_health,
+        t.base_range,
+        t.base_damage,
+        t.base_cooldown
+      }
+    end,
     getHitBox = function(self)
       local radius = math.max(self.sprite.scaled_height / 2, self.sprite.scaled_width / 2)
       return Circle(self.position.x, self.position.y, radius)
@@ -89,10 +98,14 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y, range, sprite)
       _class_0.__parent.__init(self, x, y, sprite, 0, 0)
-      self.range = self.sprite:getBounds().radius + range
+      self.base_health = 10
+      self.base_range = self.sprite:getBounds().radius + range
+      self.base_damage = 0.1
+      self.base_cooldown = 20
+      self.range = self.base_range
       self.target = nil
       self.id = EntityTypes.turret
-      self.health = 10
+      self.health = self.base_health
       self.max_health = self.health
       self.draw_health = false
     end,

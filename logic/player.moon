@@ -2,8 +2,12 @@ export class Player extends GameObject
   new: (x, y, sprite) =>
     super x, y, sprite
     bounds = @sprite\getBounds 0, 0
-    @attack_range = bounds.radius + 50
-    @max_speed = 275
+    @base_health = 5
+    @base_range = bounds.radius + 50
+    @base_damage = 1
+    @base_speed = 275
+    @attack_range = @base_range
+    @max_speed = @base_speed
     @max_turrets = 1
     @num_turrets = 0
     @turret = {}
@@ -13,6 +17,10 @@ export class Player extends GameObject
     @turret_cooldown = 20
     @keys_pushed = 0
     @draw_health = false
+
+  base_stats: ->
+    p = Player 0, 0, Sprite "test.tga", 16, 16, 0.29, 4
+    return {p.base_health, p.base_range, p.base_damage, p.base_speed}
 
   keypressed: (key) =>
     if not @alive return
