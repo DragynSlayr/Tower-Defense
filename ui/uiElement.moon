@@ -4,6 +4,7 @@ export class UIElement
     @y = y
     @text = text
     @font = font
+    @color = {0, 0, 0, 255}
 
   keypressed: (key, scancode, isrepeat) =>
     return
@@ -25,7 +26,7 @@ export class UIElement
 
   draw: =>
     love.graphics.push "all"
-    love.graphics.setColor 0, 0, 0, 255
+    love.graphics.setColor @color[1], @color[2], @color[3], @color[4]
     love.graphics.setFont @font
     height = @font\getHeight!
     width = @font\getWidth @text

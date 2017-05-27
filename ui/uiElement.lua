@@ -9,7 +9,7 @@ do
     update = function(self, dt) end,
     draw = function(self)
       love.graphics.push("all")
-      love.graphics.setColor(0, 0, 0, 255)
+      love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.color[4])
       love.graphics.setFont(self.font)
       local height = self.font:getHeight()
       local width = self.font:getWidth(self.text)
@@ -27,6 +27,12 @@ do
       self.y = y
       self.text = text
       self.font = font
+      self.color = {
+        0,
+        0,
+        0,
+        255
+      }
     end,
     __base = _base_0,
     __name = "UIElement"
