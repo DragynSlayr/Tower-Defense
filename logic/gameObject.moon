@@ -60,12 +60,14 @@ export class GameObject
     love.graphics.push "all"
     @sprite\draw @position.x, @position.y
     if @draw_health
+      love.graphics.setShader Driver.shader
       love.graphics.setColor 0, 0, 0, 255
       radius = @sprite.scaled_height / 2
       love.graphics.rectangle "fill", (@position.x - radius) - 3, (@position.y + radius) + 3, (radius * 2) + 6, 16
       love.graphics.setColor 0, 255, 0, 255
       ratio = @health / @max_health
       love.graphics.rectangle "fill", @position.x - radius, (@position.y + radius) + 6, (radius * 2) * ratio, 10
+      love.graphics.setShader!
     love.graphics.pop!
 
   isOnScreen: (bounds = Screen_Size.bounds) =>

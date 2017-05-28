@@ -61,12 +61,14 @@ do
       love.graphics.push("all")
       self.sprite:draw(self.position.x, self.position.y)
       if self.draw_health then
+        love.graphics.setShader(Driver.shader)
         love.graphics.setColor(0, 0, 0, 255)
         local radius = self.sprite.scaled_height / 2
         love.graphics.rectangle("fill", (self.position.x - radius) - 3, (self.position.y + radius) + 3, (radius * 2) + 6, 16)
         love.graphics.setColor(0, 255, 0, 255)
         local ratio = self.health / self.max_health
         love.graphics.rectangle("fill", self.position.x - radius, (self.position.y + radius) + 6, (radius * 2) * ratio, 10)
+        love.graphics.setShader()
       end
       return love.graphics.pop()
     end,
