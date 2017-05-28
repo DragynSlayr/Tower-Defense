@@ -96,5 +96,6 @@ export class ScreenCreator
     continue_button = Button Screen_Size.width / 2, Screen_Size.height - 35, 200, 50, "Continue", () ->
       UI\set_screen Screen_State.none
       Driver.game_state = Game_State.playing
+      Driver\respawnPlayers!
       Objectives\nextMode!
     UI\add continue_button
