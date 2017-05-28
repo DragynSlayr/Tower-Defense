@@ -40,6 +40,15 @@ do
         end
       end
     end,
+    respawnPlayers = function(self)
+      if Driver.objects[EntityTypes.player] then
+        for k, p in pairs(Driver.objects[EntityTypes.player]) do
+          local p2 = Player(p.position.x, p.position.y)
+          Driver:removeObject(p, false)
+          Driver:addObject(p2, EntityTypes.player)
+        end
+      end
+    end,
     isClear = function(self)
       local sum = 0
       for k, v in pairs(Driver.objects) do
@@ -110,8 +119,7 @@ do
       Driver.shader = love.graphics.newShader("shaders/distance.fs")
       Driver.shader:send("screen_size", Screen_Size.size)
       ScreenCreator()
-      local player = Player(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2, Sprite("test.tga", 16, 16, 0.29, 4))
-      player.sprite:setRotationSpeed(-math.pi / 2)
+      local player = Player(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
       Driver:addObject(player, EntityTypes.player)
       return Objectives:nextMode()
     end,
