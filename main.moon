@@ -1,4 +1,5 @@
 require "logic.constants"
+require "logic.globals"
 require "logic.classLoader"
 
 -- Enable to show extra info
