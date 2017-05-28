@@ -66,3 +66,7 @@ Screen_Size.border = {
   Screen_Size.width,
   Screen_Size.height - 140
 }
+Screen_Size.size = {
+  Screen_Size.width,
+  Screen_Size.height
+}

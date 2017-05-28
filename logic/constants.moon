@@ -73,3 +73,4 @@ Screen_Size.half_width  = Screen_Size.width / 2
 Screen_Size.half_height = Screen_Size.height / 2
 Screen_Size.bounds      = {0, 0, Screen_Size.width, Screen_Size.height}
 Screen_Size.border      = {0, 70, Screen_Size.width, Screen_Size.height - 140}
+Screen_Size.size        = {Screen_Size.width, Screen_Size.height}
