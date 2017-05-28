@@ -6,18 +6,19 @@ do
       self.skill_points = self.skill_points + num
     end,
     add_skill = function(self, tree, idx)
-      print(tree, idx)
       if self.skill_points >= 1 then
         local _exp_0 = tree
         if Upgrade_Trees.player_stats == _exp_0 then
           if self.player_stats[idx] < self.max_skill then
             self.player_stats[idx] = self.player_stats[idx] + 1
             self.skill_points = self.skill_points - 1
+            Stats.player[idx] = Base_Stats.player[idx] + (self.player_stats[idx] * self.amount[1][idx])
           end
         elseif Upgrade_Trees.turret_stats == _exp_0 then
           if self.turret_stats[idx] < self.max_skill then
             self.turret_stats[idx] = self.turret_stats[idx] + 1
             self.skill_points = self.skill_points - 1
+            Stats.turret[idx] = Base_Stats.turret[idx] + (self.turret_stats[idx] * self.amount[2][idx])
           end
         end
       end
@@ -56,16 +57,11 @@ do
           for i = x, x + width, width / self.max_skill do
             love.graphics.line(i, y, i, y + height)
           end
-          local stats = Player.base_stats()
+          local stats = Stats.player
           if j == 1 then
-            stats = Turret.base_stats()
+            stats = Stats.turret
           end
           local message = stats[i]
-          if j == 0 then
-            message = message + (self.player_stats[i] * self.amount[1][i])
-          else
-            message = message + (self.turret_stats[i] * self.amount[2][i])
-          end
           Renderer:drawHUDMessage(message, Screen_Size.width * 0.8, y)
         end
       end
@@ -77,7 +73,7 @@ do
   _base_0.__index = _base_0
   _class_0 = setmetatable({
     __init = function(self)
-      self.skill_points = 88
+      self.skill_points = 0
       self.max_skill = 6
       self.player_stats = {
         0,

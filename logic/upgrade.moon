@@ -1,6 +1,7 @@
 export class Upgrade
   new: =>
-    @skill_points = 88
+    @skill_points = 0
+    --@skill_points = 88
     @max_skill = 6
 
     @player_stats = {0, 0, 0, 0}
@@ -20,17 +21,18 @@ export class Upgrade
     @skill_points += num
 
   add_skill: (tree, idx) =>
-    print tree, idx
     if @skill_points >= 1
       switch tree
         when Upgrade_Trees.player_stats
           if @player_stats[idx] < @max_skill
             @player_stats[idx] += 1
             @skill_points -= 1
+            Stats.player[idx] = Base_Stats.player[idx] + (@player_stats[idx] * @amount[1][idx])
         when Upgrade_Trees.turret_stats
           if @turret_stats[idx] < @max_skill
             @turret_stats[idx] += 1
             @skill_points -= 1
+            Stats.turret[idx] = Base_Stats.turret[idx] + (@turret_stats[idx] * @amount[2][idx])
     if @skill_points >= 5
       switch tree
         when Upgrade_Trees.player_special
@@ -64,15 +66,11 @@ export class Upgrade
         for i = x, x + width, width / @max_skill
           love.graphics.line i, y, i, y + height
 
-        stats = Player.base_stats!
+        stats = Stats.player
         if j == 1
-          stats = Turret.base_stats!
+          stats = Stats.turret
 
         message = stats[i]
-        if j == 0
-          message += (@player_stats[i] * @amount[1][i])
-        else
-          message += (@turret_stats[i] * @amount[2][i])
         Renderer\drawHUDMessage message, Screen_Size.width * 0.8, y
 
     message = "Skill Points: " .. @skill_points
