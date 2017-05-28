@@ -3,8 +3,8 @@ export class Driver
       @objects = {}
       @game_state = Game_State.none
       @state_stack = Stack!
-      --@state_stack\add Game_State.main_menu
-      @state_stack\add Game_State.upgrading
+      @state_stack\add Game_State.main_menu
+      --@state_stack\add Game_State.upgrading
       @elapsed = 0
       love.keypressed = @keypressed
       love.keyreleased = @keyreleased
@@ -98,7 +98,8 @@ export class Driver
       UI\set_screen Screen_State.game_over
 
     load: (arg) ->
-      Driver.shader = love.graphics.newShader "shaders/normal.fs"
+      Driver.shader = love.graphics.newShader "shaders/distance.fs"
+      Driver.shader\send "screen_size", Screen_Size.size
 
       ScreenCreator!
 
@@ -111,6 +112,9 @@ export class Driver
 
     update: (dt) ->
       Driver.elapsed += dt
+      if Driver.objects[EntityTypes.player]
+        for k, v in pairs Driver.objects[EntityTypes.player]
+          Driver.shader\send "player_pos", {v.position.x, v.position.y}
       --alpha = math.cos Driver.elapsed
       --alpha = math.abs alpha
       --Driver.shader\send "alpha", alpha
@@ -133,6 +137,12 @@ export class Driver
 
     draw: ->
       love.graphics.push "all"
+      love.graphics.setShader Driver.shader
+      love.graphics.setColor 75, 163, 255, 255
+      love.graphics.rectangle "fill", 0, 0, Screen_Size.width, Screen_Size.height
+      love.graphics.setShader!
+      love.graphics.pop!
+      love.graphics.push "all"
       UI\draw!
       switch Driver.game_state
         when Game_State.playing
@@ -144,10 +154,8 @@ export class Driver
           love.graphics.pop!
 
           Renderer\drawAlignedMessage SCORE .. "\t", 20, "right", Renderer.hud_font
-          love.graphics.setShader Driver.shader
           Renderer\drawAll!
           Objectives\draw!
-          love.graphics.setShader!
         when Game_State.upgrading
           Upgrade\draw!
       if DEBUGGING

@@ -107,7 +107,8 @@ do
       return UI:set_screen(Screen_State.game_over)
     end,
     load = function(arg)
-      Driver.shader = love.graphics.newShader("shaders/normal.fs")
+      Driver.shader = love.graphics.newShader("shaders/distance.fs")
+      Driver.shader:send("screen_size", Screen_Size.size)
       ScreenCreator()
       local player = Player(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2, Sprite("test.tga", 16, 16, 0.29, 4))
       player.sprite:setRotationSpeed(-math.pi / 2)
@@ -116,6 +117,14 @@ do
     end,
     update = function(dt)
       Driver.elapsed = Driver.elapsed + dt
+      if Driver.objects[EntityTypes.player] then
+        for k, v in pairs(Driver.objects[EntityTypes.player]) do
+          Driver.shader:send("player_pos", {
+            v.position.x,
+            v.position.y
+          })
+        end
+      end
       local _exp_0 = Driver.game_state
       if Game_State.game_over == _exp_0 then
         return 
@@ -138,6 +147,12 @@ do
     end,
     draw = function()
       love.graphics.push("all")
+      love.graphics.setShader(Driver.shader)
+      love.graphics.setColor(75, 163, 255, 255)
+      love.graphics.rectangle("fill", 0, 0, Screen_Size.width, Screen_Size.height)
+      love.graphics.setShader()
+      love.graphics.pop()
+      love.graphics.push("all")
       UI:draw()
       local _exp_0 = Driver.game_state
       if Game_State.playing == _exp_0 then
@@ -148,10 +163,8 @@ do
         love.graphics.rectangle("fill", 0, bounds[2] + bounds[4], bounds[3], bounds[2])
         love.graphics.pop()
         Renderer:drawAlignedMessage(SCORE .. "\t", 20, "right", Renderer.hud_font)
-        love.graphics.setShader(Driver.shader)
         Renderer:drawAll()
         Objectives:draw()
-        love.graphics.setShader()
       elseif Game_State.upgrading == _exp_0 then
         Upgrade:draw()
       end
@@ -172,7 +185,7 @@ do
       self.objects = { }
       self.game_state = Game_State.none
       self.state_stack = Stack()
-      self.state_stack:add(Game_State.upgrading)
+      self.state_stack:add(Game_State.main_menu)
       self.elapsed = 0
       love.keypressed = self.keypressed
       love.keyreleased = self.keyreleased
