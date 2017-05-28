@@ -2,15 +2,6 @@ do
   local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
-    base_stats = function()
-      local p = Player(0, 0, Sprite("test.tga", 16, 16, 0.29, 4))
-      return {
-        p.base_health,
-        p.base_range,
-        p.base_damage,
-        p.base_speed
-      }
-    end,
     keypressed = function(self, key)
       if not self.alive then
         return 
@@ -119,7 +110,7 @@ do
           local player = self:getHitBox()
           player.radius = player.radius + self.attack_range
           if enemy:contains(player) then
-            local bullet = PlayerBullet(self.position.x, self.position.y, v)
+            local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
             Driver:addObject(bullet, EntityTypes.bullet)
           end
         end
@@ -131,7 +122,7 @@ do
             local player = self:getHitBox()
             player.radius = player.radius + self.attack_range
             if goal:contains(player) then
-              local bullet = PlayerBullet(self.position.x, self.position.y, v)
+              local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
               Driver:addObject(bullet, EntityTypes.bullet)
             end
           end
@@ -202,31 +193,31 @@ do
     end,
     kill = function(self)
       _class_0.__parent.kill(self)
-      local player = Player(self.position.x, self.position.y, self.sprite)
+      local player = Player(self.position.x, self.position.y)
       return Driver:addObject(player, EntityTypes.player)
     end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y, sprite)
+    __init = function(self, x, y)
+      local sprite = Sprite("test.tga", 16, 16, 0.29, 4)
       _class_0.__parent.__init(self, x, y, sprite)
-      local bounds = self.sprite:getBounds(0, 0)
-      self.base_health = 5
-      self.base_range = bounds.radius + 50
-      self.base_damage = 1
-      self.base_speed = 275
-      self.attack_range = self.base_range
-      self.max_speed = self.base_speed
+      self.sprite:setRotationSpeed(-math.pi / 2)
+      self.max_health = Stats.player[1]
+      self.attack_range = Stats.player[2]
+      self.damage = Stats.player[3]
+      self.max_speed = Stats.player[4]
+      self.turret_cooldown = Stats.turret[4]
+      self.health = self.max_health
+      self.repair_range = 30
+      self.keys_pushed = 0
+      self.id = EntityTypes.player
+      self.draw_health = false
+      self.can_place = true
       self.max_turrets = 1
       self.num_turrets = 0
       self.turret = { }
-      self.id = EntityTypes.player
-      self.repair_range = 30
-      self.can_place = true
-      self.turret_cooldown = 20
-      self.keys_pushed = 0
-      self.draw_health = false
     end,
     __base = _base_0,
     __name = "Player",

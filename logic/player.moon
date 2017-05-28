@@ -1,26 +1,25 @@
 export class Player extends GameObject
-  new: (x, y, sprite) =>
+  new: (x, y) =>
+    sprite = Sprite "test.tga", 16, 16, 0.29, 4
     super x, y, sprite
-    bounds = @sprite\getBounds 0, 0
-    @base_health = 5
-    @base_range = bounds.radius + 50
-    @base_damage = 1
-    @base_speed = 275
-    @attack_range = @base_range
-    @max_speed = @base_speed
+    @sprite\setRotationSpeed -math.pi / 2
+
+    @max_health      = Stats.player[1]
+    @attack_range    = Stats.player[2]
+    @damage          = Stats.player[3]
+    @max_speed       = Stats.player[4]
+    @turret_cooldown = Stats.turret[4]
+    @health = @max_health
+    @repair_range = 30
+    @keys_pushed = 0
+
+    @id = EntityTypes.player
+    @draw_health = false
+
+    @can_place = true
     @max_turrets = 1
     @num_turrets = 0
     @turret = {}
-    @id = EntityTypes.player
-    @repair_range = 30
-    @can_place = true
-    @turret_cooldown = 20
-    @keys_pushed = 0
-    @draw_health = false
-
-  base_stats: ->
-    p = Player 0, 0, Sprite "test.tga", 16, 16, 0.29, 4
-    return {p.base_health, p.base_range, p.base_damage, p.base_speed}
 
   keypressed: (key) =>
     if not @alive return
@@ -98,7 +97,7 @@ export class Player extends GameObject
         player = @getHitBox!
         player.radius += @attack_range
         if enemy\contains player
-          bullet = PlayerBullet @position.x, @position.y, v
+          bullet = PlayerBullet @position.x, @position.y, v, @damage
           Driver\addObject bullet, EntityTypes.bullet
     if Driver.objects[EntityTypes.goal]
       for k, v in pairs Driver.objects[EntityTypes.goal]
@@ -107,7 +106,7 @@ export class Player extends GameObject
           player = @getHitBox!
           player.radius += @attack_range
           if goal\contains player
-            bullet = PlayerBullet @position.x, @position.y, v
+            bullet = PlayerBullet @position.x, @position.y, v, @damage
             Driver\addObject bullet, EntityTypes.bullet
     if @show_turret
       turret = BasicTurret @position.x, @position.y
@@ -165,5 +164,5 @@ export class Player extends GameObject
   kill: =>
     super\kill!
     --Driver.game_over!
-    player = Player @position.x, @position.y, @sprite
+    player = Player @position.x, @position.y
     Driver\addObject player, EntityTypes.player
