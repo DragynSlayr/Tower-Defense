@@ -34,6 +34,7 @@ do
     end,
     draw = function(self, x, y)
       love.graphics.push("all")
+      love.graphics.setShader(Driver.shader)
       if self.color then
         love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.color[4])
       end
@@ -43,6 +44,7 @@ do
         local circle = self:getBounds(x, y)
         love.graphics.circle("line", circle.center.x, circle.center.y, circle.radius, 360)
       end
+      love.graphics.setShader()
       return love.graphics.pop()
     end
   }
