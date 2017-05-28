@@ -19,13 +19,6 @@ do
           Driver:removeObject(t, false)
         end
       end
-      if Driver.objects[EntityTypes.player] then
-        for k, p in pairs(Driver.objects[EntityTypes.player]) do
-          p.num_turrets = 0
-          p.can_place = true
-          p.health = p.max_health
-        end
-      end
       if Driver.objects[EntityTypes.bullet] then
         for k, b in pairs(Driver.objects[EntityTypes.bullet]) do
           Driver:removeObject(b, false)
