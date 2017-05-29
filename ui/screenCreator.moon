@@ -58,8 +58,18 @@ export class ScreenCreator
       y = 100 + (k * 65)
       UI\add Text 200, y, v, Renderer.small_font
       if k ~= 5
-        tt = Tooltip 400, y - 30, "Increase  Player  " .. v .. "  by  " .. Upgrade.amount[1][k], Renderer\newFont 15
-        tt2 = Tooltip Screen_Size.width * 0.9, y, "(+" .. math.abs(Upgrade.amount[1][k]) .. ")", Renderer\newFont 30
+        message = "  Player  " .. v .. "  by  " .. math.abs Upgrade.amount[1][k]
+        if Upgrade.amount[1][k] < 0
+          message = "Decrease" .. message
+        else
+          message = "Increase" .. message
+        tt = Tooltip 400, y - 30, message, Renderer\newFont 15
+        m2 = "("
+        if Upgrade.amount[1][k] < 0
+          m2 ..= "-"
+        else
+          m2 ..= "+"
+        tt2 = Tooltip Screen_Size.width * 0.9, y, m2 .. math.abs(Upgrade.amount[1][k]) .. ")", Renderer\newFont 30
         tt2.color = {0, 225, 0, 255}
         b = TooltipButton 280, y, 30, 30, "+", (() -> Upgrade\add_skill Upgrade_Trees.player_stats, k), nil, {tt, tt2}
         UI\add b
@@ -70,6 +80,7 @@ export class ScreenCreator
         for k, v in pairs specials
           x = 280 + ((k - 1) * 100)
           b = Button x, y, 50, 30, v, () -> Upgrade\add_skill Upgrade_Trees.player_special, k
+          b\autoResize 50, 30
           UI\add b
 
     UI\add Text 100, 500, "Turret", Renderer.hud_font
@@ -79,8 +90,18 @@ export class ScreenCreator
       y = 500 + (k * 65)
       UI\add Text 200, y, v, Renderer.small_font
       if k ~= 5
-        tt = Tooltip 400, y - 30, "Increase  Turret  " .. v .. "  by  " .. Upgrade.amount[2][k], Renderer\newFont 15
-        tt2 = Tooltip Screen_Size.width * 0.9, y, "(+" .. math.abs(Upgrade.amount[2][k]) .. ")", Renderer\newFont 30
+        message = "  Turret  " .. v .. "  by  " .. math.abs Upgrade.amount[2][k]
+        if Upgrade.amount[2][k] < 0
+          message = "Decrease" .. message
+        else
+          message = "Increase" .. message
+        tt = Tooltip 400, y - 30, message, Renderer\newFont 15
+        m2 = "("
+        if Upgrade.amount[2][k] < 0
+          m2 ..= "-"
+        else
+          m2 ..= "+"
+        tt2 = Tooltip Screen_Size.width * 0.9, y, m2 .. math.abs(Upgrade.amount[2][k]) .. ")", Renderer\newFont 30
         tt2.color = {0, 225, 0, 255}
         b = TooltipButton 280, y, 30, 30, "+", (() -> Upgrade\add_skill Upgrade_Trees.turret_stats, k), nil, {tt, tt2}
         UI\add b
@@ -91,6 +112,7 @@ export class ScreenCreator
         for k, v in pairs specials
           x = 280 + ((k - 1) * 100)
           b = Button x, y, 50, 30, v, () -> Upgrade\add_skill Upgrade_Trees.turret_special, k
+          b\autoResize 50, 30
           UI\add b
 
     continue_button = Button Screen_Size.width / 2, Screen_Size.height - 35, 200, 50, "Continue", () ->

@@ -59,8 +59,20 @@ do
         local y = 100 + (k * 65)
         UI:add(Text(200, y, v, Renderer.small_font))
         if k ~= 5 then
-          local tt = Tooltip(400, y - 30, "Increase  Player  " .. v .. "  by  " .. Upgrade.amount[1][k], Renderer:newFont(15))
-          local tt2 = Tooltip(Screen_Size.width * 0.9, y, "(+" .. math.abs(Upgrade.amount[1][k]) .. ")", Renderer:newFont(30))
+          local message = "  Player  " .. v .. "  by  " .. math.abs(Upgrade.amount[1][k])
+          if Upgrade.amount[1][k] < 0 then
+            message = "Decrease" .. message
+          else
+            message = "Increase" .. message
+          end
+          local tt = Tooltip(400, y - 30, message, Renderer:newFont(15))
+          local m2 = "("
+          if Upgrade.amount[1][k] < 0 then
+            m2 = m2 .. "-"
+          else
+            m2 = m2 .. "+"
+          end
+          local tt2 = Tooltip(Screen_Size.width * 0.9, y, m2 .. math.abs(Upgrade.amount[1][k]) .. ")", Renderer:newFont(30))
           tt2.color = {
             0,
             225,
@@ -88,6 +100,7 @@ do
             local b = Button(x, y, 50, 30, v, function()
               return Upgrade:add_skill(Upgrade_Trees.player_special, k)
             end)
+            b:autoResize(50, 30)
             UI:add(b)
           end
         end
@@ -104,8 +117,20 @@ do
         local y = 500 + (k * 65)
         UI:add(Text(200, y, v, Renderer.small_font))
         if k ~= 5 then
-          local tt = Tooltip(400, y - 30, "Increase  Turret  " .. v .. "  by  " .. Upgrade.amount[2][k], Renderer:newFont(15))
-          local tt2 = Tooltip(Screen_Size.width * 0.9, y, "(+" .. math.abs(Upgrade.amount[2][k]) .. ")", Renderer:newFont(30))
+          local message = "  Turret  " .. v .. "  by  " .. math.abs(Upgrade.amount[2][k])
+          if Upgrade.amount[2][k] < 0 then
+            message = "Decrease" .. message
+          else
+            message = "Increase" .. message
+          end
+          local tt = Tooltip(400, y - 30, message, Renderer:newFont(15))
+          local m2 = "("
+          if Upgrade.amount[2][k] < 0 then
+            m2 = m2 .. "-"
+          else
+            m2 = m2 .. "+"
+          end
+          local tt2 = Tooltip(Screen_Size.width * 0.9, y, m2 .. math.abs(Upgrade.amount[2][k]) .. ")", Renderer:newFont(30))
           tt2.color = {
             0,
             225,
@@ -133,6 +158,7 @@ do
             local b = Button(x, y, 50, 30, v, function()
               return Upgrade:add_skill(Upgrade_Trees.turret_special, k)
             end)
+            b:autoResize(50, 30)
             UI:add(b)
           end
         end
