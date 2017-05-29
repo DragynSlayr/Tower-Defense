@@ -39,6 +39,12 @@ export class Button extends UIElement
     @hover_sprite = hover
     @sprited = true
 
+  autoResize: (max_width, max_height, x_border = 20, y_border = x_border) =>
+    width = @font\getWidth @text
+    @width = math.min width + x_border, max_width
+    height = @font\getHeight!
+    @height = math.min height + y_border, max_height
+
   -- Checks if a Point is in the Button
   -- x: X coordinate of the Point
   -- y: Y coordinate of the Point

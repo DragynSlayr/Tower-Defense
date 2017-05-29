@@ -11,6 +11,18 @@ do
       self.hover_sprite = hover
       self.sprited = true
     end,
+    autoResize = function(self, max_width, max_height, x_border, y_border)
+      if x_border == nil then
+        x_border = 20
+      end
+      if y_border == nil then
+        y_border = x_border
+      end
+      local width = self.font:getWidth(self.text)
+      self.width = math.min(width + x_border, max_width)
+      local height = self.font:getHeight()
+      self.height = math.min(height + y_border, max_height)
+    end,
     isHovering = function(self, x, y)
       local xOn = self.x <= x and self.x + self.width >= x
       local yOn = self.y <= y and self.y + self.height >= y
