@@ -35,6 +35,7 @@ export class Mode
       for k, b in pairs Driver.objects[EntityTypes.bullet]
         Driver\removeObject b, false
     Upgrade\add_point 2
+    @parent.shader = nil
 
   update: (dt) =>
     if not @complete
