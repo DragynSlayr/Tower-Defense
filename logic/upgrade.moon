@@ -1,7 +1,7 @@
 export class Upgrade
   new: =>
-    --@skill_points = 0
-    @skill_points = 88
+    @skill_points = 0
+    --@skill_points = 88
     @max_skill = 6
 
     @player_stats = {0, 0, 0, 0}

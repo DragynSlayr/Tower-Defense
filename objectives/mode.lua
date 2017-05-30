@@ -24,7 +24,20 @@ do
           Driver:removeObject(b, false)
         end
       end
-      Upgrade:add_point(2)
+      local hit = false
+      if Driver.objects[EntityTypes.player] then
+        for k, p in pairs(Driver.objects[EntityTypes.player]) do
+          if p.hit then
+            hit = true
+            break
+          end
+        end
+      end
+      if not hit then
+        Upgrade:add_point(3)
+      else
+        Upgrade:add_point(2)
+      end
       self.parent.shader = nil
     end,
     update = function(self, dt)

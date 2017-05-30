@@ -34,7 +34,16 @@ export class Mode
     if Driver.objects[EntityTypes.bullet]
       for k, b in pairs Driver.objects[EntityTypes.bullet]
         Driver\removeObject b, false
-    Upgrade\add_point 2
+    hit = false
+    if Driver.objects[EntityTypes.player]
+      for k, p in pairs Driver.objects[EntityTypes.player]
+        if p.hit
+          hit = true
+          break
+    if not hit
+      Upgrade\add_point 3
+    else
+      Upgrade\add_point 2
     @parent.shader = nil
 
   update: (dt) =>

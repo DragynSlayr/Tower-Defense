@@ -12,6 +12,7 @@ export class Player extends GameObject
     @health = @max_health
     @repair_range = 30
     @keys_pushed = 0
+    @hit = false
 
     @id = EntityTypes.player
     @draw_health = false
@@ -20,6 +21,10 @@ export class Player extends GameObject
     @max_turrets = 1
     @num_turrets = 0
     @turret = {}
+
+  onCollide: (object) =>
+    super object
+    @hit = true
 
   keypressed: (key) =>
     if not @alive return

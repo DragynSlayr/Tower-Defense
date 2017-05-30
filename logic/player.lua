@@ -2,6 +2,10 @@ do
   local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
+    onCollide = function(self, object)
+      _class_0.__parent.__base.onCollide(self, object)
+      self.hit = true
+    end,
     keypressed = function(self, key)
       if not self.alive then
         return 
@@ -221,6 +225,7 @@ do
       self.health = self.max_health
       self.repair_range = 30
       self.keys_pushed = 0
+      self.hit = false
       self.id = EntityTypes.player
       self.draw_health = false
       self.can_place = true

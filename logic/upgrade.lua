@@ -73,7 +73,7 @@ do
   _base_0.__index = _base_0
   _class_0 = setmetatable({
     __init = function(self)
-      self.skill_points = 88
+      self.skill_points = 0
       self.max_skill = 6
       self.player_stats = {
         0,
