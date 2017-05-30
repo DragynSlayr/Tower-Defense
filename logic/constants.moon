@@ -24,6 +24,7 @@ export GoalTypes = {}
 
 GoalTypes.attack = "Attack"
 GoalTypes.defend = "Defend"
+GoalTypes.find   = "Find"
 
 export EnemyTypes = {}
 

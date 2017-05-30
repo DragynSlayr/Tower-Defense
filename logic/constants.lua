@@ -19,6 +19,7 @@ EntityTypes.layers[EntityTypes.goal] = 3
 GoalTypes = { }
 GoalTypes.attack = "Attack"
 GoalTypes.defend = "Defend"
+GoalTypes.find = "Find"
 EnemyTypes = { }
 EnemyTypes.player = "PlayerEnemy"
 EnemyTypes.turret = "TurretEnemy"
