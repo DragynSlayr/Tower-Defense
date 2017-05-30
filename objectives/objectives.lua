@@ -40,6 +40,7 @@ do
         self.strongChance = MathHelper:clamp(0.05 + (factor / 4), 0.05, 0.20)
         self.spawnerChance = MathHelper:clamp(0.05 + (factor / 4), 0.05, 0.20)
       end
+      Driver.shader = self.shader
     end,
     draw = function(self)
       if not self.mode.complete then
@@ -106,6 +107,8 @@ do
         enemy = AttackGoal(x, y)
       elseif GoalTypes.defend == _exp_0 then
         enemy = DefendGoal(x, y)
+      elseif GoalTypes.find == _exp_0 then
+        enemy = FindGoal(x, y)
       end
       local touching = false
       for k, v in pairs(Driver.objects) do
@@ -121,7 +124,7 @@ do
       if touching or not enemy:isOnScreen(Screen_Size.border) then
         return self:spawn(typeof, i + 1)
       else
-        if typeof == GoalTypes.attack or typeof == GoalTypes.defend then
+        if typeof == GoalTypes.attack or typeof == GoalTypes.defend or typeof == GoalTypes.find then
           return Driver:addObject(enemy, EntityTypes.goal)
         else
           return Driver:addObject(enemy, EntityTypes.enemy)
@@ -138,7 +141,8 @@ do
       self.modes = {
         AttackMode(self),
         EliminationMode(self),
-        DefendMode(self)
+        DefendMode(self),
+        DarkMode(self)
       }
       self.num_modes = #self.modes
       MathHelper:shuffle(self.modes)
@@ -149,6 +153,7 @@ do
       self.turretChance = 0.05
       self.strongChance = 0.05
       self.spawnerChance = 0.05
+      self.shader = nil
     end,
     __base = _base_0,
     __name = "Objectives"

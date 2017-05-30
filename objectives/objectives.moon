@@ -6,7 +6,8 @@ export class Objectives
     @modes = {
       AttackMode @,
       EliminationMode @,
-      DefendMode @
+      DefendMode @,
+      DarkMode @
     }
     @num_modes = #@modes
     MathHelper\shuffle @modes
@@ -17,6 +18,7 @@ export class Objectives
     @turretChance = 0.05
     @strongChance = 0.05
     @spawnerChance = 0.05
+    @shader = nil
 
   nextMode: =>
     @counter += 1
@@ -53,6 +55,7 @@ export class Objectives
       @turretChance = MathHelper\clamp 0.05 + (factor / 4), 0.05, 0.20
       @strongChance = MathHelper\clamp 0.05 + (factor / 4), 0.05, 0.20
       @spawnerChance = MathHelper\clamp 0.05 + (factor / 4), 0.05, 0.20
+    Driver.shader = @shader
 
   draw: =>
     if not @mode.complete
@@ -98,6 +101,8 @@ export class Objectives
         AttackGoal x, y
       when GoalTypes.defend
         DefendGoal x, y
+      when GoalTypes.find
+        FindGoal x, y
     touching = false
     for k, v in pairs Driver.objects
       for k2, o in pairs v
@@ -109,7 +114,7 @@ export class Objectives
     if touching or not enemy\isOnScreen Screen_Size.border
       @spawn typeof, i + 1
     else
-      if typeof == GoalTypes.attack or typeof == GoalTypes.defend
+      if typeof == GoalTypes.attack or typeof == GoalTypes.defend or typeof == GoalTypes.find
         Driver\addObject enemy, EntityTypes.goal
       else
         --print enemy\__tostring!
