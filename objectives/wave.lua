@@ -18,6 +18,7 @@ do
         love.graphics.push("all")
         local message = (self.delay - math.floor(self.elapsed))
         Renderer:drawStatusMessage(message, love.graphics.getHeight() / 2, Renderer.giant_font)
+        Renderer:drawAlignedMessage("Next wave in: " .. message .. "\t", 50, "right", Renderer.hud_font)
         return love.graphics.pop()
       end
     end
