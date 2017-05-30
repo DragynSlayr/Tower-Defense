@@ -20,6 +20,9 @@ do
   _base_0.__index = _base_0
   _class_0 = setmetatable({
     __init = function(self, x, y, text, font)
+      if text == nil then
+        text = ""
+      end
       if font == nil then
         font = Renderer.status_font
       end
