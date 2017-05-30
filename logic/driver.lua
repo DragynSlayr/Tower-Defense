@@ -116,8 +116,6 @@ do
       return UI:set_screen(Screen_State.game_over)
     end,
     load = function(arg)
-      Driver.shader = love.graphics.newShader("shaders/distance.fs")
-      Driver.shader:send("screen_size", Screen_Size.size)
       ScreenCreator()
       local player = Player(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
       Driver:addObject(player, EntityTypes.player)
@@ -125,14 +123,6 @@ do
     end,
     update = function(dt)
       Driver.elapsed = Driver.elapsed + dt
-      if Driver.objects[EntityTypes.player] then
-        for k, v in pairs(Driver.objects[EntityTypes.player]) do
-          Driver.shader:send("player_pos", {
-            v.position.x,
-            v.position.y
-          })
-        end
-      end
       local _exp_0 = Driver.game_state
       if Game_State.game_over == _exp_0 then
         return 
@@ -151,7 +141,10 @@ do
       elseif Game_State.upgrading == _exp_0 then
         Upgrade:update(dt)
       end
-      return UI:update(dt)
+      UI:update(dt)
+      if not Driver.shader then
+        Driver.shader = love.graphics.newShader("shaders/normal.fs")
+      end
     end,
     draw = function()
       love.graphics.push("all")
@@ -195,6 +188,7 @@ do
       self.state_stack = Stack()
       self.state_stack:add(Game_State.main_menu)
       self.elapsed = 0
+      self.shader = nil
       love.keypressed = self.keypressed
       love.keyreleased = self.keyreleased
       love.mousepressed = self.mousepressed

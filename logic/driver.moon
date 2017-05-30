@@ -6,6 +6,7 @@ export class Driver
       @state_stack\add Game_State.main_menu
       --@state_stack\add Game_State.upgrading
       @elapsed = 0
+      @shader = nil
       love.keypressed = @keypressed
       love.keyreleased = @keyreleased
       love.mousepressed = @mousepressed
@@ -105,8 +106,9 @@ export class Driver
       UI\set_screen Screen_State.game_over
 
     load: (arg) ->
-      Driver.shader = love.graphics.newShader "shaders/distance.fs"
-      Driver.shader\send "screen_size", Screen_Size.size
+      --Driver.shader = love.graphics.newShader "shaders/map.fs"
+      --Driver.shader = love.graphics.newShader "shaders/distance.fs"
+      --Driver.shader\send "screen_size", Screen_Size.size
 
       ScreenCreator!
 
@@ -119,13 +121,17 @@ export class Driver
 
     update: (dt) ->
       Driver.elapsed += dt
-      if Driver.objects[EntityTypes.player]
-        for k, v in pairs Driver.objects[EntityTypes.player]
-          Driver.shader\send "player_pos", {v.position.x, v.position.y}
+      --if Driver.objects[EntityTypes.player]
+      --  for k, v in pairs Driver.objects[EntityTypes.player]
+      --    Driver.shader\send "player_pos", {v.position.x, v.position.y}
+
       --alpha = math.cos Driver.elapsed
       --alpha = math.abs alpha
       --Driver.shader\send "alpha", alpha
       --print love.mouse.getPosition!
+
+      --Driver.shader\send "time", Driver.elapsed
+
       switch Driver.game_state
         when Game_State.game_over
           return
@@ -141,6 +147,9 @@ export class Driver
         when Game_State.upgrading
           Upgrade\update dt
       UI\update dt
+
+      if not Driver.shader
+        Driver.shader = love.graphics.newShader "shaders/normal.fs"
 
     draw: ->
       love.graphics.push "all"
