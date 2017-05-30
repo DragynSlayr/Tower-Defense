@@ -47,12 +47,12 @@ pick = function(list)
   return list[num]
 end
 map = function(value, low, high, newLow, newHigh)
-  local a = high - low
-  local b = newHigh - newLow
-  if a == 0 or b == 0 or value == 0 then
+  local b = (high - low)
+  if b == 0 then
     return 0
   else
-    return (value * b) / a
+    local a = (value - low) * (newHigh - newLow)
+    return (a / b) + newLow
   end
 end
 ljust = function(str, length)

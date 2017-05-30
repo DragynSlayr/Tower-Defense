@@ -72,12 +72,12 @@ export pick = (list) ->
 -- newLow: New lowest value
 -- newHigh: New highest value
 export map = (value, low, high, newLow, newHigh) ->
-  a = high - low
-  b = newHigh - newLow
-  if a == 0 or b == 0 or value == 0
+  b = (high - low)
+  if b == 0
     return 0
   else
-    return (value * b) / a
+    a = (value - low) * (newHigh - newLow)
+    return (a / b) + newLow
 
 export ljust = (str, length) ->
   str = tostring str
