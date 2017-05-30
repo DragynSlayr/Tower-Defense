@@ -9,6 +9,7 @@ require "ui.uiElement"
 require "ui.background"
 require "ui.button"
 require "ui.text"
+require "ui.icon"
 
 --+---------------------+--
 --| Depends on elements |--
