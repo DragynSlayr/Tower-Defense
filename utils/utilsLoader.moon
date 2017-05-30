@@ -3,6 +3,7 @@
 --+---------------+--
 require "utils.renderer"
 require "utils.color"
+require "utils.utils"
 require "utils.sound"
 require "utils.linkedList"
 
@@ -22,7 +23,6 @@ require "utils.stack"
 require "utils.vector"
 require "utils.point"
 require "utils.circle"
-require "utils.mathHelper"
 
 --+-------------------------+--
 --| Depends on math classes |--

@@ -62,7 +62,7 @@ export class Player extends GameObject
           player.radius += @repair_range
           if turret\contains player
             v.health += 1
-            v.health = MathHelper\clamp v.health, 0, v.max_health
+            v.health = clamp v.health, 0, v.max_health
     elseif key == "z"
       export SHOW_RANGE = not SHOW_RANGE
     elseif key == "`"
@@ -135,7 +135,7 @@ export class Player extends GameObject
     love.graphics.setColor 255, 255, 255, 255
     love.graphics.rectangle "fill", 9, love.graphics.getHeight! - 52, 202, 43
 
-    remaining = MathHelper\clamp @turret_cooldown - @elapsed, 0, @turret_cooldown
+    remaining = clamp @turret_cooldown - @elapsed, 0, @turret_cooldown
     remaining = math.floor remaining
     love.graphics.setColor 0, 0, 0, 255
     love.graphics.rectangle "fill", 10, love.graphics.getHeight! - 51, 200, 20

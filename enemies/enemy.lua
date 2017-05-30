@@ -29,7 +29,7 @@ do
       if dist < love.graphics.getWidth() / 4 then
         self.speed = Vector(self.target.position.x - self.position.x, self.target.position.y - self.position.y)
         self.speed:toUnitVector()
-        self.speed = self.speed:multiply(MathHelper:clamp(self.speed_multiplier, 0, self.max_speed))
+        self.speed = self.speed:multiply(clamp(self.speed_multiplier, 0, self.max_speed))
         self.speed_multiplier = self.speed_multiplier + 1
         _class_0.__parent.__base.update(self, dt)
         local vec = Vector(0, 0)
@@ -62,7 +62,7 @@ do
           end
         end
         self.speed:toUnitVector()
-        self.speed = self.speed:multiply(MathHelper:clamp(self.speed_multiplier, 0, self.max_speed))
+        self.speed = self.speed:multiply(clamp(self.speed_multiplier, 0, self.max_speed))
         self.speed_multiplier = self.speed_multiplier + 1
         _class_0.__parent.__base.update(self, dt)
         local vec = Vector(0, 0)

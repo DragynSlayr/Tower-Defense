@@ -14,9 +14,6 @@ export SCORE = 0
 --love.graphics.setBackgroundColor 75, 163, 255, 255
 love.graphics.setDefaultFilter "nearest", "nearest", 1
 
--- Global MathHelper
-export MathHelper = MathHelper!
-
 -- Global MusicHandler
 export MusicHandler = MusicHandler!
 

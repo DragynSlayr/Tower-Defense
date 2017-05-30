@@ -34,8 +34,8 @@ export class GameObject
     @elapsed += dt
     @position\add @speed\multiply dt
     radius = @getHitBox!.radius
-    @position.x = MathHelper\clamp @position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius
-    @position.y = MathHelper\clamp @position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius
+    @position.x = clamp @position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius
+    @position.y = clamp @position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius
     if @id == EntityTypes.bullet
       return
     for k, v in pairs Driver.objects

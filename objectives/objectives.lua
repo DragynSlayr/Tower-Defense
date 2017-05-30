@@ -8,7 +8,7 @@ do
         return self.mode:start()
       else
         self.counter = 0
-        MathHelper:shuffle(self.modes)
+        shuffle(self.modes)
         return self:nextMode()
       end
     end,
@@ -34,11 +34,11 @@ do
       end
       if start_difficulty ~= self.difficulty then
         local factor = (self.difficulty - 1) * 0.02
-        self.basicChance = MathHelper:clamp(0.80 - factor, 0.20, 0.80)
-        self.playerChance = MathHelper:clamp(0.05 + (factor / 4), 0.05, 0.20)
-        self.turretChance = MathHelper:clamp(0.05 + (factor / 4), 0.05, 0.20)
-        self.strongChance = MathHelper:clamp(0.05 + (factor / 4), 0.05, 0.20)
-        self.spawnerChance = MathHelper:clamp(0.05 + (factor / 4), 0.05, 0.20)
+        self.basicChance = clamp(0.80 - factor, 0.20, 0.80)
+        self.playerChance = clamp(0.05 + (factor / 4), 0.05, 0.20)
+        self.turretChance = clamp(0.05 + (factor / 4), 0.05, 0.20)
+        self.strongChance = clamp(0.05 + (factor / 4), 0.05, 0.20)
+        self.spawnerChance = clamp(0.05 + (factor / 4), 0.05, 0.20)
       end
       Driver.shader = self.shader
     end,
@@ -145,7 +145,7 @@ do
         DarkMode(self)
       }
       self.num_modes = #self.modes
-      MathHelper:shuffle(self.modes)
+      shuffle(self.modes)
       self.counter = 0
       self.difficulty = 0
       self.basicChance = 0.8

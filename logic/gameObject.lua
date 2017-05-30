@@ -25,8 +25,8 @@ do
       self.elapsed = self.elapsed + dt
       self.position:add(self.speed:multiply(dt))
       local radius = self:getHitBox().radius
-      self.position.x = MathHelper:clamp(self.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius)
-      self.position.y = MathHelper:clamp(self.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius)
+      self.position.x = clamp(self.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius)
+      self.position.y = clamp(self.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius)
       if self.id == EntityTypes.bullet then
         return 
       end

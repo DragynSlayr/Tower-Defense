@@ -10,7 +10,7 @@ export class Objectives
       DarkMode @
     }
     @num_modes = #@modes
-    MathHelper\shuffle @modes
+    shuffle @modes
     @counter = 0
     @difficulty = 0
     @basicChance = 0.8
@@ -27,7 +27,7 @@ export class Objectives
       @mode\start!
     else
       @counter = 0
-      MathHelper\shuffle @modes
+      shuffle @modes
       -- Boss Wave
       @nextMode!
 
@@ -50,11 +50,11 @@ export class Objectives
         UI\set_screen Screen_State.upgrade
     if start_difficulty ~= @difficulty
       factor = (@difficulty - 1) * 0.02
-      @basicChance = MathHelper\clamp 0.80 - factor, 0.20, 0.80
-      @playerChance = MathHelper\clamp 0.05 + (factor / 4), 0.05, 0.20
-      @turretChance = MathHelper\clamp 0.05 + (factor / 4), 0.05, 0.20
-      @strongChance = MathHelper\clamp 0.05 + (factor / 4), 0.05, 0.20
-      @spawnerChance = MathHelper\clamp 0.05 + (factor / 4), 0.05, 0.20
+      @basicChance = clamp 0.80 - factor, 0.20, 0.80
+      @playerChance = clamp 0.05 + (factor / 4), 0.05, 0.20
+      @turretChance = clamp 0.05 + (factor / 4), 0.05, 0.20
+      @strongChance = clamp 0.05 + (factor / 4), 0.05, 0.20
+      @spawnerChance = clamp 0.05 + (factor / 4), 0.05, 0.20
     Driver.shader = @shader
 
   draw: =>

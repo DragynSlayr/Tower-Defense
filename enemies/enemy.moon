@@ -29,7 +29,7 @@ export class Enemy extends GameObject
     if dist < love.graphics.getWidth! / 4
       @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
       @speed\toUnitVector!
-      @speed = @speed\multiply MathHelper\clamp @speed_multiplier, 0, @max_speed
+      @speed = @speed\multiply clamp @speed_multiplier, 0, @max_speed
       @speed_multiplier += 1
       super dt
       vec = Vector 0, 0
@@ -58,7 +58,7 @@ export class Enemy extends GameObject
         elseif copy.x < copy.y
           @speed = Vector 0, @speed.y
       @speed\toUnitVector!
-      @speed = @speed\multiply MathHelper\clamp @speed_multiplier, 0, @max_speed
+      @speed = @speed\multiply clamp @speed_multiplier, 0, @max_speed
       @speed_multiplier += 1
       super dt
       vec = Vector 0, 0

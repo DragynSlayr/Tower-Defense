@@ -56,7 +56,7 @@ do
             player.radius = player.radius + self.repair_range
             if turret:contains(player) then
               v.health = v.health + 1
-              v.health = MathHelper:clamp(v.health, 0, v.max_health)
+              v.health = clamp(v.health, 0, v.max_health)
             end
           end
         end
@@ -168,7 +168,7 @@ do
       _class_0.__parent.__base.draw(self)
       love.graphics.setColor(255, 255, 255, 255)
       love.graphics.rectangle("fill", 9, love.graphics.getHeight() - 52, 202, 43)
-      local remaining = MathHelper:clamp(self.turret_cooldown - self.elapsed, 0, self.turret_cooldown)
+      local remaining = clamp(self.turret_cooldown - self.elapsed, 0, self.turret_cooldown)
       remaining = math.floor(remaining)
       love.graphics.setColor(0, 0, 0, 255)
       love.graphics.rectangle("fill", 10, love.graphics.getHeight() - 51, 200, 20)
