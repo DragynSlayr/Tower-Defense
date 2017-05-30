@@ -6,7 +6,7 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
-      local sprite = Sprite("player/sentry.tga", 26, 26, 1, 2)
+      local sprite = Sprite("boss/boss2.tga", 26, 27, 1, 2)
       local color = {
         0,
         127,

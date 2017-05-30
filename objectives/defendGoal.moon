@@ -1,6 +1,6 @@
 export class DefendGoal extends GameObject
   new: (x, y) =>
-    sprite = Sprite "player/sentry.tga", 26, 26, 1, 2
+    sprite = Sprite "boss/boss2.tga", 26, 27, 1, 2
     color = {0, 127, 100, 255}
     --sprite\setColor color
     super x, y, sprite
