@@ -22,8 +22,22 @@ export class ScreenCreator
   createPauseMenu: =>
     UI\set_screen Screen_State.pause_menu
 
-    title = Text Screen_Size.width / 2, (Screen_Size.height / 3), "Game Paused"
+    title = Text Screen_Size.width / 2, (Screen_Size.height / 3), "G ame Paused"
     UI\add title
+
+    names = {"Basic", "Player", "Spawner", "Strong", "Turret"}
+    sprites = {(Sprite "enemy/tracker.tga", 32, 32, 1, 1.25), (Sprite "enemy/enemy.tga", 26, 26, 1, 0.75), (Sprite "projectile/dart.tga", 17, 17, 1, 2), (Sprite "enemy/bullet.tga", 26, 20, 1, 2), (Sprite "enemy/circle.tga", 26, 26, 1, 1.75)}
+
+    for i = 1, #names
+      x = map i, 1, #names, 100, Screen_Size.width - 200
+      y = Screen_Size.height * 0.8
+      icon = Icon x, y, sprites[i]
+      UI\add icon
+      bounds = sprites[i]\getBounds x, y
+      font = Renderer\newFont 20
+      width = font\getWidth names[i]
+      text = Text x + 10 + bounds.radius + (width / 2), y, names[i], font
+      UI\add text
 
     resume_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) - 32, 250, 60, "Resume", () ->
       Driver.unpause!
