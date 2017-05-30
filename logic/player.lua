@@ -125,6 +125,15 @@ do
               local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
               Driver:addObject(bullet, EntityTypes.bullet)
             end
+          else
+            if v.goal_type == GoalTypes.find then
+              local goal = v:getHitBox()
+              local player = self:getHitBox()
+              player.radius = player.radius + 5
+              if goal:contains(player) then
+                v:onCollide(self)
+              end
+            end
           end
         end
       end

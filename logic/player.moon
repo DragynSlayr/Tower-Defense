@@ -108,6 +108,12 @@ export class Player extends GameObject
           if goal\contains player
             bullet = PlayerBullet @position.x, @position.y, v, @damage
             Driver\addObject bullet, EntityTypes.bullet
+        else if v.goal_type == GoalTypes.find
+          goal = v\getHitBox!
+          player = @getHitBox!
+          player.radius += 5
+          if goal\contains player
+            v\onCollide @
     if @show_turret
       turret = BasicTurret @position.x, @position.y
       Renderer\enqueue turret\drawFaded
