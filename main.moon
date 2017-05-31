@@ -29,5 +29,8 @@ export Objectives = Objectives!
 -- Create upgrade object
 export Upgrade = Upgrade!
 
+-- Create pause object
+export Pause = Pause!
+
 -- Create Driver object
 export Driver = Driver!
