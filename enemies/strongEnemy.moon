@@ -5,11 +5,11 @@ export class StrongEnemy extends Enemy
     @enemyType = EnemyTypes.strong
     @score_value = 200
 
-    @health = 8 + (4 * Objectives\getLevel!)
+    @health = 6 + (1 * Objectives\getLevel!)
     @max_health = @health
     @max_speed = 100 + (3 * Objectives\getLevel!)
     @speed_multiplier = @max_speed
-    @damage = 3 + (2.5 * Objectives\getLevel!)
+    @damage = 1.5 + (1.5 * Objectives\getLevel!)
 
   __tostring: =>
     return "T: " .. @enemyType .. "\tH: " .. @max_health .. "\tD: " .. @damage .. "\tS: " .. @max_speed

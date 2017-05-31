@@ -5,11 +5,11 @@ export class PlayerEnemy extends Enemy
     @enemyType = EnemyTypes.player
     @score_value = 150
 
-    @health = 5 + (1.5 * Objectives\getLevel!)
+    @health = 5 + (0.5 * Objectives\getLevel!)
     @max_health = @health
-    @max_speed = 300 + (2 * Objectives\getLevel!)
+    @max_speed = 300 + (10 * Objectives\getLevel!)
     @speed_multiplier = @max_speed
-    @damage = 0.5 + (1 * Objectives\getLevel!)
+    @damage = 0.5 + (0.3 * Objectives\getLevel!)
 
   __tostring: =>
     return "T: " .. @enemyType .. "\tH: " .. @max_health .. "\tD: " .. @damage .. "\tS: " .. @max_speed

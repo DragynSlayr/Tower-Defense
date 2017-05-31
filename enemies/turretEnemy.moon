@@ -5,11 +5,11 @@ export class TurretEnemy extends Enemy
     @enemyType = EnemyTypes.turret
     @score_value = 150
 
-    @health = 10 + (2.5 * Objectives\getLevel!)
+    @health = 10 + (1 * Objectives\getLevel!)
     @max_health = @health
     @max_speed = 200 + (5 * Objectives\getLevel!)
     @speed_multiplier = @max_speed
-    @damage = 2 + (2.5 * Objectives\getLevel!)
+    @damage = 2 + (0.8 * Objectives\getLevel!)
 
   __tostring: =>
     return "T: " .. @enemyType .. "\tH: " .. @max_health .. "\tD: " .. @damage .. "\tS: " .. @max_speed

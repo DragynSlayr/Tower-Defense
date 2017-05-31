@@ -29,11 +29,11 @@ do
       _class_0.__parent.__init(self, x, y, sprite)
       self.enemyType = EnemyTypes.spawner
       self.score_value = 50
-      self.health = 5 + (2.5 * Objectives:getLevel())
+      self.health = 5 + (1.5 * Objectives:getLevel())
       self.max_health = self.health
-      self.max_speed = 150 + (5 * Objectives:getLevel())
+      self.max_speed = 150 + (10 * Objectives:getLevel())
       self.speed_multiplier = self.max_speed
-      self.damage = 1 + (1 * Objectives:getLevel())
+      self.damage = 1 + (0.13 * Objectives:getLevel())
     end,
     __base = _base_0,
     __name = "SpawnerEnemy",

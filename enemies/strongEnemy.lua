@@ -14,11 +14,11 @@ do
       _class_0.__parent.__init(self, x, y, sprite)
       self.enemyType = EnemyTypes.strong
       self.score_value = 200
-      self.health = 8 + (4 * Objectives:getLevel())
+      self.health = 6 + (1 * Objectives:getLevel())
       self.max_health = self.health
       self.max_speed = 100 + (3 * Objectives:getLevel())
       self.speed_multiplier = self.max_speed
-      self.damage = 3 + (2.5 * Objectives:getLevel())
+      self.damage = 1.5 + (1.5 * Objectives:getLevel())
     end,
     __base = _base_0,
     __name = "StrongEnemy",

@@ -5,11 +5,11 @@ export class SpawnerEnemy extends Enemy
     @enemyType = EnemyTypes.spawner
     @score_value = 50
 
-    @health = 5 + (2.5 * Objectives\getLevel!)
+    @health = 5 + (1.5 * Objectives\getLevel!)
     @max_health = @health
-    @max_speed = 150 + (5 * Objectives\getLevel!)
+    @max_speed = 150 + (10 * Objectives\getLevel!)
     @speed_multiplier = @max_speed
-    @damage = 1 + (1 * Objectives\getLevel!)
+    @damage = 1 + (0.13 * Objectives\getLevel!)
 
   __tostring: =>
     return "T: " .. @enemyType .. "\tH: " .. @max_health .. "\tD: " .. @damage .. "\tS: " .. @max_speed
