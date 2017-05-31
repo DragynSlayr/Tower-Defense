@@ -206,8 +206,7 @@ do
     end,
     kill = function(self)
       _class_0.__parent.kill(self)
-      local player = Player(self.position.x, self.position.y)
-      return Driver:addObject(player, EntityTypes.player)
+      return Driver.game_over()
     end
   }
   _base_0.__index = _base_0

@@ -174,6 +174,6 @@ export class Player extends GameObject
 
   kill: =>
     super\kill!
-    --Driver.game_over!
-    player = Player @position.x, @position.y
-    Driver\addObject player, EntityTypes.player
+    Driver.game_over!
+    --player = Player @position.x, @position.y
+    --Driver\addObject player, EntityTypes.player
