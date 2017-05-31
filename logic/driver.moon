@@ -136,7 +136,9 @@ export class Driver
         when Game_State.game_over
           return
         when Game_State.paused
-          return
+          Pause\update dt
+        when Game_State.upgrading
+          Upgrade\update dt
         when Game_State.playing
           for k, v in pairs Driver.objects
             for k2, o in pairs v
@@ -144,8 +146,6 @@ export class Driver
               if o.health <= 0 or not o.alive
                 Driver\removeObject o
           Objectives\update dt
-        when Game_State.upgrading
-          Upgrade\update dt
       UI\update dt
 
       if not Driver.shader
@@ -153,10 +153,12 @@ export class Driver
 
     draw: ->
       love.graphics.push "all"
-      love.graphics.setShader Driver.shader
+      if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none
+        love.graphics.setShader Driver.shader
       love.graphics.setColor 75, 163, 255, 255
       love.graphics.rectangle "fill", 0, 0, Screen_Size.width, Screen_Size.height
-      love.graphics.setShader!
+      if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none
+        love.graphics.setShader!
       love.graphics.pop!
       love.graphics.push "all"
       UI\draw!
@@ -174,6 +176,8 @@ export class Driver
           Objectives\draw!
         when Game_State.upgrading
           Upgrade\draw!
+        when Game_State.paused
+          Pause\draw!
       if DEBUGGING
         love.graphics.setColor 200, 200, 200, 100
         bounds = Screen_Size.border

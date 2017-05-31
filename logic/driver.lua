@@ -127,7 +127,9 @@ do
       if Game_State.game_over == _exp_0 then
         return 
       elseif Game_State.paused == _exp_0 then
-        return 
+        Pause:update(dt)
+      elseif Game_State.upgrading == _exp_0 then
+        Upgrade:update(dt)
       elseif Game_State.playing == _exp_0 then
         for k, v in pairs(Driver.objects) do
           for k2, o in pairs(v) do
@@ -138,8 +140,6 @@ do
           end
         end
         Objectives:update(dt)
-      elseif Game_State.upgrading == _exp_0 then
-        Upgrade:update(dt)
       end
       UI:update(dt)
       if not Driver.shader then
@@ -148,10 +148,14 @@ do
     end,
     draw = function()
       love.graphics.push("all")
-      love.graphics.setShader(Driver.shader)
+      if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none then
+        love.graphics.setShader(Driver.shader)
+      end
       love.graphics.setColor(75, 163, 255, 255)
       love.graphics.rectangle("fill", 0, 0, Screen_Size.width, Screen_Size.height)
-      love.graphics.setShader()
+      if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none then
+        love.graphics.setShader()
+      end
       love.graphics.pop()
       love.graphics.push("all")
       UI:draw()
@@ -168,6 +172,8 @@ do
         Objectives:draw()
       elseif Game_State.upgrading == _exp_0 then
         Upgrade:draw()
+      elseif Game_State.paused == _exp_0 then
+        Pause:draw()
       end
       if DEBUGGING then
         love.graphics.setColor(200, 200, 200, 100)
