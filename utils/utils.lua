@@ -79,3 +79,50 @@ rjust = function(str, length)
     return str
   end
 end
+reverse = function(str)
+  str = tostring(str)
+  local s2 = ""
+  for i = #str, 1, -1 do
+    s2 = s2 .. string.sub(str, i, i)
+  end
+  return s2
+end
+lstrip = function(str)
+  str = tostring(str)
+  local found = false
+  local s2 = ""
+  for i = 1, #str do
+    local char = string.sub(str, i, i)
+    if not found then
+      if not (char == ' ' or char == '\n' or char == '\t' or char == '\r') then
+        found = true
+        s2 = s2 .. char
+      end
+    else
+      s2 = s2 .. char
+    end
+  end
+  return s2
+end
+rstrip = function(str)
+  return reverse(lstrip(reverse(str)))
+end
+strip = function(str)
+  return lstrip(rstrip(str))
+end
+split = function(str, char)
+  str = tostring(str)
+  local splitted = { }
+  local s = ""
+  for i = 1, #str do
+    local c = string.sub(str, i, i)
+    if c == char then
+      splitted[#splitted + 1] = s
+      s = ""
+    else
+      s = s .. c
+    end
+  end
+  splitted[#splitted + 1] = s
+  return splitted
+end

@@ -98,3 +98,44 @@ export rjust = (str, length) ->
     for i = 1, num
       str = " " .. str
     return str
+
+export reverse = (str) ->
+  str = tostring str
+  s2 = ""
+  for i = #str, 1, -1
+    s2 ..= string.sub str, i, i
+  return s2
+
+export lstrip = (str) ->
+  str = tostring str
+  found = false
+  s2 = ""
+  for i = 1, #str
+    char = string.sub str, i, i
+    if not found
+      if not (char == ' ' or char == '\n' or char == '\t' or char == '\r')
+        found = true
+        s2 ..= char
+    else
+      s2 ..= char
+  return s2
+
+export rstrip = (str) ->
+  return reverse lstrip reverse str
+
+export strip = (str) ->
+  return lstrip rstrip str
+
+export split = (str, char) ->
+  str = tostring str
+  splitted = {}
+  s = ""
+  for i = 1, #str
+    c = string.sub str, i, i
+    if c == char
+      splitted[#splitted + 1] = s
+      s = ""
+    else
+      s ..= c
+  splitted[#splitted + 1] = s
+  return splitted
