@@ -105,7 +105,9 @@ export class Sprite
   draw: (x, y) =>
     -- Store previous transforms
     love.graphics.push "all"
-    love.graphics.setShader Driver.shader
+
+    if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none
+      love.graphics.setShader Driver.shader
 
     -- Color sprite if a color is set
     if @color
@@ -121,5 +123,6 @@ export class Sprite
       love.graphics.circle "line", circle.center.x, circle.center.y, circle.radius, 360
 
     -- Restore previous transforms
-    love.graphics.setShader!
+    if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none
+      love.graphics.setShader!
     love.graphics.pop!

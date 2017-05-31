@@ -34,7 +34,9 @@ do
     end,
     draw = function(self, x, y)
       love.graphics.push("all")
-      love.graphics.setShader(Driver.shader)
+      if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none then
+        love.graphics.setShader(Driver.shader)
+      end
       if self.color then
         love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.color[4])
       end
@@ -44,7 +46,9 @@ do
         local circle = self:getBounds(x, y)
         love.graphics.circle("line", circle.center.x, circle.center.y, circle.radius, 360)
       end
-      love.graphics.setShader()
+      if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none then
+        love.graphics.setShader()
+      end
       return love.graphics.pop()
     end
   }
