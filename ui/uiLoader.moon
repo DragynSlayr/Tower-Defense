@@ -17,8 +17,3 @@ require "ui.icon"
 require "ui.tooltip"
 require "ui.tooltipButton"
 require "ui.ui"
-
---+----------------------------+--
---| Depends on everything else |--
---+----------------------------+--
-require "ui.screenCreator"
