@@ -65,9 +65,9 @@ do
       self.wave:draw()
       love.graphics.push("all")
       love.graphics.setColor(0, 0, 0, 255)
-      Renderer:drawAlignedMessage(self.message1, 20, "left", Renderer.hud_font)
-      Renderer:drawAlignedMessage(self.message2, 20, "center", Renderer.hud_font)
-      Renderer:drawAlignedMessage(self.objective_text, 50, "center", Renderer.hud_font)
+      Renderer:drawAlignedMessage(self.message1, 20 * Scale.height, "left", Renderer.hud_font)
+      Renderer:drawAlignedMessage(self.message2, 20 * Scale.height, "center", Renderer.hud_font)
+      Renderer:drawAlignedMessage(self.objective_text, 50 * Scale.height, "center", Renderer.hud_font)
       return love.graphics.pop()
     end
   }

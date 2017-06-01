@@ -1,6 +1,6 @@
 love.conf = (t) ->
   t.console = true
-  t.window.fullscreen = false
+  t.window.fullscreen = true
   t.window.title = "Tower Defense"
   t.window.width = 1600
   t.window.height = 900

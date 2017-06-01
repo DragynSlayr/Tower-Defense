@@ -70,7 +70,7 @@ do
       self.image = love.graphics.newImage("assets/sprites/" .. name, flags)
       self.frames = self.image:getWidth() / width
       self.height, self.width = height, width
-      self.x_scale, self.y_scale = scale, scale
+      self.x_scale, self.y_scale = scale * Scale.width, scale * Scale.height
       self.scaled_width, self.scaled_height = self.width * self.x_scale, self.height * self.y_scale
       self.sprites = { }
       for i = 0, self.frames - 1 do

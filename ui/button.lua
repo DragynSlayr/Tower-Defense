@@ -80,8 +80,8 @@ do
         font = Renderer.hud_font
       end
       _class_0.__parent.__init(self, x, y, text, font)
-      self.width = width
-      self.height = height
+      self.width = width * Scale.width
+      self.height = height * Scale.height
       self.action = action
       self.x = self.x - (self.width / 2)
       self.y = self.y - (self.height / 2)

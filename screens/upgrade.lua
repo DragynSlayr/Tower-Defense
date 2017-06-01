@@ -41,10 +41,10 @@ do
       love.graphics.push("all")
       for j = 0, 1 do
         for i = 1, 4 do
-          local height = 40
-          local width = 600
-          local y = 100 + (i * 65) - (height / 2) + (400 * j)
-          local x = 320
+          local height = 40 * Scale.height
+          local width = 600 * Scale.width
+          local y = (100 * Scale.height) + (i * 65 * Scale.height) - (height / 2) + (400 * j * Scale.height)
+          local x = 320 * Scale.width
           local ratio = self.player_stats[i] / self.max_skill
           if j == 1 then
             ratio = self.turret_stats[i] / self.max_skill
@@ -52,7 +52,7 @@ do
           love.graphics.setColor(178, 150, 0, 255)
           love.graphics.rectangle("fill", x, y, width, height)
           love.graphics.setColor(255, 215, 0, 255)
-          love.graphics.rectangle("fill", x + 3, y + 3, (width - 6) * ratio, height - 6)
+          love.graphics.rectangle("fill", x + (3 * Scale.width), y + (3 * Scale.height), (width - (6 * Scale.width)) * ratio, height - (6 * Scale.height))
           love.graphics.setColor(0, 0, 0, 255)
           for i = x, x + width, width / self.max_skill do
             love.graphics.line(i, y, i, y + height)
@@ -66,7 +66,7 @@ do
         end
       end
       local message = "Skill Points: " .. self.skill_points
-      Renderer:drawHUDMessage(message, Screen_Size.width - (Renderer.hud_font:getWidth(message)) - 5, 0)
+      Renderer:drawHUDMessage(message, Screen_Size.width - (Renderer.hud_font:getWidth(message)) - (5 * Scale.width), 0)
       return love.graphics.pop()
     end
   }

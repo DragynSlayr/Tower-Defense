@@ -20,13 +20,13 @@ do
       love.graphics.push("all")
       local enemies = self:getEnemies()
       for i = 1, #enemies do
-        local x = map(i, 1, #enemies, 100, Screen_Size.width - 200)
+        local x = map(i, 1, #enemies, 100 * Scale.width, Screen_Size.width - (200 * Scale.width))
         local y = Screen_Size.height * 0.8
         local bounds = self.sprites[i]:getBounds(x, y)
         for j = 1, #self.stats do
-          y = map(j, 1, #self.stats, (Screen_Size.height * 0.8) + 30, Screen_Size.height * 0.96)
-          self.icons[j]:draw(x, y + 9)
-          Renderer:drawHUDMessage(enemies[i][self.stats[j]], x + 10 + bounds.radius, y, self.font)
+          y = map(j, 1, #self.stats, (Screen_Size.height * 0.8) + (30 * Scale.height), Screen_Size.height * 0.96)
+          self.icons[j]:draw(x, y + (9 * Scale.height))
+          Renderer:drawHUDMessage(enemies[i][self.stats[j]], x + (10 * Scale.width) + bounds.radius, y, self.font)
         end
       end
       return love.graphics.pop()

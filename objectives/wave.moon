@@ -25,5 +25,5 @@ export class Wave
       love.graphics.push "all"
       message = (@delay - math.floor @elapsed)
       Renderer\drawStatusMessage message, love.graphics.getHeight! / 2, Renderer.giant_font
-      Renderer\drawAlignedMessage "Next wave in: " .. message .. "\t", 50, "right", Renderer.hud_font
+      Renderer\drawAlignedMessage "Next wave in: " .. message .. "\t", 50 * Scale.height, "right", Renderer.hud_font
       love.graphics.pop!

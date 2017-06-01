@@ -64,10 +64,10 @@ do
         love.graphics.setShader(Driver.shader)
         love.graphics.setColor(0, 0, 0, 255)
         local radius = self.sprite.scaled_height / 2
-        love.graphics.rectangle("fill", (self.position.x - radius) - 3, (self.position.y + radius) + 3, (radius * 2) + 6, 16)
+        love.graphics.rectangle("fill", (self.position.x - radius) - (3 * Scale.width), (self.position.y + radius) + (3 * Scale.height), (radius * 2) + (6 * Scale.width), 16 * Scale.height)
         love.graphics.setColor(0, 255, 0, 255)
         local ratio = self.health / self.max_health
-        love.graphics.rectangle("fill", self.position.x - radius, (self.position.y + radius) + 6, (radius * 2) * ratio, 10)
+        love.graphics.rectangle("fill", self.position.x - radius, (self.position.y + radius) + (6 * Scale.height), (radius * 2) * ratio, 10 * Scale.height)
         love.graphics.setShader()
       end
       return love.graphics.pop()

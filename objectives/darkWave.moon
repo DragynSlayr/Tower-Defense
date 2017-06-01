@@ -20,7 +20,7 @@ export class DarkWave extends Wave
     if Driver.objects[EntityTypes.player]
       for k, v in pairs Driver.objects[EntityTypes.player]
         @parent.parent.shader\send "player_pos", {v.position.x, v.position.y}
-    @parent.parent.shader\send "size", 10 - (0.5 * Upgrade.player_stats[2])
+    @parent.parent.shader\send "size", (10 - (0.5 * Upgrade.player_stats[2])) * Scale.diag
 
     super dt
     if not @waiting

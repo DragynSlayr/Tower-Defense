@@ -46,7 +46,7 @@ do
       sprite = Sprite("bullet.tga", 32, 16, 1, 0.75)
       _class_0.__parent.__init(self, x, y, sprite)
       self.target = target
-      self.attack_range = 15
+      self.attack_range = 15 * Scale.diag
       self.damage = 1 / 10
       self.id = EntityTypes.bullet
       self.draw_health = false

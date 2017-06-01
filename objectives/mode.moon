@@ -67,7 +67,7 @@ export class Mode
     @wave\draw!
     love.graphics.push "all"
     love.graphics.setColor 0, 0, 0, 255
-    Renderer\drawAlignedMessage @message1, 20, "left", Renderer.hud_font
-    Renderer\drawAlignedMessage @message2, 20, "center", Renderer.hud_font
-    Renderer\drawAlignedMessage @objective_text, 50, "center", Renderer.hud_font
+    Renderer\drawAlignedMessage @message1, 20 * Scale.height, "left", Renderer.hud_font
+    Renderer\drawAlignedMessage @message2, 20 * Scale.height, "center", Renderer.hud_font
+    Renderer\drawAlignedMessage @objective_text, 50 * Scale.height, "center", Renderer.hud_font
     love.graphics.pop!

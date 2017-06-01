@@ -63,10 +63,10 @@ export class GameObject
       love.graphics.setShader Driver.shader
       love.graphics.setColor 0, 0, 0, 255
       radius = @sprite.scaled_height / 2
-      love.graphics.rectangle "fill", (@position.x - radius) - 3, (@position.y + radius) + 3, (radius * 2) + 6, 16
+      love.graphics.rectangle "fill", (@position.x - radius) - (3 * Scale.width), (@position.y + radius) + (3 * Scale.height), (radius * 2) + (6 * Scale.width), 16 * Scale.height
       love.graphics.setColor 0, 255, 0, 255
       ratio = @health / @max_health
-      love.graphics.rectangle "fill", @position.x - radius, (@position.y + radius) + 6, (radius * 2) * ratio, 10
+      love.graphics.rectangle "fill", @position.x - radius, (@position.y + radius) + (6 * Scale.height), (radius * 2) * ratio, 10 * Scale.height
       love.graphics.setShader!
     love.graphics.pop!
 

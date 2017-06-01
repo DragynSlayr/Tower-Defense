@@ -5,19 +5,19 @@ do
       UI:set_screen(Screen_State.main_menu)
       local title = Text(Screen_Size.width / 2, (Screen_Size.height / 4), "Tower Defense")
       UI:add(title)
-      local start_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) - 32, 250, 60, "Start", function()
+      local start_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) - (32 * Scale.height), 250, 60, "Start", function()
         Driver.game_state = Game_State.playing
         return UI:set_screen(Screen_State.none)
       end)
       UI:add(start_button)
-      local exit_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + 32, 250, 60, "Exit", function()
+      local exit_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + (32 * Scale.height), 250, 60, "Exit", function()
         return love.event.quit(0)
       end)
       return UI:add(exit_button)
     end,
     createPauseMenu = function(self)
       UI:set_screen(Screen_State.pause_menu)
-      local title = Text(Screen_Size.width / 2, (Screen_Size.height / 3), "G ame Paused")
+      local title = Text(Screen_Size.width / 2, (Screen_Size.height / 3), "Game Paused")
       UI:add(title)
       local names = {
         "Basic",
@@ -34,17 +34,17 @@ do
         (Sprite("enemy/circle.tga", 26, 26, 1, 1.75))
       }
       for i = 1, #names do
-        local x = map(i, 1, #names, 100, Screen_Size.width - 200)
+        local x = map(i, 1, #names, 100 * Scale.width, Screen_Size.width - (200 * Scale.width))
         local y = Screen_Size.height * 0.8
         local icon = Icon(x, y, sprites[i])
         UI:add(icon)
         local bounds = sprites[i]:getBounds(x, y)
         local font = Renderer:newFont(20)
         local width = font:getWidth(names[i])
-        local text = Text(x + 10 + bounds.radius + (width / 2), y, names[i], font)
+        local text = Text(x + (10 * Scale.width) + bounds.radius + (width / 2), y, names[i], font)
         UI:add(text)
       end
-      local resume_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) - 32, 250, 60, "Resume", function()
+      local resume_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) - (32 * Scale.height), 250, 60, "Resume", function()
         return Driver.unpause()
       end)
       return UI:add(resume_button)
@@ -53,10 +53,10 @@ do
       UI:set_screen(Screen_State.game_over)
       local title = Text(Screen_Size.width / 2, (Screen_Size.height / 2), "YOU LOSE!", Renderer.giant_font)
       UI:add(title)
-      local restart_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + 50, 250, 60, "Restart", function()
+      local restart_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + (50 * Scale.height), 250, 60, "Restart", function()
         return Driver.unpause()
       end)
-      local quit_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + 170, 250, 60, "Quit", function()
+      local quit_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + (170 * Scale.height), 250, 60, "Quit", function()
         return love.event.quit(0)
       end)
       return UI:add(quit_button)
@@ -70,9 +70,9 @@ do
         255
       })
       UI:add(bg)
-      local title = Text(Screen_Size.width / 2, 25, "Upgrade")
+      local title = Text(Screen_Size.width / 2, 25 * Scale.height, "Upgrade")
       UI:add(title)
-      UI:add(Text(100, 100, "Player", Renderer.hud_font))
+      UI:add(Text(100 * Scale.width, 100 * Scale.width, "Player", Renderer.hud_font))
       local stats = {
         "Health",
         "Range",
@@ -81,10 +81,10 @@ do
         "Special"
       }
       for k, v in pairs(stats) do
-        local y = 100 + (k * 65)
-        UI:add(Text(200, y, v, Renderer.small_font))
+        local y = (100 + (k * 65)) * Scale.height
+        UI:add(Text(200 * Scale.width, y, v, Renderer.small_font))
         if k ~= 5 then
-          local b = TooltipButton(280, y, 30, 30, "+", (function()
+          local b = TooltipButton(280 * Scale.width, y, 30, 30, "+", (function()
             return Upgrade:add_skill(Upgrade_Trees.player_stats, k)
           end), nil, {
             tt,
@@ -99,16 +99,15 @@ do
             "4"
           }
           for k, v in pairs(specials) do
-            local x = 280 + ((k - 1) * 100)
+            local x = (280 + ((k - 1) * 100)) * Scale.width
             local b = Button(x, y, 50, 30, v, function()
               return Upgrade:add_skill(Upgrade_Trees.player_special, k)
             end)
-            b:autoResize(50, 30)
             UI:add(b)
           end
         end
       end
-      UI:add(Text(100, 500, "Turret", Renderer.hud_font))
+      UI:add(Text(100 * Scale.width, 500 * Scale.height, "Turret", Renderer.hud_font))
       stats = {
         "Health",
         "Range",
@@ -117,10 +116,10 @@ do
         "Special"
       }
       for k, v in pairs(stats) do
-        local y = 500 + (k * 65)
-        UI:add(Text(200, y, v, Renderer.small_font))
+        local y = (500 + (k * 65)) * Scale.height
+        UI:add(Text(200 * Scale.width, y, v, Renderer.small_font))
         if k ~= 5 then
-          local b = TooltipButton(280, y, 30, 30, "+", (function()
+          local b = TooltipButton(280 * Scale.width, y, 30, 30, "+", (function()
             return Upgrade:add_skill(Upgrade_Trees.turret_stats, k)
           end), nil, {
             tt,
@@ -135,16 +134,15 @@ do
             "4"
           }
           for k, v in pairs(specials) do
-            local x = 280 + ((k - 1) * 100)
+            local x = (280 + ((k - 1) * 100)) * Scale.width
             local b = Button(x, y, 50, 30, v, function()
               return Upgrade:add_skill(Upgrade_Trees.turret_special, k)
             end)
-            b:autoResize(50, 30)
             UI:add(b)
           end
         end
       end
-      local continue_button = Button(Screen_Size.width / 2, Screen_Size.height - 35, 200, 50, "Continue", function()
+      local continue_button = Button(Screen_Size.width / 2, Screen_Size.height - (35 * Scale.height), 200, 50, "Continue", function()
         UI:set_screen(Screen_State.none)
         Driver.game_state = Game_State.playing
         Driver:respawnPlayers()

@@ -18,12 +18,12 @@ export class Pause extends Screen
     love.graphics.push "all"
     enemies = @getEnemies!
     for i = 1, #enemies
-      x = map i, 1, #enemies, 100, Screen_Size.width - 200
+      x = map i, 1, #enemies, 100 * Scale.width, Screen_Size.width - (200 * Scale.width)
       y = Screen_Size.height * 0.8
       bounds = @sprites[i]\getBounds x, y
       for j = 1, #@stats
         --y += 30
-        y = map j, 1, #@stats, (Screen_Size.height * 0.8) + 30, Screen_Size.height * 0.96
-        @icons[j]\draw x, y + 9
-        Renderer\drawHUDMessage enemies[i][@stats[j]], x + 10 + bounds.radius, y, @font
+        y = map j, 1, #@stats, (Screen_Size.height * 0.8) + (30 * Scale.height), Screen_Size.height * 0.96
+        @icons[j]\draw x, y + (9 * Scale.height)
+        Renderer\drawHUDMessage enemies[i][@stats[j]], x + (10 * Scale.width) + bounds.radius, y, @font
     love.graphics.pop!

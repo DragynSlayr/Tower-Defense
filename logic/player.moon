@@ -10,7 +10,7 @@ export class Player extends GameObject
     @max_speed       = Stats.player[4]
     @turret_cooldown = Stats.turret[4]
     @health = @max_health
-    @repair_range = 30
+    @repair_range = 30 * Scale.diag
     @keys_pushed = 0
     @hit = false
 
@@ -138,17 +138,17 @@ export class Player extends GameObject
     super!
 
     love.graphics.setColor 255, 255, 255, 255
-    love.graphics.rectangle "fill", 9, love.graphics.getHeight! - 52, 202, 43
+    love.graphics.rectangle "fill", 9 * Scale.width, love.graphics.getHeight! - (52 * Scale.height), 202 * Scale.width, 43 * Scale.height
 
     remaining = clamp @turret_cooldown - @elapsed, 0, @turret_cooldown
     remaining = math.floor remaining
     love.graphics.setColor 0, 0, 0, 255
-    love.graphics.rectangle "fill", 10, love.graphics.getHeight! - 51, 200, 20
+    love.graphics.rectangle "fill", 10 * Scale.width, love.graphics.getHeight! - (51 * Scale.height), 200 * Scale.width, 20 * Scale.height
     love.graphics.setColor 0, 0, 255, 255
     ratio = 1 - (remaining / @turret_cooldown)
     if remaining == 0 or @can_place
       ratio = 1
-    love.graphics.rectangle "fill", 13, love.graphics.getHeight! - 48, 194 * ratio, 14
+    love.graphics.rectangle "fill", 13 * Scale.width, love.graphics.getHeight! - (48 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height
 
     turret_health = 0
     num = 0
@@ -162,15 +162,15 @@ export class Player extends GameObject
     ratio = turret_health / num
 
     love.graphics.setColor 0, 0, 0, 255
-    love.graphics.rectangle "fill", 10, love.graphics.getHeight! - 30, 200, 20
+    love.graphics.rectangle "fill", 10 * Scale.width, love.graphics.getHeight! - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height
     love.graphics.setColor 0, 255, 0, 255
-    love.graphics.rectangle "fill", 13, love.graphics.getHeight! - 27, 194 * ratio, 14
+    love.graphics.rectangle "fill", 13 * Scale.width, love.graphics.getHeight! - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height
 
     love.graphics.setColor 0, 0, 0, 255
-    love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - 200, love.graphics.getHeight! - 30, 400, 20
+    love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (200 * Scale.width), love.graphics.getHeight! - (30 * Scale.height), 400 * Scale.width, 20 * Scale.height
     love.graphics.setColor 255, 0, 0, 255
     ratio = @health / @max_health
-    love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - 197, love.graphics.getHeight! - 27, 394 * ratio, 14
+    love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (197 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
 
   kill: =>
     super\kill!

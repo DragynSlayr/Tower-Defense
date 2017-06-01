@@ -11,8 +11,8 @@ export class Button extends UIElement
     super x, y, text, font
 
     -- Store values
-    @width = width
-    @height = height
+    @width = width * Scale.width
+    @height = height * Scale.height
     @action = action
 
     -- Fix position

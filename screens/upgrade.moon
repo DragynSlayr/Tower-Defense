@@ -47,10 +47,10 @@ export class Upgrade extends Screen
     love.graphics.push "all"
     for j = 0, 1
       for i = 1, 4
-        height = 40
-        width = 600
-        y = 100 + (i * 65) - (height / 2) + (400 * j)
-        x = 320
+        height = 40 * Scale.height
+        width = 600 * Scale.width
+        y = (100 * Scale.height) + (i * 65 * Scale.height) - (height / 2) + (400 * j * Scale.height)
+        x = 320 * Scale.width
         ratio = @player_stats[i] / @max_skill
         if j == 1
           ratio = @turret_stats[i] / @max_skill
@@ -59,7 +59,7 @@ export class Upgrade extends Screen
         love.graphics.rectangle "fill", x, y, width, height
 
         love.graphics.setColor 255, 215, 0, 255
-        love.graphics.rectangle "fill", x + 3, y + 3, (width - 6) * ratio, height - 6
+        love.graphics.rectangle "fill", x + (3 * Scale.width), y + (3 * Scale.height), (width - (6 * Scale.width)) * ratio, height - (6 * Scale.height)
 
         love.graphics.setColor 0, 0, 0, 255
         for i = x, x + width, width / @max_skill
@@ -73,5 +73,5 @@ export class Upgrade extends Screen
         Renderer\drawHUDMessage message, Screen_Size.width * 0.8, y
 
     message = "Skill Points: " .. @skill_points
-    Renderer\drawHUDMessage message, Screen_Size.width - (Renderer.hud_font\getWidth message) - 5, 0
+    Renderer\drawHUDMessage message, Screen_Size.width - (Renderer.hud_font\getWidth message) - (5 * Scale.width), 0
     love.graphics.pop!

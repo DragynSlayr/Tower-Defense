@@ -3,7 +3,7 @@ export class HomingProjectile extends GameObject
     sprite = Sprite "bullet.tga", 32, 16, 1, 0.75
     super x, y, sprite
     @target = target
-    @attack_range = 15
+    @attack_range = 15 * Scale.diag
     @damage = 1 / 10
     @id = EntityTypes.bullet
     @draw_health = false

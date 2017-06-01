@@ -167,7 +167,7 @@ do
         love.graphics.rectangle("fill", 0, 0, bounds[3], bounds[2])
         love.graphics.rectangle("fill", 0, bounds[2] + bounds[4], bounds[3], bounds[2])
         love.graphics.pop()
-        Renderer:drawAlignedMessage(SCORE .. "\t", 20, "right", Renderer.hud_font)
+        Renderer:drawAlignedMessage(SCORE .. "\t", 20 * Scale.height, "right", Renderer.hud_font)
         Renderer:drawAll()
         Objectives:draw()
       elseif Game_State.upgrading == _exp_0 then
