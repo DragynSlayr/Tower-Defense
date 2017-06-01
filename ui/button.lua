@@ -88,6 +88,11 @@ do
       self.idle_color = Color(175, 175, 175)
       self.hover_color = Color(100, 100, 100)
       self.selected = false
+      local idle = Sprite("misc/hover.tga", 64, 256, 1, 1)
+      idle:setScale(width / 256, height / 64)
+      local hover = Sprite("misc/click.tga", 64, 256, 1, 1)
+      hover:setScale(width / 256, height / 64)
+      return self:setSprite(idle, hover)
     end,
     __base = _base_0,
     __name = "Button",

@@ -24,6 +24,14 @@ export class Button extends UIElement
     @hover_color = Color 100, 100, 100
     @selected = false
 
+    idle = Sprite "misc/hover.tga", 64, 256, 1, 1
+    idle\setScale width / 256, height / 64
+
+    hover = Sprite "misc/click.tga", 64, 256, 1, 1
+    hover\setScale width / 256, height / 64
+
+    @setSprite idle, hover
+
   -- Set the color for the Button
   -- idle: Color for when the Button is not hovered over
   -- hover: Color for when the Button is hovered over
