@@ -170,18 +170,21 @@ do
         love.graphics.pop()
       end
       _class_0.__parent.__base.draw(self)
+      local message = " Turret CD  "
+      Renderer:drawHUDMessage(message, (9 * Scale.width), Screen_Size.height - (52 * Scale.height), self.font)
+      local x_start = (9 * Scale.width) + self.font:getWidth(message)
       love.graphics.setColor(255, 255, 255, 255)
-      love.graphics.rectangle("fill", 9 * Scale.width, love.graphics.getHeight() - (52 * Scale.height), 202 * Scale.width, 43 * Scale.height)
+      love.graphics.rectangle("fill", x_start, love.graphics.getHeight() - (52 * Scale.height), 202 * Scale.width, 43 * Scale.height)
       local remaining = clamp(self.turret_cooldown - self.elapsed, 0, self.turret_cooldown)
       remaining = math.floor(remaining)
       love.graphics.setColor(0, 0, 0, 255)
-      love.graphics.rectangle("fill", 10 * Scale.width, love.graphics.getHeight() - (51 * Scale.height), 200 * Scale.width, 20 * Scale.height)
+      love.graphics.rectangle("fill", x_start + Scale.width, love.graphics.getHeight() - (51 * Scale.height), 200 * Scale.width, 20 * Scale.height)
       love.graphics.setColor(0, 0, 255, 255)
       local ratio = 1 - (remaining / self.turret_cooldown)
       if remaining == 0 or self.can_place then
         ratio = 1
       end
-      love.graphics.rectangle("fill", 13 * Scale.width, love.graphics.getHeight() - (48 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height)
+      love.graphics.rectangle("fill", x_start + (4 * Scale.width), love.graphics.getHeight() - (48 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height)
       local turret_health = 0
       local num = 0
       if Driver.objects[EntityTypes.turret] then
@@ -194,15 +197,18 @@ do
         num = 1
       end
       ratio = turret_health / num
+      message = " Turret HP  "
+      Renderer:drawHUDMessage(message, (9 * Scale.width), Screen_Size.height - (30 * Scale.height), self.font)
       love.graphics.setColor(0, 0, 0, 255)
-      love.graphics.rectangle("fill", 10 * Scale.width, love.graphics.getHeight() - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height)
+      love.graphics.rectangle("fill", x_start + Scale.width, love.graphics.getHeight() - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height)
       love.graphics.setColor(0, 255, 0, 255)
-      love.graphics.rectangle("fill", 13 * Scale.width, love.graphics.getHeight() - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height)
+      love.graphics.rectangle("fill", x_start + (4 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height)
       love.graphics.setColor(0, 0, 0, 255)
       love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (200 * Scale.width), love.graphics.getHeight() - (30 * Scale.height), 400 * Scale.width, 20 * Scale.height)
       love.graphics.setColor(255, 0, 0, 255)
       ratio = self.health / self.max_health
-      return love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
+      love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
+      return Renderer:drawAlignedMessage("Player Health", Screen_Size.height - (47 * Scale.height), nil, self.font)
     end,
     kill = function(self)
       _class_0.__parent.kill(self)
@@ -231,6 +237,7 @@ do
       self.max_turrets = 1
       self.num_turrets = 0
       self.turret = { }
+      self.font = Renderer:newFont(20)
     end,
     __base = _base_0,
     __name = "Player",

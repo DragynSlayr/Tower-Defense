@@ -22,6 +22,8 @@ export class Player extends GameObject
     @num_turrets = 0
     @turret = {}
 
+    @font = Renderer\newFont 20
+
   onCollide: (object) =>
     super object
     @hit = true
@@ -137,18 +139,22 @@ export class Player extends GameObject
       love.graphics.pop!
     super!
 
+    message = " Turret CD  "
+    Renderer\drawHUDMessage message, (9 * Scale.width), Screen_Size.height - (52 * Scale.height), @font
+    x_start = (9 * Scale.width) + @font\getWidth message
+
     love.graphics.setColor 255, 255, 255, 255
-    love.graphics.rectangle "fill", 9 * Scale.width, love.graphics.getHeight! - (52 * Scale.height), 202 * Scale.width, 43 * Scale.height
+    love.graphics.rectangle "fill", x_start, love.graphics.getHeight! - (52 * Scale.height), 202 * Scale.width, 43 * Scale.height
 
     remaining = clamp @turret_cooldown - @elapsed, 0, @turret_cooldown
     remaining = math.floor remaining
     love.graphics.setColor 0, 0, 0, 255
-    love.graphics.rectangle "fill", 10 * Scale.width, love.graphics.getHeight! - (51 * Scale.height), 200 * Scale.width, 20 * Scale.height
+    love.graphics.rectangle "fill", x_start + Scale.width, love.graphics.getHeight! - (51 * Scale.height), 200 * Scale.width, 20 * Scale.height
     love.graphics.setColor 0, 0, 255, 255
     ratio = 1 - (remaining / @turret_cooldown)
     if remaining == 0 or @can_place
       ratio = 1
-    love.graphics.rectangle "fill", 13 * Scale.width, love.graphics.getHeight! - (48 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height
+    love.graphics.rectangle "fill", x_start + (4 * Scale.width), love.graphics.getHeight! - (48 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height
 
     turret_health = 0
     num = 0
@@ -161,16 +167,21 @@ export class Player extends GameObject
       num = 1
     ratio = turret_health / num
 
+    message = " Turret HP  "
+    Renderer\drawHUDMessage message, (9 * Scale.width), Screen_Size.height - (30 * Scale.height), @font
+
     love.graphics.setColor 0, 0, 0, 255
-    love.graphics.rectangle "fill", 10 * Scale.width, love.graphics.getHeight! - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height
+    love.graphics.rectangle "fill", x_start + Scale.width, love.graphics.getHeight! - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height
     love.graphics.setColor 0, 255, 0, 255
-    love.graphics.rectangle "fill", 13 * Scale.width, love.graphics.getHeight! - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height
+    love.graphics.rectangle "fill", x_start + (4 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height
 
     love.graphics.setColor 0, 0, 0, 255
     love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (200 * Scale.width), love.graphics.getHeight! - (30 * Scale.height), 400 * Scale.width, 20 * Scale.height
     love.graphics.setColor 255, 0, 0, 255
     ratio = @health / @max_health
     love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (197 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
+
+    Renderer\drawAlignedMessage "Player Health", Screen_Size.height - (47 * Scale.height), nil, @font
 
   kill: =>
     super\kill!
