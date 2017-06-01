@@ -71,7 +71,7 @@ Base_Stats.player = {}
 -- "Health", "Range", "Damage", "Speed"
 Base_Stats.player[1]     = 5
 Base_Stats.player[2]     = 75 * Scale.diag
-Base_Stats.player[3]     = 0.1
+Base_Stats.player[3]     = 0.5
 Base_Stats.player[4]     = 275 * Scale.diag
 
 Base_Stats.turret = {}
@@ -79,7 +79,7 @@ Base_Stats.turret = {}
 -- "Health", "Range", "Damage", "Cooldown"
 Base_Stats.turret[1]     = 10
 Base_Stats.turret[2]     = 250 * Scale.diag
-Base_Stats.turret[3]     = 0.075
+Base_Stats.turret[3]     = 0.25
 Base_Stats.turret[4]     = 20
 
 export Screen_State = {}
