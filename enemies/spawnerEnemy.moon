@@ -5,7 +5,7 @@ export class SpawnerEnemy extends Enemy
     @enemyType = EnemyTypes.spawner
     @score_value = 50
 
-    @health = 5 + (1.5 * Objectives\getLevel!)
+    @health = 12 + (13.2 * Objectives\getLevel!)
     @max_health = @health
     @max_speed = (150 + (10 * Objectives\getLevel!)) * Scale.diag
     @speed_multiplier = @max_speed

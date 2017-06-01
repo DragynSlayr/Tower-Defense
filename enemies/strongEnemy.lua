@@ -14,7 +14,7 @@ do
       _class_0.__parent.__init(self, x, y, sprite)
       self.enemyType = EnemyTypes.strong
       self.score_value = 200
-      self.health = 6 + (1 * Objectives:getLevel())
+      self.health = 18 + (19.2 * Objectives:getLevel())
       self.max_health = self.health
       self.max_speed = (100 + (3 * Objectives:getLevel())) * Scale.diag
       self.speed_multiplier = self.max_speed
