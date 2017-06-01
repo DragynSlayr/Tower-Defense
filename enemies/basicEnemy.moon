@@ -7,7 +7,7 @@ export class BasicEnemy extends Enemy
 
     @health = 5 + (1 * Objectives\getLevel!)
     @max_health = @health
-    @max_speed = 175 + (10.8 * Objectives\getLevel!)
+    @max_speed = (175 + (10.8 * Objectives\getLevel!)) * Scale.diag
     @speed_multiplier = @max_speed
     @damage = 1 + (0.55 * Objectives\getLevel!)
 

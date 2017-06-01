@@ -7,7 +7,7 @@ export class TurretEnemy extends Enemy
 
     @health = 10 + (1 * Objectives\getLevel!)
     @max_health = @health
-    @max_speed = 200 + (5 * Objectives\getLevel!)
+    @max_speed = (200 + (5 * Objectives\getLevel!)) * Scale.diag
     @speed_multiplier = @max_speed
     @damage = 2 + (0.8 * Objectives\getLevel!)
 

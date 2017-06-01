@@ -9,7 +9,7 @@ export class Enemy extends GameObject
     --@health = @health + (Scaling.health * Objectives\getLevel!)
     --@max_health = @health
     --@damage = @damage + (Scaling.damage * Objectives\getLevel!)
-    @max_speed = 150-- + (Scaling.speed * Objectives\getLevel!)
+    @max_speed = 150 * Scale.diag-- + (Scaling.speed * Objectives\getLevel!)
     @speed_multiplier = @max_speed
 
   __tostring: =>

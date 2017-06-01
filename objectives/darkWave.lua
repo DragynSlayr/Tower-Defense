@@ -21,7 +21,7 @@ do
           })
         end
       end
-      self.parent.parent.shader:send("size", (10 - (0.5 * Upgrade.player_stats[2])) * Scale.diag)
+      self.parent.parent.shader:send("size", (10 * Scale.diag) - (0.5 * Upgrade.player_stats[2]))
       _class_0.__parent.__base.update(self, dt)
       if not self.waiting then
         self.elapsed = self.elapsed + dt

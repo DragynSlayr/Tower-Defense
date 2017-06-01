@@ -16,7 +16,7 @@ do
       self.score_value = 200
       self.health = 6 + (1 * Objectives:getLevel())
       self.max_health = self.health
-      self.max_speed = 100 + (3 * Objectives:getLevel())
+      self.max_speed = (100 + (3 * Objectives:getLevel())) * Scale.diag
       self.speed_multiplier = self.max_speed
       self.damage = 1.5 + (1.5 * Objectives:getLevel())
     end,

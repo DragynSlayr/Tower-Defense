@@ -139,7 +139,7 @@ do
       self.attack_range = bounds.radius * 2
       self.delay = 1
       self.id = EntityTypes.enemy
-      self.max_speed = 150
+      self.max_speed = 150 * Scale.diag
       self.speed_multiplier = self.max_speed
     end,
     __base = _base_0,
