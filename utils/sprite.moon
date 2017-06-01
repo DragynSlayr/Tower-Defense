@@ -50,8 +50,8 @@ export class Sprite
   -- y: The new y scale
   setScale: (x, y) =>
     -- Set scale
-    @x_scale = x
-    @y_scale = y
+    @x_scale = x * Scale.width
+    @y_scale = y * Scale.height
 
     -- Recalculate scaled height and width
     @scaled_width = @width * @x_scale

@@ -5,8 +5,8 @@ do
       self.color = color
     end,
     setScale = function(self, x, y)
-      self.x_scale = x
-      self.y_scale = y
+      self.x_scale = x * Scale.width
+      self.y_scale = y * Scale.height
       self.scaled_width = self.width * self.x_scale
       self.scaled_height = self.height * self.y_scale
     end,
