@@ -5,8 +5,91 @@ export class ScreenCreator
     @createGameOverMenu!
     @createUpgradeMenu!
 
+  createHelp: =>
+    keys = {}
+    keys["space"] = Sprite "keys/space.tga", 32, 64, 1, 1
+    for k, v in pairs {"w", "a", "s", "d", "p", "e"}
+      keys[v] = Sprite "keys/" .. v .. ".tga", 32, 32, 1, 1
+
+    font = Renderer\newFont 20
+
+    start_x = 100 * Scale.width
+    start_y = Screen_Size.height * 0.4
+
+    -- A key
+    x = start_x
+    y = start_y
+    text = "Left"
+    t = Text x, y, text, font
+    UI\add t
+
+    i = Icon x + (10 * Scale.width) + ((font\getWidth text) * Scale.width), y, keys["a"]
+    UI\add i
+
+    -- S key
+    i = Icon x + (10 * Scale.width) + ((font\getWidth text) * Scale.width) + (50 * Scale.width), y, keys["s"]
+    UI\add i
+
+    x = start_x + (10 * Scale.width) + ((font\getWidth text) * Scale.width) + (50 * Scale.width)
+    y = start_y + (36 * Scale.height)
+    text = "Down"
+    t = Text x, y, text, font
+    UI\add t
+
+    -- D key
+    x = start_x + (10 * Scale.width) + ((font\getWidth "Left") * Scale.width) + (100 * Scale.width)
+    y = start_y
+    i = Icon x, y, keys["d"]
+    UI\add i
+
+    text = "Right"
+    t = Text x + ((font\getWidth text) * Scale.width), y, text, font
+    UI\add t
+
+    -- W key
+    x = start_x
+    y = start_y
+    i = Icon x + (10 * Scale.width) + ((font\getWidth "Left") * Scale.width) + (50 * Scale.width), y - (46 * Scale.height), keys["w"]
+    UI\add i
+
+    text = "Up"
+    t = Text x + (10 * Scale.width) + ((font\getWidth "Left") * Scale.width) + (50 * Scale.width), y - (82 * Scale.height), text, font
+    UI\add t
+
+    -- P key
+    x = (Screen_Size.width / 3) - (100 * Scale.width)
+    y = start_y - (46 * Scale.height)
+    i = Icon x, y, keys["p"]
+    UI\add i
+
+    text = "Pause"
+    t = Text x, y - (36 * Scale.height), text, font
+    UI\add t
+
+    -- E key
+    x = ((Screen_Size.width / 3) * 2) + (200 * Scale.width)
+    y = start_y - (46 * Scale.height)
+    i = Icon x, y, keys["e"]
+    UI\add i
+
+    text = "Toggle Turret"
+    t = Text x, y - (36 * Scale.height), text, font
+    UI\add t
+
+    -- space key
+    x = ((Screen_Size.width / 3) * 2) + (200 * Scale.width)
+    y = start_y
+    i = Icon x, y, keys["space"]
+    UI\add i
+
+    text = "Place/Repair Turret"
+    t = Text x, y + (36 * Scale.height), text, font
+    UI\add t
+
   createMainMenu: =>
     UI\set_screen Screen_State.main_menu
+
+    @createHelp!
 
     title = Text Screen_Size.width / 2, (Screen_Size.height / 4), "Tower Defense"
     UI\add title
@@ -21,6 +104,8 @@ export class ScreenCreator
 
   createPauseMenu: =>
     UI\set_screen Screen_State.pause_menu
+
+    @createHelp!
 
     title = Text Screen_Size.width / 2, (Screen_Size.height / 3), "Game Paused"
     UI\add title

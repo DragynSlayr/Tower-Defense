@@ -1,8 +1,75 @@
 do
   local _class_0
   local _base_0 = {
+    createHelp = function(self)
+      local keys = { }
+      keys["space"] = Sprite("keys/space.tga", 32, 64, 1, 1)
+      for k, v in pairs({
+        "w",
+        "a",
+        "s",
+        "d",
+        "p",
+        "e"
+      }) do
+        keys[v] = Sprite("keys/" .. v .. ".tga", 32, 32, 1, 1)
+      end
+      local font = Renderer:newFont(20)
+      local start_x = 100 * Scale.width
+      local start_y = Screen_Size.height * 0.4
+      local x = start_x
+      local y = start_y
+      local text = "Left"
+      local t = Text(x, y, text, font)
+      UI:add(t)
+      local i = Icon(x + (10 * Scale.width) + ((font:getWidth(text)) * Scale.width), y, keys["a"])
+      UI:add(i)
+      i = Icon(x + (10 * Scale.width) + ((font:getWidth(text)) * Scale.width) + (50 * Scale.width), y, keys["s"])
+      UI:add(i)
+      x = start_x + (10 * Scale.width) + ((font:getWidth(text)) * Scale.width) + (50 * Scale.width)
+      y = start_y + (36 * Scale.height)
+      text = "Down"
+      t = Text(x, y, text, font)
+      UI:add(t)
+      x = start_x + (10 * Scale.width) + ((font:getWidth("Left")) * Scale.width) + (100 * Scale.width)
+      y = start_y
+      i = Icon(x, y, keys["d"])
+      UI:add(i)
+      text = "Right"
+      t = Text(x + ((font:getWidth(text)) * Scale.width), y, text, font)
+      UI:add(t)
+      x = start_x
+      y = start_y
+      i = Icon(x + (10 * Scale.width) + ((font:getWidth("Left")) * Scale.width) + (50 * Scale.width), y - (46 * Scale.height), keys["w"])
+      UI:add(i)
+      text = "Up"
+      t = Text(x + (10 * Scale.width) + ((font:getWidth("Left")) * Scale.width) + (50 * Scale.width), y - (82 * Scale.height), text, font)
+      UI:add(t)
+      x = (Screen_Size.width / 3) - (100 * Scale.width)
+      y = start_y - (46 * Scale.height)
+      i = Icon(x, y, keys["p"])
+      UI:add(i)
+      text = "Pause"
+      t = Text(x, y - (36 * Scale.height), text, font)
+      UI:add(t)
+      x = ((Screen_Size.width / 3) * 2) + (200 * Scale.width)
+      y = start_y - (46 * Scale.height)
+      i = Icon(x, y, keys["e"])
+      UI:add(i)
+      text = "Toggle Turret"
+      t = Text(x, y - (36 * Scale.height), text, font)
+      UI:add(t)
+      x = ((Screen_Size.width / 3) * 2) + (200 * Scale.width)
+      y = start_y
+      i = Icon(x, y, keys["space"])
+      UI:add(i)
+      text = "Place/Repair Turret"
+      t = Text(x, y + (36 * Scale.height), text, font)
+      return UI:add(t)
+    end,
     createMainMenu = function(self)
       UI:set_screen(Screen_State.main_menu)
+      self:createHelp()
       local title = Text(Screen_Size.width / 2, (Screen_Size.height / 4), "Tower Defense")
       UI:add(title)
       local start_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) - (32 * Scale.height), 250, 60, "Start", function()
@@ -17,6 +84,7 @@ do
     end,
     createPauseMenu = function(self)
       UI:set_screen(Screen_State.pause_menu)
+      self:createHelp()
       local title = Text(Screen_Size.width / 2, (Screen_Size.height / 3), "Game Paused")
       UI:add(title)
       local names = {
