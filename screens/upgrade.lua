@@ -104,12 +104,12 @@ do
       self.amount = { }
       self.amount[1] = {
         {
-          2,
-          4,
-          8,
-          13,
-          20,
-          30
+          5,
+          11,
+          18,
+          26,
+          35,
+          45
         },
         {
           25,
@@ -138,12 +138,12 @@ do
       }
       self.amount[2] = {
         {
-          2,
           4,
-          6,
-          9,
+          8,
           13,
-          18
+          18,
+          24,
+          32
         },
         {
           15,
@@ -172,7 +172,7 @@ do
       }
     end,
     __base = _base_0,
-    __name = "Upgrade",
+    __name = "UpgradeScreen",
     __parent = _parent_0
   }, {
     __index = function(cls, name)
@@ -196,5 +196,5 @@ do
   if _parent_0.__inherited then
     _parent_0.__inherited(_parent_0, _class_0)
   end
-  Upgrade = _class_0
+  UpgradeScreen = _class_0
 end
