@@ -1,12 +1,12 @@
 export class Driver
     new: =>
-      @objects = {}
-      @game_state = Game_State.none
-      @state_stack = Stack!
-      @state_stack\add Game_State.main_menu
+      --@objects = {}
+      --@game_state = Game_State.none
+      --@state_stack = Stack!
+      --@state_stack\add Game_State.main_menu
       --@state_stack\add Game_State.upgrading
-      @elapsed = 0
-      @shader = nil
+      --@elapsed = 0
+      --@shader = nil
       love.keypressed = @keypressed
       love.keyreleased = @keyreleased
       love.mousepressed = @mousepressed
@@ -105,10 +105,46 @@ export class Driver
       Driver.game_state = Game_State.game_over
       UI\set_screen Screen_State.game_over
 
-    load: (arg) ->
-      --Driver.shader = love.graphics.newShader "shaders/map.fs"
-      --Driver.shader = love.graphics.newShader "shaders/distance.fs"
-      --Driver.shader\send "screen_size", Screen_Size.size
+    restart: ->
+      loadBaseStats!
+
+      -- Enable to show extra info
+      export DEBUGGING = false
+      export SHOW_RANGE = false
+
+      -- Global stats
+      export SCORE = 0
+
+      -- Set love environment
+      --love.graphics.setBackgroundColor 91, 192, 255, 255
+      --love.graphics.setBackgroundColor 75, 163, 255, 255
+      love.graphics.setDefaultFilter "nearest", "nearest", 1
+
+      -- Global MusicHandler
+      export MusicPlayer = MusicHandler!
+
+      -- Global Renderer
+      export Renderer = ObjectRenderer!
+
+      Driver.objects = {}
+      Driver.game_state = Game_State.none
+      Driver.state_stack = Stack!
+      Driver.state_stack\add Game_State.main_menu
+      --Driver.state_stack\add Game_State.upgrading
+      Driver.elapsed = 0
+      Driver.shader = nil
+
+      -- Global UI
+      export UI = UIHandler!
+
+      -- Global objectives
+      export Objectives = ObjectivesHandler!
+
+      -- Create upgrade object
+      export Upgrade = UpgradeScreen!
+
+      -- Create pause object
+      export Pause = PauseScreen!
 
       ScreenCreator!
 
@@ -118,6 +154,13 @@ export class Driver
 
       -- Start game
       Objectives\nextMode!
+
+    load: (arg) ->
+      Driver.restart!
+
+      --Driver.shader = love.graphics.newShader "shaders/map.fs"
+      --Driver.shader = love.graphics.newShader "shaders/distance.fs"
+      --Driver.shader\send "screen_size", Screen_Size.size
 
     update: (dt) ->
       Driver.elapsed += dt
@@ -182,6 +225,10 @@ export class Driver
         love.graphics.setColor 200, 200, 200, 100
         bounds = Screen_Size.border
         love.graphics.rectangle "fill", bounds[1], bounds[2], bounds[3], bounds[4]
+        
+      love.graphics.setColor 0, 0, 0, 127
+      love.graphics.setFont Renderer.small_font
+      love.graphics.printf VERSION .. "\t", 0, Screen_Size.height - (25 * Scale.height), Screen_Size.width, "right"
       love.graphics.pop!
 
       before = math.floor collectgarbage "count"

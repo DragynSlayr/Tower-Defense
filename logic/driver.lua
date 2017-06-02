@@ -115,11 +115,31 @@ do
       Driver.game_state = Game_State.game_over
       return UI:set_screen(Screen_State.game_over)
     end,
-    load = function(arg)
+    restart = function()
+      loadBaseStats()
+      DEBUGGING = false
+      SHOW_RANGE = false
+      SCORE = 0
+      love.graphics.setDefaultFilter("nearest", "nearest", 1)
+      MusicPlayer = MusicHandler()
+      Renderer = ObjectRenderer()
+      Driver.objects = { }
+      Driver.game_state = Game_State.none
+      Driver.state_stack = Stack()
+      Driver.state_stack:add(Game_State.main_menu)
+      Driver.elapsed = 0
+      Driver.shader = nil
+      UI = UIHandler()
+      Objectives = ObjectivesHandler()
+      Upgrade = UpgradeScreen()
+      Pause = PauseScreen()
       ScreenCreator()
       local player = Player(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
       Driver:addObject(player, EntityTypes.player)
       return Objectives:nextMode()
+    end,
+    load = function(arg)
+      return Driver.restart()
     end,
     update = function(dt)
       Driver.elapsed = Driver.elapsed + dt
@@ -180,6 +200,9 @@ do
         local bounds = Screen_Size.border
         love.graphics.rectangle("fill", bounds[1], bounds[2], bounds[3], bounds[4])
       end
+      love.graphics.setColor(0, 0, 0, 127)
+      love.graphics.setFont(Renderer.small_font)
+      love.graphics.printf(VERSION .. "\t", 0, Screen_Size.height - (25 * Scale.height), Screen_Size.width, "right")
       love.graphics.pop()
       local before = math.floor(collectgarbage("count"))
       collectgarbage("step")
@@ -189,12 +212,6 @@ do
   _base_0.__index = _base_0
   _class_0 = setmetatable({
     __init = function(self)
-      self.objects = { }
-      self.game_state = Game_State.none
-      self.state_stack = Stack()
-      self.state_stack:add(Game_State.main_menu)
-      self.elapsed = 0
-      self.shader = nil
       love.keypressed = self.keypressed
       love.keyreleased = self.keyreleased
       love.mousepressed = self.mousepressed
