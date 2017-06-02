@@ -1,9 +1,9 @@
 export class ScreenCreator
   new: =>
-    @createMainMenu!
     @createPauseMenu!
     @createGameOverMenu!
     @createUpgradeMenu!
+    @createMainMenu!
 
   createHelp: =>
     keys = {}
@@ -128,17 +128,22 @@ export class ScreenCreator
       Driver.unpause!
     UI\add resume_button
 
+    restart_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (38 * Scale.height), 250, 60, "Restart", () -> Driver.restart!
+    UI\add restart_button
+
+    quit_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (108 * Scale.height), 250, 60, "Quit", () -> love.event.quit 0
+    UI\add quit_button
+
   createGameOverMenu: =>
     UI\set_screen Screen_State.game_over
 
     title = Text Screen_Size.width / 2, (Screen_Size.height / 2), "YOU LOSE!", Renderer.giant_font
     UI\add title
 
-    restart_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (50 * Scale.height), 250, 60, "Restart", () ->
-      Driver.unpause!
-    --UI\add resume_button
+    restart_button = Button Screen_Size.width / 2, Screen_Size.height - (200 * Scale.height), 250, 60, "Restart", () -> Driver.restart!
+    UI\add restart_button
 
-    quit_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (170 * Scale.height), 250, 60, "Quit", () -> love.event.quit 0
+    quit_button = Button Screen_Size.width / 2, Screen_Size.height - (130 * Scale.height), 250, 60, "Quit", () -> love.event.quit 0
     UI\add quit_button
 
   createUpgradeMenu: =>
