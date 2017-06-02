@@ -37,6 +37,7 @@ export class Mode
     hit = false
     if Driver.objects[EntityTypes.player]
       for k, p in pairs Driver.objects[EntityTypes.player]
+        p.attack_range = Stats.player[2]
         if p.hit
           hit = true
           break

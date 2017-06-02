@@ -27,6 +27,7 @@ do
       local hit = false
       if Driver.objects[EntityTypes.player] then
         for k, p in pairs(Driver.objects[EntityTypes.player]) do
+          p.attack_range = Stats.player[2]
           if p.hit then
             hit = true
             break
