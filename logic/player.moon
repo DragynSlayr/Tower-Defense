@@ -25,7 +25,11 @@ export class Player extends GameObject
     @font = Renderer\newFont 20
 
   onCollide: (object) =>
-    super object
+    if not @alive return
+    if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret
+      @health -= object.damage / 2
+    else
+      @health -= object.damage
     @hit = true
 
   keypressed: (key) =>

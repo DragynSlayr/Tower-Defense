@@ -3,7 +3,14 @@ do
   local _parent_0 = GameObject
   local _base_0 = {
     onCollide = function(self, object)
-      _class_0.__parent.__base.onCollide(self, object)
+      if not self.alive then
+        return 
+      end
+      if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret then
+        self.health = self.health - (object.damage / 2)
+      else
+        self.health = self.health - object.damage
+      end
       self.hit = true
     end,
     keypressed = function(self, key)
