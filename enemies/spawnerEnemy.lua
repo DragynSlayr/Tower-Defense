@@ -9,15 +9,19 @@ do
       _class_0.__parent.__base.kill(self)
       local enemy = PlayerEnemy(self.position.x - 10, self.position.y)
       enemy.id = EntityTypes.bullet
+      enemy.value = 0.25
       Driver:addObject(enemy, EntityTypes.enemy)
       enemy = PlayerEnemy(self.position.x + 10, self.position.y)
       enemy.id = EntityTypes.bullet
+      enemy.value = 0.25
       Driver:addObject(enemy, EntityTypes.enemy)
       enemy = PlayerEnemy(self.position.x, self.position.y - 10)
       enemy.id = EntityTypes.bullet
+      enemy.value = 0.25
       Driver:addObject(enemy, EntityTypes.enemy)
       enemy = PlayerEnemy(self.position.x, self.position.y + 10)
       enemy.id = EntityTypes.bullet
+      enemy.value = 0.25
       return Driver:addObject(enemy, EntityTypes.enemy)
     end
   }

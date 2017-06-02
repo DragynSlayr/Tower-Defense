@@ -19,16 +19,20 @@ export class SpawnerEnemy extends Enemy
 
     enemy = PlayerEnemy @position.x - 10, @position.y
     enemy.id = EntityTypes.bullet
+    enemy.value = 0.25
     Driver\addObject enemy, EntityTypes.enemy
 
     enemy = PlayerEnemy @position.x + 10, @position.y
     enemy.id = EntityTypes.bullet
+    enemy.value = 0.25
     Driver\addObject enemy, EntityTypes.enemy
 
     enemy = PlayerEnemy @position.x, @position.y - 10
     enemy.id = EntityTypes.bullet
+    enemy.value = 0.25
     Driver\addObject enemy, EntityTypes.enemy
 
     enemy = PlayerEnemy @position.x, @position.y + 10
     enemy.id = EntityTypes.bullet
+    enemy.value = 0.25
     Driver\addObject enemy, EntityTypes.enemy
