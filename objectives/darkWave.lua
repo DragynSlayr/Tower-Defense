@@ -6,6 +6,11 @@ do
       for i = 1, self.target do
         self.parent.parent:spawn(GoalTypes.find)
       end
+      if Driver.objects[EntityTypes.player] then
+        for k, p in pairs(Driver.objects[EntityTypes.player]) do
+          p.attack_range = Base_Stats.player[2]
+        end
+      end
     end,
     entityKilled = function(self, entity)
       if entity.id == EntityTypes.goal then
@@ -21,14 +26,13 @@ do
           })
         end
       end
-      self.parent.parent.shader:send("size", (10 * Scale.diag) - (0.5 * Upgrade.player_stats[2]))
       _class_0.__parent.__base.update(self, dt)
       if not self.waiting then
         self.elapsed = self.elapsed + dt
         if self.elapsed >= self.max_time and self.killed ~= self.target then
           self.elapsed = 0
           self.spawn_count = self.spawn_count + 1
-          self.max_time = (3 / self.spawn_count) + 1
+          self.max_time = (1 / self.spawn_count) + 1
           self.parent.parent:spawn(EnemyTypes.player)
         end
       end
@@ -55,9 +59,10 @@ do
       self.killed = 0
       self.target = self.parent.wave_count
       self.spawn_count = self.target
-      self.max_time = (3 / self.spawn_count) + 1
+      self.max_time = (1 / self.spawn_count) + 1
       self.parent.parent.shader = love.graphics.newShader("shaders/distance.fs")
-      return self.parent.parent.shader:send("screen_size", Screen_Size.size)
+      self.parent.parent.shader:send("screen_size", Screen_Size.size)
+      return self.parent.parent.shader:send("size", (10 - (0.5 * Upgrade.player_stats[2])) * Scale.diag)
     end,
     __base = _base_0,
     __name = "DarkWave",
