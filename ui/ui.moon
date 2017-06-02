@@ -1,5 +1,5 @@
 -- Class for handling UI elements
-export class UI
+export class UIHandler
   new: =>
     -- List of elements of the GUI
     @screens = {}

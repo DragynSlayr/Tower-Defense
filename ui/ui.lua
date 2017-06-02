@@ -58,7 +58,7 @@ do
       end
     end,
     __base = _base_0,
-    __name = "UI"
+    __name = "UIHandler"
   }, {
     __index = _base_0,
     __call = function(cls, ...)
@@ -68,5 +68,5 @@ do
     end
   })
   _base_0.__class = _class_0
-  UI = _class_0
+  UIHandler = _class_0
 end
