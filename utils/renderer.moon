@@ -1,5 +1,5 @@
 -- Class for rendering GameObjects and text
-export class Renderer
+export class ObjectRenderer
   new: =>
     -- Initialize queue and layers
     @queue = {}

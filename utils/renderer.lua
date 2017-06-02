@@ -88,7 +88,7 @@ do
       end
     end,
     __base = _base_0,
-    __name = "Renderer"
+    __name = "ObjectRenderer"
   }, {
     __index = _base_0,
     __call = function(cls, ...)
@@ -98,5 +98,5 @@ do
     end
   })
   _base_0.__class = _class_0
-  Renderer = _class_0
+  ObjectRenderer = _class_0
 end
