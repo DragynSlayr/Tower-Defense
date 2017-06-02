@@ -4,6 +4,7 @@ export class EliminationWave extends Wave
     @killed = 0
     @target = 0
     @queue = {}
+    @to_spawn = 0
 
     for i = 1, num
       enemy, value = @parent.parent\getRandomEnemy!
@@ -17,10 +18,12 @@ export class EliminationWave extends Wave
   entityKilled: (entity) =>
     if entity.id == EntityTypes.enemy or entity.enemyType
       @killed += 1
-      if #@queue ~= 0
+      @to_spawn += entity.value
+      while @to_spawn >= 1 and #@queue ~= 0
         enemy = @queue[1]
         @parent.parent\spawn enemy
         table.remove @queue, 1
+        @to_spawn -= 1
 
   start: =>
     num = math.min 4, #@queue

@@ -5,10 +5,12 @@ do
     entityKilled = function(self, entity)
       if entity.id == EntityTypes.enemy or entity.enemyType then
         self.killed = self.killed + 1
-        if #self.queue ~= 0 then
+        self.to_spawn = self.to_spawn + entity.value
+        while self.to_spawn >= 1 and #self.queue ~= 0 do
           local enemy = self.queue[1]
           self.parent.parent:spawn(enemy)
-          return table.remove(self.queue, 1)
+          table.remove(self.queue, 1)
+          self.to_spawn = self.to_spawn - 1
         end
       end
     end,
@@ -44,6 +46,7 @@ do
       self.killed = 0
       self.target = 0
       self.queue = { }
+      self.to_spawn = 0
       for i = 1, num do
         local enemy, value = self.parent.parent:getRandomEnemy()
         self.target = self.target + value
