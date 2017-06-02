@@ -1,4 +1,4 @@
-export class Pause extends Screen
+export class PauseScreen extends Screen
   new: =>
     super!
     @font = Renderer\newFont 20

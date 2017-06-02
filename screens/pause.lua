@@ -59,7 +59,7 @@ do
       }
     end,
     __base = _base_0,
-    __name = "Pause",
+    __name = "PauseScreen",
     __parent = _parent_0
   }, {
     __index = function(cls, name)
@@ -83,5 +83,5 @@ do
   if _parent_0.__inherited then
     _parent_0.__inherited(_parent_0, _class_0)
   end
-  Pause = _class_0
+  PauseScreen = _class_0
 end
