@@ -3,7 +3,7 @@ export class Enemy extends GameObject
     super x, y, sprite
     @target = target
     bounds = @sprite\getBounds 0, 0
-    @attack_range = bounds.radius * 2
+    @attack_range = bounds.radius * 1.25
     @delay = 1
     @id = EntityTypes.enemy
     --@health = @health + (Scaling.health * Objectives\getLevel!)
@@ -11,6 +11,7 @@ export class Enemy extends GameObject
     --@damage = @damage + (Scaling.damage * Objectives\getLevel!)
     @max_speed = 150 * Scale.diag-- + (Scaling.speed * Objectives\getLevel!)
     @speed_multiplier = @max_speed
+    @value = 1
 
   __tostring: =>
     return "Enemy"
@@ -34,16 +35,16 @@ export class Enemy extends GameObject
       super dt
       vec = Vector 0, 0
       @sprite.rotation = @speed\getAngleBetween vec
-      if @elapsed >= @delay
+
+      target = @target\getHitBox!
+      enemy = @getHitBox!
+      enemy.radius += @attack_range
+      if @elapsed >= @delay and target\contains enemy
         @elapsed = 0
-        target = @target\getHitBox!
-        enemy = @getHitBox!
-        enemy.radius += @attack_range
-        if target\contains enemy
-          @target\onCollide @
-          @speed_multiplier = 0
-          if @target.health <= 0
-            @findNearestTarget!
+        @target\onCollide @
+        @speed_multiplier = 0
+        if @target.health <= 0
+          @findNearestTarget!
     else
       @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
       length = @speed\getLength!

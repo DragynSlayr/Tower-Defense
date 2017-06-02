@@ -34,17 +34,15 @@ do
         _class_0.__parent.__base.update(self, dt)
         local vec = Vector(0, 0)
         self.sprite.rotation = self.speed:getAngleBetween(vec)
-        if self.elapsed >= self.delay then
+        local target = self.target:getHitBox()
+        local enemy = self:getHitBox()
+        enemy.radius = enemy.radius + self.attack_range
+        if self.elapsed >= self.delay and target:contains(enemy) then
           self.elapsed = 0
-          local target = self.target:getHitBox()
-          local enemy = self:getHitBox()
-          enemy.radius = enemy.radius + self.attack_range
-          if target:contains(enemy) then
-            self.target:onCollide(self)
-            self.speed_multiplier = 0
-            if self.target.health <= 0 then
-              return self:findNearestTarget()
-            end
+          self.target:onCollide(self)
+          self.speed_multiplier = 0
+          if self.target.health <= 0 then
+            return self:findNearestTarget()
           end
         end
       else
@@ -136,11 +134,12 @@ do
       _class_0.__parent.__init(self, x, y, sprite)
       self.target = target
       local bounds = self.sprite:getBounds(0, 0)
-      self.attack_range = bounds.radius * 2
+      self.attack_range = bounds.radius * 1.25
       self.delay = 1
       self.id = EntityTypes.enemy
       self.max_speed = 150 * Scale.diag
       self.speed_multiplier = self.max_speed
+      self.value = 1
     end,
     __base = _base_0,
     __name = "Enemy",
