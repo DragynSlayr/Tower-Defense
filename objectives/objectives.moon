@@ -1,4 +1,4 @@
-export class Objectives
+export class ObjectivesHandler
   new: =>
     @mode = nil
     @elapsed = 0

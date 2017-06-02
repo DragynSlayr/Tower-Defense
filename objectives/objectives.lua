@@ -156,7 +156,7 @@ do
       self.shader = nil
     end,
     __base = _base_0,
-    __name = "Objectives"
+    __name = "ObjectivesHandler"
   }, {
     __index = _base_0,
     __call = function(cls, ...)
@@ -166,5 +166,5 @@ do
     end
   })
   _base_0.__class = _class_0
-  Objectives = _class_0
+  ObjectivesHandler = _class_0
 end
