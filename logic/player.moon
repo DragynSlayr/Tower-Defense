@@ -24,9 +24,19 @@ export class Player extends GameObject
 
     @font = Renderer\newFont 20
 
+    @globes = {}
+    @globe_index = 1
+
     bounds = @getHitBox!
     width = bounds.radius + @attack_range
-    @bullet_position = Vector width, 0
+    num = 5
+    --width = 0
+    --num = 1
+    for i = 1, num
+      angle = ((math.pi * 2) / num) * i
+      vec = Vector width, 0
+      vec\rotate angle
+      @globes[i] = Vector vec.x, vec.y
 
   onCollide: (object) =>
     if not @alive return
@@ -104,8 +114,9 @@ export class Player extends GameObject
     if @keys_pushed == 0
       @speed = Vector 0, 0
     super dt
-    @bullet_position\rotate dt * 1.25 * math.pi
-    if @elapsed > @turret_cooldown
+    for k, bullet_position in pairs @globes
+      bullet_position\rotate dt * 1.25 * math.pi
+    if @elapsed >= @turret_cooldown
       @can_place = true
     if Driver.objects[EntityTypes.enemy]
       for k, v in pairs Driver.objects[EntityTypes.enemy]
@@ -113,7 +124,11 @@ export class Player extends GameObject
         player = @getHitBox!
         player.radius += @attack_range
         if enemy\contains player
-          bullet = PlayerBullet @bullet_position.x + @position.x, @bullet_position.y + @position.y, v, @damage
+          @globe_index += 1
+          if @globe_index > #@globes
+            @globe_index = 1
+          bullet_position = @globes[@globe_index]
+          bullet = PlayerBullet bullet_position.x + @position.x, bullet_position.y + @position.y, v, @damage
           Driver\addObject bullet, EntityTypes.bullet
     if Driver.objects[EntityTypes.goal]
       for k, v in pairs Driver.objects[EntityTypes.goal]
@@ -122,7 +137,11 @@ export class Player extends GameObject
           player = @getHitBox!
           player.radius += @attack_range
           if goal\contains player
-            bullet = PlayerBullet @bullet_position.x + @position.x, @bullet_position.y + @position.y, v, @damage
+            @globe_index += 1
+            if @globe_index > #@globes
+              @globe_index = 1
+            bullet_position = @globes[@globe_index]
+            bullet = PlayerBullet bullet_position.x + @position.x, bullet_position.y + @position.y, v, @damage
             Driver\addObject bullet, EntityTypes.bullet
         else if v.goal_type == GoalTypes.find
           goal = v\getHitBox!
@@ -192,12 +211,11 @@ export class Player extends GameObject
 
     Renderer\drawAlignedMessage "Player Health", Screen_Size.height - (47 * Scale.height), nil, @font
 
-    love.graphics.setColor 0, 0, 0, 255
-    width = 10 * Scale.width
-    height = 10 * Scale.height
-    x = @position.x + @bullet_position.x - (width / 2)
-    y = @position.y + @bullet_position.y - (height / 2)
-    love.graphics.rectangle("fill", x, y, width, height)
+    love.graphics.setColor 0, 255, 255, 255
+    for k, bullet_position in pairs @globes
+      x = @position.x + bullet_position.x
+      y = @position.y + bullet_position.y
+      love.graphics.circle "fill", x, y, 8 * Scale.diag, 360
 
   kill: =>
     super\kill!

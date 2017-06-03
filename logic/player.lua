@@ -112,8 +112,10 @@ do
         self.speed = Vector(0, 0)
       end
       _class_0.__parent.__base.update(self, dt)
-      self.bullet_position:rotate(dt * 1.25 * math.pi)
-      if self.elapsed > self.turret_cooldown then
+      for k, bullet_position in pairs(self.globes) do
+        bullet_position:rotate(dt * 1.25 * math.pi)
+      end
+      if self.elapsed >= self.turret_cooldown then
         self.can_place = true
       end
       if Driver.objects[EntityTypes.enemy] then
@@ -122,7 +124,12 @@ do
           local player = self:getHitBox()
           player.radius = player.radius + self.attack_range
           if enemy:contains(player) then
-            local bullet = PlayerBullet(self.bullet_position.x + self.position.x, self.bullet_position.y + self.position.y, v, self.damage)
+            self.globe_index = self.globe_index + 1
+            if self.globe_index > #self.globes then
+              self.globe_index = 1
+            end
+            local bullet_position = self.globes[self.globe_index]
+            local bullet = PlayerBullet(bullet_position.x + self.position.x, bullet_position.y + self.position.y, v, self.damage)
             Driver:addObject(bullet, EntityTypes.bullet)
           end
         end
@@ -134,7 +141,12 @@ do
             local player = self:getHitBox()
             player.radius = player.radius + self.attack_range
             if goal:contains(player) then
-              local bullet = PlayerBullet(self.bullet_position.x + self.position.x, self.bullet_position.y + self.position.y, v, self.damage)
+              self.globe_index = self.globe_index + 1
+              if self.globe_index > #self.globes then
+                self.globe_index = 1
+              end
+              local bullet_position = self.globes[self.globe_index]
+              local bullet = PlayerBullet(bullet_position.x + self.position.x, bullet_position.y + self.position.y, v, self.damage)
               Driver:addObject(bullet, EntityTypes.bullet)
             end
           else
@@ -217,12 +229,12 @@ do
       ratio = self.health / self.max_health
       love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
       Renderer:drawAlignedMessage("Player Health", Screen_Size.height - (47 * Scale.height), nil, self.font)
-      love.graphics.setColor(0, 0, 0, 255)
-      local width = 10 * Scale.width
-      local height = 10 * Scale.height
-      local x = self.position.x + self.bullet_position.x - (width / 2)
-      local y = self.position.y + self.bullet_position.y - (height / 2)
-      return love.graphics.rectangle("fill", x, y, width, height)
+      love.graphics.setColor(0, 255, 255, 255)
+      for k, bullet_position in pairs(self.globes) do
+        local x = self.position.x + bullet_position.x
+        local y = self.position.y + bullet_position.y
+        love.graphics.circle("fill", x, y, 8 * Scale.diag, 360)
+      end
     end,
     kill = function(self)
       _class_0.__parent.kill(self)
@@ -252,9 +264,17 @@ do
       self.num_turrets = 0
       self.turret = { }
       self.font = Renderer:newFont(20)
+      self.globes = { }
+      self.globe_index = 1
       local bounds = self:getHitBox()
       local width = bounds.radius + self.attack_range
-      self.bullet_position = Vector(width, 0)
+      local num = 5
+      for i = 1, num do
+        local angle = ((math.pi * 2) / num) * i
+        local vec = Vector(width, 0)
+        vec:rotate(angle)
+        self.globes[i] = Vector(vec.x, vec.y)
+      end
     end,
     __base = _base_0,
     __name = "Player",
