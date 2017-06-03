@@ -62,6 +62,9 @@ do
             stats = Stats.turret
           end
           local message = stats[i]
+          if i == 2 or (i == 4 and j == 0) then
+            message = math.floor(message)
+          end
           Renderer:drawHUDMessage(message, Screen_Size.width * 0.8, y)
         end
       end
