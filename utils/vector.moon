@@ -50,7 +50,7 @@ export class Vector
   -- angle: The angle to rotate by
   rotate: (angle) =>
     -- Get cos and sin of the angle
-    cos_angle, sin_angle = @getCosSin angle
+    cos_angle, sin_angle = (math.cos angle), (math.sin angle)
 
     -- Rotate x and y
     x = (cos_angle * @x) - (sin_angle * @y)
@@ -59,19 +59,6 @@ export class Vector
     -- Set x and y
     @x = x
     @y = y
-
-  -- Get cos and sin of the angle
-  -- angle: The angle
-  getCosSin: (angle) =>
-    -- Get cos of the angle
-    cos_angle = math.cos angle
-
-    -- Get cos and sin from cos
-    sin_angle = math.sqrt 1 - (cos_angle * cos_angle)
-    cos_angle = math.sqrt 1 - (sin_angle * sin_angle)
-
-    -- Return cos and sin of the angle
-    return cos_angle, sin_angle
 
   -- Add a Vector to this
   -- vec: The Vector to add to this

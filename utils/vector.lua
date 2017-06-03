@@ -22,17 +22,11 @@ do
       return newVec:getLength()
     end,
     rotate = function(self, angle)
-      local cos_angle, sin_angle = self:getCosSin(angle)
+      local cos_angle, sin_angle = (math.cos(angle)), (math.sin(angle))
       local x = (cos_angle * self.x) - (sin_angle * self.y)
       local y = (sin_angle * self.x) + (cos_angle * self.y)
       self.x = x
       self.y = y
-    end,
-    getCosSin = function(self, angle)
-      local cos_angle = math.cos(angle)
-      local sin_angle = math.sqrt(1 - (cos_angle * cos_angle))
-      cos_angle = math.sqrt(1 - (sin_angle * sin_angle))
-      return cos_angle, sin_angle
     end,
     add = function(self, vec)
       self.x = self.x + vec.x
