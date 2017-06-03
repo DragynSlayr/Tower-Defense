@@ -53,8 +53,12 @@ export class Vector
     cos_angle, sin_angle = @getCosSin angle
 
     -- Rotate x and y
-    @x = (cos_angle * @x) - (sin_angle * @y)
-    @y = (sin_angle * @x) + (cos_angle * @y)
+    x = (cos_angle * @x) - (sin_angle * @y)
+    y = (sin_angle * @x) + (cos_angle * @y)
+
+    -- Set x and y
+    @x = x
+    @y = y
 
   -- Get cos and sin of the angle
   -- angle: The angle
