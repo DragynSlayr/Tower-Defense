@@ -7,7 +7,7 @@ export class DarkWave extends Wave
     @max_time = (1 / @spawn_count) + 1
     @parent.parent.shader = love.graphics.newShader "shaders/distance.fs"
     @parent.parent.shader\send "screen_size", Screen_Size.size
-    @parent.parent.shader\send "size", (10 - (0.5 * Upgrade.player_stats[2])) * Scale.diag
+    @parent.parent.shader\send "size", 10 - (0.5 * Upgrade.player_stats[2])
 
   start: =>
     for i = 1, @target

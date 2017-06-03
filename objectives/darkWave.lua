@@ -62,7 +62,7 @@ do
       self.max_time = (1 / self.spawn_count) + 1
       self.parent.parent.shader = love.graphics.newShader("shaders/distance.fs")
       self.parent.parent.shader:send("screen_size", Screen_Size.size)
-      return self.parent.parent.shader:send("size", (10 - (0.5 * Upgrade.player_stats[2])) * Scale.diag)
+      return self.parent.parent.shader:send("size", 10 - (0.5 * Upgrade.player_stats[2]))
     end,
     __base = _base_0,
     __name = "DarkWave",
