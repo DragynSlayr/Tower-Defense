@@ -1,6 +1,6 @@
 love.conf = function(t)
   t.console = true
-  t.window.fullscreen = true
+  t.window.fullscreen = not true
   t.window.title = "Tower Defense"
   t.window.width = 1366
   t.window.height = 768
