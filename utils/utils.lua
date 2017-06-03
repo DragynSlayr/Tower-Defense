@@ -126,6 +126,18 @@ split = function(str, char)
   splitted[#splitted + 1] = s
   return splitted
 end
+trim = function(str, len)
+  str = tostring(str)
+  if #str <= len then
+    return str
+  else
+    local s = ""
+    for i = 1, len do
+      s = s .. string.sub(str, i, i)
+    end
+    return s
+  end
+end
 tableToString = function(tab, depth)
   if depth == nil then
     depth = 0

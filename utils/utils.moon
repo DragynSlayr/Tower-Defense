@@ -140,6 +140,16 @@ export split = (str, char) ->
   splitted[#splitted + 1] = s
   return splitted
 
+export trim = (str, len) ->
+  str = tostring str
+  if #str <= len
+    return str
+  else
+    s = ""
+    for i = 1, len
+      s ..= string.sub str, i, i
+    return s
+
 export tableToString = (tab, depth = 0) ->
   if (type tab) == "table"
     s = "{ "
