@@ -139,3 +139,21 @@ export split = (str, char) ->
       s ..= c
   splitted[#splitted + 1] = s
   return splitted
+
+export tableToString = (tab, depth = 0) ->
+  if (type tab) == "table"
+    s = "{ "
+    for k, v in pairs tab
+      if (type v) == "table"
+        s ..= "\n"
+        for i = 1, depth + 1
+          s ..= "\t"
+        s ..= (tableToString v, depth + 1) .. "\n"
+        for i = 1, depth
+          s ..= "\t"
+      else
+        s ..= "\'" .. (tableToString v) .. "\' "
+    s ..= "}"
+    return s
+  else
+    return tab

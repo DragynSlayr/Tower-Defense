@@ -126,3 +126,29 @@ split = function(str, char)
   splitted[#splitted + 1] = s
   return splitted
 end
+tableToString = function(tab, depth)
+  if depth == nil then
+    depth = 0
+  end
+  if (type(tab)) == "table" then
+    local s = "{ "
+    for k, v in pairs(tab) do
+      if (type(v)) == "table" then
+        s = s .. "\n"
+        for i = 1, depth + 1 do
+          s = s .. "\t"
+        end
+        s = s .. ((tableToString(v, depth + 1)) .. "\n")
+        for i = 1, depth do
+          s = s .. "\t"
+        end
+      else
+        s = s .. ("\'" .. (tableToString(v)) .. "\' ")
+      end
+    end
+    s = s .. "}"
+    return s
+  else
+    return tab
+  end
+end
