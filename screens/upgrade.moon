@@ -76,10 +76,7 @@ export class UpgradeScreen extends Screen
         if j == 1
           stats = Stats.turret
 
-        message = stats[i]
-        if i == 2 or (i == 4 and j == 0)
-          message = math.floor message
-
+        message = string.format "%.2f", stats[i]
         Renderer\drawHUDMessage message, Screen_Size.width * 0.8, y
 
     message = "Skill Points: " .. @skill_points

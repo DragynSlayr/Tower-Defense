@@ -61,10 +61,7 @@ do
           if j == 1 then
             stats = Stats.turret
           end
-          local message = stats[i]
-          if i == 2 or (i == 4 and j == 0) then
-            message = math.floor(message)
-          end
+          local message = string.format("%.2f", stats[i])
           Renderer:drawHUDMessage(message, Screen_Size.width * 0.8, y)
         end
       end
