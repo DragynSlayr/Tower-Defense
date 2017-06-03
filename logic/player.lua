@@ -112,6 +112,7 @@ do
         self.speed = Vector(0, 0)
       end
       _class_0.__parent.__base.update(self, dt)
+      self.bullet_position:rotate(dt * 1.25 * math.pi)
       if self.elapsed > self.turret_cooldown then
         self.can_place = true
       end
@@ -121,7 +122,7 @@ do
           local player = self:getHitBox()
           player.radius = player.radius + self.attack_range
           if enemy:contains(player) then
-            local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
+            local bullet = PlayerBullet(self.bullet_position.x + self.position.x, self.bullet_position.y + self.position.y, v, self.damage)
             Driver:addObject(bullet, EntityTypes.bullet)
           end
         end
@@ -133,7 +134,7 @@ do
             local player = self:getHitBox()
             player.radius = player.radius + self.attack_range
             if goal:contains(player) then
-              local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
+              local bullet = PlayerBullet(self.bullet_position.x + self.position.x, self.bullet_position.y + self.position.y, v, self.damage)
               Driver:addObject(bullet, EntityTypes.bullet)
             end
           else
@@ -215,7 +216,13 @@ do
       love.graphics.setColor(255, 0, 0, 255)
       ratio = self.health / self.max_health
       love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
-      return Renderer:drawAlignedMessage("Player Health", Screen_Size.height - (47 * Scale.height), nil, self.font)
+      Renderer:drawAlignedMessage("Player Health", Screen_Size.height - (47 * Scale.height), nil, self.font)
+      love.graphics.setColor(0, 0, 0, 255)
+      local width = 10 * Scale.width
+      local height = 10 * Scale.height
+      local x = self.position.x + self.bullet_position.x - (width / 2)
+      local y = self.position.y + self.bullet_position.y - (height / 2)
+      return love.graphics.rectangle("fill", x, y, width, height)
     end,
     kill = function(self)
       _class_0.__parent.kill(self)
@@ -245,6 +252,9 @@ do
       self.num_turrets = 0
       self.turret = { }
       self.font = Renderer:newFont(20)
+      local bounds = self:getHitBox()
+      local width = bounds.radius + self.attack_range
+      self.bullet_position = Vector(width, 0)
     end,
     __base = _base_0,
     __name = "Player",

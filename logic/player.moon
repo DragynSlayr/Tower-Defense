@@ -24,6 +24,10 @@ export class Player extends GameObject
 
     @font = Renderer\newFont 20
 
+    bounds = @getHitBox!
+    width = bounds.radius + @attack_range
+    @bullet_position = Vector width, 0
+
   onCollide: (object) =>
     if not @alive return
     if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret
@@ -100,6 +104,7 @@ export class Player extends GameObject
     if @keys_pushed == 0
       @speed = Vector 0, 0
     super dt
+    @bullet_position\rotate dt * 1.25 * math.pi
     if @elapsed > @turret_cooldown
       @can_place = true
     if Driver.objects[EntityTypes.enemy]
@@ -108,7 +113,7 @@ export class Player extends GameObject
         player = @getHitBox!
         player.radius += @attack_range
         if enemy\contains player
-          bullet = PlayerBullet @position.x, @position.y, v, @damage
+          bullet = PlayerBullet @bullet_position.x + @position.x, @bullet_position.y + @position.y, v, @damage
           Driver\addObject bullet, EntityTypes.bullet
     if Driver.objects[EntityTypes.goal]
       for k, v in pairs Driver.objects[EntityTypes.goal]
@@ -117,7 +122,7 @@ export class Player extends GameObject
           player = @getHitBox!
           player.radius += @attack_range
           if goal\contains player
-            bullet = PlayerBullet @position.x, @position.y, v, @damage
+            bullet = PlayerBullet @bullet_position.x + @position.x, @bullet_position.y + @position.y, v, @damage
             Driver\addObject bullet, EntityTypes.bullet
         else if v.goal_type == GoalTypes.find
           goal = v\getHitBox!
@@ -186,6 +191,13 @@ export class Player extends GameObject
     love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (197 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
 
     Renderer\drawAlignedMessage "Player Health", Screen_Size.height - (47 * Scale.height), nil, @font
+
+    love.graphics.setColor 0, 0, 0, 255
+    width = 10 * Scale.width
+    height = 10 * Scale.height
+    x = @position.x + @bullet_position.x - (width / 2)
+    y = @position.y + @bullet_position.y - (height / 2)
+    love.graphics.rectangle("fill", x, y, width, height)
 
   kill: =>
     super\kill!
