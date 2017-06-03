@@ -16,6 +16,13 @@ export class UpgradeScreen extends Screen
     @amount[1] = {{5, 11, 18, 26, 35, 45}, {25, 50, 80, 115, 155, 200}, {0.2, 0.5, 1.0, 1.5, 2.0, 2.8}, {50, 100, 175, 250, 325, 400}}
     @amount[2] = {{4, 8, 13, 18, 24, 32}, {15, 30, 50, 70, 100, 150}, {0.25, 0.75, 1.25, 2.0, 2.8, 3.65}, {-2.5, -5.0, -7.5, -10.0, -12.5, -15.0}}
 
+    for k = 1, #@amount
+      for k2 = 1, #@amount[k][2]
+        @amount[k][2][k2] *= Scale.diag
+
+    for k = 1, #@amount[1][4]
+      @amount[1][4][k] *= Scale.diag
+
   add_point: (num) =>
     @skill_points += num
 

@@ -170,6 +170,14 @@ do
           -15.0
         }
       }
+      for k = 1, #self.amount do
+        for k2 = 1, #self.amount[k][2] do
+          self.amount[k][2][k2] = self.amount[k][2][k2] * Scale.diag
+        end
+      end
+      for k = 1, #self.amount[1][4] do
+        self.amount[1][4][k] = self.amount[1][4][k] * Scale.diag
+      end
     end,
     __base = _base_0,
     __name = "UpgradeScreen",
