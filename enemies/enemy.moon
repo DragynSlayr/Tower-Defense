@@ -3,7 +3,7 @@ export class Enemy extends GameObject
     super x, y, sprite
     @target = target
     bounds = @sprite\getBounds 0, 0
-    @attack_range = bounds.radius * 1.25
+    @attack_range = bounds.radius * 2
     @delay = 1
     @id = EntityTypes.enemy
     --@health = @health + (Scaling.health * Objectives\getLevel!)
@@ -12,6 +12,22 @@ export class Enemy extends GameObject
     @max_speed = 150 * Scale.diag-- + (Scaling.speed * Objectives\getLevel!)
     @speed_multiplier = @max_speed
     @value = 1
+
+    splitted = split @normal_sprite.name, "."
+    name = splitted[1] .. "Action." .. splitted[2]
+    height, width, delay, scale = @normal_sprite\getProperties!
+
+    @action_sprite = ActionSprite name, height, width, delay, scale, @, () =>
+      print "Here"
+      target = @parent.target\getHitBox!
+      enemy = @parent\getHitBox!
+      enemy.radius += @parent.attack_range
+      if @parent.elapsed >= @parent.delay and target\contains enemy
+        @parent.elapsed = 0
+        @parent.target\onCollide @parent
+        @parent.speed_multiplier = 0
+        if @parent.target.health <= 0
+          @parent\findNearestTarget!
 
   __tostring: =>
     return "Enemy"
@@ -40,11 +56,7 @@ export class Enemy extends GameObject
       enemy = @getHitBox!
       enemy.radius += @attack_range
       if @elapsed >= @delay and target\contains enemy
-        @elapsed = 0
-        @target\onCollide @
-        @speed_multiplier = 0
-        if @target.health <= 0
-          @findNearestTarget!
+        @sprite = @action_sprite
     else
       @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
       length = @speed\getLength!

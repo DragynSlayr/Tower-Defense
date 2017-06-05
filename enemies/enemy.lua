@@ -38,12 +38,7 @@ do
         local enemy = self:getHitBox()
         enemy.radius = enemy.radius + self.attack_range
         if self.elapsed >= self.delay and target:contains(enemy) then
-          self.elapsed = 0
-          self.target:onCollide(self)
-          self.speed_multiplier = 0
-          if self.target.health <= 0 then
-            return self:findNearestTarget()
-          end
+          self.sprite = self.action_sprite
         end
       else
         self.speed = Vector(self.target.position.x - self.position.x, self.target.position.y - self.position.y)
@@ -134,12 +129,29 @@ do
       _class_0.__parent.__init(self, x, y, sprite)
       self.target = target
       local bounds = self.sprite:getBounds(0, 0)
-      self.attack_range = bounds.radius * 1.25
+      self.attack_range = bounds.radius * 2
       self.delay = 1
       self.id = EntityTypes.enemy
       self.max_speed = 150 * Scale.diag
       self.speed_multiplier = self.max_speed
       self.value = 1
+      local splitted = split(self.normal_sprite.name, ".")
+      local name = splitted[1] .. "Action." .. splitted[2]
+      local height, width, delay, scale = self.normal_sprite:getProperties()
+      self.action_sprite = ActionSprite(name, height, width, delay, scale, self, function(self)
+        print("Here")
+        target = self.parent.target:getHitBox()
+        local enemy = self.parent:getHitBox()
+        enemy.radius = enemy.radius + self.parent.attack_range
+        if self.parent.elapsed >= self.parent.delay and target:contains(enemy) then
+          self.parent.elapsed = 0
+          self.parent.target:onCollide(self.parent)
+          self.parent.speed_multiplier = 0
+          if self.parent.target.health <= 0 then
+            return self.parent:findNearestTarget()
+          end
+        end
+      end)
     end,
     __base = _base_0,
     __name = "Enemy",
