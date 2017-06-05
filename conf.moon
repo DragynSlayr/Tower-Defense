@@ -1,9 +1,9 @@
 love.conf = (t) ->
   t.console = true
-  t.window.fullscreen = true
+  t.window.fullscreen = false
   t.window.title = "Tower Defense"
-  t.window.width = 1366
-  t.window.height = 768
+  t.window.width = 1600
+  t.window.height = 900
   t.window.vsync = true
   t.window.msaa = 8
 
