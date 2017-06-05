@@ -12,6 +12,9 @@ export class GameObject
     @draw_health = true
     @score_value = 0
 
+    @normal_sprite = @sprite
+    @action_sprite = @sprite
+
   getHitBox: =>
     return @sprite\getBounds @position.x, @position.y
 

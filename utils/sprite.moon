@@ -7,6 +7,9 @@ export class Sprite
   -- delay: The length of an animation cycle for this Sprite
   -- scale: How much to scale this Sprite by
   new: (name, height, width = height, delay = 1.0, scale = 1.0) =>
+    @name = name
+    @props = {height, width, delay, scale}
+
     -- Define flags for rendering
     flags = {}
     flags["linear"] = false
@@ -38,6 +41,9 @@ export class Sprite
     -- Variables for handling rotation
     @rotation = 0
     @rotation_speed = 0
+
+  getProperties: () =>
+    return @props[1], @props[2], @props[3], @props[4]
 
   -- Set the color of the Sprite
   -- color: The color of the Sprite

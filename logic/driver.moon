@@ -150,6 +150,15 @@ export class Driver
 
       -- Create a player
       player = Player love.graphics.getWidth! / 2, love.graphics.getHeight! / 2
+
+      --player.action_sprite = ActionSprite "test.tga", 16, 16, 0.29, 4, player, () =>
+      --  print "Hello"
+      --  @parent.sprite = @parent.action_sprite
+      --  @parent.count += 1
+      --  print "Looping " .. @parent.count
+      --player.sprite = player.action_sprite
+      --player.count = 0
+
       Driver\addObject player, EntityTypes.player
 
       -- Start game
@@ -225,7 +234,7 @@ export class Driver
         love.graphics.setColor 200, 200, 200, 100
         bounds = Screen_Size.border
         love.graphics.rectangle "fill", bounds[1], bounds[2], bounds[3], bounds[4]
-        
+
       love.graphics.setColor 0, 0, 0, 127
       love.graphics.setFont Renderer.small_font
       love.graphics.printf VERSION .. "\t", 0, Screen_Size.height - (25 * Scale.height), Screen_Size.width, "right"

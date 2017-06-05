@@ -28,3 +28,8 @@ require "utils.circle"
 --| Depends on math classes |--
 --+-------------------------+--
 require "utils.sprite"
+
+--+-------------------+--
+--| Depends on sprite |--
+--+-------------------+--
+require "utils.actionSprite"

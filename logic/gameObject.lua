@@ -107,6 +107,8 @@ do
       self.id = nil
       self.draw_health = true
       self.score_value = 0
+      self.normal_sprite = self.sprite
+      self.action_sprite = self.sprite
     end,
     __base = _base_0,
     __name = "GameObject"

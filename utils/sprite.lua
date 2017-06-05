@@ -1,6 +1,9 @@
 do
   local _class_0
   local _base_0 = {
+    getProperties = function(self)
+      return self.props[1], self.props[2], self.props[3], self.props[4]
+    end,
     setColor = function(self, color)
       self.color = color
     end,
@@ -64,6 +67,13 @@ do
       if scale == nil then
         scale = 1.0
       end
+      self.name = name
+      self.props = {
+        height,
+        width,
+        delay,
+        scale
+      }
       local flags = { }
       flags["linear"] = false
       flags["mipmaps"] = true
