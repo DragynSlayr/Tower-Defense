@@ -53,7 +53,7 @@ export class Turret extends GameObject
 
   draw: =>
     if not @alive return
-    if DEBUGGING or SHOW_RANGE
+    if DEBUGGING-- or SHOW_RANGE
       love.graphics.push "all"
       love.graphics.setColor 255, 0, 0, 127
       love.graphics.circle "fill", @position.x, @position.y, @range, 360

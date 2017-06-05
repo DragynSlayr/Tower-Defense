@@ -54,7 +54,7 @@ do
       if not self.alive then
         return 
       end
-      if DEBUGGING or SHOW_RANGE then
+      if DEBUGGING then
         love.graphics.push("all")
         love.graphics.setColor(255, 0, 0, 127)
         love.graphics.circle("fill", self.position.x, self.position.y, self.range, 360)
