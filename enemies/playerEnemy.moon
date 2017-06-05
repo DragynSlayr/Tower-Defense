@@ -1,7 +1,7 @@
 export class PlayerEnemy extends Enemy
   new: (x, y) =>
     sprite = Sprite "enemy/enemy.tga", 26, 26, 1, 0.75
-    super x, y, sprite
+    super x, y, sprite, 1, 1
     @enemyType = EnemyTypes.player
     @score_value = 150
 
