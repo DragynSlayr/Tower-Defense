@@ -124,10 +124,12 @@ export class Player extends GameObject
         player = @getHitBox!
         player.radius += @attack_range
         if enemy\contains player
-          @globe_index += 1
-          if @globe_index > #@globes
-            @globe_index = 1
-          bullet_position = @globes[@globe_index]
+          bullet_position = Vector 0, 0
+          --if SHOW_RANGE
+          --  @globe_index += 1
+          --  if @globe_index > #@globes
+          --    @globe_index = 1
+          --  bullet_position = @globes[@globe_index]
           bullet = PlayerBullet bullet_position.x + @position.x, bullet_position.y + @position.y, v, @damage
           Driver\addObject bullet, EntityTypes.bullet
     if Driver.objects[EntityTypes.goal]
@@ -137,10 +139,12 @@ export class Player extends GameObject
           player = @getHitBox!
           player.radius += @attack_range
           if goal\contains player
-            @globe_index += 1
-            if @globe_index > #@globes
-              @globe_index = 1
-            bullet_position = @globes[@globe_index]
+            bullet_position = Vector 0, 0
+            --if SHOW_RANGE
+            --  @globe_index += 1
+            --  if @globe_index > #@globes
+            --    @globe_index = 1
+            --  bullet_position = @globes[@globe_index]
             bullet = PlayerBullet bullet_position.x + @position.x, bullet_position.y + @position.y, v, @damage
             Driver\addObject bullet, EntityTypes.bullet
         else if v.goal_type == GoalTypes.find
@@ -159,7 +163,7 @@ export class Player extends GameObject
 
   draw: =>
     if not @alive return
-    if DEBUGGING or SHOW_RANGE
+    if DEBUGGING
       love.graphics.push "all"
       love.graphics.setColor 0, 0, 255, 100
       player = @getHitBox!
@@ -211,11 +215,12 @@ export class Player extends GameObject
 
     Renderer\drawAlignedMessage "Player Health", Screen_Size.height - (47 * Scale.height), nil, @font
 
-    love.graphics.setColor 0, 255, 255, 255
-    for k, bullet_position in pairs @globes
-      x = @position.x + bullet_position.x
-      y = @position.y + bullet_position.y
-      love.graphics.circle "fill", x, y, 8 * Scale.diag, 360
+    if SHOW_RANGE
+      love.graphics.setColor 0, 255, 255, 255
+      for k, bullet_position in pairs @globes
+        x = @position.x + bullet_position.x
+        y = @position.y + bullet_position.y
+        love.graphics.circle "fill", x, y, 8 * Scale.diag, 360
 
   kill: =>
     super\kill!

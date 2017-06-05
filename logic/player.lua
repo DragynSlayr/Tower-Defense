@@ -124,11 +124,7 @@ do
           local player = self:getHitBox()
           player.radius = player.radius + self.attack_range
           if enemy:contains(player) then
-            self.globe_index = self.globe_index + 1
-            if self.globe_index > #self.globes then
-              self.globe_index = 1
-            end
-            local bullet_position = self.globes[self.globe_index]
+            local bullet_position = Vector(0, 0)
             local bullet = PlayerBullet(bullet_position.x + self.position.x, bullet_position.y + self.position.y, v, self.damage)
             Driver:addObject(bullet, EntityTypes.bullet)
           end
@@ -141,11 +137,7 @@ do
             local player = self:getHitBox()
             player.radius = player.radius + self.attack_range
             if goal:contains(player) then
-              self.globe_index = self.globe_index + 1
-              if self.globe_index > #self.globes then
-                self.globe_index = 1
-              end
-              local bullet_position = self.globes[self.globe_index]
+              local bullet_position = Vector(0, 0)
               local bullet = PlayerBullet(bullet_position.x + self.position.x, bullet_position.y + self.position.y, v, self.damage)
               Driver:addObject(bullet, EntityTypes.bullet)
             end
@@ -182,7 +174,7 @@ do
       if not self.alive then
         return 
       end
-      if DEBUGGING or SHOW_RANGE then
+      if DEBUGGING then
         love.graphics.push("all")
         love.graphics.setColor(0, 0, 255, 100)
         local player = self:getHitBox()
@@ -229,11 +221,13 @@ do
       ratio = self.health / self.max_health
       love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
       Renderer:drawAlignedMessage("Player Health", Screen_Size.height - (47 * Scale.height), nil, self.font)
-      love.graphics.setColor(0, 255, 255, 255)
-      for k, bullet_position in pairs(self.globes) do
-        local x = self.position.x + bullet_position.x
-        local y = self.position.y + bullet_position.y
-        love.graphics.circle("fill", x, y, 8 * Scale.diag, 360)
+      if SHOW_RANGE then
+        love.graphics.setColor(0, 255, 255, 255)
+        for k, bullet_position in pairs(self.globes) do
+          local x = self.position.x + bullet_position.x
+          local y = self.position.y + bullet_position.y
+          love.graphics.circle("fill", x, y, 8 * Scale.diag, 360)
+        end
       end
     end,
     kill = function(self)
