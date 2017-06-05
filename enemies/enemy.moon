@@ -19,7 +19,6 @@ export class Enemy extends GameObject
     height, width, _, scale = @normal_sprite\getProperties!
 
     @action_sprite = ActionSprite name, height, width, attack_speed, scale, @, () =>
-      print "Here"
       target = @parent.target\getHitBox!
       enemy = @parent\getHitBox!
       enemy.radius += @parent.attack_range
@@ -64,7 +63,6 @@ export class Enemy extends GameObject
         else
           @sprite = @action_sprite
           @attacked_once = true
-
     else
       @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
       length = @speed\getLength!
@@ -93,7 +91,7 @@ export class Enemy extends GameObject
     if @sprite == @action_sprite
       alpha = map @action_sprite.current_frame, 1, @action_sprite.frames, 100, 255
       love.graphics.setColor 255, 0, 0, alpha
-    if DEBUGGING or @sprite == @action_sprite
+    if DEBUGGING --or @sprite == @action_sprite
       enemy = @getHitBox!
       love.graphics.circle "fill", @position.x, @position.y, @attack_range + enemy.radius, 360
     love.graphics.pop!

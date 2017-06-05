@@ -82,7 +82,7 @@ do
         local alpha = map(self.action_sprite.current_frame, 1, self.action_sprite.frames, 100, 255)
         love.graphics.setColor(255, 0, 0, alpha)
       end
-      if DEBUGGING or self.sprite == self.action_sprite then
+      if DEBUGGING then
         local enemy = self:getHitBox()
         love.graphics.circle("fill", self.position.x, self.position.y, self.attack_range + enemy.radius, 360)
       end
@@ -154,7 +154,6 @@ do
       local name = splitted[1] .. "Action." .. splitted[2]
       local height, width, _, scale = self.normal_sprite:getProperties()
       self.action_sprite = ActionSprite(name, height, width, attack_speed, scale, self, function(self)
-        print("Here")
         target = self.parent.target:getHitBox()
         local enemy = self.parent:getHitBox()
         enemy.radius = enemy.radius + self.parent.attack_range
