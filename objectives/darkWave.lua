@@ -33,7 +33,7 @@ do
           self.elapsed = 0
           self.spawn_count = self.spawn_count + 1
           self.max_time = (1 / self.spawn_count) + 1
-          self.parent.parent:spawn(EnemyTypes.player)
+          self.parent.parent:spawn(EnemyTypes.spawner)
         end
       end
       if self.killed == self.target then
