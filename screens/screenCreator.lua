@@ -10,7 +10,8 @@ do
         "s",
         "d",
         "p",
-        "e"
+        "e",
+        "z"
       }) do
         keys[v] = Sprite("keys/" .. v .. ".tga", 32, 32, 1, 1)
       end
@@ -64,6 +65,13 @@ do
       i = Icon(x, y, keys["space"])
       UI:add(i)
       text = "Place/Repair Turret"
+      t = Text(x, y + (36 * Scale.height), text, font)
+      UI:add(t)
+      x = (Screen_Size.width / 3) - (100 * Scale.width)
+      y = start_y + (46 * Scale.height)
+      i = Icon(x, y, keys["z"])
+      UI:add(i)
+      text = "Toggle Range"
       t = Text(x, y + (36 * Scale.height), text, font)
       return UI:add(t)
     end,

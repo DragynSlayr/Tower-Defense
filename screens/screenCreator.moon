@@ -8,7 +8,7 @@ export class ScreenCreator
   createHelp: =>
     keys = {}
     keys["space"] = Sprite "keys/space.tga", 32, 64, 1, 1
-    for k, v in pairs {"w", "a", "s", "d", "p", "e"}
+    for k, v in pairs {"w", "a", "s", "d", "p", "e", "z"}
       keys[v] = Sprite "keys/" .. v .. ".tga", 32, 32, 1, 1
 
     font = Renderer\newFont 20
@@ -83,6 +83,16 @@ export class ScreenCreator
     UI\add i
 
     text = "Place/Repair Turret"
+    t = Text x, y + (36 * Scale.height), text, font
+    UI\add t
+
+    -- Z key
+    x = (Screen_Size.width / 3) - (100 * Scale.width)
+    y = start_y + (46 * Scale.height)
+    i = Icon x, y, keys["z"]
+    UI\add i
+
+    text = "Toggle Range"
     t = Text x, y + (36 * Scale.height), text, font
     UI\add t
 
