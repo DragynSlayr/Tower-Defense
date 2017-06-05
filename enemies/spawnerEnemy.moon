@@ -1,7 +1,9 @@
 export class SpawnerEnemy extends Enemy
   new: (x, y) =>
     sprite = Sprite "projectile/dart.tga", 17, 17, 1, 2
-    super x, y, sprite, 1, 1
+    attack_speed = 0.65 - (0.01 * Objectives\getLevel!)
+    attack_speed = math.max 0.4, attack_speed
+    super x, y, sprite, 1, attack_speed
     @enemyType = EnemyTypes.spawner
     @score_value = 50
 

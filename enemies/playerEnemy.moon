@@ -1,7 +1,9 @@
 export class PlayerEnemy extends Enemy
   new: (x, y) =>
     sprite = Sprite "enemy/enemy.tga", 26, 26, 1, 0.75
-    super x, y, sprite, 1, 1
+    attack_speed = 0.6 - (0.01 * Objectives\getLevel!)
+    attack_speed = math.max 0.3, attack_speed
+    super x, y, sprite, 1, attack_speed
     @enemyType = EnemyTypes.player
     @score_value = 150
 

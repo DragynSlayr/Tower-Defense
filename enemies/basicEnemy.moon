@@ -1,7 +1,9 @@
 export class BasicEnemy extends Enemy
   new: (x, y) =>
     sprite = Sprite "enemy/tracker.tga", 32, 32, 1, 1.25
-    super x, y, sprite, 1, 1
+    attack_speed = 0.75 - (0.01 * Objectives\getLevel!)
+    attack_speed = math.max 0.5, attack_speed
+    super x, y, sprite, 1, attack_speed
     @enemyType = EnemyTypes.basic
     @score_value = 100
 

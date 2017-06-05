@@ -27,7 +27,9 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("enemy/enemy.tga", 26, 26, 1, 0.75)
-      _class_0.__parent.__init(self, x, y, sprite, 1, 1)
+      local attack_speed = 0.6 - (0.01 * Objectives:getLevel())
+      attack_speed = math.max(0.3, attack_speed)
+      _class_0.__parent.__init(self, x, y, sprite, 1, attack_speed)
       self.enemyType = EnemyTypes.player
       self.score_value = 150
       self.health = 6 + (6.4 * Objectives:getLevel())

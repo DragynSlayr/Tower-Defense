@@ -30,7 +30,9 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("projectile/dart.tga", 17, 17, 1, 2)
-      _class_0.__parent.__init(self, x, y, sprite, 1, 1)
+      local attack_speed = 0.65 - (0.01 * Objectives:getLevel())
+      attack_speed = math.max(0.4, attack_speed)
+      _class_0.__parent.__init(self, x, y, sprite, 1, attack_speed)
       self.enemyType = EnemyTypes.spawner
       self.score_value = 50
       self.health = 12 + (13.2 * Objectives:getLevel())

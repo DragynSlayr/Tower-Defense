@@ -1,7 +1,9 @@
 export class StrongEnemy extends Enemy
   new: (x, y) =>
     sprite = Sprite "enemy/bullet.tga", 26, 20, 1, 2
-    super x, y, sprite, 1, 1
+    attack_speed = 0.8 - (0.01 * Objectives\getLevel!)
+    attack_speed = math.max 0.5, attack_speed
+    super x, y, sprite, 1, attack_speed
     @enemyType = EnemyTypes.strong
     @score_value = 200
 
