@@ -1,10 +1,10 @@
 export class Enemy extends GameObject
-  new: (x, y, sprite, target = nil) =>
+  new: (x, y, sprite, attack_delay, attack_speed, target = nil) =>
     super x, y, sprite
     @target = target
     bounds = @sprite\getBounds 0, 0
     @attack_range = bounds.radius * 2
-    @delay = 1
+    @delay = attack_delay
     @id = EntityTypes.enemy
     --@health = @health + (Scaling.health * Objectives\getLevel!)
     --@max_health = @health
@@ -12,17 +12,18 @@ export class Enemy extends GameObject
     @max_speed = 150 * Scale.diag-- + (Scaling.speed * Objectives\getLevel!)
     @speed_multiplier = @max_speed
     @value = 1
+    @attacked_once = false
 
     splitted = split @normal_sprite.name, "."
     name = splitted[1] .. "Action." .. splitted[2]
-    height, width, delay, scale = @normal_sprite\getProperties!
+    height, width, _, scale = @normal_sprite\getProperties!
 
-    @action_sprite = ActionSprite name, height, width, delay, scale, @, () =>
+    @action_sprite = ActionSprite name, height, width, attack_speed, scale, @, () =>
       print "Here"
       target = @parent.target\getHitBox!
       enemy = @parent\getHitBox!
       enemy.radius += @parent.attack_range
-      if @parent.elapsed >= @parent.delay and target\contains enemy
+      if target\contains enemy
         @parent.elapsed = 0
         @parent.target\onCollide @parent
         @parent.speed_multiplier = 0
@@ -55,8 +56,15 @@ export class Enemy extends GameObject
       target = @target\getHitBox!
       enemy = @getHitBox!
       enemy.radius += @attack_range
-      if @elapsed >= @delay and target\contains enemy
-        @sprite = @action_sprite
+      can_attack = target\contains enemy
+      if can_attack
+        if @attacked_once
+          if @elapsed >= @delay
+            @sprite = @action_sprite
+        else
+          @sprite = @action_sprite
+          @attacked_once = true
+
     else
       @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
       length = @speed\getLength!
@@ -79,12 +87,16 @@ export class Enemy extends GameObject
 
   draw: =>
     if not @alive return
+    love.graphics.push "all"
     if DEBUGGING
-      love.graphics.push "all"
       love.graphics.setColor 255, 0, 255, 127
+    if @sprite == @action_sprite
+      alpha = map @action_sprite.current_frame, 1, @action_sprite.frames, 100, 255
+      love.graphics.setColor 255, 0, 0, alpha
+    if DEBUGGING or @sprite == @action_sprite
       enemy = @getHitBox!
       love.graphics.circle "fill", @position.x, @position.y, @attack_range + enemy.radius, 360
-      love.graphics.pop!
+    love.graphics.pop!
     super!
 
   findNearestTarget: (all = false) =>

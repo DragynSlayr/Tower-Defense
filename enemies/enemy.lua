@@ -37,8 +37,16 @@ do
         local target = self.target:getHitBox()
         local enemy = self:getHitBox()
         enemy.radius = enemy.radius + self.attack_range
-        if self.elapsed >= self.delay and target:contains(enemy) then
-          self.sprite = self.action_sprite
+        local can_attack = target:contains(enemy)
+        if can_attack then
+          if self.attacked_once then
+            if self.elapsed >= self.delay then
+              self.sprite = self.action_sprite
+            end
+          else
+            self.sprite = self.action_sprite
+            self.attacked_once = true
+          end
         end
       else
         self.speed = Vector(self.target.position.x - self.position.x, self.target.position.y - self.position.y)
@@ -66,13 +74,19 @@ do
       if not self.alive then
         return 
       end
+      love.graphics.push("all")
       if DEBUGGING then
-        love.graphics.push("all")
         love.graphics.setColor(255, 0, 255, 127)
+      end
+      if self.sprite == self.action_sprite then
+        local alpha = map(self.action_sprite.current_frame, 1, self.action_sprite.frames, 100, 255)
+        love.graphics.setColor(255, 0, 0, alpha)
+      end
+      if DEBUGGING or self.sprite == self.action_sprite then
         local enemy = self:getHitBox()
         love.graphics.circle("fill", self.position.x, self.position.y, self.attack_range + enemy.radius, 360)
-        love.graphics.pop()
       end
+      love.graphics.pop()
       return _class_0.__parent.__base.draw(self)
     end,
     findNearestTarget = function(self, all)
@@ -122,7 +136,7 @@ do
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y, sprite, target)
+    __init = function(self, x, y, sprite, attack_delay, attack_speed, target)
       if target == nil then
         target = nil
       end
@@ -130,20 +144,21 @@ do
       self.target = target
       local bounds = self.sprite:getBounds(0, 0)
       self.attack_range = bounds.radius * 2
-      self.delay = 1
+      self.delay = attack_delay
       self.id = EntityTypes.enemy
       self.max_speed = 150 * Scale.diag
       self.speed_multiplier = self.max_speed
       self.value = 1
+      self.attacked_once = false
       local splitted = split(self.normal_sprite.name, ".")
       local name = splitted[1] .. "Action." .. splitted[2]
-      local height, width, delay, scale = self.normal_sprite:getProperties()
-      self.action_sprite = ActionSprite(name, height, width, delay, scale, self, function(self)
+      local height, width, _, scale = self.normal_sprite:getProperties()
+      self.action_sprite = ActionSprite(name, height, width, attack_speed, scale, self, function(self)
         print("Here")
         target = self.parent.target:getHitBox()
         local enemy = self.parent:getHitBox()
         enemy.radius = enemy.radius + self.parent.attack_range
-        if self.parent.elapsed >= self.parent.delay and target:contains(enemy) then
+        if target:contains(enemy) then
           self.parent.elapsed = 0
           self.parent.target:onCollide(self.parent)
           self.parent.speed_multiplier = 0
