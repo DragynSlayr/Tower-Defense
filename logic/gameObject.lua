@@ -8,7 +8,11 @@ do
       if not self.alive then
         return 
       end
-      self.health = self.health - object.damage
+      if not self.shielded then
+        self.health = self.health - object.damage
+      else
+        self.shielded = false
+      end
     end,
     kill = function(self)
       local score = SCORE + self.score_value
@@ -27,13 +31,13 @@ do
       local radius = self:getHitBox().radius
       self.position.x = clamp(self.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius)
       self.position.y = clamp(self.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius)
-      if self.id == EntityTypes.bullet then
+      if self.id == EntityTypes.bullet or self.id == EntityTypes.bomb then
         return 
       end
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do
           if not ((self.id == EntityTypes.player and o.id == EntityTypes.turret) or (self.id == EntityTypes.turret and o.id == EntityTypes.player)) then
-            if o ~= self and o.id ~= EntityTypes.bullet then
+            if o ~= self and not (o.id == EntityTypes.bullet or o.id == EntityTypes.bomb) then
               local other = o:getHitBox()
               local this = self:getHitBox()
               if other:contains(this) then
@@ -70,7 +74,10 @@ do
         love.graphics.rectangle("fill", self.position.x - radius, (self.position.y + radius) + (6 * Scale.height), (radius * 2) * ratio, 10 * Scale.height)
         love.graphics.setShader()
       end
-      return love.graphics.pop()
+      love.graphics.pop()
+      if self.shielded then
+        return self.shield_sprite:draw(self.position.x, self.position.y)
+      end
     end,
     isOnScreen = function(self, bounds)
       if bounds == nil then
@@ -107,8 +114,13 @@ do
       self.id = nil
       self.draw_health = true
       self.score_value = 0
+      self.shielded = false
       self.normal_sprite = self.sprite
       self.action_sprite = self.sprite
+      self.shield_sprite = Sprite("shield.tga", 32, 32, 1, 1)
+      local x_scale = self.sprite.scaled_width / 32
+      local y_scale = self.sprite.scaled_height / 32
+      return self.shield_sprite:setScale(x_scale * 1.5, y_scale * 1.5)
     end,
     __base = _base_0,
     __name = "GameObject"

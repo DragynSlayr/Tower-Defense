@@ -11,9 +11,15 @@ export class GameObject
     @id = nil
     @draw_health = true
     @score_value = 0
+    @shielded = false
 
     @normal_sprite = @sprite
     @action_sprite = @sprite
+
+    @shield_sprite = Sprite "shield.tga", 32, 32, 1, 1
+    x_scale = @sprite.scaled_width / 32
+    y_scale = @sprite.scaled_height / 32
+    @shield_sprite\setScale x_scale * 1.5, y_scale * 1.5
 
   getHitBox: =>
     return @sprite\getBounds @position.x, @position.y
@@ -22,7 +28,10 @@ export class GameObject
     if not @alive return
     --print @__name .. " hit " .. object.__name
     --print "Collision"
-    @health -= object.damage
+    if not @shielded
+      @health -= object.damage
+    else
+      @shielded = false
 
   kill: =>
     score = SCORE + @score_value
@@ -39,12 +48,12 @@ export class GameObject
     radius = @getHitBox!.radius
     @position.x = clamp @position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius
     @position.y = clamp @position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius
-    if @id == EntityTypes.bullet
+    if @id == EntityTypes.bullet or @id == EntityTypes.bomb
       return
     for k, v in pairs Driver.objects
       for k2, o in pairs v
         if not ((@id == EntityTypes.player and o.id == EntityTypes.turret) or (@id == EntityTypes.turret and o.id == EntityTypes.player))
-          if o ~= @ and o.id ~= EntityTypes.bullet
+          if o ~= @ and not (o.id == EntityTypes.bullet or o.id == EntityTypes.bomb)
             other = o\getHitBox!
             this = @getHitBox!
             if other\contains this
@@ -72,6 +81,9 @@ export class GameObject
       love.graphics.rectangle "fill", @position.x - radius, (@position.y + radius) + (6 * Scale.height), (radius * 2) * ratio, 10 * Scale.height
       love.graphics.setShader!
     love.graphics.pop!
+    if @shielded
+      @shield_sprite\draw @position.x, @position.y
+
 
   isOnScreen: (bounds = Screen_Size.bounds) =>
     if not @alive return false
