@@ -53,7 +53,7 @@ do
       local sum = 0
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do
-          if k ~= EntityTypes.player and k ~= EntityTypes.turret then
+          if k ~= EntityTypes.player and k ~= EntityTypes.turret and k ~= EntityTypes.bomb then
             sum = sum + 1
           end
         end
@@ -70,7 +70,7 @@ do
           return Driver.pause()
         end
       else
-        if not (Driver.game_state == Game_State.paused or Driver.game_state == Game_State.game_over) then
+        if Driver.game_state == Game_State.playing then
           for k, v in pairs(Driver.objects[EntityTypes.player]) do
             v:keypressed(key)
           end
@@ -78,7 +78,7 @@ do
       end
     end,
     keyreleased = function(key)
-      if not (Driver.game_state == Game_State.paused or Driver.game_state == Game_State.game_over) then
+      if Driver.game_state == Game_State.playing then
         for k, v in pairs(Driver.objects[EntityTypes.player]) do
           v:keyreleased(key)
         end

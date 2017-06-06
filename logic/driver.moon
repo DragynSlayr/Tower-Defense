@@ -54,7 +54,7 @@ export class Driver
       sum = 0
       for k, v in pairs Driver.objects
         for k2, o in pairs v
-          if k ~= EntityTypes.player and k ~= EntityTypes.turret
+          if k ~= EntityTypes.player and k ~= EntityTypes.turret and k ~= EntityTypes.bomb
             sum += 1
       return sum == 0
 
@@ -67,12 +67,12 @@ export class Driver
         else
           Driver.pause!
       else
-        if not (Driver.game_state == Game_State.paused or Driver.game_state == Game_State.game_over)
+        if Driver.game_state == Game_State.playing
           for k, v in pairs Driver.objects[EntityTypes.player]
             v\keypressed key
 
     keyreleased: (key) ->
-      if not (Driver.game_state == Game_State.paused or Driver.game_state == Game_State.game_over)
+      if Driver.game_state == Game_State.playing
         for k, v in pairs Driver.objects[EntityTypes.player]
           v\keyreleased key
 
