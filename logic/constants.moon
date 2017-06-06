@@ -8,6 +8,7 @@ EntityTypes.health = "Health"
 EntityTypes.coin   = "Coin"
 EntityTypes.bullet = "Bullet"
 EntityTypes.goal   = "Goal"
+EntityTypes.bomb   = "Bomb"
 
 EntityTypes.layers = {}
 
@@ -19,6 +20,7 @@ EntityTypes.layers[EntityTypes.health] = 3
 EntityTypes.layers[EntityTypes.coin]   = 3
 EntityTypes.layers[EntityTypes.bullet] = 1
 EntityTypes.layers[EntityTypes.goal]   = 3
+EntityTypes.layers[EntityTypes.bomb]   = 1
 
 export GoalTypes = {}
 
