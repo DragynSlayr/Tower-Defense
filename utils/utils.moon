@@ -166,4 +166,4 @@ export tableToString = (tab, depth = 0) ->
     s ..= "}"
     return s
   else
-    return tab
+    return tostring tab

@@ -161,6 +161,6 @@ tableToString = function(tab, depth)
     s = s .. "}"
     return s
   else
-    return tab
+    return tostring(tab)
   end
 end
