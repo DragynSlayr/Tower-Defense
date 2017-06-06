@@ -1,7 +1,19 @@
 do
   local _class_0
   local _parent_0 = HomingProjectile
-  local _base_0 = { }
+  local _base_0 = {
+    kill = function(self)
+      _class_0.__parent.__base.kill(self)
+      if Upgrade.player_special[1] then
+        if Driver.objects[EntityTypes.player] then
+          for k, p in pairs(Driver.objects[EntityTypes.player]) do
+            p.health = p.health + (1 / 600)
+            p.health = math.min(p.health, p.max_health)
+          end
+        end
+      end
+    end
+  }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({

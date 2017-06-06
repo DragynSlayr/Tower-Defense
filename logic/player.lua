@@ -6,12 +6,16 @@ do
       if not self.alive then
         return 
       end
-      if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret then
-        self.health = self.health - (object.damage / 2)
+      if self.shielded then
+        if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret then
+          self.health = self.health - (object.damage / 2)
+        else
+          self.health = self.health - object.damage
+        end
+        self.hit = true
       else
-        self.health = self.health - object.damage
+        self.shielded = false
       end
-      self.hit = true
     end,
     keypressed = function(self, key)
       if not self.alive then
@@ -45,8 +49,23 @@ do
           return Driver:addObject(enemy, EntityTypes.enemy)
         end
       elseif key == "e" then
-        if self.num_turrets ~= self.max_turrets and self.can_place then
-          self.show_turret = not self.show_turret
+        if self.can_place then
+          if self.num_turrets ~= self.max_turrets then
+            self.show_turret = not self.show_turret
+          else
+            if Upgrade.turret_special[4] then
+              for k, v in pairs(self.turret) do
+                local turret = v:getHitBox()
+                local player = self:getHitBox()
+                player.radius = player.radius + self.repair_range
+                if turret:contains(player) then
+                  self.num_turrets = self.num_turrets - 1
+                  self.turret[k] = nil
+                  Driver:removeObject(v, false)
+                end
+              end
+            end
+          end
         end
       elseif key == "space" then
         if self.show_turret then
@@ -110,23 +129,45 @@ do
       end
       if self.keys_pushed == 0 then
         self.speed = Vector(0, 0)
+        _class_0.__parent.__base.update(self, dt)
+      else
+        local start = Vector(self.speed.x, self.speed.y)
+        local boost = Vector(self.speed_boost, 0)
+        local angle = self.speed:getAngle()
+        boost:rotate(angle)
+        self.speed:add(boost)
+        _class_0.__parent.__base.update(self, dt)
+        self.speed = start
       end
-      _class_0.__parent.__base.update(self, dt)
+      self.bomb_timer = self.bomb_timer + dt
+      if self.bomb_timer >= self.max_bomb_time then
+        self.bomb_timer = 0
+        if Upgrade.player_special[3] then
+          local x = math.random(Screen_Size.border[1], Screen_Size.border[3])
+          local y = math.random(Screen_Size.border[2], Screen_Size.border[4])
+          local bomb = PlayerBomb(x, y)
+          Driver:addObject(bomb, EntityTypes.bomb)
+        end
+      end
       for k, bullet_position in pairs(self.globes) do
         bullet_position:rotate(dt * 1.25 * math.pi)
       end
       if self.elapsed >= self.turret_cooldown then
         self.can_place = true
       end
+      self.speed_boost = 0
       if Driver.objects[EntityTypes.enemy] then
         for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
           local enemy = v:getHitBox()
           local player = self:getHitBox()
-          player.radius = player.radius + self.attack_range
+          player.radius = player.radius + (self.attack_range + self.range_boost)
           if enemy:contains(player) then
             local bullet_position = Vector(0, 0)
             local bullet = PlayerBullet(bullet_position.x + self.position.x, bullet_position.y + self.position.y, v, self.damage)
             Driver:addObject(bullet, EntityTypes.bullet)
+            if Upgrade.player_special[4] then
+              self.speed_boost = self.speed_boost + (self.max_speed / 5)
+            end
           end
         end
       end
@@ -135,7 +176,7 @@ do
           if v.goal_type == GoalTypes.attack then
             local goal = v:getHitBox()
             local player = self:getHitBox()
-            player.radius = player.radius + self.attack_range
+            player.radius = player.radius + (self.attack_range + self.range_boost)
             if goal:contains(player) then
               local bullet_position = Vector(0, 0)
               local bullet = PlayerBullet(bullet_position.x + self.position.x, bullet_position.y + self.position.y, v, self.damage)
@@ -163,11 +204,25 @@ do
           end
         end)())
       end
+      local boosted = false
       for k, v in pairs(self.turret) do
+        if Upgrade.player_special[2] then
+          local turret = v:getHitBox()
+          local player = self:getHitBox()
+          player.radius = player.radius + v.range
+          if turret:contains(player) then
+            boosted = true
+          end
+        end
         if not v.alive then
           self.num_turrets = self.num_turrets - 1
           self.turret[k] = nil
         end
+      end
+      if boosted then
+        self.range_boost = self.attack_range
+      else
+        self.range_boost = 0
       end
     end,
     draw = function(self)
@@ -178,7 +233,7 @@ do
         love.graphics.push("all")
         love.graphics.setColor(0, 0, 255, 100)
         local player = self:getHitBox()
-        love.graphics.circle("fill", self.position.x, self.position.y, self.attack_range + player.radius, 360)
+        love.graphics.circle("fill", self.position.x, self.position.y, self.attack_range + player.radius + self.range_boost, 360)
         love.graphics.pop()
       end
       _class_0.__parent.__base.draw(self)
@@ -224,8 +279,11 @@ do
       if SHOW_RANGE then
         love.graphics.setColor(0, 255, 255, 255)
         for k, bullet_position in pairs(self.globes) do
-          local x = self.position.x + bullet_position.x
-          local y = self.position.y + bullet_position.y
+          local boost = Vector(self.range_boost, 0)
+          local angle = bullet_position:getAngle()
+          boost:rotate(angle)
+          local x = self.position.x + bullet_position.x + boost.x
+          local y = self.position.y + bullet_position.y + boost.y
           love.graphics.circle("fill", x, y, 8 * Scale.diag, 360)
         end
       end
@@ -251,10 +309,17 @@ do
       self.repair_range = 30 * Scale.diag
       self.keys_pushed = 0
       self.hit = false
+      self.range_boost = 0
+      self.speed_boost = 0
+      self.bomb_timer = 0
+      self.max_bomb_time = 7
       self.id = EntityTypes.player
       self.draw_health = false
       self.can_place = true
       self.max_turrets = 1
+      if Upgrade.turret_special[1] then
+        self.max_turrets = 2
+      end
       self.num_turrets = 0
       self.turret = { }
       self.font = Renderer:newFont(20)

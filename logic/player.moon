@@ -14,11 +14,18 @@ export class Player extends GameObject
     @keys_pushed = 0
     @hit = false
 
+    @range_boost   = 0
+    @speed_boost   = 0
+    @bomb_timer    = 0
+    @max_bomb_time = 7
+
     @id = EntityTypes.player
     @draw_health = false
 
     @can_place = true
     @max_turrets = 1
+    if Upgrade.turret_special[1]
+      @max_turrets = 2
     @num_turrets = 0
     @turret = {}
 
@@ -40,11 +47,14 @@ export class Player extends GameObject
 
   onCollide: (object) =>
     if not @alive return
-    if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret
-      @health -= object.damage / 2
+    if @shielded
+      if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret
+        @health -= object.damage / 2
+      else
+        @health -= object.damage
+      @hit = true
     else
-      @health -= object.damage
-    @hit = true
+      @shielded = false
 
   keypressed: (key) =>
     if not @alive return
@@ -68,8 +78,19 @@ export class Player extends GameObject
         enemy = BasicEnemy x, y
         Driver\addObject enemy, EntityTypes.enemy
     elseif key == "e"
-      if @num_turrets != @max_turrets and @can_place
-        @show_turret = not @show_turret
+      if @can_place
+        if @num_turrets != @max_turrets
+          @show_turret = not @show_turret
+        else
+          if Upgrade.turret_special[4]
+            for k, v in pairs @turret
+              turret = v\getHitBox!
+              player = @getHitBox!
+              player.radius += @repair_range
+              if turret\contains player
+                @num_turrets -= 1
+                @turret[k] = nil
+                Driver\removeObject v, false
     elseif key == "space"
       if @show_turret
         turret = BasicTurret @position.x, @position.y
@@ -113,16 +134,33 @@ export class Player extends GameObject
     if not @alive return
     if @keys_pushed == 0
       @speed = Vector 0, 0
-    super dt
+      super dt
+    else
+      start = Vector @speed.x, @speed.y
+      boost = Vector @speed_boost, 0
+      angle = @speed\getAngle!
+      boost\rotate angle
+      @speed\add boost
+      super dt
+      @speed = start
+    @bomb_timer += dt
+    if @bomb_timer >= @max_bomb_time
+      @bomb_timer = 0
+      if Upgrade.player_special[3]
+        x = math.random Screen_Size.border[1], Screen_Size.border[3]
+        y = math.random Screen_Size.border[2], Screen_Size.border[4]
+        bomb = PlayerBomb x, y
+        Driver\addObject bomb, EntityTypes.bomb
     for k, bullet_position in pairs @globes
       bullet_position\rotate dt * 1.25 * math.pi
     if @elapsed >= @turret_cooldown
       @can_place = true
+    @speed_boost = 0
     if Driver.objects[EntityTypes.enemy]
       for k, v in pairs Driver.objects[EntityTypes.enemy]
         enemy = v\getHitBox!
         player = @getHitBox!
-        player.radius += @attack_range
+        player.radius += @attack_range + @range_boost
         if enemy\contains player
           bullet_position = Vector 0, 0
           --if SHOW_RANGE
@@ -132,12 +170,14 @@ export class Player extends GameObject
           --  bullet_position = @globes[@globe_index]
           bullet = PlayerBullet bullet_position.x + @position.x, bullet_position.y + @position.y, v, @damage
           Driver\addObject bullet, EntityTypes.bullet
+          if Upgrade.player_special[4]
+            @speed_boost += @max_speed / 5
     if Driver.objects[EntityTypes.goal]
       for k, v in pairs Driver.objects[EntityTypes.goal]
         if v.goal_type == GoalTypes.attack
           goal = v\getHitBox!
           player = @getHitBox!
-          player.radius += @attack_range
+          player.radius += @attack_range + @range_boost
           if goal\contains player
             bullet_position = Vector 0, 0
             --if SHOW_RANGE
@@ -156,10 +196,21 @@ export class Player extends GameObject
     if @show_turret
       turret = BasicTurret @position.x, @position.y
       Renderer\enqueue turret\drawFaded
+    boosted = false
     for k, v in pairs @turret
+      if Upgrade.player_special[2]
+        turret = v\getHitBox!
+        player = @getHitBox!
+        player.radius += v.range
+        if turret\contains player
+          boosted = true
       if not v.alive
         @num_turrets -= 1
         @turret[k] = nil
+    if boosted
+      @range_boost = @attack_range
+    else
+      @range_boost = 0
 
   draw: =>
     if not @alive return
@@ -167,7 +218,7 @@ export class Player extends GameObject
       love.graphics.push "all"
       love.graphics.setColor 0, 0, 255, 100
       player = @getHitBox!
-      love.graphics.circle "fill", @position.x, @position.y, @attack_range + player.radius, 360
+      love.graphics.circle "fill", @position.x, @position.y, @attack_range + player.radius + @range_boost, 360
       love.graphics.pop!
     super!
 
@@ -218,8 +269,11 @@ export class Player extends GameObject
     if SHOW_RANGE
       love.graphics.setColor 0, 255, 255, 255
       for k, bullet_position in pairs @globes
-        x = @position.x + bullet_position.x
-        y = @position.y + bullet_position.y
+        boost = Vector @range_boost, 0
+        angle = bullet_position\getAngle!
+        boost\rotate angle
+        x = @position.x + bullet_position.x + boost.x
+        y = @position.y + bullet_position.y + boost.y
         love.graphics.circle "fill", x, y, 8 * Scale.diag, 360
 
   kill: =>

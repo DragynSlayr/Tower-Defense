@@ -11,6 +11,8 @@ export class Turret extends GameObject
     @id = EntityTypes.turret
     @draw_health = false
 
+    @shield_available = true
+
   getHitBox: =>
     radius = math.max @sprite.scaled_height / 2, @sprite.scaled_width / 2
     return Circle @position.x, @position.y, radius
@@ -21,23 +23,44 @@ export class Turret extends GameObject
 --      if #Driver.objects[EntityTypes.player] ~= 0
 --        @speed = Driver.objects[EntityTypes.player][#Driver.objects[EntityTypes.player]].speed\multiply -1
     super dt
-    if @target
-      enemy = @target\getHitBox!
-      turret = @getHitBox!
-      dist = Vector enemy.center.x - turret.center.x, enemy.center.y - enemy.center.y
-      if dist\getLength! > @range
-        @target = nil
-        @findTarget!
-      else
-        --@target\onCollide @
-        if @target
-          bullet = Bullet @position.x, @position.y - @sprite.scaled_height / 2 + 10, @target, @damage
-          Driver\addObject bullet, EntityTypes.bullet
-          if @target.health <= 0
-            @target = nil
-            @findTarget!
+    if Upgrade.turret_special[2]
+      if @health <= (@max_health / 2) and @shield_available
+        @shield_available = false
+        @shielded = true
+        if Driver.objects[EntityTypes.player]
+          for k, v in pairs Driver.objects[EntityTypes.player]
+            v.shielded = true
+        if Driver.objects[EntityTypes.goal]
+          for k, v in pairs Driver.objects[EntityTypes.goal]
+            if v.goal_type == GoalTypes.defend
+              v.shielded = true
+    if Upgrade.turret_special[3]
+      if Driver.objects[EntityTypes.enemy]
+        for k, e in pairs Driver.objects[EntityTypes.enemy]
+          enemy = e\getHitBox!
+          turret = @getHitBox!
+          turret.radius += @range
+          if enemy\contains turret
+            bullet = Bullet @position.x, @position.y - @sprite.scaled_height / 2 + 10, e, @damage
+            Driver\addObject bullet, EntityTypes.bullet
     else
-      @findTarget!
+      if @target
+        enemy = @target\getHitBox!
+        turret = @getHitBox!
+        dist = Vector enemy.center.x - turret.center.x, enemy.center.y - turret.center.y
+        if dist\getLength! > @range
+          @target = nil
+          @findTarget!
+        else
+          --@target\onCollide @
+          if @target
+            bullet = Bullet @position.x, @position.y - @sprite.scaled_height / 2 + 10, @target, @damage
+            Driver\addObject bullet, EntityTypes.bullet
+            if @target.health <= 0
+              @target = nil
+              @findTarget!
+      else
+        @findTarget!
 
   findTarget: =>
     if not @alive return
