@@ -29,18 +29,22 @@ do
       return xOn and yOn
     end,
     mousepressed = function(self, x, y, button, isTouch)
-      if button == 1 then
-        self.selected = self:isHovering(x, y)
+      if self.active then
+        if button == 1 then
+          self.selected = self:isHovering(x, y)
+        end
       end
     end,
     mousereleased = function(self, x, y, button, isTouch)
-      if button == 1 then
-        local selected = self:isHovering(x, y)
-        if selected and self.selected then
-          self:action()
-          self.elapsed = 0
+      if self.active then
+        if button == 1 then
+          local selected = self:isHovering(x, y)
+          if selected and self.selected then
+            self:action()
+            self.elapsed = 0
+          end
+          self.selected = false
         end
-        self.selected = false
       end
     end,
     update = function(self, dt)
@@ -51,18 +55,23 @@ do
     end,
     draw = function(self)
       love.graphics.push("all")
-      if self.sprited then
-        if self.selected then
-          self.hover_sprite:draw(self.x + (self.width / 2), self.y + (self.height / 2))
+      if self.active then
+        if self.sprited then
+          if self.selected then
+            self.hover_sprite:draw(self.x + (self.width / 2), self.y + (self.height / 2))
+          else
+            self.idle_sprite:draw(self.x + (self.width / 2), self.y + (self.height / 2))
+          end
         else
-          self.idle_sprite:draw(self.x + (self.width / 2), self.y + (self.height / 2))
+          if self.selected then
+            love.graphics.setColor(self.hover_color:get())
+          else
+            love.graphics.setColor(self.idle_color:get())
+          end
+          love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
         end
       else
-        if self.selected then
-          love.graphics.setColor(self.hover_color:get())
-        else
-          love.graphics.setColor(self.idle_color:get())
-        end
+        love.graphics.setColor(127, 127, 127, 255)
         love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
       end
       love.graphics.setFont(self.font)
@@ -88,6 +97,7 @@ do
       self.idle_color = Color(175, 175, 175)
       self.hover_color = Color(100, 100, 100)
       self.selected = false
+      self.active = true
       local idle = Sprite("misc/hover.tga", 64, 256, 1, 1)
       idle:setScale(width / 256, height / 64)
       local hover = Sprite("misc/click.tga", 64, 256, 1, 1)

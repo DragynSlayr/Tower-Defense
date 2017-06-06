@@ -23,6 +23,7 @@ export class Button extends UIElement
     @idle_color = Color 175, 175, 175
     @hover_color = Color 100, 100, 100
     @selected = false
+    @active = true
 
     idle = Sprite "misc/hover.tga", 64, 256, 1, 1
     idle\setScale width / 256, height / 64
@@ -62,16 +63,18 @@ export class Button extends UIElement
     return xOn and yOn
 
   mousepressed: (x, y, button, isTouch) =>
-    if button == 1
-      @selected = @isHovering x, y
+    if @active
+      if button == 1
+        @selected = @isHovering x, y
 
   mousereleased: (x, y, button, isTouch) =>
-    if button == 1
-      selected = @isHovering x, y
-      if selected and @selected
-        @action!
-        @elapsed = 0
-      @selected = false
+    if @active
+      if button == 1
+        selected = @isHovering x, y
+        if selected and @selected
+          @action!
+          @elapsed = 0
+        @selected = false
 
   -- Update state of the Button
   -- dt: Time since last update
@@ -85,18 +88,22 @@ export class Button extends UIElement
   draw: =>
     -- Store transforms
     love.graphics.push "all"
-    if @sprited
-      -- Draw sprites
-      if @selected
-        @hover_sprite\draw @x + (@width / 2), @y + (@height / 2)
+    if @active
+      if @sprited
+        -- Draw sprites
+        if @selected
+          @hover_sprite\draw @x + (@width / 2), @y + (@height / 2)
+        else
+          @idle_sprite\draw @x + (@width / 2), @y + (@height / 2)
       else
-        @idle_sprite\draw @x + (@width / 2), @y + (@height / 2)
+        -- Draw colored box
+        if @selected
+          love.graphics.setColor @hover_color\get!
+        else
+          love.graphics.setColor @idle_color\get!
+        love.graphics.rectangle "fill", @x, @y, @width, @height
     else
-      -- Draw colored box
-      if @selected
-        love.graphics.setColor @hover_color\get!
-      else
-        love.graphics.setColor @idle_color\get!
+      love.graphics.setColor 127, 127, 127, 255
       love.graphics.rectangle "fill", @x, @y, @width, @height
 
     -- Draw centered text
