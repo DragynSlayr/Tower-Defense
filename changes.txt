@@ -1,0 +1,13 @@
+V6 Changes
+~~~~~~~~~~
+
+NEW
+~~~
+- Bomb entity type added
+- Added shields
+- Added special upgrade handling
+
+FIXES
+~~~~~
+- Player input no longer handled when not playing
+- Upgrade screen special buttons now have titles
