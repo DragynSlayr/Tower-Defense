@@ -2,6 +2,7 @@
 --| No dependency |--
 --+---------------+--
 require "projectiles.projectile"
+require "projectiles.playerBomb"
 
 --+-----------------------+--
 --| Depends on projectile |--
