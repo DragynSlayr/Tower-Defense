@@ -24,6 +24,11 @@ do
           Driver:removeObject(b, false)
         end
       end
+      if Driver.objects[EntityTypes.bomb] then
+        for k, b in pairs(Driver.objects[EntityTypes.bomb]) do
+          Driver:removeObject(b, false)
+        end
+      end
       local hit = false
       if Driver.objects[EntityTypes.player] then
         for k, p in pairs(Driver.objects[EntityTypes.player]) do

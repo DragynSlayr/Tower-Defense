@@ -34,6 +34,9 @@ export class Mode
     if Driver.objects[EntityTypes.bullet]
       for k, b in pairs Driver.objects[EntityTypes.bullet]
         Driver\removeObject b, false
+    if Driver.objects[EntityTypes.bomb]
+      for k, b in pairs Driver.objects[EntityTypes.bomb]
+        Driver\removeObject b, false
     hit = false
     if Driver.objects[EntityTypes.player]
       for k, p in pairs Driver.objects[EntityTypes.player]
