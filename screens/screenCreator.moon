@@ -190,10 +190,21 @@ export class ScreenCreator
         --UI\add tt
         --UI\add tt2
       else
-        specials = {"1", "2", "3", "4"}
+        specials = {"Life Steal", "Range Boost", "Bomb", "Speed Boost"}
+        font = Renderer\newFont 15
+        width = 0
         for k, v in pairs specials
-          x = (280 + ((k - 1) * 100)) * Scale.width
-          b = Button x, y, 50, 30, v, () -> Upgrade\add_skill Upgrade_Trees.player_special, k
+          w = font\getWidth v
+          if w > width
+            width = w
+        x = (280 + (width / 2)) * Scale.width
+        for k, v in pairs specials
+          --x = (280 + ((k - 1) * 100)) * Scale.width
+          b = Button x, y, width + (10 * Scale.width), 30, v, (() =>
+            Upgrade\add_skill Upgrade_Trees.player_special, k
+            @active = false
+          ), font
+          x += b.width + (10 * Scale.width)
           --b\autoResize 50, 30
           UI\add b
 
@@ -222,14 +233,25 @@ export class ScreenCreator
         --UI\add tt
         --UI\add tt2
       else
-        specials = {"1", "2", "3", "4"}
+        specials = {"Extra Turret", "Shield", "Multiple Targets", "Pickup"}
+        font = Renderer\newFont 15
+        width = 0
         for k, v in pairs specials
-          x = (280 + ((k - 1) * 100)) * Scale.width
-          b = Button x, y, 50, 30, v, () -> Upgrade\add_skill Upgrade_Trees.turret_special, k
+          w = font\getWidth v
+          if w > width
+            width = w
+        x = (280 + (width / 2)) * Scale.width
+        for k, v in pairs specials
+          --x = (280 + ((k - 1) * 100)) * Scale.width
+          b = Button x, y, width + (10 * Scale.width), 30, v, (() =>
+            Upgrade\add_skill Upgrade_Trees.turret_special, k
+            @active = false
+          ), font
+          x += b.width + (10 * Scale.width)
           --b\autoResize 50, 30
           UI\add b
 
-    continue_button = Button Screen_Size.width / 2, Screen_Size.height - (35 * Scale.height), 200, 50, "Continue", () ->
+    continue_button = Button Screen_Size.width / 2, Screen_Size.height - (32 * Scale.height), 200, 45, "Continue", () ->
       UI\set_screen Screen_State.none
       Driver.game_state = Game_State.playing
       Driver\respawnPlayers!

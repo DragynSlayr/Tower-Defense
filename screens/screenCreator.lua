@@ -178,16 +178,26 @@ do
           UI:add(b)
         else
           local specials = {
-            "1",
-            "2",
-            "3",
-            "4"
+            "Life Steal",
+            "Range Boost",
+            "Bomb",
+            "Speed Boost"
           }
+          local font = Renderer:newFont(15)
+          local width = 0
           for k, v in pairs(specials) do
-            local x = (280 + ((k - 1) * 100)) * Scale.width
-            local b = Button(x, y, 50, 30, v, function()
-              return Upgrade:add_skill(Upgrade_Trees.player_special, k)
-            end)
+            local w = font:getWidth(v)
+            if w > width then
+              width = w
+            end
+          end
+          local x = (280 + (width / 2)) * Scale.width
+          for k, v in pairs(specials) do
+            local b = Button(x, y, width + (10 * Scale.width), 30, v, (function(self)
+              Upgrade:add_skill(Upgrade_Trees.player_special, k)
+              self.active = false
+            end), font)
+            x = x + (b.width + (10 * Scale.width))
             UI:add(b)
           end
         end
@@ -213,21 +223,31 @@ do
           UI:add(b)
         else
           local specials = {
-            "1",
-            "2",
-            "3",
-            "4"
+            "Extra Turret",
+            "Shield",
+            "Multiple Targets",
+            "Pickup"
           }
+          local font = Renderer:newFont(15)
+          local width = 0
           for k, v in pairs(specials) do
-            local x = (280 + ((k - 1) * 100)) * Scale.width
-            local b = Button(x, y, 50, 30, v, function()
-              return Upgrade:add_skill(Upgrade_Trees.turret_special, k)
-            end)
+            local w = font:getWidth(v)
+            if w > width then
+              width = w
+            end
+          end
+          local x = (280 + (width / 2)) * Scale.width
+          for k, v in pairs(specials) do
+            local b = Button(x, y, width + (10 * Scale.width), 30, v, (function(self)
+              Upgrade:add_skill(Upgrade_Trees.turret_special, k)
+              self.active = false
+            end), font)
+            x = x + (b.width + (10 * Scale.width))
             UI:add(b)
           end
         end
       end
-      local continue_button = Button(Screen_Size.width / 2, Screen_Size.height - (35 * Scale.height), 200, 50, "Continue", function()
+      local continue_button = Button(Screen_Size.width / 2, Screen_Size.height - (32 * Scale.height), 200, 45, "Continue", function()
         UI:set_screen(Screen_State.none)
         Driver.game_state = Game_State.playing
         Driver:respawnPlayers()
