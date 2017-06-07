@@ -201,8 +201,8 @@ export class ScreenCreator
         for k, v in pairs specials
           --x = (280 + ((k - 1) * 100)) * Scale.width
           b = Button x, y, width + (10 * Scale.width), 30, v, (() =>
-            Upgrade\add_skill Upgrade_Trees.player_special, k
-            @active = false
+            result = Upgrade\add_skill Upgrade_Trees.player_special, k
+            @active = not result
           ), font
           x += b.width + (10 * Scale.width)
           --b\autoResize 50, 30
@@ -244,8 +244,8 @@ export class ScreenCreator
         for k, v in pairs specials
           --x = (280 + ((k - 1) * 100)) * Scale.width
           b = Button x, y, width + (10 * Scale.width), 30, v, (() =>
-            Upgrade\add_skill Upgrade_Trees.turret_special, k
-            @active = false
+            result = Upgrade\add_skill Upgrade_Trees.turret_special, k
+            @active = not result
           ), font
           x += b.width + (10 * Scale.width)
           --b\autoResize 50, 30

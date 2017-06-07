@@ -194,8 +194,8 @@ do
           local x = (280 + (width / 2)) * Scale.width
           for k, v in pairs(specials) do
             local b = Button(x, y, width + (10 * Scale.width), 30, v, (function(self)
-              Upgrade:add_skill(Upgrade_Trees.player_special, k)
-              self.active = false
+              local result = Upgrade:add_skill(Upgrade_Trees.player_special, k)
+              self.active = not result
             end), font)
             x = x + (b.width + (10 * Scale.width))
             UI:add(b)
@@ -239,8 +239,8 @@ do
           local x = (280 + (width / 2)) * Scale.width
           for k, v in pairs(specials) do
             local b = Button(x, y, width + (10 * Scale.width), 30, v, (function(self)
-              Upgrade:add_skill(Upgrade_Trees.turret_special, k)
-              self.active = false
+              local result = Upgrade:add_skill(Upgrade_Trees.turret_special, k)
+              self.active = not result
             end), font)
             x = x + (b.width + (10 * Scale.width))
             UI:add(b)
