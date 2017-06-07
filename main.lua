@@ -1,5 +1,5 @@
 require("logic.constants")
 require("logic.globals")
 require("logic.classLoader")
-VERSION = "V.6"
+VERSION = "V.7"
 Driver = Driver()

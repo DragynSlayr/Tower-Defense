@@ -1,13 +1,16 @@
-V6 Changes
+V7 Changes
 ~~~~~~~~~~
 
 NEW
 ~~~
-- Bomb entity type added
-- Added shields
-- Added special upgrade handling
+- Turret health now displayed on turret
+- Turret cool-down bar supports multiple turrets
+- Radius of "Range Boost" activation decreased from 1 to 0.2 of turret range
+- Speed increase from "Speed Boost" increased from 0.2 to 0.5 of player speed
+- Bomb now kills any enemies in range when exploding
 
 FIXES
 ~~~~~
-- Player input no longer handled when not playing
-- Upgrade screen special buttons now have titles
+- "Pickup" upgrade can be used without cool-down bar being full
+- Player now receives proper damage when "Shield" upgrade is active
+- Special upgrade purchase buttons now deactivate only if an upgrade is purchased successfully
