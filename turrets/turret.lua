@@ -10,6 +10,7 @@ do
       if not self.alive then
         return 
       end
+      self.sprite.shader:send("health", self.health / self.max_health)
       _class_0.__parent.__base.update(self, dt)
       if Upgrade.turret_special[2] then
         if self.health <= (self.max_health / 2) and self.shield_available then
@@ -92,7 +93,17 @@ do
         love.graphics.circle("fill", self.position.x, self.position.y, self.range, 360)
         love.graphics.pop()
       end
-      return _class_0.__parent.__base.draw(self)
+      _class_0.__parent.__base.draw(self)
+      love.graphics.push("all")
+      local font = Renderer.small_font
+      love.graphics.setFont(font)
+      local message = math.floor(((self.health / self.max_health) * 100))
+      message = message .. " %"
+      love.graphics.setColor(0, 0, 0, 50)
+      love.graphics.rectangle("fill", self.position.x - (self.sprite.scaled_width / 2) - (5 * Scale.width), self.position.y + (self.sprite.scaled_height / 2), self.sprite.scaled_width + (12 * Scale.width), font:getHeight() + (2 * Scale.height), 4 * Scale.diag)
+      love.graphics.setColor(0, 255, 0, 255)
+      love.graphics.printf(message, self.position.x - ((font:getWidth(message)) / 2), self.position.y + (self.sprite.scaled_height / 2), self.sprite.scaled_width + (10 * Scale.width), "center")
+      return love.graphics.pop()
     end,
     drawFaded = function(self)
       if not self.alive then
@@ -129,6 +140,7 @@ do
       self.id = EntityTypes.turret
       self.draw_health = false
       self.shield_available = true
+      return self.sprite:setShader(love.graphics.newShader("shaders/health.fs"))
     end,
     __base = _base_0,
     __name = "Turret",

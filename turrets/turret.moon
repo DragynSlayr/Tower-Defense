@@ -13,12 +13,15 @@ export class Turret extends GameObject
 
     @shield_available = true
 
+    @sprite\setShader love.graphics.newShader "shaders/health.fs"
+
   getHitBox: =>
     radius = math.max @sprite.scaled_height / 2, @sprite.scaled_width / 2
     return Circle @position.x, @position.y, radius
 
   update: (dt) =>
     if not @alive return
+    @sprite.shader\send "health", @health / @max_health
 --    if Driver.objects[EntityTypes.player]
 --      if #Driver.objects[EntityTypes.player] ~= 0
 --        @speed = Driver.objects[EntityTypes.player][#Driver.objects[EntityTypes.player]].speed\multiply -1
@@ -82,6 +85,16 @@ export class Turret extends GameObject
       love.graphics.circle "fill", @position.x, @position.y, @range, 360
       love.graphics.pop!
     super!
+    love.graphics.push "all"
+    font = Renderer.small_font
+    love.graphics.setFont font
+    message = math.floor ((@health / @max_health) * 100)
+    message ..= " %"
+    love.graphics.setColor 0, 0, 0, 50
+    love.graphics.rectangle "fill", @position.x - (@sprite.scaled_width / 2) - (5 * Scale.width), @position.y + (@sprite.scaled_height / 2), @sprite.scaled_width + (12 * Scale.width), font\getHeight! + (2 * Scale.height), 4 * Scale.diag
+    love.graphics.setColor 0, 255, 0, 255
+    love.graphics.printf message, @position.x - ((font\getWidth message) / 2), @position.y + (@sprite.scaled_height / 2), @sprite.scaled_width + (10 * Scale.width), "center"
+    love.graphics.pop!
 
   drawFaded: =>
     if not @alive return
