@@ -11,6 +11,7 @@ do
         return 
       end
       self.sprite.shader:send("health", self.health / self.max_health)
+      self.sprite.should_shade = Objectives.mode.mode_type ~= ModeTypes.dark
       _class_0.__parent.__base.update(self, dt)
       if Upgrade.turret_special[2] then
         if self.health <= (self.max_health / 2) and self.shield_available then
@@ -95,6 +96,7 @@ do
       end
       _class_0.__parent.__base.draw(self)
       love.graphics.push("all")
+      love.graphics.setShader(Driver.shader)
       local font = Renderer.small_font
       love.graphics.setFont(font)
       local message = math.floor(((self.health / self.max_health) * 100))
@@ -103,6 +105,7 @@ do
       love.graphics.rectangle("fill", self.position.x - (self.sprite.scaled_width / 2) - (5 * Scale.width), self.position.y + (self.sprite.scaled_height / 2), self.sprite.scaled_width + (12 * Scale.width), font:getHeight() + (2 * Scale.height), 4 * Scale.diag)
       love.graphics.setColor(0, 255, 0, 255)
       love.graphics.printf(message, self.position.x - ((font:getWidth(message)) / 2), self.position.y + (self.sprite.scaled_height / 2), self.sprite.scaled_width + (10 * Scale.width), "center")
+      love.graphics.setShader()
       return love.graphics.pop()
     end,
     drawFaded = function(self)
