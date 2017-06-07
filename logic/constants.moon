@@ -22,6 +22,13 @@ EntityTypes.layers[EntityTypes.bullet] = 1
 EntityTypes.layers[EntityTypes.goal]   = 3
 EntityTypes.layers[EntityTypes.bomb]   = 1
 
+export ModeTypes = {}
+
+ModeTypes.dark        = "Dark Mode"
+ModeTypes.elimination = "Elimination Mode"
+ModeTypes.attack      = "Attack Mode"
+ModeTypes.defend      = "Defend Mode"
+
 export GoalTypes = {}
 
 GoalTypes.attack = "Attack"
