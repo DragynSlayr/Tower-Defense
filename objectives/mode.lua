@@ -89,6 +89,7 @@ do
       self.message2 = ""
       self.objective_text = ""
       self.started = false
+      self.mode_type = ""
     end,
     __base = _base_0,
     __name = "Mode"

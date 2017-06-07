@@ -9,6 +9,7 @@ export class Mode
     @message2 = ""
     @objective_text = ""
     @started = false
+    @mode_type = ""
 
   entityKilled: (entity) =>
     @wave\entityKilled entity

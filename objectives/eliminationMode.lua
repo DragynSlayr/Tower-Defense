@@ -14,6 +14,7 @@ do
     __init = function(self, parent)
       _class_0.__parent.__init(self, parent)
       self.objective_text = "Eliminate all enemies"
+      self.mode_type = ModeTypes.elimination
     end,
     __base = _base_0,
     __name = "EliminationMode",

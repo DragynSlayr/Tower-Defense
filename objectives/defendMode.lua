@@ -21,6 +21,7 @@ do
     __init = function(self, parent)
       _class_0.__parent.__init(self, parent)
       self.objective_text = "Protect the objective"
+      self.mode_type = ModeTypes.defend
     end,
     __base = _base_0,
     __name = "DefendMode",

@@ -13,6 +13,7 @@ do
     __init = function(self, parent)
       _class_0.__parent.__init(self, parent)
       self.objective_text = "Destroy the objectives"
+      self.mode_type = ModeTypes.attack
     end,
     __base = _base_0,
     __name = "AttackMode",
