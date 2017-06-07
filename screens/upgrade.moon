@@ -27,6 +27,7 @@ export class UpgradeScreen extends Screen
     @skill_points += num
 
   add_skill: (tree, idx) =>
+    success = false
     if @skill_points >= 1
       switch tree
         when Upgrade_Trees.player_stats
@@ -34,21 +35,26 @@ export class UpgradeScreen extends Screen
             @player_stats[idx] += 1
             @skill_points -= 1
             Stats.player[idx] = Base_Stats.player[idx] + (@amount[1][idx][@player_stats[idx]])--(@player_stats[idx] * @amount[1][idx])
+            success = true
         when Upgrade_Trees.turret_stats
           if @turret_stats[idx] < @max_skill
             @turret_stats[idx] += 1
             @skill_points -= 1
             Stats.turret[idx] = Base_Stats.turret[idx] + (@amount[2][idx][@turret_stats[idx]])--(@turret_stats[idx] * @amount[2][idx])
+            success = true
     if @skill_points >= 5
       switch tree
         when Upgrade_Trees.player_special
           if not @player_special[idx]
             @player_special[idx] = true
             @skill_points -= 5
+            success = true
         when Upgrade_Trees.turret_special
           if not @turret_special[idx]
             @turret_special[idx] = true
             @skill_points -= 5
+            success = true
+    return success
 
   draw: =>
     love.graphics.push "all"
