@@ -6,7 +6,7 @@ do
       if not self.alive then
         return 
       end
-      if self.shielded then
+      if not self.shielded then
         if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret then
           self.health = self.health - (object.damage / 2)
         else
@@ -49,20 +49,20 @@ do
           return Driver:addObject(enemy, EntityTypes.enemy)
         end
       elseif key == "e" then
-        if self.can_place then
-          if self.num_turrets ~= self.max_turrets then
+        if self.num_turrets ~= self.max_turrets then
+          if self.can_place then
             self.show_turret = not self.show_turret
-          else
-            if Upgrade.turret_special[4] then
-              for k, v in pairs(self.turret) do
-                local turret = v:getHitBox()
-                local player = self:getHitBox()
-                player.radius = player.radius + self.repair_range
-                if turret:contains(player) then
-                  self.num_turrets = self.num_turrets - 1
-                  self.turret[k] = nil
-                  Driver:removeObject(v, false)
-                end
+          end
+        else
+          if Upgrade.turret_special[4] then
+            for k, v in pairs(self.turret) do
+              local turret = v:getHitBox()
+              local player = self:getHitBox()
+              player.radius = player.radius + self.repair_range
+              if turret:contains(player) then
+                self.num_turrets = self.num_turrets - 1
+                self.turret[k] = nil
+                Driver:removeObject(v, false)
               end
             end
           end
@@ -75,8 +75,11 @@ do
             self.num_turrets = self.num_turrets + 1
             self.turret[#self.turret + 1] = turret
             self.show_turret = false
-            self.can_place = false
-            self.elapsed = 0
+            self.turret_count = self.turret_count - 1
+            if self.turret_count == 0 then
+              self.can_place = false
+            end
+            self.charged = false
           end
         end
         if self.turret then
@@ -152,8 +155,16 @@ do
       for k, bullet_position in pairs(self.globes) do
         bullet_position:rotate(dt * 1.25 * math.pi)
       end
-      if self.elapsed >= self.turret_cooldown then
-        self.can_place = true
+      if self.turret_count ~= self.max_turrets then
+        if self.elapsed >= self.turret_cooldown then
+          self.elapsed = 0
+          self.turret_count = clamp(self.turret_count + 1, 0, self.max_turrets)
+          self.can_place = true
+          self.charged = false
+        end
+      else
+        self.elapsed = 0
+        self.charged = true
       end
       self.speed_boost = 0
       if Driver.objects[EntityTypes.enemy] then
@@ -166,7 +177,7 @@ do
             local bullet = PlayerBullet(bullet_position.x + self.position.x, bullet_position.y + self.position.y, v, self.damage)
             Driver:addObject(bullet, EntityTypes.bullet)
             if Upgrade.player_special[4] then
-              self.speed_boost = self.speed_boost + (self.max_speed / 5)
+              self.speed_boost = self.speed_boost + (self.max_speed / 2)
             end
           end
         end
@@ -209,7 +220,7 @@ do
         if Upgrade.player_special[2] then
           local turret = v:getHitBox()
           local player = self:getHitBox()
-          player.radius = player.radius + v.range
+          player.radius = player.radius + (v.range / 5)
           if turret:contains(player) then
             boosted = true
           end
@@ -234,42 +245,27 @@ do
         love.graphics.setColor(0, 0, 255, 100)
         local player = self:getHitBox()
         love.graphics.circle("fill", self.position.x, self.position.y, self.attack_range + player.radius + self.range_boost, 360)
+        love.graphics.setColor(0, 255, 0, 100)
+        love.graphics.circle("fill", self.position.x, self.position.y, self.speed_range, 360)
         love.graphics.pop()
       end
       _class_0.__parent.__base.draw(self)
-      local message = " Turret CD  "
-      Renderer:drawHUDMessage(message, (9 * Scale.width), Screen_Size.height - (52 * Scale.height), self.font)
-      local x_start = (9 * Scale.width) + self.font:getWidth(message)
-      love.graphics.setColor(255, 255, 255, 255)
-      love.graphics.rectangle("fill", x_start, love.graphics.getHeight() - (52 * Scale.height), 202 * Scale.width, 43 * Scale.height)
-      local remaining = clamp(self.turret_cooldown - self.elapsed, 0, self.turret_cooldown)
-      remaining = math.floor(remaining)
       love.graphics.setColor(0, 0, 0, 255)
-      love.graphics.rectangle("fill", x_start + Scale.width, love.graphics.getHeight() - (51 * Scale.height), 200 * Scale.width, 20 * Scale.height)
-      love.graphics.setColor(0, 0, 255, 255)
-      local ratio = 1 - (remaining / self.turret_cooldown)
-      if remaining == 0 or self.can_place then
-        ratio = 1
-      end
-      love.graphics.rectangle("fill", x_start + (4 * Scale.width), love.graphics.getHeight() - (48 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height)
-      local turret_health = 0
-      local num = 0
-      if Driver.objects[EntityTypes.turret] then
-        for k, t in pairs(Driver.objects[EntityTypes.turret]) do
-          turret_health = turret_health + t.health
-          num = num + t.max_health
-        end
-      else
-        turret_health = 1
-        num = 1
-      end
-      ratio = turret_health / num
-      message = " Turret HP  "
-      Renderer:drawHUDMessage(message, (9 * Scale.width), Screen_Size.height - (30 * Scale.height), self.font)
+      love.graphics.setFont(self.font)
+      local message = "Turret Cooldown"
+      love.graphics.printf(message, 9 * Scale.width, Screen_Size.height - (47 * Scale.height) - self.font:getHeight() / 2, 205 * Scale.width, "center")
+      local x_start = (9 * Scale.width)
+      local remaining = clamp(self.elapsed, 0, self.turret_cooldown)
       love.graphics.setColor(0, 0, 0, 255)
       love.graphics.rectangle("fill", x_start + Scale.width, love.graphics.getHeight() - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height)
-      love.graphics.setColor(0, 255, 0, 255)
+      love.graphics.setColor(0, 0, 255, 255)
+      local ratio = remaining / self.turret_cooldown
+      if self.charged then
+        ratio = 1
+      end
       love.graphics.rectangle("fill", x_start + (4 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height)
+      message = self.turret_count .. "/" .. self.max_turrets
+      Renderer:drawHUDMessage(message, (x_start + 205) * Scale.width, Screen_Size.height - (30 * Scale.height), self.font)
       love.graphics.setColor(0, 0, 0, 255)
       love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (200 * Scale.width), love.graphics.getHeight() - (30 * Scale.height), 400 * Scale.width, 20 * Scale.height)
       love.graphics.setColor(255, 0, 0, 255)
@@ -309,12 +305,9 @@ do
       self.repair_range = 30 * Scale.diag
       self.keys_pushed = 0
       self.hit = false
-      self.range_boost = 0
-      self.speed_boost = 0
-      self.bomb_timer = 0
-      self.max_bomb_time = 7
       self.id = EntityTypes.player
       self.draw_health = false
+      self.font = Renderer:newFont(20)
       self.can_place = true
       self.max_turrets = 1
       if Upgrade.turret_special[1] then
@@ -322,7 +315,13 @@ do
       end
       self.num_turrets = 0
       self.turret = { }
-      self.font = Renderer:newFont(20)
+      self.range_boost = 0
+      self.speed_boost = 0
+      self.bomb_timer = 0
+      self.max_bomb_time = 7
+      self.speed_range = self.sprite:getBounds().radius + (150 * Scale.diag)
+      self.turret_count = self.max_turrets
+      self.charged = true
       self.globes = { }
       self.globe_index = 1
       local bounds = self:getHitBox()
