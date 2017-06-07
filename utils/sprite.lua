@@ -22,6 +22,7 @@ do
     setShader = function(self, shader)
       self.shader = shader
       self.has_shader = true
+      self.should_shade = true
     end,
     getBounds = function(self, x, y)
       local radius = math.min(self.scaled_height / 2, self.scaled_width / 2)
@@ -42,7 +43,7 @@ do
     draw = function(self, x, y)
       love.graphics.push("all")
       if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none then
-        if self.has_shader then
+        if self.has_shader and self.should_shade then
           love.graphics.setShader(self.shader)
         else
           love.graphics.setShader(Driver.shader)

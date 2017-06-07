@@ -78,6 +78,7 @@ export class Sprite
   setShader: (shader) =>
     @shader = shader
     @has_shader = true
+    @should_shade = true
 
   -- Get the bounding circle of this Sprite
   -- x: The x position of this Sprite
@@ -117,7 +118,7 @@ export class Sprite
     love.graphics.push "all"
 
     if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none
-      if @has_shader
+      if @has_shader and @should_shade
         love.graphics.setShader @shader
       else
         love.graphics.setShader Driver.shader
