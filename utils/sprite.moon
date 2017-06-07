@@ -75,6 +75,10 @@ export class Sprite
     -- Set the rotation of the Sprite
     @rotation = angle
 
+  setShader: (shader) =>
+    @shader = shader
+    @has_shader = true
+
   -- Get the bounding circle of this Sprite
   -- x: The x position of this Sprite
   -- y: The y position of this Sprite
@@ -113,7 +117,10 @@ export class Sprite
     love.graphics.push "all"
 
     if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none
-      love.graphics.setShader Driver.shader
+      if @has_shader
+        love.graphics.setShader @shader
+      else
+        love.graphics.setShader Driver.shader
 
     -- Color sprite if a color is set
     if @color

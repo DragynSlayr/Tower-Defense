@@ -19,6 +19,10 @@ do
     setRotation = function(self, angle)
       self.rotation = angle
     end,
+    setShader = function(self, shader)
+      self.shader = shader
+      self.has_shader = true
+    end,
     getBounds = function(self, x, y)
       local radius = math.min(self.scaled_height / 2, self.scaled_width / 2)
       return Circle(x, y, radius)
@@ -38,7 +42,11 @@ do
     draw = function(self, x, y)
       love.graphics.push("all")
       if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none then
-        love.graphics.setShader(Driver.shader)
+        if self.has_shader then
+          love.graphics.setShader(self.shader)
+        else
+          love.graphics.setShader(Driver.shader)
+        end
       end
       if self.color then
         love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.color[4])
