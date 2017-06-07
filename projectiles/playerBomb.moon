@@ -5,7 +5,7 @@ export class PlayerBomb extends GameObject
 
     @max_time = 0
     @attack_range = 100 * Scale.diag
-    @damage = 10 + (5 * Upgrade.player_stats[3])
+    --@damage = Stats.player[3] * 20--10 + (5 * Upgrade.player_stats[3])
     @draw_health = false
     @id = EntityTypes.bomb
 
@@ -16,7 +16,7 @@ export class PlayerBomb extends GameObject
           bomb = @parent\getHitBox!
           bomb.radius += @parent.attack_range
           if target\contains bomb
-            e\onCollide @parent
+            e\kill!--onCollide @parent
       if Driver.objects[EntityTypes.goal]
         for k, e in pairs Driver.objects[EntityTypes.goal]
           if e.goal_type == GoalTypes.attack
@@ -24,7 +24,7 @@ export class PlayerBomb extends GameObject
             bomb = @parent\getHitBox!
             bomb.radius += @parent.attack_range
             if target\contains bomb
-              e\onCollide @parent
+              e\kill!--onCollide @parent
       @parent\kill!
 
   update: (dt) =>

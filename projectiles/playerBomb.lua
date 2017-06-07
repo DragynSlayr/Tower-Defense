@@ -28,7 +28,6 @@ do
       _class_0.__parent.__init(self, x, y, sprite)
       self.max_time = 0
       self.attack_range = 100 * Scale.diag
-      self.damage = 10 + (5 * Upgrade.player_stats[3])
       self.draw_health = false
       self.id = EntityTypes.bomb
       self.action_sprite = ActionSprite("bombAction.tga", 32, 32, 3, 2, self, function(self)
@@ -38,7 +37,7 @@ do
             local bomb = self.parent:getHitBox()
             bomb.radius = bomb.radius + self.parent.attack_range
             if target:contains(bomb) then
-              e:onCollide(self.parent)
+              e:kill()
             end
           end
         end
@@ -49,7 +48,7 @@ do
               local bomb = self.parent:getHitBox()
               bomb.radius = bomb.radius + self.parent.attack_range
               if target:contains(bomb) then
-                e:onCollide(self.parent)
+                e:kill()
               end
             end
           end
