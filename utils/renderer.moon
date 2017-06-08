@@ -73,7 +73,7 @@ export class ObjectRenderer
   -- x: X location of the message
   -- y: Y location of the message
   -- font: The font to use
-  drawHUDMessage: (message, x, y, font = @hud_font) =>
+  drawHUDMessage: (message, x, y, font = @hud_font, color = Color!) =>
     -- Store transforms
     love.graphics.push "all"
 
@@ -81,7 +81,7 @@ export class ObjectRenderer
     love.graphics.setShader!
 
     -- Apply new transforms
-    love.graphics.setColor 0, 0, 0
+    love.graphics.setColor color\get!
     love.graphics.setFont font
 
     -- Display the message
@@ -94,11 +94,11 @@ export class ObjectRenderer
   -- message: The message
   -- y: Y location of the message
   -- font: The font to use
-  drawStatusMessage: (message, y = 0, font = @status_font) =>
+  drawStatusMessage: (message, y = 0, font = @status_font, color = Color!) =>
     -- Draw text in the center of the screen
-    @drawAlignedMessage message, y, "center", font
+    @drawAlignedMessage message, y, "center", font, color
 
-  drawAlignedMessage: (message, y, alignment = "center", font = @status_font) =>
+  drawAlignedMessage: (message, y, alignment = "center", font = @status_font, color = Color!) =>
     -- Store transforms
     love.graphics.push "all"
 
@@ -106,7 +106,7 @@ export class ObjectRenderer
     love.graphics.setShader!
 
     -- Apply new transforms
-    love.graphics.setColor 0, 0, 0
+    love.graphics.setColor color\get!
     love.graphics.setFont font
 
     -- Draw an aligned message to the screen

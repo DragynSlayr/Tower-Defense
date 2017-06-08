@@ -38,36 +38,45 @@ do
       self.queue = { }
       return love.graphics.pop()
     end,
-    drawHUDMessage = function(self, message, x, y, font)
+    drawHUDMessage = function(self, message, x, y, font, color)
       if font == nil then
         font = self.hud_font
       end
+      if color == nil then
+        color = Color()
+      end
       love.graphics.push("all")
       love.graphics.setShader()
-      love.graphics.setColor(0, 0, 0)
+      love.graphics.setColor(color:get())
       love.graphics.setFont(font)
       love.graphics.print(message, x, y)
       return love.graphics.pop()
     end,
-    drawStatusMessage = function(self, message, y, font)
+    drawStatusMessage = function(self, message, y, font, color)
       if y == nil then
         y = 0
       end
       if font == nil then
         font = self.status_font
       end
-      return self:drawAlignedMessage(message, y, "center", font)
+      if color == nil then
+        color = Color()
+      end
+      return self:drawAlignedMessage(message, y, "center", font, color)
     end,
-    drawAlignedMessage = function(self, message, y, alignment, font)
+    drawAlignedMessage = function(self, message, y, alignment, font, color)
       if alignment == nil then
         alignment = "center"
       end
       if font == nil then
         font = self.status_font
       end
+      if color == nil then
+        color = Color()
+      end
       love.graphics.push("all")
       love.graphics.setShader()
-      love.graphics.setColor(0, 0, 0)
+      love.graphics.setColor(color:get())
       love.graphics.setFont(font)
       love.graphics.printf(message, 0, y - (font:getHeight() / 2), love.graphics:getWidth(), alignment)
       return love.graphics.pop()
