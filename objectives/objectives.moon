@@ -62,7 +62,7 @@ export class ObjectivesHandler
       @mode\draw!
     else
       love.graphics.push "all"
-      Renderer\drawStatusMessage "Objective Complete!", love.graphics.getHeight! / 2, Renderer.title_font
+      Renderer\drawStatusMessage "Objective Complete!", love.graphics.getHeight! / 2, Renderer.title_font, Color 255, 255, 255, 255
       love.graphics.pop!
 
   getLevel: =>

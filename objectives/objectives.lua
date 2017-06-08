@@ -47,7 +47,7 @@ do
         return self.mode:draw()
       else
         love.graphics.push("all")
-        Renderer:drawStatusMessage("Objective Complete!", love.graphics.getHeight() / 2, Renderer.title_font)
+        Renderer:drawStatusMessage("Objective Complete!", love.graphics.getHeight() / 2, Renderer.title_font, Color(255, 255, 255, 255))
         return love.graphics.pop()
       end
     end,
