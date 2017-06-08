@@ -46,10 +46,10 @@ do
     draw = function(self)
       love.graphics.push("all")
       for j = 0, 1 do
-        for i = 1, 4 do
+        for i = 1, #self.player_stats do
           local height = 40 * Scale.height
           local width = 600 * Scale.width
-          local y = (100 * Scale.height) + (i * 65 * Scale.height) - (height / 2) + (400 * j * Scale.height)
+          local y = (25 * Scale.height) + (i * 65 * Scale.height) - (height / 2) + (425 * j * Scale.height)
           local x = 320 * Scale.width
           local ratio = self.player_stats[i] / self.max_skill
           if j == 1 then
@@ -67,7 +67,7 @@ do
           if j == 1 then
             stats = Stats.turret
           end
-          local message = string.format("%.2f", stats[i])
+          local message = string.format("%.3f", stats[i])
           Renderer:drawHUDMessage(message, Screen_Size.width * 0.8, y)
         end
       end
@@ -87,9 +87,11 @@ do
         0,
         0,
         0,
+        0,
         0
       }
       self.turret_stats = {
+        0,
         0,
         0,
         0,
@@ -140,6 +142,14 @@ do
           250,
           325,
           400
+        },
+        {
+          -1 / 210,
+          -1 / 120,
+          -1 / 90,
+          -1 / 75,
+          -1 / 66,
+          -1 / 60
         }
       }
       self.amount[2] = {
@@ -174,6 +184,14 @@ do
           -10.0,
           -12.5,
           -15.0
+        },
+        {
+          -1 / 450,
+          -2 / 495,
+          -1 / 180,
+          -4 / 585,
+          -1 / 126,
+          -2 / 225
         }
       }
       for k = 1, #self.amount do

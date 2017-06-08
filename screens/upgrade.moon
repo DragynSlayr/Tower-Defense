@@ -3,18 +3,18 @@ export class UpgradeScreen extends Screen
     super!
 
     @skill_points = 0
-    --@skill_points = 88
+    --@skill_points = 100
     @max_skill = 6
 
-    @player_stats = {0, 0, 0, 0}
-    @turret_stats = {0, 0, 0, 0}
+    @player_stats = {0, 0, 0, 0, 0}
+    @turret_stats = {0, 0, 0, 0, 0}
 
     @player_special = {false, false, false, false}
     @turret_special = {false, false, false, false}
 
     @amount = {}
-    @amount[1] = {{5, 11, 18, 26, 35, 45}, {25, 50, 80, 115, 155, 200}, {0.2, 0.5, 1.0, 1.5, 2.0, 2.8}, {50, 100, 175, 250, 325, 400}}
-    @amount[2] = {{4, 8, 13, 18, 24, 32}, {15, 30, 50, 70, 100, 150}, {0.25, 0.75, 1.25, 2.0, 2.8, 3.65}, {-2.5, -5.0, -7.5, -10.0, -12.5, -15.0}}
+    @amount[1] = {{5, 11, 18, 26, 35, 45}, {25, 50, 80, 115, 155, 200}, {0.2, 0.5, 1.0, 1.5, 2.0, 2.8}, {50, 100, 175, 250, 325, 400}, {-1 / 210, -1 / 120, -1 / 90, -1 / 75, -1 / 66, -1 / 60}}
+    @amount[2] = {{4, 8, 13, 18, 24, 32}, {15, 30, 50, 70, 100, 150}, {0.25, 0.75, 1.25, 2.0, 2.8, 3.65}, {-2.5, -5.0, -7.5, -10.0, -12.5, -15.0}, {-1 / 450, -2 / 495, -1 / 180, -4 / 585, -1 / 126, -2 / 225}}
 
     for k = 1, #@amount
       for k2 = 1, #@amount[k][2]
@@ -59,10 +59,10 @@ export class UpgradeScreen extends Screen
   draw: =>
     love.graphics.push "all"
     for j = 0, 1
-      for i = 1, 4
+      for i = 1, #@player_stats
         height = 40 * Scale.height
         width = 600 * Scale.width
-        y = (100 * Scale.height) + (i * 65 * Scale.height) - (height / 2) + (400 * j * Scale.height)
+        y = (25 * Scale.height) + (i * 65 * Scale.height) - (height / 2) + (425 * j * Scale.height)
         x = 320 * Scale.width
         ratio = @player_stats[i] / @max_skill
         if j == 1
@@ -82,7 +82,7 @@ export class UpgradeScreen extends Screen
         if j == 1
           stats = Stats.turret
 
-        message = string.format "%.2f", stats[i]
+        message = string.format "%.3f", stats[i]
         Renderer\drawHUDMessage message, Screen_Size.width * 0.8, y
 
     message = "Skill Points: " .. @skill_points
