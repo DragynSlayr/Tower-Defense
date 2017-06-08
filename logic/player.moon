@@ -9,10 +9,12 @@ export class Player extends GameObject
     @damage          = Stats.player[3]
     @max_speed       = Stats.player[4]
     @turret_cooldown = Stats.turret[4]
+    @attack_speed    = Stats.player[5]
     @health = @max_health
     @repair_range = 30 * Scale.diag
     @keys_pushed = 0
     @hit = false
+    @attack_timer = 0
 
     @id = EntityTypes.player
     @draw_health = false
@@ -174,43 +176,39 @@ export class Player extends GameObject
       @elapsed = 0--@turret_cooldown
       @charged = true
     @speed_boost = 0
-    if Driver.objects[EntityTypes.enemy]
-      for k, v in pairs Driver.objects[EntityTypes.enemy]
-        enemy = v\getHitBox!
-        player = @getHitBox!
-        player.radius += @attack_range + @range_boost
-        if enemy\contains player
-          bullet_position = Vector 0, 0
-          --if SHOW_RANGE
-          --  @globe_index += 1
-          --  if @globe_index > #@globes
-          --    @globe_index = 1
-          --  bullet_position = @globes[@globe_index]
-          bullet = PlayerBullet bullet_position.x + @position.x, bullet_position.y + @position.y, v, @damage
-          Driver\addObject bullet, EntityTypes.bullet
-          if Upgrade.player_special[4]
-            @speed_boost += @max_speed / 2
-    if Driver.objects[EntityTypes.goal]
-      for k, v in pairs Driver.objects[EntityTypes.goal]
-        if v.goal_type == GoalTypes.attack
-          goal = v\getHitBox!
+    @attack_timer += dt
+    attacked = false
+    if @attack_timer >= @attack_speed
+      if Driver.objects[EntityTypes.enemy]
+        for k, v in pairs Driver.objects[EntityTypes.enemy]
+          enemy = v\getHitBox!
           player = @getHitBox!
           player.radius += @attack_range + @range_boost
-          if goal\contains player
-            bullet_position = Vector 0, 0
-            --if SHOW_RANGE
-            --  @globe_index += 1
-            --  if @globe_index > #@globes
-            --    @globe_index = 1
-            --  bullet_position = @globes[@globe_index]
-            bullet = PlayerBullet bullet_position.x + @position.x, bullet_position.y + @position.y, v, @damage
+          if enemy\contains player
+            bullet = PlayerBullet @position.x, @position.y, v, @damage
             Driver\addObject bullet, EntityTypes.bullet
-        else if v.goal_type == GoalTypes.find
-          goal = v\getHitBox!
-          player = @getHitBox!
-          player.radius += 5
-          if goal\contains player
-            v\onCollide @
+            attacked = true
+            if Upgrade.player_special[4]
+              @speed_boost += @max_speed / 2
+      if Driver.objects[EntityTypes.goal]
+        for k, v in pairs Driver.objects[EntityTypes.goal]
+          if v.goal_type == GoalTypes.attack
+            goal = v\getHitBox!
+            player = @getHitBox!
+            player.radius += @attack_range + @range_boost
+            if goal\contains player
+              bullet = PlayerBullet @position.x, @position.y, v, @damage
+              Driver\addObject bullet, EntityTypes.bullet
+              attacked = true
+          else if v.goal_type == GoalTypes.find
+            goal = v\getHitBox!
+            player = @getHitBox!
+            player.radius *= 1.25
+            if goal\contains player
+              v\onCollide @
+              attacked = true
+    if attacked
+      @attack_timer = 0
     if @show_turret
       turret = BasicTurret @position.x, @position.y
       Renderer\enqueue turret\drawFaded

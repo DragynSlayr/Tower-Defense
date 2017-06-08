@@ -167,43 +167,51 @@ do
         self.charged = true
       end
       self.speed_boost = 0
-      if Driver.objects[EntityTypes.enemy] then
-        for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
-          local enemy = v:getHitBox()
-          local player = self:getHitBox()
-          player.radius = player.radius + (self.attack_range + self.range_boost)
-          if enemy:contains(player) then
-            local bullet_position = Vector(0, 0)
-            local bullet = PlayerBullet(bullet_position.x + self.position.x, bullet_position.y + self.position.y, v, self.damage)
-            Driver:addObject(bullet, EntityTypes.bullet)
-            if Upgrade.player_special[4] then
-              self.speed_boost = self.speed_boost + (self.max_speed / 2)
-            end
-          end
-        end
-      end
-      if Driver.objects[EntityTypes.goal] then
-        for k, v in pairs(Driver.objects[EntityTypes.goal]) do
-          if v.goal_type == GoalTypes.attack then
-            local goal = v:getHitBox()
+      self.attack_timer = self.attack_timer + dt
+      local attacked = false
+      if self.attack_timer >= self.attack_speed then
+        if Driver.objects[EntityTypes.enemy] then
+          for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
+            local enemy = v:getHitBox()
             local player = self:getHitBox()
             player.radius = player.radius + (self.attack_range + self.range_boost)
-            if goal:contains(player) then
-              local bullet_position = Vector(0, 0)
-              local bullet = PlayerBullet(bullet_position.x + self.position.x, bullet_position.y + self.position.y, v, self.damage)
+            if enemy:contains(player) then
+              local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
               Driver:addObject(bullet, EntityTypes.bullet)
-            end
-          else
-            if v.goal_type == GoalTypes.find then
-              local goal = v:getHitBox()
-              local player = self:getHitBox()
-              player.radius = player.radius + 5
-              if goal:contains(player) then
-                v:onCollide(self)
+              attacked = true
+              if Upgrade.player_special[4] then
+                self.speed_boost = self.speed_boost + (self.max_speed / 2)
               end
             end
           end
         end
+        if Driver.objects[EntityTypes.goal] then
+          for k, v in pairs(Driver.objects[EntityTypes.goal]) do
+            if v.goal_type == GoalTypes.attack then
+              local goal = v:getHitBox()
+              local player = self:getHitBox()
+              player.radius = player.radius + (self.attack_range + self.range_boost)
+              if goal:contains(player) then
+                local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
+                Driver:addObject(bullet, EntityTypes.bullet)
+                attacked = true
+              end
+            else
+              if v.goal_type == GoalTypes.find then
+                local goal = v:getHitBox()
+                local player = self:getHitBox()
+                player.radius = player.radius * 1.25
+                if goal:contains(player) then
+                  v:onCollide(self)
+                  attacked = true
+                end
+              end
+            end
+          end
+        end
+      end
+      if attacked then
+        self.attack_timer = 0
       end
       if self.show_turret then
         local turret = BasicTurret(self.position.x, self.position.y)
@@ -301,10 +309,12 @@ do
       self.damage = Stats.player[3]
       self.max_speed = Stats.player[4]
       self.turret_cooldown = Stats.turret[4]
+      self.attack_speed = Stats.player[5]
       self.health = self.max_health
       self.repair_range = 30 * Scale.diag
       self.keys_pushed = 0
       self.hit = false
+      self.attack_timer = 0
       self.id = EntityTypes.player
       self.draw_health = false
       self.font = Renderer:newFont(20)
