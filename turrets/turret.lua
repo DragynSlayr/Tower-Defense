@@ -31,39 +31,48 @@ do
           end
         end
       end
-      if Upgrade.turret_special[3] then
-        if Driver.objects[EntityTypes.enemy] then
-          for k, e in pairs(Driver.objects[EntityTypes.enemy]) do
-            local enemy = e:getHitBox()
-            local turret = self:getHitBox()
-            turret.radius = turret.radius + self.range
-            if enemy:contains(turret) then
-              local bullet = Bullet(self.position.x, self.position.y - self.sprite.scaled_height / 2 + 10, e, self.damage)
-              Driver:addObject(bullet, EntityTypes.bullet)
-            end
-          end
-        end
-      else
-        if self.target then
-          local enemy = self.target:getHitBox()
-          local turret = self:getHitBox()
-          local dist = Vector(enemy.center.x - turret.center.x, enemy.center.y - turret.center.y)
-          if dist:getLength() > self.range then
-            self.target = nil
-            return self:findTarget()
-          else
-            if self.target then
-              local bullet = Bullet(self.position.x, self.position.y - self.sprite.scaled_height / 2 + 10, self.target, self.damage)
-              Driver:addObject(bullet, EntityTypes.bullet)
-              if self.target.health <= 0 then
-                self.target = nil
-                return self:findTarget()
+      local attacked = false
+      self.attack_timer = self.attack_timer + dt
+      if self.attack_timer >= self.attack_speed then
+        if Upgrade.turret_special[3] then
+          if Driver.objects[EntityTypes.enemy] then
+            for k, e in pairs(Driver.objects[EntityTypes.enemy]) do
+              local enemy = e:getHitBox()
+              local turret = self:getHitBox()
+              turret.radius = turret.radius + self.range
+              if enemy:contains(turret) then
+                local bullet = Bullet(self.position.x, self.position.y - self.sprite.scaled_height / 2 + 10, e, self.damage)
+                Driver:addObject(bullet, EntityTypes.bullet)
+                attacked = true
               end
             end
           end
         else
-          return self:findTarget()
+          if self.target then
+            local enemy = self.target:getHitBox()
+            local turret = self:getHitBox()
+            local dist = Vector(enemy.center.x - turret.center.x, enemy.center.y - turret.center.y)
+            if dist:getLength() > self.range then
+              self.target = nil
+              self:findTarget()
+            else
+              if self.target then
+                local bullet = Bullet(self.position.x, self.position.y - self.sprite.scaled_height / 2 + 10, self.target, self.damage)
+                Driver:addObject(bullet, EntityTypes.bullet)
+                attacked = true
+                if self.target.health <= 0 then
+                  self.target = nil
+                  self:findTarget()
+                end
+              end
+            end
+          else
+            self:findTarget()
+          end
         end
+      end
+      if attacked then
+        self.attack_timer = 0
       end
     end,
     findTarget = function(self)
@@ -137,8 +146,10 @@ do
       _class_0.__parent.__init(self, x, y, sprite, 0, 0)
       self.max_health = Stats.turret[1]
       self.damage = Stats.turret[3]
+      self.attack_speed = Stats.turret[5]
       self.health = self.max_health
       self.range = range
+      self.attack_timer = 0
       self.target = nil
       self.id = EntityTypes.turret
       self.draw_health = false
