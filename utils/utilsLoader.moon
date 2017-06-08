@@ -1,8 +1,8 @@
 --+---------------+--
 --| No dependency |--
 --+---------------+--
-require "utils.renderer"
 require "utils.color"
+require "utils.renderer"
 require "utils.utils"
 require "utils.sound"
 require "utils.linkedList"
