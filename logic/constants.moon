@@ -77,19 +77,21 @@ export Base_Stats = {}
 
 Base_Stats.player = {}
 
--- "Health", "Range", "Damage", "Speed"
+-- "Health", "Range", "Damage", "Speed", "Attack Delay"
 Base_Stats.player[1] = 5
 Base_Stats.player[2] = 75 * Scale.diag
 Base_Stats.player[3] = 0.5
 Base_Stats.player[4] = 275 * Scale.diag
+Base_Stats.player[5] = 1 / 30
 
 Base_Stats.turret = {}
 
--- "Health", "Range", "Damage", "Cooldown"
+-- "Health", "Range", "Damage", "Cooldown", "Attack Delay"
 Base_Stats.turret[1] = 10
 Base_Stats.turret[2] = 250 * Scale.diag
 Base_Stats.turret[3] = 0.25
 Base_Stats.turret[4] = 20
+Base_Stats.turret[5] = 1 / 45
 
 export Screen_State = {}
 
