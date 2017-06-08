@@ -66,6 +66,9 @@ export class Driver
           Driver.unpause!
         else
           Driver.pause!
+      elseif key == "u"
+        if DEBUGGING
+          Objectives.mode.complete = true
       else
         if Driver.game_state == Game_State.playing
           for k, v in pairs Driver.objects[EntityTypes.player]

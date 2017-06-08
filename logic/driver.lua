@@ -69,6 +69,10 @@ do
         else
           return Driver.pause()
         end
+      elseif key == "u" then
+        if DEBUGGING then
+          Objectives.mode.complete = true
+        end
       else
         if Driver.game_state == Game_State.playing then
           for k, v in pairs(Driver.objects[EntityTypes.player]) do
