@@ -1,16 +1,13 @@
-V7 Changes
+V8 Changes
 ~~~~~~~~~~
 
 NEW
 ~~~
-- Turret health now displayed on turret
-- Turret cool-down bar supports multiple turrets
-- Radius of "Range Boost" activation decreased from 1 to 0.2 of turret range
-- Speed increase from "Speed Boost" increased from 0.2 to 0.5 of player speed
-- Bomb now kills any enemies in range when exploding
+- Player and Turret now have an "Attack Delay" stat which is the time between shots
+- Added descriptions for upgrades when hovering over the "+" button
 
 FIXES
 ~~~~~
-- "Pickup" upgrade can be used without cool-down bar being full
-- Player now receives proper damage when "Shield" upgrade is active
-- Special upgrade purchase buttons now deactivate only if an upgrade is purchased successfully
+- Space key on main menu and pause screen looks more like a space bar now
+- Countdown timer is now white to make it more visible on the locked heart mode
+- "Objective Complete!" text is now white to make it more visible
