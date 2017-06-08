@@ -2,18 +2,32 @@ do
   local _class_0
   local _parent_0 = Text
   local _base_0 = {
+    update = function(self, dt)
+      self.text = self:textFunc()
+    end,
     draw = function(self)
       if self.enabled then
-        return _class_0.__parent.__base.draw(self)
+        love.graphics.push("all")
+        love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.color[4])
+        love.graphics.setFont(self.font)
+        local height = self.font:getHeight()
+        local width = self.font:getWidth(self.text)
+        love.graphics.printf(self.text, self.x, self.y - (height / 2), width, self.alignment)
+        return love.graphics.pop()
       end
     end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y, text, font)
-      _class_0.__parent.__init(self, x, y, text, font)
+    __init = function(self, x, y, textFunc, font, alignment)
+      if alignment == nil then
+        alignment = "left"
+      end
+      self.textFunc = textFunc
+      _class_0.__parent.__init(self, x, y, self:textFunc(), font)
       self.enabled = false
+      self.alignment = alignment
     end,
     __base = _base_0,
     __name = "Tooltip",
