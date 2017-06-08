@@ -7,7 +7,7 @@ export class ScreenCreator
 
   createHelp: =>
     keys = {}
-    keys["space"] = Sprite "keys/space.tga", 32, 64, 1, 1
+    keys["space"] = Sprite "keys/space.tga", 32, 96, 1, 1
     for k, v in pairs {"w", "a", "s", "d", "p", "e", "z"}
       keys[v] = Sprite "keys/" .. v .. ".tga", 32, 32, 1, 1
 
@@ -165,30 +165,51 @@ export class ScreenCreator
     title = Text Screen_Size.width / 2, 25 * Scale.height, "Upgrade"
     UI\add title
 
-    UI\add Text 100 * Scale.width, 100 * Scale.width, "Player", Renderer.hud_font
-    stats = {"Health", "Range", "Damage", "Speed", "Special"}
+    UI\add Text 90 * Scale.width, 65 * Scale.width, "Player", Renderer.hud_font
+    stats = {"Health", "Range", "Damage", "Speed", "Attack Delay", "Special"}
 
     for k, v in pairs stats
-      y = (100 + (k * 65)) * Scale.height
-      UI\add Text 200 * Scale.width, y, v, Renderer.small_font
-      if k ~= 5
-        --message = "  Player  " .. v .. "  by  " .. math.abs Upgrade.amount[1][k]
-        --if Upgrade.amount[1][k] < 0
-        --  message = "Decrease" .. message
-        --else
-        --  message = "Increase" .. message
-        --tt = Tooltip 400, y - 30, message, Renderer\newFont 15
-        --m2 = "("
-        --if Upgrade.amount[1][k] < 0
-        --  m2 ..= "-"
-        --else
-        --  m2 ..= "+"
-        --tt2 = Tooltip Screen_Size.width * 0.9, y, m2 .. math.abs(Upgrade.amount[1][k]) .. ")", Renderer\newFont 30
-        --tt2.color = {0, 225, 0, 255}
+      y = (25 + (k * 65)) * Scale.height
+      UI\add Text 190 * Scale.width, y, v, Renderer.small_font
+      if k ~= #stats
+        tt = Tooltip Screen_Size.width * (5 / 24), y - (30 * Scale.height), (() =>
+          level = Upgrade.player_stats[k]
+          if level == Upgrade.max_skill
+            return "Upgrade Complete!"
+          else
+            modifier = 0
+            if level > 0
+              modifier = Upgrade.amount[1][k][level]
+            amount = Upgrade.amount[1][k][level + 1] - modifier
+            message = "  Player  " .. v .. "  by  " .. (string.format "%.3f", math.abs amount)
+            if amount < 0
+              message = "Decrease" .. message
+            else
+              message = "Increase" .. message
+            return message
+        ), Renderer\newFont 15
+        tt2 = Tooltip Screen_Size.width * 0.72, y, (() =>
+          level = Upgrade.player_stats[k]
+          if level == Upgrade.max_skill
+            return ""
+          else
+            modifier = 0
+            if level > 0
+              modifier = Upgrade.amount[1][k][level]
+            amount = Upgrade.amount[1][k][level + 1] - modifier
+            message = "("
+            if amount < 0
+              message ..= "-"
+            else
+              message ..= "+"
+            message ..= (string.format "%.3f", math.abs amount) .. ")"
+            return message
+        ), Renderer\newFont 30, "right"
+        tt2.color = {0, 225, 0, 255}
         b = TooltipButton 280 * Scale.width, y, 30, 30, "+", (() -> Upgrade\add_skill Upgrade_Trees.player_stats, k), nil, {tt, tt2}
         UI\add b
-        --UI\add tt
-        --UI\add tt2
+        UI\add tt
+        UI\add tt2
       else
         specials = {"Life Steal", "Range Boost", "Bomb", "Speed Boost"}
         font = Renderer\newFont 15
@@ -199,39 +220,58 @@ export class ScreenCreator
             width = w
         x = (280 + (width / 2)) * Scale.width
         for k, v in pairs specials
-          --x = (280 + ((k - 1) * 100)) * Scale.width
-          b = Button x, y, width + (10 * Scale.width), 30, v, (() =>
+          b = Button x, y, width * 1.5, 30, v, (() =>
             result = Upgrade\add_skill Upgrade_Trees.player_special, k
             @active = not result
           ), font
           x += b.width + (10 * Scale.width)
-          --b\autoResize 50, 30
           UI\add b
 
-    UI\add Text 100 * Scale.width, 500 * Scale.height, "Turret", Renderer.hud_font
-    stats = {"Health", "Range", "Damage", "Cooldown", "Special"}
+    UI\add Text 85 * Scale.width, 485 * Scale.height, "Turret", Renderer.hud_font
+    stats = {"Health", "Range", "Damage", "Cooldown", "Attack Delay", "Special"}
 
     for k, v in pairs stats
-      y = (500 + (k * 65)) * Scale.height
-      UI\add Text 200 * Scale.width, y, v, Renderer.small_font
-      if k ~= 5
-        --message = "  Turret  " .. v .. "  by  " .. math.abs Upgrade.amount[2][k]
-        --if Upgrade.amount[2][k] < 0
-        --  message = "Decrease" .. message
-        --else
-        --  message = "Increase" .. message
-        --tt = Tooltip 400, y - 30, message, Renderer\newFont 15
-        --m2 = "("
-        --if Upgrade.amount[2][k] < 0
-        --  m2 ..= "-"
-        --else
-        --  m2 ..= "+"
-        --tt2 = Tooltip Screen_Size.width * 0.9, y, m2 .. math.abs(Upgrade.amount[2][k]) .. ")", Renderer\newFont 30
-        --tt2.color = {0, 225, 0, 255}
+      y = (450 + (k * 65)) * Scale.height
+      UI\add Text 190 * Scale.width, y, v, Renderer.small_font
+      if k ~= #stats
+        tt = Tooltip Screen_Size.width * (5 / 24), y - (30 * Scale.height), (() =>
+          level = Upgrade.turret_stats[k]
+          if level == Upgrade.max_skill
+            return "Upgrade Complete!"
+          else
+            modifier = 0
+            if level > 0
+              modifier = Upgrade.amount[2][k][level]
+            amount = Upgrade.amount[2][k][level + 1] - modifier
+            message = "  Turret  " .. v .. "  by  " .. string.format "%.3f", math.abs amount
+            if amount < 0
+              message = "Decrease" .. message
+            else
+              message = "Increase" .. message
+            return message
+        ), Renderer\newFont 15
+        tt2 = Tooltip Screen_Size.width * 0.72, y, (() =>
+          level = Upgrade.turret_stats[k]
+          if level == Upgrade.max_skill
+            return ""
+          else
+            modifier = 0
+            if level > 0
+              modifier = Upgrade.amount[2][k][level]
+            amount = Upgrade.amount[2][k][level + 1] - modifier
+            message = "("
+            if amount < 0
+              message ..= "-"
+            else
+              message ..= "+"
+            message ..= (string.format "%.3f", math.abs amount) .. ")"
+            return message
+        ), Renderer\newFont 30, "right"
+        tt2.color = {0, 225, 0, 255}
         b = TooltipButton 280 * Scale.width, y, 30, 30, "+", (() -> Upgrade\add_skill Upgrade_Trees.turret_stats, k), nil, {tt, tt2}
         UI\add b
-        --UI\add tt
-        --UI\add tt2
+        UI\add tt
+        UI\add tt2
       else
         specials = {"Extra Turret", "Shield", "Multiple Targets", "Pickup"}
         font = Renderer\newFont 15
@@ -240,18 +280,17 @@ export class ScreenCreator
           w = font\getWidth v
           if w > width
             width = w
+        --width *= Scale.width
         x = (280 + (width / 2)) * Scale.width
         for k, v in pairs specials
-          --x = (280 + ((k - 1) * 100)) * Scale.width
-          b = Button x, y, width + (10 * Scale.width), 30, v, (() =>
+          b = Button x, y, width * 1.5, 30, v, (() =>
             result = Upgrade\add_skill Upgrade_Trees.turret_special, k
             @active = not result
           ), font
           x += b.width + (10 * Scale.width)
-          --b\autoResize 50, 30
           UI\add b
 
-    continue_button = Button Screen_Size.width / 2, Screen_Size.height - (32 * Scale.height), 200, 45, "Continue", () ->
+    continue_button = Button Screen_Size.width - 150, Screen_Size.height - (32 * Scale.height), 200, 45, "Continue", () ->
       UI\set_screen Screen_State.none
       Driver.game_state = Game_State.playing
       Driver\respawnPlayers!
