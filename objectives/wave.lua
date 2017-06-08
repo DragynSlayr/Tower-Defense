@@ -17,7 +17,7 @@ do
       if self.waiting then
         love.graphics.push("all")
         local message = (self.delay - math.floor(self.elapsed))
-        Renderer:drawStatusMessage(message, love.graphics.getHeight() / 2, Renderer.giant_font)
+        Renderer:drawStatusMessage(message, love.graphics.getHeight() / 2, Renderer.giant_font, Color(255, 255, 255, 255))
         Renderer:drawAlignedMessage("Next wave in: " .. message .. "\t", 50 * Scale.height, "right", Renderer.hud_font)
         return love.graphics.pop()
       end
