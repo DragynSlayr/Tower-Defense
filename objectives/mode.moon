@@ -49,6 +49,12 @@ export class Mode
       Upgrade\add_point 3
     else
       Upgrade\add_point 2
+    if SCORE >= SCORE_THRESHOLD
+      score_change = SCORE - SCORE_THRESHOLD
+      score_change = math.floor score_change / 10000
+      score_change += 1
+      export SCORE_THRESHOLD = SCORE_THRESHOLD + 10000
+      Upgrade\add_point score_change
     @parent.shader = nil
 
   update: (dt) =>
@@ -60,6 +66,7 @@ export class Mode
         level = @parent\getLevel! + 1
         @message2 = "Level " .. level .. "\tWave " .. @wave_count .. "/3"
       else
+        @wave\finish!
         @wave_count += 1
         if (@wave_count - 1) % 3 == 0
           @level_count += 1

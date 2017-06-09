@@ -44,6 +44,13 @@ do
       else
         Upgrade:add_point(2)
       end
+      if SCORE >= SCORE_THRESHOLD then
+        local score_change = SCORE - SCORE_THRESHOLD
+        score_change = math.floor(score_change / 10000)
+        score_change = score_change + 1
+        SCORE_THRESHOLD = SCORE_THRESHOLD + 10000
+        Upgrade:add_point(score_change)
+      end
       self.parent.shader = nil
     end,
     update = function(self, dt)
@@ -56,6 +63,7 @@ do
           local level = self.parent:getLevel() + 1
           self.message2 = "Level " .. level .. "\tWave " .. self.wave_count .. "/3"
         else
+          self.wave:finish()
           self.wave_count = self.wave_count + 1
           if (self.wave_count - 1) % 3 == 0 then
             self.level_count = self.level_count + 1
