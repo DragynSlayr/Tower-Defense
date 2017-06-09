@@ -247,7 +247,7 @@ do
           end
           local x = (280 + (width / 2)) * Scale.width
           for k, v in pairs(specials) do
-            local tt = Tooltip(450 * Scale.width, y - (30 * Scale.height), (function(self)
+            local tt = Tooltip(280 * Scale.width, y - (30 * Scale.height), (function(self)
               return description[k]
             end), Renderer:newFont(15))
             local b = TooltipButton(x, y, width * 1.5, 30, v, (function(self)
@@ -352,7 +352,7 @@ do
           end
           local x = (280 + (width / 2)) * Scale.width
           for k, v in pairs(specials) do
-            local tt = Tooltip(450 * Scale.width, y - (30 * Scale.height), (function(self)
+            local tt = Tooltip(280 * Scale.width, y - (30 * Scale.height), (function(self)
               return description[k]
             end), Renderer:newFont(15))
             local b = TooltipButton(x, y, width * 1.5, 30, v, (function(self)

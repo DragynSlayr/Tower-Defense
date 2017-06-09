@@ -222,7 +222,7 @@ export class ScreenCreator
             width = w
         x = (280 + (width / 2)) * Scale.width
         for k, v in pairs specials
-          tt = Tooltip 450 * Scale.width, y - (30 * Scale.height), (() =>
+          tt = Tooltip 280 * Scale.width, y - (30 * Scale.height), (() =>
               return description[k]
           ), Renderer\newFont 15
           b = TooltipButton x, y, width * 1.5, 30, v, (() =>
@@ -291,7 +291,7 @@ export class ScreenCreator
         --width *= Scale.width
         x = (280 + (width / 2)) * Scale.width
         for k, v in pairs specials
-          tt = Tooltip 450 * Scale.width, y - (30 * Scale.height), (() =>
+          tt = Tooltip 280 * Scale.width, y - (30 * Scale.height), (() =>
               return description[k]
           ), Renderer\newFont 15
           b = TooltipButton x, y, width * 1.5, 30, v, (() =>
