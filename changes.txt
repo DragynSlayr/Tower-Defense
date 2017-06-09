@@ -1,13 +1,13 @@
-V8 Changes
+V9 Changes
 ~~~~~~~~~~
 
 NEW
 ~~~
-- Player and Turret now have an "Attack Delay" stat which is the time between shots
-- Added descriptions for upgrades when hovering over the "+" button
+- Decreased player attack delay from 1 / 30 to 1 / 75
+- Decreased turret attack delay from 1 / 45 to 1 / 90
+- A skill point is rewarded for every 10,000 points
 
 FIXES
 ~~~~~
-- Space key on main menu and pause screen looks more like a space bar now
-- Countdown timer is now white to make it more visible on the locked heart mode
-- "Objective Complete!" text is now white to make it more visible
+- "print screen" button now saves a screenshot to %appdata%\LOVE\Tower Defense
+- Bullets and bombs are cleared on wave completion
