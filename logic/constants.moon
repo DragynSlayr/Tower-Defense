@@ -82,7 +82,7 @@ Base_Stats.player[1] = 5
 Base_Stats.player[2] = 75 * Scale.diag
 Base_Stats.player[3] = 0.5
 Base_Stats.player[4] = 275 * Scale.diag
-Base_Stats.player[5] = 1 / 30
+Base_Stats.player[5] = 1 / 75
 
 Base_Stats.turret = {}
 
@@ -91,7 +91,7 @@ Base_Stats.turret[1] = 10
 Base_Stats.turret[2] = 250 * Scale.diag
 Base_Stats.turret[3] = 0.25
 Base_Stats.turret[4] = 20
-Base_Stats.turret[5] = 1 / 45
+Base_Stats.turret[5] = 1 / 90
 
 export Screen_State = {}
 
