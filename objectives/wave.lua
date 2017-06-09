@@ -2,6 +2,18 @@ do
   local _class_0
   local _base_0 = {
     start = function(self) end,
+    finish = function(self)
+      if Driver.objects[EntityTypes.bullet] then
+        for k, b in pairs(Driver.objects[EntityTypes.bullet]) do
+          Driver:removeObject(b, false)
+        end
+      end
+      if Driver.objects[EntityTypes.bomb] then
+        for k, b in pairs(Driver.objects[EntityTypes.bomb]) do
+          Driver:removeObject(b, false)
+        end
+      end
+    end,
     entityKilled = function(self, entity) end,
     update = function(self, dt)
       if self.waiting then
