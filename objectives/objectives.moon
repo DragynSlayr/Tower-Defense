@@ -39,7 +39,7 @@ export class ObjectivesHandler
     if not @mode.complete
       @mode\update dt
       if @mode.complete
-        score = SCORE + (@difficulty * 1000)
+        score = SCORE + 5000
         export SCORE = score
         @mode\finish!
     else

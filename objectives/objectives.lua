@@ -20,7 +20,7 @@ do
       if not self.mode.complete then
         self.mode:update(dt)
         if self.mode.complete then
-          local score = SCORE + (self.difficulty * 1000)
+          local score = SCORE + 5000
           SCORE = score
           self.mode:finish()
         end
