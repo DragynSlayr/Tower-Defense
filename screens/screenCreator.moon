@@ -212,6 +212,8 @@ export class ScreenCreator
         UI\add tt2
       else
         specials = {"Life Steal", "Range Boost", "Bomb", "Speed Boost"}
+        description = {"Recover life from hit enemies", "Double player range near turret", "An instant kill bomb drops randomly", "Player speed increases for every enemy near them"}
+
         font = Renderer\newFont 15
         width = 0
         for k, v in pairs specials
@@ -220,12 +222,16 @@ export class ScreenCreator
             width = w
         x = (280 + (width / 2)) * Scale.width
         for k, v in pairs specials
-          b = Button x, y, width * 1.5, 30, v, (() =>
+          tt = Tooltip 450 * Scale.width, y - (30 * Scale.height), (() =>
+              return description[k]
+          ), Renderer\newFont 15
+          b = TooltipButton x, y, width * 1.5, 30, v, (() =>
             result = Upgrade\add_skill Upgrade_Trees.player_special, k
             @active = not result
-          ), font
+          ), font, {tt}
           x += b.width + (10 * Scale.width)
           UI\add b
+          UI\add tt
 
     UI\add Text 85 * Scale.width, 485 * Scale.height, "Turret", Renderer.hud_font
     stats = {"Health", "Range", "Damage", "Cooldown", "Attack Delay", "Special"}
@@ -274,6 +280,8 @@ export class ScreenCreator
         UI\add tt2
       else
         specials = {"Extra Turret", "Shield", "Multiple Targets", "Pickup"}
+        description = {"Use 'E' to place another turret", "Allies receive a temporary shield when a turret gets to half health", "Turret can hit more than a single enemy", "Use 'E' to pickup turrets after they have been placed"}
+
         font = Renderer\newFont 15
         width = 0
         for k, v in pairs specials
@@ -283,12 +291,16 @@ export class ScreenCreator
         --width *= Scale.width
         x = (280 + (width / 2)) * Scale.width
         for k, v in pairs specials
-          b = Button x, y, width * 1.5, 30, v, (() =>
+          tt = Tooltip 450 * Scale.width, y - (30 * Scale.height), (() =>
+              return description[k]
+          ), Renderer\newFont 15
+          b = TooltipButton x, y, width * 1.5, 30, v, (() =>
             result = Upgrade\add_skill Upgrade_Trees.turret_special, k
             @active = not result
-          ), font
+          ), font, {tt}
           x += b.width + (10 * Scale.width)
           UI\add b
+          UI\add tt
 
     continue_button = Button Screen_Size.width - 150, Screen_Size.height - (32 * Scale.height), 200, 45, "Continue", () ->
       UI\set_screen Screen_State.none

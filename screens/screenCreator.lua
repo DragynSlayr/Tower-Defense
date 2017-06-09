@@ -231,6 +231,12 @@ do
             "Bomb",
             "Speed Boost"
           }
+          local description = {
+            "Recover life from hit enemies",
+            "Double player range near turret",
+            "An instant kill bomb drops randomly",
+            "Player speed increases for every enemy near them"
+          }
           local font = Renderer:newFont(15)
           local width = 0
           for k, v in pairs(specials) do
@@ -241,12 +247,18 @@ do
           end
           local x = (280 + (width / 2)) * Scale.width
           for k, v in pairs(specials) do
-            local b = Button(x, y, width * 1.5, 30, v, (function(self)
+            local tt = Tooltip(450 * Scale.width, y - (30 * Scale.height), (function(self)
+              return description[k]
+            end), Renderer:newFont(15))
+            local b = TooltipButton(x, y, width * 1.5, 30, v, (function(self)
               local result = Upgrade:add_skill(Upgrade_Trees.player_special, k)
               self.active = not result
-            end), font)
+            end), font, {
+              tt
+            })
             x = x + (b.width + (10 * Scale.width))
             UI:add(b)
+            UI:add(tt)
           end
         end
       end
@@ -324,6 +336,12 @@ do
             "Multiple Targets",
             "Pickup"
           }
+          local description = {
+            "Use 'E' to place another turret",
+            "Allies receive a temporary shield when a turret gets to half health",
+            "Turret can hit more than a single enemy",
+            "Use 'E' to pickup turrets after they have been placed"
+          }
           local font = Renderer:newFont(15)
           local width = 0
           for k, v in pairs(specials) do
@@ -334,12 +352,18 @@ do
           end
           local x = (280 + (width / 2)) * Scale.width
           for k, v in pairs(specials) do
-            local b = Button(x, y, width * 1.5, 30, v, (function(self)
+            local tt = Tooltip(450 * Scale.width, y - (30 * Scale.height), (function(self)
+              return description[k]
+            end), Renderer:newFont(15))
+            local b = TooltipButton(x, y, width * 1.5, 30, v, (function(self)
               local result = Upgrade:add_skill(Upgrade_Trees.turret_special, k)
               self.active = not result
-            end), font)
+            end), font, {
+              tt
+            })
             x = x + (b.width + (10 * Scale.width))
             UI:add(b)
+            UI:add(tt)
           end
         end
       end
