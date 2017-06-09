@@ -35,8 +35,6 @@ export class Player extends GameObject
     @speed_range   = @sprite\getBounds!.radius + (150 * Scale.diag)
     @turret_count  = @max_turrets
     @charged       = true
-    --@turret_max    = @turret_cooldown * @max_turrets
-    --@turret_timer  = @turret_max
 
     @globes = {}
     @globe_index = 1
@@ -44,8 +42,6 @@ export class Player extends GameObject
     bounds = @getHitBox!
     width = bounds.radius + @attack_range
     num = 5
-    --width = 0
-    --num = 1
     for i = 1, num
       angle = ((math.pi * 2) / num) * i
       vec = Vector width, 0
@@ -60,8 +56,6 @@ export class Player extends GameObject
       else
         @health -= object.damage
       @hit = true
-    else
-      @shielded = false
 
   keypressed: (key) =>
     if not @alive return
@@ -106,12 +100,10 @@ export class Player extends GameObject
           @num_turrets += 1
           @turret[#@turret + 1] = turret
           @show_turret = false
-          --@elapsed = 0
           @turret_count -= 1
           if @turret_count == 0
             @can_place = false
           @charged = false
-          --@turret_timer -= @turret_cooldown
       if @turret
         for k, v in pairs @turret
           turret = v\getHitBox!
@@ -147,7 +139,9 @@ export class Player extends GameObject
       @speed = Vector 0, 0
       super dt
     else
-      start = Vector @speed.x, @speed.y
+      start = Vector @speed\getComponents!
+      if @speed\getLength! > @max_speed
+        @speed = @speed\multiply 1 / (math.sqrt 2)
       boost = Vector @speed_boost, 0
       angle = @speed\getAngle!
       boost\rotate angle
@@ -164,8 +158,6 @@ export class Player extends GameObject
         Driver\addObject bomb, EntityTypes.bomb
     for k, bullet_position in pairs @globes
       bullet_position\rotate dt * 1.25 * math.pi
-    --@turret_timer += dt
-    --@turret_timer = clamp @turret_timer, 0, @turret_max
     if @turret_count ~= @max_turrets
       if @elapsed >= @turret_cooldown
         @elapsed = 0
@@ -173,7 +165,7 @@ export class Player extends GameObject
         @can_place = true
         @charged = false
     else
-      @elapsed = 0--@turret_cooldown
+      @elapsed = 0
       @charged = true
     @speed_boost = 0
     @attack_timer += dt
@@ -188,8 +180,6 @@ export class Player extends GameObject
             bullet = PlayerBullet @position.x, @position.y, v, @damage
             Driver\addObject bullet, EntityTypes.bullet
             attacked = true
-            if Upgrade.player_special[4]
-              @speed_boost += @max_speed / 2
       if Driver.objects[EntityTypes.goal]
         for k, v in pairs Driver.objects[EntityTypes.goal]
           if v.goal_type == GoalTypes.attack
@@ -209,6 +199,15 @@ export class Player extends GameObject
               attacked = true
     if attacked
       @attack_timer = 0
+    if Driver.objects[EntityTypes.enemy]
+      for k, v in pairs Driver.objects[EntityTypes.enemy]
+        enemy = v\getHitBox!
+        player = @getHitBox!
+        player.radius += @attack_range + @range_boost
+        if enemy\contains player
+          if Upgrade.player_special[4]
+            @speed_boost += @max_speed / 4
+    @speed_boost = math.min @speed_boost, @max_speed * 2
     if @show_turret
       turret = BasicTurret @position.x, @position.y
       Renderer\enqueue turret\drawFaded
@@ -244,13 +243,8 @@ export class Player extends GameObject
     love.graphics.setFont @font
     message = "Turret Cooldown"
     love.graphics.printf message, 9 * Scale.width, Screen_Size.height - (47 * Scale.height) - @font\getHeight! / 2, 205 * Scale.width, "center"
-    -- (214 * Scale.width) - ((@font\getWidth message) / 2)
 
-    --Renderer\drawHUDMessage message, (214 * Scale.width) - (@font\getWidth message) / 2, Screen_Size.height - (47 * Scale.height), @font
-    x_start = (9 * Scale.width)-- + @font\getWidth message
-
-    --love.graphics.setColor 255, 255, 255, 255
-    --love.graphics.rectangle "fill", x_start, love.graphics.getHeight! - (52 * Scale.height), 202 * Scale.width, 43 * Scale.height
+    x_start = (9 * Scale.width)
 
     remaining = clamp @elapsed, 0, @turret_cooldown--@turret_timer, 0, @turret_max
     love.graphics.setColor 0, 0, 0, 255
@@ -258,30 +252,11 @@ export class Player extends GameObject
     love.graphics.setColor 0, 0, 255, 255
     ratio = remaining / @turret_cooldown--@turret_max
     if @charged
-      ratio = 1 -- 51 / 48
+      ratio = 1
     love.graphics.rectangle "fill", x_start + (4 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height
 
     message = @turret_count .. "/" .. @max_turrets
     Renderer\drawHUDMessage message, (x_start + 205) * Scale.width, Screen_Size.height - (30 * Scale.height), @font
-
-    --turret_health = 0
-    --num = 0
-    --if Driver.objects[EntityTypes.turret]
-    --  for k, t in pairs Driver.objects[EntityTypes.turret]
-    --    turret_health += t.health
-    --    num += t.max_health
-    --else
-    --  turret_health = 1
-    --  num = 1
-    --ratio = turret_health / num
-
-    --message = " Turret HP  "
-    --Renderer\drawHUDMessage message, (9 * Scale.width), Screen_Size.height - (30 * Scale.height), @font
-
-    --love.graphics.setColor 0, 0, 0, 255
-    --love.graphics.rectangle "fill", x_start + Scale.width, love.graphics.getHeight! - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height
-    --love.graphics.setColor 0, 255, 0, 255
-    --love.graphics.rectangle "fill", x_start + (4 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height
 
     love.graphics.setColor 0, 0, 0, 255
     love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (200 * Scale.width), love.graphics.getHeight! - (30 * Scale.height), 400 * Scale.width, 20 * Scale.height
@@ -304,5 +279,3 @@ export class Player extends GameObject
   kill: =>
     super\kill!
     Driver.game_over!
-    --player = Player @position.x, @position.y
-    --Driver\addObject player, EntityTypes.player

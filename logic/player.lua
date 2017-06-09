@@ -13,8 +13,6 @@ do
           self.health = self.health - object.damage
         end
         self.hit = true
-      else
-        self.shielded = false
       end
     end,
     keypressed = function(self, key)
@@ -134,7 +132,10 @@ do
         self.speed = Vector(0, 0)
         _class_0.__parent.__base.update(self, dt)
       else
-        local start = Vector(self.speed.x, self.speed.y)
+        local start = Vector(self.speed:getComponents())
+        if self.speed:getLength() > self.max_speed then
+          self.speed = self.speed:multiply(1 / (math.sqrt(2)))
+        end
         local boost = Vector(self.speed_boost, 0)
         local angle = self.speed:getAngle()
         boost:rotate(angle)
@@ -179,9 +180,6 @@ do
               local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
               Driver:addObject(bullet, EntityTypes.bullet)
               attacked = true
-              if Upgrade.player_special[4] then
-                self.speed_boost = self.speed_boost + (self.max_speed / 2)
-              end
             end
           end
         end
@@ -213,6 +211,19 @@ do
       if attacked then
         self.attack_timer = 0
       end
+      if Driver.objects[EntityTypes.enemy] then
+        for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
+          local enemy = v:getHitBox()
+          local player = self:getHitBox()
+          player.radius = player.radius + (self.attack_range + self.range_boost)
+          if enemy:contains(player) then
+            if Upgrade.player_special[4] then
+              self.speed_boost = self.speed_boost + (self.max_speed / 4)
+            end
+          end
+        end
+      end
+      self.speed_boost = math.min(self.speed_boost, self.max_speed * 2)
       if self.show_turret then
         local turret = BasicTurret(self.position.x, self.position.y)
         Renderer:enqueue((function()
