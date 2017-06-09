@@ -16,6 +16,9 @@ export class Driver
       love.update = @update
       love.draw = @draw
 
+      love.filesystem.setIdentity "Tower Defense"
+      love.filesystem.createDirectory "screenshots"
+
     addObject: (object, id) =>
       if @objects[id]
         @objects[id][#@objects[id] + 1] = object
@@ -69,6 +72,9 @@ export class Driver
       elseif key == "u"
         if DEBUGGING
           Objectives.mode.complete = true
+      elseif key == "printscreen"
+        screenshot = love.graphics.newScreenshot true
+        screenshot\encode "png", "screenshots/" .. os.time! .. ".png"
       else
         if Driver.game_state == Game_State.playing
           for k, v in pairs Driver.objects[EntityTypes.player]
@@ -117,6 +123,7 @@ export class Driver
 
       -- Global stats
       export SCORE = 0
+      export SCORE_THRESHOLD = 10000
 
       -- Set love environment
       --love.graphics.setBackgroundColor 91, 192, 255, 255
@@ -153,15 +160,6 @@ export class Driver
 
       -- Create a player
       player = Player love.graphics.getWidth! / 2, love.graphics.getHeight! / 2
-
-      --player.action_sprite = ActionSprite "test.tga", 16, 16, 0.29, 4, player, () =>
-      --  print "Hello"
-      --  @parent.sprite = @parent.action_sprite
-      --  @parent.count += 1
-      --  print "Looping " .. @parent.count
-      --player.sprite = player.action_sprite
-      --player.count = 0
-
       Driver\addObject player, EntityTypes.player
 
       -- Start game

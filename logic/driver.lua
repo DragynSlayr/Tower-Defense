@@ -73,6 +73,9 @@ do
         if DEBUGGING then
           Objectives.mode.complete = true
         end
+      elseif key == "printscreen" then
+        local screenshot = love.graphics.newScreenshot(true)
+        return screenshot:encode("png", "screenshots/" .. os.time() .. ".png")
       else
         if Driver.game_state == Game_State.playing then
           for k, v in pairs(Driver.objects[EntityTypes.player]) do
@@ -124,6 +127,7 @@ do
       DEBUGGING = false
       SHOW_RANGE = false
       SCORE = 0
+      SCORE_THRESHOLD = 10000
       love.graphics.setDefaultFilter("nearest", "nearest", 1)
       MusicPlayer = MusicHandler()
       Renderer = ObjectRenderer()
@@ -224,6 +228,8 @@ do
       love.load = self.load
       love.update = self.update
       love.draw = self.draw
+      love.filesystem.setIdentity("Tower Defense")
+      return love.filesystem.createDirectory("screenshots")
     end,
     __base = _base_0,
     __name = "Driver"
