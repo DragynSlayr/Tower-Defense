@@ -24,7 +24,7 @@ do
     end,
     update = function(self, dt)
       _class_0.__parent.__base.update(self, dt)
-      if self.killed == self.target and Driver:isClear() then
+      if self.killed >= self.target and Driver:isClear() then
         self.complete = true
       end
     end,

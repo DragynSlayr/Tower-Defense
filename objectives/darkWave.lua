@@ -36,7 +36,7 @@ do
           self.parent.parent:spawn(EnemyTypes.spawner)
         end
       end
-      if self.killed == self.target then
+      if self.killed >= self.target then
         self.complete = true
         return Driver:killEnemies()
       end

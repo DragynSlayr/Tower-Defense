@@ -34,7 +34,7 @@ export class DarkWave extends Wave
         @max_time = (1 / @spawn_count) + 1
         --print "N: " .. @max_time .. "\tS: " .. @spawn_count
         @parent.parent\spawn EnemyTypes.spawner
-    if @killed == @target
+    if @killed >= @target
       @complete = true
       Driver\killEnemies!
 
