@@ -10,8 +10,6 @@ do
       end
       if not self.shielded then
         self.health = self.health - object.damage
-      else
-        self.shielded = false
       end
     end,
     kill = function(self)
@@ -23,6 +21,13 @@ do
     update = function(self, dt)
       if not self.alive then
         return 
+      end
+      if self.shielded then
+        self.shield_timer = self.shield_timer + dt
+        if self.shield_timer >= self.max_shield_time then
+          self.shield_timer = 0
+          self.shielded = false
+        end
       end
       self.sprite:update(dt)
       local start = Vector(self.position.x, self.position.y)
@@ -115,6 +120,8 @@ do
       self.draw_health = true
       self.score_value = 0
       self.shielded = false
+      self.shield_timer = 0
+      self.max_shield_time = 7
       self.normal_sprite = self.sprite
       self.action_sprite = self.sprite
       self.shield_sprite = Sprite("shield.tga", 32, 32, 1, 1)

@@ -12,6 +12,8 @@ export class GameObject
     @draw_health = true
     @score_value = 0
     @shielded = false
+    @shield_timer = 0
+    @max_shield_time = 7
 
     @normal_sprite = @sprite
     @action_sprite = @sprite
@@ -30,8 +32,6 @@ export class GameObject
     --print "Collision"
     if not @shielded
       @health -= object.damage
-    else
-      @shielded = false
 
   kill: =>
     score = SCORE + @score_value
@@ -41,6 +41,11 @@ export class GameObject
 
   update: (dt) =>
     if not @alive return
+    if @shielded
+      @shield_timer += dt
+      if @shield_timer >= @max_shield_time
+        @shield_timer = 0
+        @shielded = false
     @sprite\update dt
     start = Vector @position.x, @position.y
     @elapsed += dt
