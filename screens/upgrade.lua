@@ -7,34 +7,36 @@ do
     end,
     add_skill = function(self, tree, idx)
       local success = false
-      if self.skill_points >= 1 then
-        local _exp_0 = tree
-        if Upgrade_Trees.player_stats == _exp_0 then
-          if self.player_stats[idx] < self.max_skill then
+      local _exp_0 = tree
+      if Upgrade_Trees.player_stats == _exp_0 then
+        if self.player_stats[idx] < self.max_skill then
+          if self.skill_points >= self.upgrade_cost[self.player_stats[idx] + 1] then
+            self.skill_points = self.skill_points - self.upgrade_cost[self.player_stats[idx] + 1]
             self.player_stats[idx] = self.player_stats[idx] + 1
-            self.skill_points = self.skill_points - 1
             Stats.player[idx] = Base_Stats.player[idx] + (self.amount[1][idx][self.player_stats[idx]])
             success = true
           end
-        elseif Upgrade_Trees.turret_stats == _exp_0 then
-          if self.turret_stats[idx] < self.max_skill then
+        end
+      elseif Upgrade_Trees.turret_stats == _exp_0 then
+        if self.turret_stats[idx] < self.max_skill then
+          if self.skill_points >= self.upgrade_cost[self.turret_stats[idx] + 1] then
+            self.skill_points = self.skill_points - self.upgrade_cost[self.turret_stats[idx] + 1]
             self.turret_stats[idx] = self.turret_stats[idx] + 1
-            self.skill_points = self.skill_points - 1
             Stats.turret[idx] = Base_Stats.turret[idx] + (self.amount[2][idx][self.turret_stats[idx]])
             success = true
           end
         end
-      end
-      if self.skill_points >= 5 then
-        local _exp_0 = tree
-        if Upgrade_Trees.player_special == _exp_0 then
-          if not self.player_special[idx] then
+      elseif Upgrade_Trees.player_special == _exp_0 then
+        if not self.player_special[idx] then
+          if self.skill_points >= 5 then
             self.player_special[idx] = true
             self.skill_points = self.skill_points - 5
             success = true
           end
-        elseif Upgrade_Trees.turret_special == _exp_0 then
-          if not self.turret_special[idx] then
+        end
+      elseif Upgrade_Trees.turret_special == _exp_0 then
+        if not self.turret_special[idx] then
+          if self.skill_points >= 5 then
             self.turret_special[idx] = true
             self.skill_points = self.skill_points - 5
             success = true
@@ -97,6 +99,14 @@ do
         0,
         0
       }
+      self.upgrade_cost = {
+        1,
+        1,
+        2,
+        2,
+        3,
+        3
+      }
       self.player_special = {
         false,
         false,
@@ -112,12 +122,12 @@ do
       self.amount = { }
       self.amount[1] = { }
       self.amount[1][1] = {
-        5,
-        11,
-        18,
-        26,
-        35,
-        45
+        10,
+        20,
+        40,
+        60,
+        110,
+        160
       }
       self.amount[1][2] = {
         25,
@@ -153,12 +163,12 @@ do
       }
       self.amount[2] = { }
       self.amount[2][1] = {
-        4,
-        8,
-        13,
-        18,
-        24,
-        32
+        5,
+        10,
+        20,
+        30,
+        55,
+        80
       }
       self.amount[2][2] = {
         15,

@@ -3,25 +3,26 @@ export class UpgradeScreen extends Screen
     super!
 
     @skill_points = 0
-    --@skill_points = 100
+    --@skill_points = 160
     @max_skill = 6
 
     @player_stats = {0, 0, 0, 0, 0}
     @turret_stats = {0, 0, 0, 0, 0}
+    @upgrade_cost = {1, 1, 2, 2, 3, 3}
 
     @player_special = {false, false, false, false}
     @turret_special = {false, false, false, false}
 
     @amount       = {}
     @amount[1]    = {}
-    @amount[1][1] = {5, 11, 18, 26, 35, 45}
+    @amount[1][1] = {10, 20, 40, 60, 110, 160}
     @amount[1][2] = {25, 50, 80, 115, 155, 200}
     @amount[1][3] = {0.2, 0.5, 1.0, 1.5, 2.0, 2.8}
     @amount[1][4] = {50, 100, 175, 250, 325, 400}
     @amount[1][5] = {-1 / 450, -2 / 450, -3 / 450, -4 / 450, -5 / 450, -6 / 450}
 
     @amount[2]    = {}
-    @amount[2][1] = {4, 8, 13, 18, 24, 32}
+    @amount[2][1] = {5, 10, 20, 30, 55, 80}
     @amount[2][2] = {15, 30, 50, 70, 100, 150}
     @amount[2][3] = {0.25, 0.75, 1.25, 2.0, 2.8, 3.65}
     @amount[2][4] = {-2.5, -5.0, -7.5, -10.0, -12.5, -15.0}
@@ -39,29 +40,30 @@ export class UpgradeScreen extends Screen
 
   add_skill: (tree, idx) =>
     success = false
-    if @skill_points >= 1
-      switch tree
-        when Upgrade_Trees.player_stats
-          if @player_stats[idx] < @max_skill
+    switch tree
+      when Upgrade_Trees.player_stats
+        if @player_stats[idx] < @max_skill
+          if @skill_points >= @upgrade_cost[@player_stats[idx] + 1]
+            @skill_points -= @upgrade_cost[@player_stats[idx] + 1]
             @player_stats[idx] += 1
-            @skill_points -= 1
             Stats.player[idx] = Base_Stats.player[idx] + (@amount[1][idx][@player_stats[idx]])--(@player_stats[idx] * @amount[1][idx])
             success = true
-        when Upgrade_Trees.turret_stats
-          if @turret_stats[idx] < @max_skill
+      when Upgrade_Trees.turret_stats
+        if @turret_stats[idx] < @max_skill
+          if @skill_points >= @upgrade_cost[@turret_stats[idx] + 1]
+            @skill_points -= @upgrade_cost[@turret_stats[idx] + 1]
             @turret_stats[idx] += 1
-            @skill_points -= 1
             Stats.turret[idx] = Base_Stats.turret[idx] + (@amount[2][idx][@turret_stats[idx]])--(@turret_stats[idx] * @amount[2][idx])
             success = true
-    if @skill_points >= 5
-      switch tree
-        when Upgrade_Trees.player_special
-          if not @player_special[idx]
+      when Upgrade_Trees.player_special
+        if not @player_special[idx]
+          if @skill_points >= 5
             @player_special[idx] = true
             @skill_points -= 5
             success = true
-        when Upgrade_Trees.turret_special
-          if not @turret_special[idx]
+      when Upgrade_Trees.turret_special
+        if not @turret_special[idx]
+          if @skill_points >= 5
             @turret_special[idx] = true
             @skill_points -= 5
             success = true
