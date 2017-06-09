@@ -7,7 +7,7 @@ do
       if Upgrade.player_special[1] then
         if Driver.objects[EntityTypes.player] then
           for k, p in pairs(Driver.objects[EntityTypes.player]) do
-            p.health = p.health + (1 / 600)
+            p.health = p.health + (Stats.player[3] * 0.01)
             p.health = math.min(p.health, p.max_health)
           end
         end
