@@ -157,213 +157,190 @@ do
       UI:add(bg)
       local title = Text(Screen_Size.width / 2, 25 * Scale.height, "Upgrade")
       UI:add(title)
-      UI:add(Text(90 * Scale.width, 65 * Scale.width, "Player", Renderer.hud_font))
-      local stats = {
-        "Health",
-        "Range",
-        "Damage",
-        "Speed",
-        "Attack Delay",
-        "Special"
+      local names = {
+        "Player",
+        "Turret"
       }
-      for k, v in pairs(stats) do
-        local y = (25 + (k * 65)) * Scale.height
-        UI:add(Text(190 * Scale.width, y, v, Renderer.small_font))
-        if k ~= #stats then
-          local tt = Tooltip(Screen_Size.width * (5 / 24), y - (30 * Scale.height), (function(self)
-            local level = Upgrade.player_stats[k]
-            if level == Upgrade.max_skill then
-              return "Upgrade Complete!"
-            else
-              local modifier = 0
-              if level > 0 then
-                modifier = Upgrade.amount[1][k][level]
-              end
-              local amount = Upgrade.amount[1][k][level + 1] - modifier
-              local message = "  Player  " .. v .. "  by  " .. (string.format("%.3f", math.abs(amount)))
-              if amount < 0 then
-                message = "Decrease" .. message
-              else
-                message = "Increase" .. message
-              end
-              return message
-            end
-          end), Renderer:newFont(15))
-          local tt2 = Tooltip(Screen_Size.width * 0.72, y, (function(self)
-            local level = Upgrade.player_stats[k]
-            if level == Upgrade.max_skill then
-              return ""
-            else
-              local modifier = 0
-              if level > 0 then
-                modifier = Upgrade.amount[1][k][level]
-              end
-              local amount = Upgrade.amount[1][k][level + 1] - modifier
-              local message = "("
-              if amount < 0 then
-                message = message .. "-"
-              else
-                message = message .. "+"
-              end
-              message = message .. ((string.format("%.3f", math.abs(amount))) .. ")")
-              return message
-            end
-          end), Renderer:newFont(30, "right"))
-          tt2.color = {
-            0,
-            225,
-            0,
-            255
-          }
-          local b = TooltipButton(280 * Scale.width, y, 30, 30, "+", (function()
-            return Upgrade:add_skill(Upgrade_Trees.player_stats, k)
-          end), nil, {
-            tt,
-            tt2
-          })
-          UI:add(b)
-          UI:add(tt)
-          UI:add(tt2)
-        else
-          local specials = {
-            "Life Steal",
-            "Range Boost",
-            "Bomb",
-            "Speed Boost"
-          }
-          local description = {
-            "Recover life from hit enemies",
-            "Double player range near turret",
-            "An instant kill bomb drops randomly",
-            "Player speed increases for every enemy near them"
-          }
-          local font = Renderer:newFont(15)
-          local width = 0
-          for k, v in pairs(specials) do
-            local w = font:getWidth(v)
-            if w > width then
-              width = w
-            end
-          end
-          local x = (280 + (width / 2)) * Scale.width
-          for k, v in pairs(specials) do
-            local tt = Tooltip(280 * Scale.width, y - (30 * Scale.height), (function(self)
-              return description[k]
-            end), Renderer:newFont(15))
-            local b = TooltipButton(x, y, width * 1.5, 30, v, (function(self)
-              local result = Upgrade:add_skill(Upgrade_Trees.player_special, k)
-              self.active = not result
-            end), font, {
-              tt
-            })
-            x = x + (b.width + (10 * Scale.width))
-            UI:add(b)
-            UI:add(tt)
+      local stats = {
+        {
+          "Health",
+          "Range",
+          "Damage",
+          "Speed",
+          "Attack Delay",
+          "Special"
+        },
+        {
+          "Health",
+          "Range",
+          "Damage",
+          "Cooldown",
+          "Attack Delay",
+          "Special"
+        }
+      }
+      local num_stats = 6
+      local trees = {
+        Upgrade_Trees.player_stats,
+        Upgrade_Trees.turret_stats,
+        Upgrade_Trees.player_special,
+        Upgrade_Trees.turret_special
+      }
+      local specials = {
+        {
+          "Life Steal",
+          "Range Boost",
+          "Bomb",
+          "Speed Boost"
+        },
+        {
+          "Extra Turret",
+          "Shield",
+          "Multiple Targets",
+          "Pickup"
+        }
+      }
+      local num_specials = 4
+      local descriptions = {
+        {
+          "Recover life from hit enemies",
+          "Double player range near turret",
+          "An instant kill bomb drops randomly",
+          "Player speed increases for every enemy near them"
+        },
+        {
+          "Use 'E' to place another turret",
+          "Allies receive a temporary shield when a turret gets to half health",
+          "Turret can hit more than a single enemy",
+          "Use 'E' to pickup turrets after they have been placed"
+        }
+      }
+      local width = 0
+      local font = Renderer:newFont(15)
+      for k, v in pairs(specials) do
+        for k2, v2 in pairs(v) do
+          local w = font:getWidth(v2)
+          if w >= width then
+            width = w
           end
         end
       end
-      UI:add(Text(85 * Scale.width, 485 * Scale.height, "Turret", Renderer.hud_font))
-      stats = {
-        "Health",
-        "Range",
-        "Damage",
-        "Cooldown",
-        "Attack Delay",
-        "Special"
-      }
-      for k, v in pairs(stats) do
-        local y = (450 + (k * 65)) * Scale.height
-        UI:add(Text(190 * Scale.width, y, v, Renderer.small_font))
-        if k ~= #stats then
-          local tt = Tooltip(Screen_Size.width * (5 / 24), y - (30 * Scale.height), (function(self)
-            local level = Upgrade.turret_stats[k]
-            if level == Upgrade.max_skill then
-              return "Upgrade Complete!"
-            else
-              local modifier = 0
-              if level > 0 then
-                modifier = Upgrade.amount[2][k][level]
-              end
-              local amount = Upgrade.amount[2][k][level + 1] - modifier
-              local message = "  Turret  " .. v .. "  by  " .. string.format("%.3f", math.abs(amount))
-              if amount < 0 then
-                message = "Decrease" .. message
+      for i = 1, 2 do
+        local mod = i - 1
+        UI:add(Text((90 - (5 * mod)) * Scale.width, (65 + (420 * mod)) * Scale.height, names[i], Renderer.hud_font))
+        for j = 1, num_stats do
+          local y = (25 + (j * 65) + (425 * mod)) * Scale.height
+          UI:add(Text(190 * Scale.width, y, stats[i][j], Renderer.small_font))
+          if j ~= num_stats then
+            local stats_table = Upgrade.player_stats
+            if i == 2 then
+              stats_table = Upgrade.turret_stats
+            end
+            local tt = Tooltip(Screen_Size.width * (5 / 24), y - (30 * Scale.height), (function(self)
+              local level = stats_table[j]
+              if level == Upgrade.max_skill then
+                return "Upgrade Complete!"
               else
-                message = "Increase" .. message
+                local modifier = 0
+                if level > 0 then
+                  modifier = Upgrade.amount[i][j][level]
+                end
+                local amount = Upgrade.amount[i][j][level + 1] - modifier
+                local message = "  " .. names[i] .. "  " .. stats[i][j] .. "  by  " .. (string.format("%.3f", math.abs(amount)))
+                if amount < 0 then
+                  message = "Decrease" .. message
+                else
+                  message = "Increase" .. message
+                end
+                return message
               end
-              return message
-            end
-          end), Renderer:newFont(15))
-          local tt2 = Tooltip(Screen_Size.width * 0.72, y, (function(self)
-            local level = Upgrade.turret_stats[k]
-            if level == Upgrade.max_skill then
-              return ""
-            else
-              local modifier = 0
-              if level > 0 then
-                modifier = Upgrade.amount[2][k][level]
-              end
-              local amount = Upgrade.amount[2][k][level + 1] - modifier
-              local message = "("
-              if amount < 0 then
-                message = message .. "-"
+            end), font)
+            local tt2 = Tooltip(Screen_Size.width * 0.72, y, (function(self)
+              local level = stats_table[j]
+              if level == Upgrade.max_skill then
+                return ""
               else
-                message = message .. "+"
+                local modifier = 0
+                if level > 0 then
+                  modifier = Upgrade.amount[i][j][level]
+                end
+                local amount = Upgrade.amount[i][j][level + 1] - modifier
+                local message = "("
+                if amount < 0 then
+                  message = message .. "-"
+                else
+                  message = message .. "+"
+                end
+                message = message .. ((string.format("%.3f", math.abs(amount))) .. ")")
+                return message
               end
-              message = message .. ((string.format("%.3f", math.abs(amount))) .. ")")
-              return message
-            end
-          end), Renderer:newFont(30, "right"))
-          tt2.color = {
-            0,
-            225,
-            0,
-            255
-          }
-          local b = TooltipButton(280 * Scale.width, y, 30, 30, "+", (function()
-            return Upgrade:add_skill(Upgrade_Trees.turret_stats, k)
-          end), nil, {
-            tt,
-            tt2
-          })
-          UI:add(b)
-          UI:add(tt)
-          UI:add(tt2)
-        else
-          local specials = {
-            "Extra Turret",
-            "Shield",
-            "Multiple Targets",
-            "Pickup"
-          }
-          local description = {
-            "Use 'E' to place another turret",
-            "Allies receive a temporary shield when a turret gets to half health",
-            "Turret can hit more than a single enemy",
-            "Use 'E' to pickup turrets after they have been placed"
-          }
-          local font = Renderer:newFont(15)
-          local width = 0
-          for k, v in pairs(specials) do
-            local w = font:getWidth(v)
-            if w > width then
-              width = w
-            end
-          end
-          local x = (280 + (width / 2)) * Scale.width
-          for k, v in pairs(specials) do
-            local tt = Tooltip(280 * Scale.width, y - (30 * Scale.height), (function(self)
-              return description[k]
-            end), Renderer:newFont(15))
-            local b = TooltipButton(x, y, width * 1.5, 30, v, (function(self)
-              local result = Upgrade:add_skill(Upgrade_Trees.turret_special, k)
-              self.active = not result
-            end), font, {
-              tt
+            end), Renderer.hud_font, "right")
+            tt2.color = {
+              0,
+              225,
+              0,
+              255
+            }
+            local tt3 = Tooltip(Screen_Size.width * 0.95, 17.5 * Scale.height, (function(self)
+              local level = stats_table[j] + 1
+              if level <= Upgrade.max_skill then
+                return "-" .. Upgrade.upgrade_cost[level]
+              else
+                return ""
+              end
+            end), Renderer.hud_font)
+            tt3.color = {
+              225,
+              0,
+              0,
+              255
+            }
+            local b = TooltipButton(280 * Scale.width, y, 30, 30, "+", (function()
+              return Upgrade:add_skill(trees[i], j)
+            end), nil, {
+              tt,
+              tt2,
+              tt3
             })
-            x = x + (b.width + (10 * Scale.width))
             UI:add(b)
             UI:add(tt)
+            UI:add(tt2)
+            UI:add(tt3)
+          else
+            local x = (280 + (width / 2)) * Scale.width
+            for k = 1, num_specials do
+              local special_table = Upgrade.player_special
+              if i == 2 then
+                special_table = Upgrade.turret_special
+              end
+              local tt = Tooltip(280 * Scale.width, y - (30 * Scale.height), (function(self)
+                return descriptions[i][k]
+              end), font)
+              local tt2 = Tooltip(Screen_Size.width * 0.95, 17.5 * Scale.height, (function(self)
+                if special_table[k] then
+                  return ""
+                else
+                  return "-5"
+                end
+              end), Renderer.hud_font)
+              tt2.color = {
+                225,
+                0,
+                0,
+                255
+              }
+              local b = TooltipButton(x, y, width + 10, 30, specials[i][k], (function(self)
+                local result = Upgrade:add_skill(trees[2 + i], k)
+                self.active = not result
+              end), font, {
+                tt,
+                tt2
+              })
+              x = x + (b.width + (10 * Scale.width))
+              UI:add(b)
+              UI:add(tt)
+              UI:add(tt2)
+            end
           end
         end
       end
