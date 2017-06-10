@@ -99,5 +99,5 @@ export class UpgradeScreen extends Screen
         Renderer\drawHUDMessage message, Screen_Size.width * 0.8, y
 
     message = "Skill Points: " .. @skill_points
-    Renderer\drawHUDMessage message, Screen_Size.width - (Renderer.hud_font\getWidth message) - (5 * Scale.width), 0
+    Renderer\drawHUDMessage message, Screen_Size.width * 0.80, 0
     love.graphics.pop!

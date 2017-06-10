@@ -74,7 +74,7 @@ do
         end
       end
       local message = "Skill Points: " .. self.skill_points
-      Renderer:drawHUDMessage(message, Screen_Size.width - (Renderer.hud_font:getWidth(message)) - (5 * Scale.width), 0)
+      Renderer:drawHUDMessage(message, Screen_Size.width * 0.80, 0)
       return love.graphics.pop()
     end
   }
