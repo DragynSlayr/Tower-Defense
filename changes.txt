@@ -1,13 +1,20 @@
-V9 Changes
+V10 Changes
 ~~~~~~~~~~
 
 NEW
 ~~~
-- Decreased player attack delay from 1 / 30 to 1 / 75
-- Decreased turret attack delay from 1 / 45 to 1 / 90
-- A skill point is rewarded for every 10,000 points
+- Player starting health increased from 5 to 25
+- Turret starting health increased from 10 to 12.5
+- Player max health increased from 50 to 185
+- Turret max health increased from 42 to 92.5
+- Shield is no longer single hit, now lasts for 7 seconds
+- 5000 points are awarded on completion of a level
+- "Life Steal" effect now scales with Player's damage
+- Variable cost per upgrade level
+- Special upgrades now have a description
+- Upgrade screen now shows point cost per level
+- Extra speed gained from "Speed Boost" is capped at 2x Player speed
 
 FIXES
 ~~~~~
-- "print screen" button now saves a screenshot to %appdata%\LOVE\Tower Defense
-- Bullets and bombs are cleared on wave completion
+- Player no longer moves faster when moving diagonally
