@@ -7,3 +7,7 @@ export class Color
 
   get: =>
     return @r, @g, @b, @a
+
+  equals: (color) =>
+    r, g, b, a = color\get!
+    return r == @r and g == @g and b == @b and a == @a

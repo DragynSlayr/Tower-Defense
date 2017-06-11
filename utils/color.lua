@@ -3,6 +3,10 @@ do
   local _base_0 = {
     get = function(self)
       return self.r, self.g, self.b, self.a
+    end,
+    equals = function(self, color)
+      local r, g, b, a = color:get()
+      return r == self.r and g == self.g and b == self.b and a == self.a
     end
   }
   _base_0.__index = _base_0
