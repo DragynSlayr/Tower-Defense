@@ -32,7 +32,7 @@ do
           self:spawnRandomEnemy()
         end
       end
-      if self.killed >= self.target and Driver:isClear() then
+      if self.killed >= self.target then
         self.complete = true
       end
     end,

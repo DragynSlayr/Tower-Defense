@@ -33,7 +33,7 @@ export class AttackWave extends Wave
         @max_time = (3 / @spawn_count) + 1
         --print "N: " .. @max_time .. "\tS: " .. @spawn_count
         @spawnRandomEnemy!
-    if @killed >= @target and Driver\isClear!
+    if @killed >= @target
       @complete = true
 
   draw: =>
