@@ -83,8 +83,7 @@ do
         love.graphics.setColor(255, 0, 0, alpha)
       end
       if DEBUGGING then
-        local enemy = self:getHitBox()
-        love.graphics.circle("fill", self.position.x, self.position.y, self.attack_range + enemy.radius, 360)
+        self:getHitBox():draw()
       end
       love.graphics.pop()
       return _class_0.__parent.__base.draw(self)

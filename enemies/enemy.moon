@@ -92,8 +92,7 @@ export class Enemy extends GameObject
       alpha = map @action_sprite.current_frame, 1, @action_sprite.frames, 100, 255
       love.graphics.setColor 255, 0, 0, alpha
     if DEBUGGING --or @sprite == @action_sprite
-      enemy = @getHitBox!
-      love.graphics.circle "fill", @position.x, @position.y, @attack_range + enemy.radius, 360
+      @getHitBox!\draw!
     love.graphics.pop!
     super!
 
