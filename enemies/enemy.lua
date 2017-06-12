@@ -110,7 +110,7 @@ do
       end
       if Driver.objects[EntityTypes.turret] then
         for k, v in pairs(Driver.objects[EntityTypes.turret]) do
-          local turret = v:getHitBox()
+          local turret = v:getAttackHitBox()
           local enemy = self:getHitBox()
           local dist = Vector(enemy.center.x - turret.center.x, enemy.center.y - turret.center.y)
           if dist:getLength() < closest_distance then
@@ -157,6 +157,9 @@ do
       local height, width, _, scale = self.normal_sprite:getProperties()
       self.action_sprite = ActionSprite(name, height, width, attack_speed, scale, self, function(self)
         target = self.parent.target:getHitBox()
+        if self.parent.target.getAttackHitBox then
+          target = self.parent.target:getAttackHitBox()
+        end
         local enemy = self.parent:getHitBox()
         enemy.radius = enemy.radius + self.parent.attack_range
         if target:contains(enemy) then

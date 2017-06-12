@@ -20,6 +20,8 @@ export class Enemy extends GameObject
 
     @action_sprite = ActionSprite name, height, width, attack_speed, scale, @, () =>
       target = @parent.target\getHitBox!
+      if @parent.target.getAttackHitBox
+        target = @parent.target\getAttackHitBox!
       enemy = @parent\getHitBox!
       enemy.radius += @parent.attack_range
       if target\contains enemy
@@ -111,7 +113,7 @@ export class Enemy extends GameObject
           closest = v
     if Driver.objects[EntityTypes.turret]
       for k, v in pairs Driver.objects[EntityTypes.turret]
-        turret = v\getHitBox!
+        turret = v\getAttackHitBox!
         enemy = @getHitBox!
         dist = Vector enemy.center.x - turret.center.x, enemy.center.y - turret.center.y
         if dist\getLength! < closest_distance

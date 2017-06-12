@@ -41,7 +41,7 @@ export class TurretEnemy extends Enemy
             closest = v
     if Driver.objects[EntityTypes.turret]
       for k, v in pairs Driver.objects[EntityTypes.turret]
-        turret = v\getHitBox!
+        turret = v\getAttackHitBox!
         enemy = @getHitBox!
         dist = Vector enemy.center.x - turret.center.x, enemy.center.y - turret.center.y
         if dist\getLength! < closest_distance

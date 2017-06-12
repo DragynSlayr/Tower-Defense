@@ -41,7 +41,7 @@ do
       end
       if Driver.objects[EntityTypes.turret] then
         for k, v in pairs(Driver.objects[EntityTypes.turret]) do
-          local turret = v:getHitBox()
+          local turret = v:getAttackHitBox()
           local enemy = self:getHitBox()
           local dist = Vector(enemy.center.x - turret.center.x, enemy.center.y - turret.center.y)
           if dist:getLength() < closest_distance then
