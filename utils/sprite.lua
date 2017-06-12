@@ -53,11 +53,6 @@ do
         love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.color[4])
       end
       love.graphics.draw(self.image, self.sprites[self.current_frame], math.floor(x), math.floor(y), self.rotation, self.x_scale, self.y_scale, self.width / 2, self.height / 2)
-      if DEBUGGING then
-        love.graphics.setColor(0, 255, 0, 255)
-        local circle = self:getBounds(x, y)
-        love.graphics.circle("line", circle.center.x, circle.center.y, circle.radius, 360)
-      end
       if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none then
         love.graphics.setShader()
       end

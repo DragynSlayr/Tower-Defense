@@ -130,12 +130,6 @@ export class Sprite
     -- Draw the sprite
     love.graphics.draw @image, @sprites[@current_frame], math.floor(x), math.floor(y), @rotation, @x_scale, @y_scale, @width / 2, @height / 2
 
-    -- Draw bounds if debugging
-    if DEBUGGING
-      love.graphics.setColor 0, 255, 0, 255
-      circle = @getBounds x, y
-      love.graphics.circle "line", circle.center.x, circle.center.y, circle.radius, 360
-
     -- Restore previous transforms
     if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none
       love.graphics.setShader!
