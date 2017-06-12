@@ -82,7 +82,7 @@ do
         end
         if self.turret then
           for k, v in pairs(self.turret) do
-            local turret = v:getHitBox()
+            local turret = v:getAttackHitBox()
             local player = self:getHitBox()
             player.radius = player.radius + self.repair_range
             if turret:contains(player) then

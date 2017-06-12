@@ -106,7 +106,7 @@ export class Player extends GameObject
           @charged = false
       if @turret
         for k, v in pairs @turret
-          turret = v\getHitBox!
+          turret = v\getAttackHitBox!
           player = @getHitBox!
           player.radius += @repair_range
           if turret\contains player
