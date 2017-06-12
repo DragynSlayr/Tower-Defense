@@ -38,4 +38,5 @@ require "objectives.objectiveLoader"
 --| Dependent on everything else |--
 --+------------------------------+--
 require "logic.driver"
+require "maps.mapLoader"
 require "screens.screenLoader"

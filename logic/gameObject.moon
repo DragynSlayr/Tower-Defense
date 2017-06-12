@@ -24,12 +24,15 @@ export class GameObject
     @shield_sprite\setScale x_scale * 1.5, y_scale * 1.5
 
   getHitBox: =>
-    return @sprite\getBounds @position.x, @position.y
+    -- Get the radius of this Sprite as the minimum of height and width
+    radius = math.min @sprite.scaled_height / 2, @sprite.scaled_width / 2
+
+    -- Return a new Circle at this x and y with the radius
+    return Circle @position.x, @position.y, radius
 
   onCollide: (object) =>
     if not @alive return
-    --print @__name .. " hit " .. object.__name
-    --print "Collision"
+    --print object.__class.__name .. " hit " .. @.__class.__name
     if not @shielded
       @health -= object.damage
 
@@ -57,25 +60,29 @@ export class GameObject
       return
     for k, v in pairs Driver.objects
       for k2, o in pairs v
-        if not ((@id == EntityTypes.player and o.id == EntityTypes.turret) or (@id == EntityTypes.turret and o.id == EntityTypes.player))
-          if o ~= @ and not (o.id == EntityTypes.bullet or o.id == EntityTypes.bomb)
-            other = o\getHitBox!
-            this = @getHitBox!
-            if other\contains this
-              @position = start
-              dist = other\getCollisionDistance this
-              dist = math.sqrt math.sqrt dist
-              dist_vec = Vector dist, dist
-              if @speed\getLength! > 0
-                if @id ~= EntityTypes.player
-                  @position\add dist_vec\multiply -1
-              if o.speed\getLength! > 0
-                if o.id ~= EntityTypes.player
-                  o.position\add dist_vec
+        if not (@id == EntityTypes.wall and o.id == EntityTypes.wall)
+          if not ((@id == EntityTypes.player and o.id == EntityTypes.turret) or (@id == EntityTypes.turret and o.id == EntityTypes.player))
+            if o ~= @ and not (o.id == EntityTypes.bullet or o.id == EntityTypes.bomb)
+              other = o\getHitBox!
+              this = @getHitBox!
+              if other\contains this
+                @position = start
+                dist = other\getCollisionDistance this
+                dist = math.sqrt math.sqrt math.abs dist
+                dist_vec = Vector dist, dist
+                if @speed\getLength! > 0
+                  if @id ~= EntityTypes.player
+                    @position\add dist_vec\multiply -1
+                if o.speed\getLength! > 0
+                  if o.id ~= EntityTypes.player
+                    o.position\add dist_vec
 
   draw: =>
     love.graphics.push "all"
     @sprite\draw @position.x, @position.y
+    -- Draw bounds if debugging
+    if DEBUGGING
+      @getHitBox!\draw!
     if @draw_health
       love.graphics.setShader Driver.shader
       love.graphics.setColor 0, 0, 0, 255

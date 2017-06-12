@@ -2,7 +2,8 @@ do
   local _class_0
   local _base_0 = {
     getHitBox = function(self)
-      return self.sprite:getBounds(self.position.x, self.position.y)
+      local radius = math.min(self.sprite.scaled_height / 2, self.sprite.scaled_width / 2)
+      return Circle(self.position.x, self.position.y, radius)
     end,
     onCollide = function(self, object)
       if not self.alive then
@@ -41,23 +42,25 @@ do
       end
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do
-          if not ((self.id == EntityTypes.player and o.id == EntityTypes.turret) or (self.id == EntityTypes.turret and o.id == EntityTypes.player)) then
-            if o ~= self and not (o.id == EntityTypes.bullet or o.id == EntityTypes.bomb) then
-              local other = o:getHitBox()
-              local this = self:getHitBox()
-              if other:contains(this) then
-                self.position = start
-                local dist = other:getCollisionDistance(this)
-                dist = math.sqrt(math.sqrt(dist))
-                local dist_vec = Vector(dist, dist)
-                if self.speed:getLength() > 0 then
-                  if self.id ~= EntityTypes.player then
-                    self.position:add(dist_vec:multiply(-1))
+          if not (self.id == EntityTypes.wall and o.id == EntityTypes.wall) then
+            if not ((self.id == EntityTypes.player and o.id == EntityTypes.turret) or (self.id == EntityTypes.turret and o.id == EntityTypes.player)) then
+              if o ~= self and not (o.id == EntityTypes.bullet or o.id == EntityTypes.bomb) then
+                local other = o:getHitBox()
+                local this = self:getHitBox()
+                if other:contains(this) then
+                  self.position = start
+                  local dist = other:getCollisionDistance(this)
+                  dist = math.sqrt(math.sqrt(math.abs(dist)))
+                  local dist_vec = Vector(dist, dist)
+                  if self.speed:getLength() > 0 then
+                    if self.id ~= EntityTypes.player then
+                      self.position:add(dist_vec:multiply(-1))
+                    end
                   end
-                end
-                if o.speed:getLength() > 0 then
-                  if o.id ~= EntityTypes.player then
-                    o.position:add(dist_vec)
+                  if o.speed:getLength() > 0 then
+                    if o.id ~= EntityTypes.player then
+                      o.position:add(dist_vec)
+                    end
                   end
                 end
               end
@@ -69,6 +72,9 @@ do
     draw = function(self)
       love.graphics.push("all")
       self.sprite:draw(self.position.x, self.position.y)
+      if DEBUGGING then
+        self:getHitBox():draw()
+      end
       if self.draw_health then
         love.graphics.setShader(Driver.shader)
         love.graphics.setColor(0, 0, 0, 255)
