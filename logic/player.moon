@@ -85,7 +85,7 @@ export class Player extends GameObject
       else
         if Upgrade.turret_special[4]
           for k, v in pairs @turret
-            turret = v\getHitBox!
+            turret = v\getAttackHitBox!
             player = @getHitBox!
             player.radius += @repair_range
             if turret\contains player
@@ -214,7 +214,7 @@ export class Player extends GameObject
     boosted = false
     for k, v in pairs @turret
       if Upgrade.player_special[2]
-        turret = v\getHitBox!
+        turret = v\getAttackHitBox!
         player = @getHitBox!
         player.radius += v.range / 5
         if turret\contains player

@@ -54,7 +54,7 @@ do
         else
           if Upgrade.turret_special[4] then
             for k, v in pairs(self.turret) do
-              local turret = v:getHitBox()
+              local turret = v:getAttackHitBox()
               local player = self:getHitBox()
               player.radius = player.radius + self.repair_range
               if turret:contains(player) then
@@ -237,7 +237,7 @@ do
       local boosted = false
       for k, v in pairs(self.turret) do
         if Upgrade.player_special[2] then
-          local turret = v:getHitBox()
+          local turret = v:getAttackHitBox()
           local player = self:getHitBox()
           player.radius = player.radius + (v.range / 5)
           if turret:contains(player) then
