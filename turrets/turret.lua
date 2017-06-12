@@ -2,9 +2,12 @@ do
   local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
-    getHitBox = function(self)
+    getAttackHitBox = function(self)
       local radius = math.max(self.sprite.scaled_height / 2, self.sprite.scaled_width / 2)
       return Circle(self.position.x, self.position.y, radius)
+    end,
+    getHitBox = function(self)
+      return Rectangle(self.position.x - (self.sprite.scaled_width / 2), self.position.y - (self.sprite.scaled_height / 2), self.sprite.scaled_width, self.sprite.scaled_height)
     end,
     update = function(self, dt)
       if not self.alive then
@@ -38,7 +41,7 @@ do
           if Driver.objects[EntityTypes.enemy] then
             for k, e in pairs(Driver.objects[EntityTypes.enemy]) do
               local enemy = e:getHitBox()
-              local turret = self:getHitBox()
+              local turret = self:getAttackHitBox()
               turret.radius = turret.radius + self.range
               if enemy:contains(turret) then
                 local bullet = Bullet(self.position.x, self.position.y - self.sprite.scaled_height / 2 + 10, e, self.damage)
@@ -48,7 +51,7 @@ do
             end
           end
         else
-          if self.target then
+          if self.target and self.target.alive then
             local enemy = self.target:getHitBox()
             local turret = self:getHitBox()
             local dist = Vector(enemy.center.x - turret.center.x, enemy.center.y - turret.center.y)
@@ -82,7 +85,7 @@ do
       if Driver.objects[EntityTypes.enemy] then
         for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
           local enemy = v:getHitBox()
-          local turret = self:getHitBox()
+          local turret = self:getAttackHitBox()
           turret.radius = turret.radius + self.range
           if enemy:contains(turret) then
             if v.alive then

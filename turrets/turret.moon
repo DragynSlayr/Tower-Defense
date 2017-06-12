@@ -17,9 +17,12 @@ export class Turret extends GameObject
 
     @sprite\setShader love.graphics.newShader "shaders/health.fs"
 
-  getHitBox: =>
+  getAttackHitBox: =>
     radius = math.max @sprite.scaled_height / 2, @sprite.scaled_width / 2
     return Circle @position.x, @position.y, radius
+
+  getHitBox: =>
+    return Rectangle @position.x - (@sprite.scaled_width / 2), @position.y - (@sprite.scaled_height / 2), @sprite.scaled_width, @sprite.scaled_height
 
   update: (dt) =>
     if not @alive return
@@ -47,14 +50,14 @@ export class Turret extends GameObject
         if Driver.objects[EntityTypes.enemy]
           for k, e in pairs Driver.objects[EntityTypes.enemy]
             enemy = e\getHitBox!
-            turret = @getHitBox!
+            turret = @getAttackHitBox!
             turret.radius += @range
             if enemy\contains turret
               bullet = Bullet @position.x, @position.y - @sprite.scaled_height / 2 + 10, e, @damage
               Driver\addObject bullet, EntityTypes.bullet
               attacked = true
       else
-        if @target
+        if @target and @target.alive
           enemy = @target\getHitBox!
           turret = @getHitBox!
           dist = Vector enemy.center.x - turret.center.x, enemy.center.y - turret.center.y
@@ -80,7 +83,7 @@ export class Turret extends GameObject
     if Driver.objects[EntityTypes.enemy]
       for k, v in pairs Driver.objects[EntityTypes.enemy]
         enemy = v\getHitBox!
-        turret = @getHitBox!
+        turret = @getAttackHitBox!
         turret.radius += @range
         if enemy\contains turret
           if v.alive
