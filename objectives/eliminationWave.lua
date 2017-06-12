@@ -25,6 +25,7 @@ do
     update = function(self, dt)
       _class_0.__parent.__base.update(self, dt)
       if self.killed >= self.target then
+        Driver:killEnemies()
         self.complete = true
       end
     end,

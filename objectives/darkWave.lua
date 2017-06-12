@@ -37,8 +37,8 @@ do
         end
       end
       if self.killed >= self.target then
+        Driver:killEnemies()
         self.complete = true
-        return Driver:killEnemies()
       end
     end,
     draw = function(self)

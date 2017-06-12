@@ -37,6 +37,7 @@ export class EliminationWave extends Wave
   update: (dt) =>
     super dt
     if @killed >= @target
+      Driver\killEnemies!
       @complete = true
 
   draw: =>
