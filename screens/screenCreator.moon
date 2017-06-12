@@ -5,16 +5,13 @@ export class ScreenCreator
     @createUpgradeMenu!
     @createMainMenu!
 
-  createHelp: =>
+  createHelp: (start_x = 100 * Scale.width, start_y = Screen_Size.height * 0.4) =>
     keys = {}
     keys["space"] = Sprite "keys/space.tga", 32, 96, 1, 1
     for k, v in pairs {"w", "a", "s", "d", "p", "e", "z"}
       keys[v] = Sprite "keys/" .. v .. ".tga", 32, 32, 1, 1
 
     font = Renderer\newFont 20
-
-    start_x = 100 * Scale.width
-    start_y = Screen_Size.height * 0.4
 
     -- A key
     x = start_x
@@ -115,13 +112,13 @@ export class ScreenCreator
   createPauseMenu: =>
     UI\set_screen Screen_State.pause_menu
 
-    @createHelp!
+    @createHelp nil, Screen_Size.height * 0.2
 
     title = Text Screen_Size.width / 2, (Screen_Size.height / 3), "Game Paused"
     UI\add title
 
-    names = {"Basic", "Player", "Spawner", "Strong", "Turret"}
-    sprites = {(Sprite "enemy/tracker.tga", 32, 32, 1, 1.25), (Sprite "enemy/enemy.tga", 26, 26, 1, 0.75), (Sprite "projectile/dart.tga", 17, 17, 1, 2), (Sprite "enemy/bullet.tga", 26, 20, 1, 2), (Sprite "enemy/circle.tga", 26, 26, 1, 1.75)}
+    names = {"Basic", "Chaser", "Spawner", "Strong", "Turret"}
+    sprites = {(Sprite "enemy/tracker.tga", 32, 32, 1, 50 / 32), (Sprite "enemy/enemy.tga", 26, 26, 1, 50 / 26), (Sprite "projectile/dart.tga", 17, 17, 1, 50 / 17), (Sprite "enemy/bullet.tga", 26, 20, 1, 50 / 26), (Sprite "enemy/circle.tga", 26, 26, 1, 50 / 26)}
 
     for i = 1, #names
       x = map i, 1, #names, 100 * Scale.width, Screen_Size.width - (200 * Scale.width)
@@ -133,6 +130,29 @@ export class ScreenCreator
       width = font\getWidth names[i]
       text = Text x + (10 * Scale.width) + bounds.radius + (width / 2), y, names[i], font
       UI\add text
+
+    sprite = Sprite "test.tga", 16, 16, 0.29, 50 / 16
+    sprite\setRotationSpeed -math.pi / 2
+    x = Screen_Size.width * 0.20
+    y = Screen_Size.height * 0.4
+    icon = Icon x, y, sprite
+    UI\add icon
+    bounds = sprite\getBounds x, y
+    font = Renderer\newFont 20
+    width = font\getWidth "Player"
+    text = Text x + (10 * Scale.width) + bounds.radius + (width / 2), y, "Player", font
+    UI\add text
+
+    sprite = Sprite "turret.tga", 34, 16, 2, 50 / 34
+    x = Screen_Size.width * 0.80
+    y = Screen_Size.height * 0.4
+    icon = Icon x, y, sprite
+    UI\add icon
+    bounds = sprite\getBounds x, y
+    font = Renderer\newFont 20
+    width = font\getWidth "Turret"
+    text = Text x + (10 * Scale.width) + bounds.radius + (width / 2), y, "Turret", font
+    UI\add text
 
     resume_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) - (32 * Scale.height), 250, 60, "Resume", () ->
       Driver.unpause!
@@ -190,8 +210,10 @@ export class ScreenCreator
         UI\add Text 190 * Scale.width, y, stats[i][j], Renderer.small_font
         if j ~= num_stats
           stats_table = Upgrade.player_stats
+          current_stats = Stats.player
           if i == 2
             stats_table = Upgrade.turret_stats
+            current_stats = Stats.turret
           tt = Tooltip Screen_Size.width * (5 / 24), y - (30 * Scale.height), (() =>
             level = stats_table[j]
             if level == Upgrade.max_skill
@@ -201,7 +223,9 @@ export class ScreenCreator
               if level > 0
                 modifier = Upgrade.amount[i][j][level]
               amount = Upgrade.amount[i][j][level + 1] - modifier
-              message = "  " .. names[i] .. "  " .. stats[i][j] .. "  by  " .. (string.format "%.3f", math.abs amount)
+              amount /= current_stats[j]
+              amount *= 100
+              message = "  " .. names[i] .. "  " .. stats[i][j] .. "  by  " .. (string.format "%d", math.floor math.abs amount) .. "%"
               if amount < 0
                 message = "Decrease" .. message
               else

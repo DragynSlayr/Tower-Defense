@@ -18,6 +18,23 @@ do
     end,
     draw = function(self)
       love.graphics.push("all")
+      for j = 1, 2 do
+        local y = Screen_Size.height * 0.4
+        local stats = Stats.player
+        local x = Screen_Size.width * 0.2
+        local icons = self.player_icons
+        if j == 2 then
+          stats = Stats.turret
+          x = Screen_Size.width * 0.8
+          icons = self.turret_icons
+        end
+        local bounds = self.sprites2[j]:getBounds(x, y)
+        for i = 1, #stats do
+          y = map(i, 1, #stats, (Screen_Size.height * 0.4) + (40 * Scale.height), Screen_Size.height * 0.60)
+          icons[i]:draw(x, y + (9 * Scale.height))
+          Renderer:drawHUDMessage((string.format("%.2f", stats[i])), x + (10 * Scale.width) + bounds.radius, y, self.font)
+        end
+      end
       local enemies = self:getEnemies()
       for i = 1, #enemies do
         local x = map(i, 1, #enemies, 100 * Scale.width, Screen_Size.width - (200 * Scale.width))
@@ -26,7 +43,7 @@ do
         for j = 1, #self.stats do
           y = map(j, 1, #self.stats, (Screen_Size.height * 0.8) + (30 * Scale.height), Screen_Size.height * 0.96)
           self.icons[j]:draw(x, y + (9 * Scale.height))
-          Renderer:drawHUDMessage(enemies[i][self.stats[j]], x + (10 * Scale.width) + bounds.radius, y, self.font)
+          Renderer:drawHUDMessage((string.format("%.2f", enemies[i][self.stats[j]])), x + (10 * Scale.width) + bounds.radius, y, self.font)
         end
       end
       return love.graphics.pop()
@@ -45,17 +62,35 @@ do
         "score_value"
       }
       self.sprites = {
-        (Sprite("enemy/tracker.tga", 32, 32, 1, 1.25)),
-        (Sprite("enemy/enemy.tga", 26, 26, 1, 0.75)),
-        (Sprite("projectile/dart.tga", 17, 17, 1, 2)),
-        (Sprite("enemy/bullet.tga", 26, 20, 1, 2)),
-        (Sprite("enemy/circle.tga", 26, 26, 1, 1.75))
+        (Sprite("enemy/tracker.tga", 32, 32, 1, 50 / 32)),
+        (Sprite("enemy/enemy.tga", 26, 26, 1, 50 / 26)),
+        (Sprite("projectile/dart.tga", 17, 17, 1, 50 / 17)),
+        (Sprite("enemy/bullet.tga", 26, 20, 1, 50 / 26)),
+        (Sprite("enemy/circle.tga", 26, 26, 1, 50 / 26))
+      }
+      self.sprites2 = {
+        (Sprite("test.tga", 16, 16, 0.29, 50 / 16)),
+        (Sprite("turret.tga", 34, 16, 2, 50 / 34))
       }
       self.icons = {
         (Sprite("icons/health.tga", 16, 16, 1, 1)),
         (Sprite("icons/damage.tga", 16, 16, 1, 1)),
         (Sprite("icons/speed.tga", 16, 16, 1, 1)),
         (Sprite("icons/score.tga", 16, 16, 1, 1))
+      }
+      self.player_icons = {
+        self.icons[1],
+        (Sprite("icons/range.tga", 16, 16, 1, 1)),
+        self.icons[2],
+        self.icons[3],
+        (Sprite("icons/attack_delay.tga", 16, 16, 1, 1))
+      }
+      self.turret_icons = {
+        self.icons[1],
+        (Sprite("icons/range.tga", 16, 16, 1, 1)),
+        self.icons[2],
+        (Sprite("icons/cooldown.tga", 16, 16, 1, 1)),
+        (Sprite("icons/attack_delay.tga", 16, 16, 1, 1))
       }
     end,
     __base = _base_0,

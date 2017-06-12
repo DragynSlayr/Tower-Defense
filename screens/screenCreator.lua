@@ -1,7 +1,13 @@
 do
   local _class_0
   local _base_0 = {
-    createHelp = function(self)
+    createHelp = function(self, start_x, start_y)
+      if start_x == nil then
+        start_x = 100 * Scale.width
+      end
+      if start_y == nil then
+        start_y = Screen_Size.height * 0.4
+      end
       local keys = { }
       keys["space"] = Sprite("keys/space.tga", 32, 96, 1, 1)
       for k, v in pairs({
@@ -16,8 +22,6 @@ do
         keys[v] = Sprite("keys/" .. v .. ".tga", 32, 32, 1, 1)
       end
       local font = Renderer:newFont(20)
-      local start_x = 100 * Scale.width
-      local start_y = Screen_Size.height * 0.4
       local x = start_x
       local y = start_y
       local text = "Left"
@@ -92,22 +96,22 @@ do
     end,
     createPauseMenu = function(self)
       UI:set_screen(Screen_State.pause_menu)
-      self:createHelp()
+      self:createHelp(nil, Screen_Size.height * 0.2)
       local title = Text(Screen_Size.width / 2, (Screen_Size.height / 3), "Game Paused")
       UI:add(title)
       local names = {
         "Basic",
-        "Player",
+        "Chaser",
         "Spawner",
         "Strong",
         "Turret"
       }
       local sprites = {
-        (Sprite("enemy/tracker.tga", 32, 32, 1, 1.25)),
-        (Sprite("enemy/enemy.tga", 26, 26, 1, 0.75)),
-        (Sprite("projectile/dart.tga", 17, 17, 1, 2)),
-        (Sprite("enemy/bullet.tga", 26, 20, 1, 2)),
-        (Sprite("enemy/circle.tga", 26, 26, 1, 1.75))
+        (Sprite("enemy/tracker.tga", 32, 32, 1, 50 / 32)),
+        (Sprite("enemy/enemy.tga", 26, 26, 1, 50 / 26)),
+        (Sprite("projectile/dart.tga", 17, 17, 1, 50 / 17)),
+        (Sprite("enemy/bullet.tga", 26, 20, 1, 50 / 26)),
+        (Sprite("enemy/circle.tga", 26, 26, 1, 50 / 26))
       }
       for i = 1, #names do
         local x = map(i, 1, #names, 100 * Scale.width, Screen_Size.width - (200 * Scale.width))
@@ -120,6 +124,27 @@ do
         local text = Text(x + (10 * Scale.width) + bounds.radius + (width / 2), y, names[i], font)
         UI:add(text)
       end
+      local sprite = Sprite("test.tga", 16, 16, 0.29, 50 / 16)
+      sprite:setRotationSpeed(-math.pi / 2)
+      local x = Screen_Size.width * 0.20
+      local y = Screen_Size.height * 0.4
+      local icon = Icon(x, y, sprite)
+      UI:add(icon)
+      local bounds = sprite:getBounds(x, y)
+      local font = Renderer:newFont(20)
+      local width = font:getWidth("Player")
+      local text = Text(x + (10 * Scale.width) + bounds.radius + (width / 2), y, "Player", font)
+      UI:add(text)
+      sprite = Sprite("turret.tga", 34, 16, 2, 50 / 34)
+      x = Screen_Size.width * 0.80
+      y = Screen_Size.height * 0.4
+      icon = Icon(x, y, sprite)
+      UI:add(icon)
+      bounds = sprite:getBounds(x, y)
+      font = Renderer:newFont(20)
+      width = font:getWidth("Turret")
+      text = Text(x + (10 * Scale.width) + bounds.radius + (width / 2), y, "Turret", font)
+      UI:add(text)
       local resume_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) - (32 * Scale.height), 250, 60, "Resume", function()
         return Driver.unpause()
       end)
@@ -233,8 +258,10 @@ do
           UI:add(Text(190 * Scale.width, y, stats[i][j], Renderer.small_font))
           if j ~= num_stats then
             local stats_table = Upgrade.player_stats
+            local current_stats = Stats.player
             if i == 2 then
               stats_table = Upgrade.turret_stats
+              current_stats = Stats.turret
             end
             local tt = Tooltip(Screen_Size.width * (5 / 24), y - (30 * Scale.height), (function(self)
               local level = stats_table[j]
@@ -246,7 +273,9 @@ do
                   modifier = Upgrade.amount[i][j][level]
                 end
                 local amount = Upgrade.amount[i][j][level + 1] - modifier
-                local message = "  " .. names[i] .. "  " .. stats[i][j] .. "  by  " .. (string.format("%.3f", math.abs(amount)))
+                amount = amount / current_stats[j]
+                amount = amount * 100
+                local message = "  " .. names[i] .. "  " .. stats[i][j] .. "  by  " .. (string.format("%d", math.floor(math.abs(amount)))) .. "%"
                 if amount < 0 then
                   message = "Decrease" .. message
                 else
