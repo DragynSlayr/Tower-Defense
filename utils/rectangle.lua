@@ -41,7 +41,6 @@ do
               max = v
             end
           end
-          print(max)
           return true, max
         else
           return false, 0

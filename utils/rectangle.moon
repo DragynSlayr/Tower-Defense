@@ -39,7 +39,6 @@ export class Rectangle
           for k, v in pairs colliding_points
             if v > max
               max = v
-          print max
           return true, max
         else
           return false, 0
