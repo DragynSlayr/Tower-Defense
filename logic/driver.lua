@@ -51,9 +51,16 @@ do
     end,
     isClear = function(self)
       local sum = 0
-      for k, v in pairs(Driver.objects) do
-        for k2, o in pairs(v) do
-          if k ~= EntityTypes.player and k ~= EntityTypes.turret and k ~= EntityTypes.bomb then
+      if Driver.objects[EntityTypes.enemy] then
+        for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
+          if v.alive then
+            sum = sum + 1
+          end
+        end
+      end
+      if Driver.objects[EntityTypes.bulet] then
+        for k, b in pairs(Driver.objects[EntityTypes.bullet]) do
+          if b.alive then
             sum = sum + 1
           end
         end
@@ -142,8 +149,8 @@ do
       Upgrade = UpgradeScreen()
       Pause = PauseScreen()
       ScreenCreator()
-      local player = Player(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
-      Driver:addObject(player, EntityTypes.player)
+      Map = MapCreator()
+      Objectives:spawn(EntityTypes.player)
       return Objectives:nextMode()
     end,
     load = function(arg)

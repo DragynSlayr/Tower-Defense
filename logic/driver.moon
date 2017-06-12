@@ -55,9 +55,13 @@ export class Driver
 
     isClear: =>
       sum = 0
-      for k, v in pairs Driver.objects
-        for k2, o in pairs v
-          if k ~= EntityTypes.player and k ~= EntityTypes.turret and k ~= EntityTypes.bomb
+      if Driver.objects[EntityTypes.enemy]
+        for k, v in pairs Driver.objects[EntityTypes.enemy]
+          if v.alive
+            sum += 1
+      if Driver.objects[EntityTypes.bulet]
+        for k, b in pairs Driver.objects[EntityTypes.bullet]
+          if b.alive
             sum += 1
       return sum == 0
 
@@ -158,9 +162,14 @@ export class Driver
 
       ScreenCreator!
 
+      -- Global map
+      export Map = MapCreator!
+      --Map\loadMap 1
+
       -- Create a player
-      player = Player love.graphics.getWidth! / 2, love.graphics.getHeight! / 2
-      Driver\addObject player, EntityTypes.player
+      Objectives\spawn EntityTypes.player
+      --player = Player love.graphics.getWidth! / 2, love.graphics.getHeight! / 2
+      --Driver\addObject player, EntityTypes.player
 
       -- Start game
       Objectives\nextMode!
