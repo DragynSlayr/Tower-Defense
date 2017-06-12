@@ -53,6 +53,8 @@ export class Enemy extends GameObject
       @sprite.rotation = @speed\getAngleBetween vec
 
       target = @target\getHitBox!
+      if @target.getAttackHitBox
+        target = @target\getAttackHitBox!
       enemy = @getHitBox!
       enemy.radius += @attack_range
       can_attack = target\contains enemy

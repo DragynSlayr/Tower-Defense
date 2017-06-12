@@ -35,6 +35,9 @@ do
         local vec = Vector(0, 0)
         self.sprite.rotation = self.speed:getAngleBetween(vec)
         local target = self.target:getHitBox()
+        if self.target.getAttackHitBox then
+          target = self.target:getAttackHitBox()
+        end
         local enemy = self:getHitBox()
         enemy.radius = enemy.radius + self.attack_range
         local can_attack = target:contains(enemy)
