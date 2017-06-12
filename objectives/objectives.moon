@@ -103,6 +103,8 @@ export class ObjectivesHandler
         DefendGoal x, y
       when GoalTypes.find
         FindGoal x, y
+      when EntityTypes.player
+        Player x, y
     touching = false
     for k, v in pairs Driver.objects
       for k2, o in pairs v
@@ -113,6 +115,8 @@ export class ObjectivesHandler
           break
     if touching or not enemy\isOnScreen Screen_Size.border
       @spawn typeof, i + 1
+    elseif typeof == EntityTypes.player
+      Driver\addObject enemy, EntityTypes.player
     else
       if typeof == GoalTypes.attack or typeof == GoalTypes.defend or typeof == GoalTypes.find
         Driver\addObject enemy, EntityTypes.goal

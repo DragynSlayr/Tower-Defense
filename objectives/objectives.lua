@@ -109,6 +109,8 @@ do
         enemy = DefendGoal(x, y)
       elseif GoalTypes.find == _exp_0 then
         enemy = FindGoal(x, y)
+      elseif EntityTypes.player == _exp_0 then
+        enemy = Player(x, y)
       end
       local touching = false
       for k, v in pairs(Driver.objects) do
@@ -123,6 +125,8 @@ do
       end
       if touching or not enemy:isOnScreen(Screen_Size.border) then
         return self:spawn(typeof, i + 1)
+      elseif typeof == EntityTypes.player then
+        return Driver:addObject(enemy, EntityTypes.player)
       else
         if typeof == GoalTypes.attack or typeof == GoalTypes.defend or typeof == GoalTypes.find then
           return Driver:addObject(enemy, EntityTypes.goal)
