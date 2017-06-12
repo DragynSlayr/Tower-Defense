@@ -2,15 +2,20 @@ do
   local _class_0
   local _base_0 = {
     contains = function(self, circ)
-      self.radius = self.radius + circ.radius
-      local point = circ.center
-      local x = point.x - self.center.x
-      local y = point.y - self.center.y
-      local distance = (x * x) + (y * y)
-      local colliding = distance <= (self.radius * self.radius)
-      local collision_distance = distance - (self.radius * self.radius)
-      self.radius = self.radius - circ.radius
-      return colliding, collision_distance
+      local _exp_0 = circ.__class.__name
+      if "Circle" == _exp_0 then
+        self.radius = self.radius + circ.radius
+        local point = circ.center
+        local x = point.x - self.center.x
+        local y = point.y - self.center.y
+        local distance = (x * x) + (y * y)
+        local colliding = distance <= (self.radius * self.radius)
+        local collision_distance = distance - (self.radius * self.radius)
+        self.radius = self.radius - circ.radius
+        return colliding, collision_distance
+      elseif "Rectangle" == _exp_0 then
+        return circ:contains(self)
+      end
     end,
     getCollisionDistance = function(self, circ)
       local colliding, collision_distance = self:contains(circ)
@@ -31,6 +36,12 @@ do
     end,
     setRadius = function(self, radius)
       self.radius = radius
+    end,
+    draw = function(self)
+      love.graphics.push("all")
+      love.graphics.setColor(0, 255, 0, 255)
+      love.graphics.circle("line", self.center.x, self.center.y, self.radius, 360)
+      return love.graphics.pop()
     end
   }
   _base_0.__index = _base_0

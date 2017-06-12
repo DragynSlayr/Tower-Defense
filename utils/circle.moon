@@ -12,28 +12,32 @@ export class Circle
   -- Check if this Circle contains a Circle
   -- circ: The Circle to check for
   contains: (circ) =>
-    -- Expand this circle
-    @radius += circ.radius
+    switch circ.__class.__name
+      when "Circle"
+        -- Expand this circle
+        @radius += circ.radius
 
-    -- Find the Point to check collision with
-    point = circ.center
+        -- Find the Point to check collision with
+        point = circ.center
 
-    -- Get a 1D Vector from the Points
-    x = point.x - @center.x
-    y = point.y - @center.y
+        -- Get a 1D Vector from the Points
+        x = point.x - @center.x
+        y = point.y - @center.y
 
-    -- Get distance between the points
-    distance = (x * x) + (y * y)
+        -- Get distance between the points
+        distance = (x * x) + (y * y)
 
-    -- Check for collision and distance
-    colliding = distance <= (@radius * @radius)
-    collision_distance = distance - (@radius * @radius)
+        -- Check for collision and distance
+        colliding = distance <= (@radius * @radius)
+        collision_distance = distance - (@radius * @radius)
 
-    -- Contract this circle
-    @radius -= circ.radius
+        -- Contract this circle
+        @radius -= circ.radius
 
-    -- Return the results
-    return colliding, collision_distance
+        -- Return the results
+        return colliding, collision_distance
+      when "Rectangle"
+        return circ\contains @
 
   -- Get the extent of the collision with a Circle
   -- circ: The Circle to check
@@ -64,3 +68,9 @@ export class Circle
   -- radius: The new radius
   setRadius: (radius) =>
     @radius = radius
+
+  draw: =>
+    love.graphics.push "all"
+    love.graphics.setColor 0, 255, 0, 255
+    love.graphics.circle "line", @center.x, @center.y, @radius, 360
+    love.graphics.pop!

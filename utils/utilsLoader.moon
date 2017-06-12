@@ -23,6 +23,7 @@ require "utils.stack"
 require "utils.vector"
 require "utils.point"
 require "utils.circle"
+require "utils.rectangle"
 
 --+-------------------------+--
 --| Depends on math classes |--
