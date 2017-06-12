@@ -83,9 +83,11 @@ export class ObjectivesHandler
     else
       return EnemyTypes.spawner, 5
 
-  spawn: (typeof, i = 0) =>
-    x = math.random love.graphics.getWidth!
-    y = math.random love.graphics.getHeight!
+  spawn: (typeof, i = 0, x = nil, y = nil) =>
+    if not x
+      x = math.random love.graphics.getWidth!
+    if not y
+      y = math.random love.graphics.getHeight!
     enemy = switch typeof
       when EnemyTypes.player
         PlayerEnemy x, y

@@ -85,12 +85,22 @@ do
         return EnemyTypes.spawner, 5
       end
     end,
-    spawn = function(self, typeof, i)
+    spawn = function(self, typeof, i, x, y)
       if i == nil then
         i = 0
       end
-      local x = math.random(love.graphics.getWidth())
-      local y = math.random(love.graphics.getHeight())
+      if x == nil then
+        x = nil
+      end
+      if y == nil then
+        y = nil
+      end
+      if not x then
+        x = math.random(love.graphics.getWidth())
+      end
+      if not y then
+        y = math.random(love.graphics.getHeight())
+      end
       local enemy
       local _exp_0 = typeof
       if EnemyTypes.player == _exp_0 then
