@@ -42,6 +42,16 @@ export class Sprite
     @rotation = 0
     @rotation_speed = 0
 
+  getCopy: =>
+    sprite = Sprite @name, @getProperties!
+    if @color
+      sprite.color = color
+    sprite.rotation_speed = @rotation_speed
+    sprite.rotation = @rotation
+    if @shader
+      sprite\setShader @shader
+    return sprite
+
   getProperties: () =>
     return @props[1], @props[2], @props[3], @props[4]
 

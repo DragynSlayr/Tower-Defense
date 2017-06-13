@@ -1,6 +1,18 @@
 do
   local _class_0
   local _base_0 = {
+    getCopy = function(self)
+      local sprite = Sprite(self.name, self:getProperties())
+      if self.color then
+        sprite.color = color
+      end
+      sprite.rotation_speed = self.rotation_speed
+      sprite.rotation = self.rotation
+      if self.shader then
+        sprite:setShader(self.shader)
+      end
+      return sprite
+    end,
     getProperties = function(self)
       return self.props[1], self.props[2], self.props[3], self.props[4]
     end,
