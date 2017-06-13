@@ -16,6 +16,8 @@ export class Player extends GameObject
     @hit = false
     @attack_timer = 0
 
+    @trail = ParticleTrail x, y, @sprite, @
+
     @id = EntityTypes.player
     @draw_health = false
 
@@ -148,6 +150,7 @@ export class Player extends GameObject
       @speed\add boost
       super dt
       @speed = start
+    @trail\update dt
     @bomb_timer += dt
     if @bomb_timer >= @max_bomb_time
       @bomb_timer = 0

@@ -143,6 +143,7 @@ do
         _class_0.__parent.__base.update(self, dt)
         self.speed = start
       end
+      self.trail:update(dt)
       self.bomb_timer = self.bomb_timer + dt
       if self.bomb_timer >= self.max_bomb_time then
         self.bomb_timer = 0
@@ -326,6 +327,7 @@ do
       self.keys_pushed = 0
       self.hit = false
       self.attack_timer = 0
+      self.trail = ParticleTrail(x, y, self.sprite, self)
       self.id = EntityTypes.player
       self.draw_health = false
       self.font = Renderer:newFont(20)
