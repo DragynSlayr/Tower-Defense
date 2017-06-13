@@ -37,14 +37,14 @@ do
       local radius = self:getHitBox().radius
       self.position.x = clamp(self.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius)
       self.position.y = clamp(self.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius)
-      if self.id == EntityTypes.bullet or self.id == EntityTypes.bomb then
+      if self.id == EntityTypes.bullet or self.id == EntityTypes.bomb or self.id == EntityTypes.particle then
         return 
       end
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do
           if not (self.id == EntityTypes.wall and o.id == EntityTypes.wall) then
             if not ((self.id == EntityTypes.player and o.id == EntityTypes.turret) or (self.id == EntityTypes.turret and o.id == EntityTypes.player)) then
-              if o ~= self and not (o.id == EntityTypes.bullet or o.id == EntityTypes.bomb) then
+              if o ~= self and not (o.id == EntityTypes.bullet or o.id == EntityTypes.bomb or o.id == EntityTypes.particle) then
                 local other = o:getHitBox()
                 local this = self:getHitBox()
                 if other:contains(this) then
