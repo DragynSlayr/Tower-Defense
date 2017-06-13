@@ -18,8 +18,6 @@ getRandomUnitStart = function(radius)
   point:rotate(rand_num)
   point.x = point.x * radius
   point.y = point.y * radius
-  point.x = point.x + (love.graphics.getWidth() / 2)
-  point.y = point.y + (love.graphics.getHeight() / 2)
   return point:getComponents()
 end
 clamp = function(x, min, max)

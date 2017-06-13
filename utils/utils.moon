@@ -25,10 +25,6 @@ export getRandomUnitStart = (radius = love.graphics.getHeight! / 3) ->
   point.x *= radius
   point.y *= radius
 
-  -- Shift Point
-  point.x += love.graphics.getWidth! / 2
-  point.y += love.graphics.getHeight! / 2
-
   -- Return Point coordinates
   return point\getComponents!
 
