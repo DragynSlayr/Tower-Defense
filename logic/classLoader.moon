@@ -34,9 +34,22 @@ require "turrets.turretLoader"
 --+-----------------+--
 require "objectives.objectiveLoader"
 
+--+----------------+--
+--| Load particles |--
+--+----------------+--
+require "particles.particleLoader"
+
+--+-----------+--
+--| Load maps |--
+--+-----------+--
+require "maps.mapLoader"
+
+--+--------------+--
+--| Load screens |--
+--+--------------+--
+require "screens.screenLoader"
+
 --+------------------------------+--
 --| Dependent on everything else |--
 --+------------------------------+--
 require "logic.driver"
-require "maps.mapLoader"
-require "screens.screenLoader"
