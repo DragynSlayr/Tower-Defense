@@ -136,12 +136,15 @@ do
       if touching or not enemy:isOnScreen(Screen_Size.border) then
         return self:spawn(typeof, i + 1)
       elseif typeof == EntityTypes.player then
-        return Driver:addObject(enemy, EntityTypes.player)
+        Driver:addObject(enemy, EntityTypes.player)
+        return enemy
       else
         if typeof == GoalTypes.attack or typeof == GoalTypes.defend or typeof == GoalTypes.find then
-          return Driver:addObject(enemy, EntityTypes.goal)
+          Driver:addObject(enemy, EntityTypes.goal)
+          return enemy
         else
-          return Driver:addObject(enemy, EntityTypes.enemy)
+          Driver:addObject(enemy, EntityTypes.enemy)
+          return enemy
         end
       end
     end

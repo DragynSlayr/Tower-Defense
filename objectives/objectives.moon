@@ -119,9 +119,12 @@ export class ObjectivesHandler
       @spawn typeof, i + 1
     elseif typeof == EntityTypes.player
       Driver\addObject enemy, EntityTypes.player
+      return enemy
     else
       if typeof == GoalTypes.attack or typeof == GoalTypes.defend or typeof == GoalTypes.find
         Driver\addObject enemy, EntityTypes.goal
+        return enemy
       else
         --print enemy\__tostring!
         Driver\addObject enemy, EntityTypes.enemy
+        return enemy
