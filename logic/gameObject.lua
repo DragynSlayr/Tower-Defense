@@ -31,12 +31,18 @@ do
         end
       end
       self.sprite:update(dt)
+      if self.trail then
+        self.trail:update(dt)
+      end
+      self.health = clamp(self.health, 0, self.max_health)
       local start = Vector(self.position.x, self.position.y)
       self.elapsed = self.elapsed + dt
       self.position:add(self.speed:multiply(dt))
       local radius = self:getHitBox().radius
-      self.position.x = clamp(self.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius)
-      self.position.y = clamp(self.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius)
+      if self.id ~= EntityTypes.wall then
+        self.position.x = clamp(self.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius)
+        self.position.y = clamp(self.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius)
+      end
       if self.id == EntityTypes.bullet or self.id == EntityTypes.bomb or self.id == EntityTypes.particle then
         return 
       end
@@ -128,6 +134,7 @@ do
       self.shielded = false
       self.shield_timer = 0
       self.max_shield_time = 7
+      self.trail = nil
       self.normal_sprite = self.sprite
       self.action_sprite = self.sprite
       self.shield_sprite = Sprite("shield.tga", 32, 32, 1, 1)

@@ -15,6 +15,8 @@ export class GameObject
     @shield_timer = 0
     @max_shield_time = 7
 
+    @trail = nil
+
     @normal_sprite = @sprite
     @action_sprite = @sprite
 
@@ -50,12 +52,16 @@ export class GameObject
         @shield_timer = 0
         @shielded = false
     @sprite\update dt
+    if @trail
+      @trail\update dt
+    @health = clamp @health, 0, @max_health
     start = Vector @position.x, @position.y
     @elapsed += dt
     @position\add @speed\multiply dt
     radius = @getHitBox!.radius
-    @position.x = clamp @position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius
-    @position.y = clamp @position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius
+    if @id ~= EntityTypes.wall
+      @position.x = clamp @position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius
+      @position.y = clamp @position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius
     if @id == EntityTypes.bullet or @id == EntityTypes.bomb or @id == EntityTypes.particle
       return
     for k, v in pairs Driver.objects
