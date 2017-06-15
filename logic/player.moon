@@ -16,7 +16,9 @@ export class Player extends GameObject
     @hit = false
     @attack_timer = 0
 
-    @trail = ParticleTrail x, y, @sprite, @
+    sprite_copy = sprite\getCopy!
+    sprite_copy\setColor {50, 50, 50, 255}
+    @trail = nil--ParticleTrail x, y, sprite_copy, @
 
     @id = EntityTypes.player
     @draw_health = false
@@ -150,7 +152,7 @@ export class Player extends GameObject
       @speed\add boost
       super dt
       @speed = start
-    @trail\update dt
+    --@trail\update dt
     @bomb_timer += dt
     if @bomb_timer >= @max_bomb_time
       @bomb_timer = 0
