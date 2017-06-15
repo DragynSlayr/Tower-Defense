@@ -14,11 +14,15 @@ export class MapCreator
     width_scale = Screen_Size.border[3] / width
     height_scale = Screen_Size.border[4] / height
 
+    mapped_y = Screen_Size.border[2]
     for y = 0, height - 1
+      mapped_x = 0
       for x = 0, width - 1
         color = Color current\getPixel x, y
         if not color\equals Color!
-          mapped_x = math.floor (map x, 0, width - 1, 0, Screen_Size.border[3])
-          mapped_y = math.floor (map y, 0, height - 1, 0, Screen_Size.border[4])
           wall = Wall mapped_x, mapped_y, width_scale, height_scale, color
           Driver\addObject wall, EntityTypes.wall
+        mapped_x += width_scale
+      mapped_y += height_scale
+
+    --print "Loaded " .. #Driver.objects[EntityTypes.wall] .. " walls"

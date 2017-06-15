@@ -7,16 +7,18 @@ do
       local height = current:getHeight()
       local width_scale = Screen_Size.border[3] / width
       local height_scale = Screen_Size.border[4] / height
+      local mapped_y = Screen_Size.border[2]
       for y = 0, height - 1 do
+        local mapped_x = 0
         for x = 0, width - 1 do
           local color = Color(current:getPixel(x, y))
           if not color:equals(Color()) then
-            local mapped_x = math.floor((map(x, 0, width - 1, 0, Screen_Size.border[3])))
-            local mapped_y = math.floor((map(y, 0, height - 1, 0, Screen_Size.border[4])))
             local wall = Wall(mapped_x, mapped_y, width_scale, height_scale, color)
             Driver:addObject(wall, EntityTypes.wall)
           end
+          mapped_x = mapped_x + width_scale
         end
+        mapped_y = mapped_y + height_scale
       end
     end
   }
