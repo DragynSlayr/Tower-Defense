@@ -152,6 +152,14 @@ do
       self.speed_multiplier = self.max_speed
       self.value = 1
       self.attacked_once = false
+      local sprite_copy = sprite:getCopy()
+      sprite_copy:setColor({
+        50,
+        50,
+        50,
+        255
+      })
+      self.trail = nil
       local splitted = split(self.normal_sprite.name, ".")
       local name = splitted[1] .. "Action." .. splitted[2]
       local height, width, _, scale = self.normal_sprite:getProperties()

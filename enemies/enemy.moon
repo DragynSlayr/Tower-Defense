@@ -14,6 +14,10 @@ export class Enemy extends GameObject
     @value = 1
     @attacked_once = false
 
+    sprite_copy = sprite\getCopy!
+    sprite_copy\setColor {50, 50, 50, 255}
+    @trail = nil--ParticleTrail x, y, sprite_copy, @
+
     splitted = split @normal_sprite.name, "."
     name = splitted[1] .. "Action." .. splitted[2]
     height, width, _, scale = @normal_sprite\getProperties!
