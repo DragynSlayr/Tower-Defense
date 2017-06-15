@@ -6,7 +6,7 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y, target, damage)
-      local sprite = Sprite("beam.tga", 16, 8, 1, 1.5)
+      local sprite = Sprite("bullet.tga", 32, 16, 1, 0.75)
       _class_0.__parent.__init(self, x, y, target, sprite)
       self.damage = damage
     end,
