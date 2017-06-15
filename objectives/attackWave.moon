@@ -17,8 +17,8 @@ export class AttackWave extends Wave
   start: =>
     for i = 1, @target
       goal = @parent.parent\spawn GoalTypes.attack
-      em = ParticleEmitter 0, 0, 0.25, 0.5, goal
-      Driver\addObject em, EntityTypes.particle
+      --em = ParticleEmitter 0, 0, 0.1, 0.5, goal
+      --Driver\addObject em, EntityTypes.particle
 
   entityKilled: (entity) =>
     if entity.id == EntityTypes.goal

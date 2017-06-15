@@ -13,8 +13,6 @@ do
     start = function(self)
       for i = 1, self.target do
         local goal = self.parent.parent:spawn(GoalTypes.attack)
-        local em = ParticleEmitter(0, 0, 0.25, 0.5, goal)
-        Driver:addObject(em, EntityTypes.particle)
       end
     end,
     entityKilled = function(self, entity)
