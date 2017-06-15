@@ -17,12 +17,13 @@ do
         end
       end
       self.elapsed = self.elapsed + dt
-      if self.elapsed >= self.delay then
+      if self.emitting and self.elapsed >= self.delay then
         self.elapsed = 0
-        local particle = Particle(self.position.x, self.position.y, (Sprite("particle.tga", 32, 32, 1, 0.5)), 200, 50, self.life_time)
+        local particle = Particle(self.position.x, self.position.y, self.sprite, 200, 50, self.life_time)
         local x, y = getRandomUnitStart()
         particle.speed = Vector(x, y, true)
         particle.speed = particle.speed:multiply(250 * Scale.diag)
+        particle:setShader(self.shader, true)
         return Driver:addObject(particle, EntityTypes.particle)
       end
     end
@@ -45,6 +46,8 @@ do
       self.id = EntityTypes.particle
       self.draw_health = false
       self.parent = parent
+      self.shader = nil
+      self.sprite = Sprite("particle.tga", 32, 32, 1, 0.5)
     end,
     __base = _base_0,
     __name = "ParticleEmitter",

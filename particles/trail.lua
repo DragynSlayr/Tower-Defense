@@ -8,10 +8,11 @@ do
       else
         self.position = self.parent.position
       end
+      self.sprite.rotation = self.parent.sprite.rotation
       local change = Vector(self.last_position.x - self.position.x, self.last_position.y - self.position.y)
-      if change:getLength() > 20 then
+      if change:getLength() > self.average_size then
         self.last_position = Vector(self.parent.position:getComponents())
-        local particle = Particle(self.position.x, self.position.y, self.sprite:getCopy(), 200, 50, 2.5)
+        local particle = Particle(self.position.x, self.position.y, self.sprite, 255, 0, self.life_time)
         return Driver:addObject(particle, EntityTypes.particle)
       end
     end
@@ -24,6 +25,8 @@ do
       self.parent = parent
       self.last_position = Vector(self.parent.position:getComponents())
       self.position = self.last_position
+      self.life_time = 1
+      self.average_size = (self.sprite.scaled_width + self.sprite.scaled_height) / 8
     end,
     __base = _base_0,
     __name = "ParticleTrail",

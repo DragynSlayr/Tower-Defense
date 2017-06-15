@@ -2,28 +2,27 @@ do
   local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
+    setShader = function(self, shader, apply)
+      if apply == nil then
+        apply = false
+      end
+      self.sprite:setShader(shader)
+      self.block_shader = apply
+      self.sprite.should_shade = self.block_shader
+    end,
     update = function(self, dt)
       self.sprite:update(dt)
+      if self.sprite.should_shade ~= self.block_shader then
+        self.sprite.should_shade = self.block_shader
+      end
       if self.speed:getLength() > 0 then
         self.position:add(self.speed:multiply(dt))
       end
-      if self.alpha <= self.alpha_end then
-        self:kill()
-      end
-      self.elapsed = self.elapsed + dt
-      if self.elapsed >= 1 then
-        self.elapsed = 0
-        self.alpha = self.alpha + self.alpha_step
-      end
-      if self.sprite.color then
-        self.sprite.color[4] = self.alpha
+      self.alpha = self.alpha + self.alpha_step
+      if self.alpha < self.alpha_end then
+        return self:kill()
       else
-        return self.sprite:setColor({
-          255,
-          255,
-          255,
-          self.alpha
-        })
+        self.sprite.color[4] = math.floor(self.alpha)
       end
     end
   }
@@ -40,13 +39,15 @@ do
       if life_time == nil then
         life_time = 1
       end
-      _class_0.__parent.__init(self, x, y, sprite)
+      _class_0.__parent.__init(self, x, y, sprite:getCopy())
       self.alpha = alpha_start
       self.alpha_start = alpha_start
       self.alpha_end = alpha_end
-      self.alpha_step = (alpha_end - alpha_start) / life_time
+      self.alpha_step = (alpha_end - alpha_start) / (life_time * 60)
       self.draw_health = false
       self.id = EntityTypes.particle
+      self.sprite.color[4] = self.alpha
+      return self:setShader(love.graphics.newShader("shaders/normal.fs"))
     end,
     __base = _base_0,
     __name = "Particle",
