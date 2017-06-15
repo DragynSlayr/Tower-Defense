@@ -1,6 +1,5 @@
 export class HomingProjectile extends GameObject
   new: (x, y, target, sprite) =>
-    sprite = Sprite "bullet.tga", 32, 16, 1, 0.75
     super x, y, sprite
     @target = target
     @attack_range = 15 * Scale.diag
@@ -8,11 +7,17 @@ export class HomingProjectile extends GameObject
     @id = EntityTypes.bullet
     @draw_health = false
 
+    sprite_copy = sprite\getCopy!
+    --sprite_copy\setColor {50, 50, 50, 255}
+    @trail = nil--ParticleTrail x, y, sprite_copy, @
+
   update: (dt) =>
     if not @alive
       return
     if not @target
       @kill!
+    if @trail
+      @trail\update dt
     @sprite\update dt
 
     @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y

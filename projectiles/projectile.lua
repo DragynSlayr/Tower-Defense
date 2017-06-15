@@ -9,6 +9,9 @@ do
       if not self.target then
         self:kill()
       end
+      if self.trail then
+        self.trail:update(dt)
+      end
       self.sprite:update(dt)
       self.speed = Vector(self.target.position.x - self.position.x, self.target.position.y - self.position.y)
       self.speed:toUnitVector()
@@ -43,13 +46,14 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y, target, sprite)
-      sprite = Sprite("bullet.tga", 32, 16, 1, 0.75)
       _class_0.__parent.__init(self, x, y, sprite)
       self.target = target
       self.attack_range = 15 * Scale.diag
       self.damage = 1 / 10
       self.id = EntityTypes.bullet
       self.draw_health = false
+      local sprite_copy = sprite:getCopy()
+      self.trail = nil
     end,
     __base = _base_0,
     __name = "HomingProjectile",
