@@ -2,6 +2,15 @@ do
   local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
+    update = function(self, dt)
+      _class_0.__parent.__base.update(self, dt)
+      if self.elapsed >= self.max_time then
+        self.elapsed = 0
+        local goal = Objectives:spawn(GoalTypes.find)
+        Driver:removeObject(goal, false)
+        self.position = goal.position
+      end
+    end,
     onCollide = function(self, object)
       if object.id == EntityTypes.player then
         self.health = 0
@@ -17,6 +26,8 @@ do
       self.id = EntityTypes.goal
       self.goal_type = GoalTypes.find
       self.draw_health = false
+      self.max_time = ((-4 / 30) * Objectives:getLevel()) + 5
+      self.max_time = clamp(self.max_time, 1, 5)
     end,
     __base = _base_0,
     __name = "FindGoal",
