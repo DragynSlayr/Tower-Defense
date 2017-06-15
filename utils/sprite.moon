@@ -42,10 +42,11 @@ export class Sprite
     @rotation = 0
     @rotation_speed = 0
 
+    @color = {255, 255, 255, 255}
+
   getCopy: =>
     sprite = Sprite @name, @getProperties!
-    if @color
-      sprite.color = color
+    sprite.color = {@color[1], @color[2], @color[3], @color[4]}
     sprite.rotation_speed = @rotation_speed
     sprite.rotation = @rotation
     if @shader
@@ -133,9 +134,8 @@ export class Sprite
       else
         love.graphics.setShader Driver.shader
 
-    -- Color sprite if a color is set
-    if @color
-      love.graphics.setColor @color[1], @color[2], @color[3], @color[4]
+    -- Color sprite
+    love.graphics.setColor @color[1], @color[2], @color[3], @color[4]
 
     -- Draw the sprite
     love.graphics.draw @image, @sprites[@current_frame], math.floor(x), math.floor(y), @rotation, @x_scale, @y_scale, @width / 2, @height / 2

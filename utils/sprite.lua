@@ -3,9 +3,12 @@ do
   local _base_0 = {
     getCopy = function(self)
       local sprite = Sprite(self.name, self:getProperties())
-      if self.color then
-        sprite.color = color
-      end
+      sprite.color = {
+        self.color[1],
+        self.color[2],
+        self.color[3],
+        self.color[4]
+      }
       sprite.rotation_speed = self.rotation_speed
       sprite.rotation = self.rotation
       if self.shader then
@@ -61,9 +64,7 @@ do
           love.graphics.setShader(Driver.shader)
         end
       end
-      if self.color then
-        love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.color[4])
-      end
+      love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.color[4])
       love.graphics.draw(self.image, self.sprites[self.current_frame], math.floor(x), math.floor(y), self.rotation, self.x_scale, self.y_scale, self.width / 2, self.height / 2)
       if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none then
         love.graphics.setShader()
@@ -107,6 +108,12 @@ do
       self.current_frame = 1
       self.rotation = 0
       self.rotation_speed = 0
+      self.color = {
+        255,
+        255,
+        255,
+        255
+      }
     end,
     __base = _base_0,
     __name = "Sprite"
