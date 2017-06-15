@@ -5,6 +5,14 @@ do
     nextWave = function(self)
       _class_0.__parent.__base.nextWave(self)
       self.wave = DarkWave(self)
+    end,
+    finish = function(self)
+      if Driver.objects[EntityTypes.player] then
+        for k, p in pairs(Driver.objects[EntityTypes.player]) do
+          p.hit = p.health < p.max_health * 0.75
+        end
+      end
+      return _class_0.__parent.__base.finish(self)
     end
   }
   _base_0.__index = _base_0
