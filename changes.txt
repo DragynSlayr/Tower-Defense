@@ -1,20 +1,14 @@
-V10 Changes
+V11 Changes
 ~~~~~~~~~~
 
 NEW
 ~~~
-- Player starting health increased from 5 to 25
-- Turret starting health increased from 10 to 12.5
-- Player max health increased from 50 to 185
-- Turret max health increased from 42 to 92.5
-- Shield is no longer single hit, now lasts for 7 seconds
-- 5000 points are awarded on completion of a level
-- "Life Steal" effect now scales with Player's damage
-- Variable cost per upgrade level
-- Special upgrades now have a description
-- Upgrade screen now shows point cost per level
-- Extra speed gained from "Speed Boost" is capped at 2x Player speed
+- Locked hearts are now harder to find
+- Dark mode is harder now
+  - Player health is continually drained
+  - Find hearts to regain health
+  - Enemies no longer spawn
+  - Skill points is awarded if completed with more than 75% health remaining
 
 FIXES
 ~~~~~
-- Player no longer moves faster when moving diagonally
