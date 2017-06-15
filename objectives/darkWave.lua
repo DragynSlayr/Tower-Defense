@@ -4,7 +4,15 @@ do
   local _base_0 = {
     start = function(self)
       for i = 1, self.target do
-        self.parent.parent:spawn(GoalTypes.find)
+        local goal = self.parent.parent:spawn(GoalTypes.find)
+        if false then
+          local delay = love.math.random(2, 4)
+          local life_time = math.random()
+          local em = ParticleEmitter(0, 0, delay, life_time, goal)
+          em.shader = love.graphics.newShader("shaders/normal.fs")
+          em.sprite = Sprite("orb.tga", 32, 32, 1, 0.5)
+          Driver:addObject(em, EntityTypes.particle)
+        end
       end
       if Driver.objects[EntityTypes.player] then
         for k, p in pairs(Driver.objects[EntityTypes.player]) do
@@ -15,6 +23,10 @@ do
     entityKilled = function(self, entity)
       if entity.id == EntityTypes.goal then
         self.killed = self.killed + 1
+        local score = SCORE + 500
+        SCORE = score
+        self.health = self.health + 6
+        self.health = clamp(self.health, 0, self.max_health)
       end
     end,
     update = function(self, dt)
@@ -28,12 +40,12 @@ do
       end
       _class_0.__parent.__base.update(self, dt)
       if not self.waiting then
-        self.elapsed = self.elapsed + dt
-        if self.elapsed >= self.max_time and self.killed ~= self.target then
-          self.elapsed = 0
-          self.spawn_count = self.spawn_count + 1
-          self.max_time = (1 / self.spawn_count) + 1
-          self.parent.parent:spawn(EnemyTypes.spawner)
+        if Driver.objects[EntityTypes.player] then
+          for k, v in pairs(Driver.objects[EntityTypes.player]) do
+            self.health = self.health - (1 * dt)
+            v.health = map(self.health, 0, self.max_health, 0, Stats.player[1])
+            v.health = clamp(v.health, 0, v.max_health)
+          end
         end
       end
       if self.killed >= self.target then
@@ -58,11 +70,18 @@ do
       _class_0.__parent.__init(self, parent)
       self.killed = 0
       self.target = self.parent.wave_count
-      self.spawn_count = self.target
-      self.max_time = (1 / self.spawn_count) + 1
       self.parent.parent.shader = love.graphics.newShader("shaders/distance.fs")
       self.parent.parent.shader:send("screen_size", Screen_Size.size)
-      return self.parent.parent.shader:send("size", 10 - (0.5 * Upgrade.player_stats[2]))
+      self.parent.parent.shader:send("size", 10 - (0.5 * Upgrade.player_stats[2]))
+      local a = math.log(Stats.player[1])
+      local b = math.log(Base_Stats.player[1])
+      self.max_health = 25 * (a / b)
+      self.health = self.max_health
+      if Driver.objects[EntityTypes.player] then
+        for k, p in pairs(Driver.objects[EntityTypes.player]) do
+          self.health = map(p.health, 0, p.max_health, 0, self.max_health)
+        end
+      end
     end,
     __base = _base_0,
     __name = "DarkWave",
