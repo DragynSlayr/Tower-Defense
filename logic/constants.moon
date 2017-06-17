@@ -32,12 +32,14 @@ ModeTypes.dark        = "Dark Mode"
 ModeTypes.elimination = "Elimination Mode"
 ModeTypes.attack      = "Attack Mode"
 ModeTypes.defend      = "Defend Mode"
+ModeTypes.capture     = "Capture Mode"
 
 export GoalTypes = {}
 
-GoalTypes.attack = "Attack"
-GoalTypes.defend = "Defend"
-GoalTypes.find   = "Find"
+GoalTypes.attack  = "Attack"
+GoalTypes.defend  = "Defend"
+GoalTypes.find    = "Find"
+GoalTypes.capture = "Capture"
 
 export EnemyTypes = {}
 
@@ -46,6 +48,7 @@ EnemyTypes.turret  = "TurretEnemy"
 EnemyTypes.spawner = "SpawnerEnemy"
 EnemyTypes.strong  = "StrongEnemy"
 EnemyTypes.basic   = "BasicEnemy"
+EnemyTypes.capture = "CaptureEnemy"
 
 export Scaling = {}
 
