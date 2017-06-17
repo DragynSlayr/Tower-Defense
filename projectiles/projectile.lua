@@ -52,6 +52,7 @@ do
       self.damage = 1 / 10
       self.id = EntityTypes.bullet
       self.draw_health = false
+      self.solid = false
       local sprite_copy = sprite:getCopy()
       self.trail = nil
     end,

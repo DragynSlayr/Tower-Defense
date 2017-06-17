@@ -8,6 +8,7 @@ export class PlayerBomb extends GameObject
     --@damage = Stats.player[3] * 20--10 + (5 * Upgrade.player_stats[3])
     @draw_health = false
     @id = EntityTypes.bomb
+    @solid = false
 
     @action_sprite = ActionSprite "bombAction.tga", 32, 32, 3, 2, @, () =>
       if Driver.objects[EntityTypes.enemy]

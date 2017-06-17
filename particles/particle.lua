@@ -47,6 +47,7 @@ do
       self.draw_health = false
       self.id = EntityTypes.particle
       self.sprite.color[4] = self.alpha
+      self.solid = false
       return self:setShader(love.graphics.newShader("shaders/normal.fs"))
     end,
     __base = _base_0,

@@ -30,6 +30,7 @@ do
       self.attack_range = 100 * Scale.diag
       self.draw_health = false
       self.id = EntityTypes.bomb
+      self.solid = false
       self.action_sprite = ActionSprite("bombAction.tga", 32, 32, 3, 2, self, function(self)
         if Driver.objects[EntityTypes.enemy] then
           for k, e in pairs(Driver.objects[EntityTypes.enemy]) do

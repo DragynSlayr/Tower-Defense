@@ -8,6 +8,7 @@ export class Particle extends GameObject
     @draw_health = false
     @id = EntityTypes.particle
     @sprite.color[4] = @alpha
+    @solid = false
 
     @setShader love.graphics.newShader "shaders/normal.fs"
 
