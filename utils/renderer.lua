@@ -13,11 +13,15 @@ do
       end
     end,
     removeObject = function(self, object)
+      local found = false
       for k, layer in pairs(self.layers) do
-        for i, o in pairs(layer) do
-          if object == o then
-            layer[i] = nil
-            break
+        if not found then
+          for i, o in pairs(layer) do
+            if object == o then
+              table.remove(self.layers[k], i)
+              found = true
+              break
+            end
           end
         end
       end
