@@ -24,27 +24,18 @@ export class Mode
     @started = true
 
   finish: =>
-    if Driver.objects[EntityTypes.turret]
-      for k, t in pairs Driver.objects[EntityTypes.turret]
-        Driver\removeObject t, false
-    --if Driver.objects[EntityTypes.player]
-    --  for k, p in pairs Driver.objects[EntityTypes.player]
-    --    p.num_turrets = 0
-    --    p.can_place = true
-    --    p.health = p.max_health
-    if Driver.objects[EntityTypes.bullet]
-      for k, b in pairs Driver.objects[EntityTypes.bullet]
-        Driver\removeObject b, false
-    if Driver.objects[EntityTypes.bomb]
-      for k, b in pairs Driver.objects[EntityTypes.bomb]
-        Driver\removeObject b, false
+    Driver\clearObjects EntityTypes.turret
+    Driver\clearObjects EntityTypes.bullet
+    Driver\clearObjects EntityTypes.bomb
     hit = false
     if Driver.objects[EntityTypes.player]
       for k, p in pairs Driver.objects[EntityTypes.player]
+        p.num_turrets = 0
+        p.can_place = true
+        p.health = p.max_health
         p.attack_range = Stats.player[2]
         if p.hit
           hit = true
-          break
     if not hit
       Upgrade\add_point 3
     else
@@ -65,8 +56,9 @@ export class Mode
         @wave\update dt
         level = @parent\getLevel! + 1
         @message2 = "Level " .. level .. "\tWave " .. @wave_count .. "/3"
+        if @wave.complete
+          @wave\finish!
       else
-        @wave\finish!
         @wave_count += 1
         if (@wave_count - 1) % 3 == 0
           @level_count += 1

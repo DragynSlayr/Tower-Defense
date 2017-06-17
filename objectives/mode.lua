@@ -14,28 +14,18 @@ do
       self.started = true
     end,
     finish = function(self)
-      if Driver.objects[EntityTypes.turret] then
-        for k, t in pairs(Driver.objects[EntityTypes.turret]) do
-          Driver:removeObject(t, false)
-        end
-      end
-      if Driver.objects[EntityTypes.bullet] then
-        for k, b in pairs(Driver.objects[EntityTypes.bullet]) do
-          Driver:removeObject(b, false)
-        end
-      end
-      if Driver.objects[EntityTypes.bomb] then
-        for k, b in pairs(Driver.objects[EntityTypes.bomb]) do
-          Driver:removeObject(b, false)
-        end
-      end
+      Driver:clearObjects(EntityTypes.turret)
+      Driver:clearObjects(EntityTypes.bullet)
+      Driver:clearObjects(EntityTypes.bomb)
       local hit = false
       if Driver.objects[EntityTypes.player] then
         for k, p in pairs(Driver.objects[EntityTypes.player]) do
+          p.num_turrets = 0
+          p.can_place = true
+          p.health = p.max_health
           p.attack_range = Stats.player[2]
           if p.hit then
             hit = true
-            break
           end
         end
       end
@@ -62,8 +52,10 @@ do
           self.wave:update(dt)
           local level = self.parent:getLevel() + 1
           self.message2 = "Level " .. level .. "\tWave " .. self.wave_count .. "/3"
+          if self.wave.complete then
+            return self.wave:finish()
+          end
         else
-          self.wave:finish()
           self.wave_count = self.wave_count + 1
           if (self.wave_count - 1) % 3 == 0 then
             self.level_count = self.level_count + 1
