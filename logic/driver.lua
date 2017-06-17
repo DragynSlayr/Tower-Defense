@@ -14,31 +14,38 @@ do
       if player_kill == nil then
         player_kill = true
       end
+      local found = false
       for k, v in pairs(Driver.objects) do
-        for k2, o in pairs(v) do
-          if object == o then
-            Renderer:removeObject(object)
-            if player_kill then
-              v[k2]:kill()
-              Objectives:entityKilled(v[k2])
+        if not found then
+          for k2, o in pairs(v) do
+            if object == o then
+              Renderer:removeObject(object)
+              if player_kill then
+                v[k2]:kill()
+                Objectives:entityKilled(v[k2])
+              end
+              table.remove(Driver.objects[k], k2)
+              found = true
+              break
             end
-            v[k2] = nil
-            break
           end
         end
       end
     end,
+    clearObjects = function(self, typeof)
+      if Driver.objects[typeof] then
+        local objects = { }
+        for k, o in pairs(Driver.objects[typeof]) do
+          objects[#objects + 1] = o
+        end
+        for k, o in pairs(objects) do
+          Driver:removeObject(o, false)
+        end
+      end
+    end,
     killEnemies = function(self)
-      if Driver.objects[EntityTypes.enemy] then
-        for k, o in pairs(Driver.objects[EntityTypes.enemy]) do
-          self:removeObject(o, false)
-        end
-      end
-      if Driver.objects[EntityTypes.bullet] then
-        for k, b in pairs(Driver.objects[EntityTypes.bullet]) do
-          self:removeObject(b, false)
-        end
-      end
+      Driver:clearObjects(EntityTypes.enemy)
+      return Driver:clearObjects(EntityTypes.bullet)
     end,
     respawnPlayers = function(self)
       if Driver.objects[EntityTypes.player] then

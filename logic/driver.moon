@@ -28,23 +28,30 @@ export class Driver
         @addObject(object, id)
 
     removeObject: (object, player_kill = true) =>
+      found = false
       for k, v in pairs Driver.objects
-        for k2, o in pairs v
-          if object == o
-            Renderer\removeObject object
-            if player_kill
-              v[k2]\kill!
-              Objectives\entityKilled v[k2]
-            v[k2] = nil
-            break
+        if not found
+          for k2, o in pairs v
+            if object == o
+              Renderer\removeObject object
+              if player_kill
+                v[k2]\kill!
+                Objectives\entityKilled v[k2]
+              table.remove Driver.objects[k], k2
+              found = true
+              break
+
+    clearObjects: (typeof) =>
+      if Driver.objects[typeof]
+        objects = {}
+        for k, o in pairs Driver.objects[typeof]
+          objects[#objects + 1] = o
+        for k, o in pairs objects
+          Driver\removeObject o, false
 
     killEnemies: =>
-      if Driver.objects[EntityTypes.enemy]
-        for k, o in pairs Driver.objects[EntityTypes.enemy]
-          @removeObject o, false
-      if Driver.objects[EntityTypes.bullet]
-        for k, b in pairs Driver.objects[EntityTypes.bullet]
-          @removeObject b, false
+      Driver\clearObjects EntityTypes.enemy
+      Driver\clearObjects EntityTypes.bullet
 
     respawnPlayers: =>
       if Driver.objects[EntityTypes.player]
