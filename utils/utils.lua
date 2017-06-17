@@ -162,3 +162,12 @@ tableToString = function(tab, depth)
     return tostring(tab)
   end
 end
+lengthof = function(l)
+  local num = 0
+  for k, v in pairs(l) do
+    if v then
+      num = num + 1
+    end
+  end
+  return num
+end

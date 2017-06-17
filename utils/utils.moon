@@ -163,3 +163,10 @@ export tableToString = (tab, depth = 0) ->
     return s
   else
     return tostring tab
+
+export lengthof = (l) ->
+  num = 0
+  for k, v in pairs l
+    if v
+      num += 1
+  return num
