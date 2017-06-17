@@ -1,14 +1,9 @@
-V11 Changes
+V11A Changes
 ~~~~~~~~~~
 
 NEW
 ~~~
-- Locked hearts are now harder to find
-- Dark mode is harder now
-  - Player health is continually drained
-  - Find hearts to regain health
-  - Enemies no longer spawn
-  - Skill points is awarded if completed with more than 75% health remaining
+
 
 FIXES
 ~~~~~
