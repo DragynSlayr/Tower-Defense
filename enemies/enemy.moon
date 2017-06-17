@@ -13,6 +13,7 @@ export class Enemy extends GameObject
     @speed_multiplier = @max_speed
     @value = 1
     @attacked_once = false
+    @corner_target = true
 
     sprite_copy = sprite\getCopy!
     sprite_copy\setColor {50, 50, 50, 255}
@@ -49,7 +50,7 @@ export class Enemy extends GameObject
     @findNearestTarget search
     if not @target return
     dist = @position\getDistanceBetween @target.position
-    if dist < love.graphics.getWidth! / 4
+    if dist < love.graphics.getWidth! / 4 or not @corner_target
       @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
       @speed\toUnitVector!
       @speed = @speed\multiply clamp @speed_multiplier, 0, @max_speed

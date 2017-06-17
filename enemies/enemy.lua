@@ -26,7 +26,7 @@ do
         return 
       end
       local dist = self.position:getDistanceBetween(self.target.position)
-      if dist < love.graphics.getWidth() / 4 then
+      if dist < love.graphics.getWidth() / 4 or not self.corner_target then
         self.speed = Vector(self.target.position.x - self.position.x, self.target.position.y - self.position.y)
         self.speed:toUnitVector()
         self.speed = self.speed:multiply(clamp(self.speed_multiplier, 0, self.max_speed))
@@ -152,6 +152,7 @@ do
       self.speed_multiplier = self.max_speed
       self.value = 1
       self.attacked_once = false
+      self.corner_target = true
       local sprite_copy = sprite:getCopy()
       sprite_copy:setColor({
         50,
