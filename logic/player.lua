@@ -203,6 +203,19 @@ do
                   v:onCollide(self)
                   attacked = true
                 end
+              else
+                if v.goal_type == GoalTypes.capture then
+                  local goal = v:getHitBox()
+                  local player = self:getHitBox()
+                  player.radius = player.radius + self.repair_range
+                  if goal:contains(player) then
+                    local damage = self.damage
+                    self.damage = self.damage / -15
+                    v:onCollide(self)
+                    attacked = true
+                    self.damage = damage
+                  end
+                end
               end
             end
           end

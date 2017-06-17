@@ -202,6 +202,16 @@ export class Player extends GameObject
             if goal\contains player
               v\onCollide @
               attacked = true
+          else if v.goal_type == GoalTypes.capture
+            goal = v\getHitBox!
+            player = @getHitBox!
+            player.radius += @repair_range
+            if goal\contains player
+              damage = @damage
+              @damage /= -15
+              v\onCollide @
+              attacked = true
+              @damage = damage
     if attacked
       @attack_timer = 0
     if Driver.objects[EntityTypes.enemy]
