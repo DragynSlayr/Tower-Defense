@@ -7,7 +7,8 @@ export class ObjectivesHandler
       AttackMode @,
       EliminationMode @,
       DefendMode @,
-      DarkMode @
+      DarkMode @,
+      CaptureMode @
     }
     @num_modes = #@modes
     shuffle @modes
@@ -99,6 +100,8 @@ export class ObjectivesHandler
         StrongEnemy x, y
       when EnemyTypes.basic
         BasicEnemy x, y
+      when EnemyTypes.capture
+        CaptureEnemy x, y
       when GoalTypes.attack
         AttackGoal x, y
       when GoalTypes.defend

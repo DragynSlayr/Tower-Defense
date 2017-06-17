@@ -113,6 +113,8 @@ do
         enemy = StrongEnemy(x, y)
       elseif EnemyTypes.basic == _exp_0 then
         enemy = BasicEnemy(x, y)
+      elseif EnemyTypes.capture == _exp_0 then
+        enemy = CaptureEnemy(x, y)
       elseif GoalTypes.attack == _exp_0 then
         enemy = AttackGoal(x, y)
       elseif GoalTypes.defend == _exp_0 then
@@ -159,7 +161,8 @@ do
         AttackMode(self),
         EliminationMode(self),
         DefendMode(self),
-        DarkMode(self)
+        DarkMode(self),
+        CaptureMode(self)
       }
       self.num_modes = #self.modes
       shuffle(self.modes)
