@@ -14,6 +14,7 @@ export class GameObject
     @shielded = false
     @shield_timer = 0
     @max_shield_time = 7
+    @solid = true
 
     @trail = nil
 
@@ -62,13 +63,13 @@ export class GameObject
     if @id ~= EntityTypes.wall
       @position.x = clamp @position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius
       @position.y = clamp @position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius
-    if @id == EntityTypes.bullet or @id == EntityTypes.bomb or @id == EntityTypes.particle
+    if not @solid--@id == EntityTypes.bullet or @id == EntityTypes.bomb or @id == EntityTypes.particle
       return
     for k, v in pairs Driver.objects
       for k2, o in pairs v
         if not (@id == EntityTypes.wall and o.id == EntityTypes.wall)
           if not ((@id == EntityTypes.player and o.id == EntityTypes.turret) or (@id == EntityTypes.turret and o.id == EntityTypes.player))
-            if o ~= @ and not (o.id == EntityTypes.bullet or o.id == EntityTypes.bomb or o.id == EntityTypes.particle)
+            if o ~= @ and o.solid--not (o.id == EntityTypes.bullet or o.id == EntityTypes.bomb or o.id == EntityTypes.particle)
               other = o\getHitBox!
               this = @getHitBox!
               if other\contains this

@@ -43,14 +43,14 @@ do
         self.position.x = clamp(self.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius)
         self.position.y = clamp(self.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius)
       end
-      if self.id == EntityTypes.bullet or self.id == EntityTypes.bomb or self.id == EntityTypes.particle then
+      if not self.solid then
         return 
       end
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do
           if not (self.id == EntityTypes.wall and o.id == EntityTypes.wall) then
             if not ((self.id == EntityTypes.player and o.id == EntityTypes.turret) or (self.id == EntityTypes.turret and o.id == EntityTypes.player)) then
-              if o ~= self and not (o.id == EntityTypes.bullet or o.id == EntityTypes.bomb or o.id == EntityTypes.particle) then
+              if o ~= self and o.solid then
                 local other = o:getHitBox()
                 local this = self:getHitBox()
                 if other:contains(this) then
@@ -134,6 +134,7 @@ do
       self.shielded = false
       self.shield_timer = 0
       self.max_shield_time = 7
+      self.solid = true
       self.trail = nil
       self.normal_sprite = self.sprite
       self.action_sprite = self.sprite
