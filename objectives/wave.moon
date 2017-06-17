@@ -10,12 +10,8 @@ export class Wave
     return
 
   finish: =>
-    if Driver.objects[EntityTypes.bullet]
-      for k, b in pairs Driver.objects[EntityTypes.bullet]
-        Driver\removeObject b, false
-    if Driver.objects[EntityTypes.bomb]
-      for k, b in pairs Driver.objects[EntityTypes.bomb]
-        Driver\removeObject b, false
+    Driver\killEnemies!
+    Driver\clearObjects EntityTypes.bomb
 
   entityKilled: (entity) =>
     return
