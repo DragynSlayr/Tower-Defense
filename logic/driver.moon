@@ -19,6 +19,33 @@ export class Driver
       love.filesystem.setIdentity "Tower Defense"
       love.filesystem.createDirectory "screenshots"
 
+      if not love.filesystem.exists "SETTINGS"
+        love.filesystem.write "SETTINGS", "MODS_ENABLED 0"
+
+      MODS_ENABLED = readKey "MODS_ENABLED"
+      FILES_DUMPED = readKey "FILES_DUMPED"
+
+      if MODS_ENABLED and not FILES_DUMPED
+        print "DUMPING"
+
+        dirs = getAllDirectories "assets"
+        for k, v in pairs dirs
+          love.filesystem.createDirectory "mods/" .. v
+
+        files = getAllFiles "assets"
+        for k, v in pairs files
+          contents, size = love.filesystem.read v
+          love.filesystem.write "mods/" .. v, contents
+
+        print "FILES DUMPED"
+
+        writeKey "FILES_DUMPED", "1"
+
+      if MODS_ENABLED
+        export PATH_PREFIX = "mods/"
+      else
+        export PATH_PREFIX = ""
+
     addObject: (object, id) =>
       if @objects[id]
         @objects[id][#@objects[id] + 1] = object

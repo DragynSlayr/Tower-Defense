@@ -243,7 +243,31 @@ do
       love.update = self.update
       love.draw = self.draw
       love.filesystem.setIdentity("Tower Defense")
-      return love.filesystem.createDirectory("screenshots")
+      love.filesystem.createDirectory("screenshots")
+      if not love.filesystem.exists("SETTINGS") then
+        love.filesystem.write("SETTINGS", "MODS_ENABLED 0")
+      end
+      local MODS_ENABLED = readKey("MODS_ENABLED")
+      local FILES_DUMPED = readKey("FILES_DUMPED")
+      if MODS_ENABLED and not FILES_DUMPED then
+        print("DUMPING")
+        local dirs = getAllDirectories("assets")
+        for k, v in pairs(dirs) do
+          love.filesystem.createDirectory("mods/" .. v)
+        end
+        local files = getAllFiles("assets")
+        for k, v in pairs(files) do
+          local contents, size = love.filesystem.read(v)
+          love.filesystem.write("mods/" .. v, contents)
+        end
+        print("FILES DUMPED")
+        writeKey("FILES_DUMPED", "1")
+      end
+      if MODS_ENABLED then
+        PATH_PREFIX = "mods/"
+      else
+        PATH_PREFIX = ""
+      end
     end,
     __base = _base_0,
     __name = "Driver"
