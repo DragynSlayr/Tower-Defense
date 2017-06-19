@@ -14,14 +14,14 @@ EntityTypes.particle = "Particle"
 
 EntityTypes.layers = {}
 
-EntityTypes.layers[EntityTypes.player]   = 7
-EntityTypes.layers[EntityTypes.turret]   = 4
-EntityTypes.layers[EntityTypes.enemy]    = 6
+EntityTypes.layers[EntityTypes.player]   = 8
+EntityTypes.layers[EntityTypes.turret]   = 5
+EntityTypes.layers[EntityTypes.enemy]    = 7
 EntityTypes.layers[EntityTypes.item]     = 5
 EntityTypes.layers[EntityTypes.health]   = 5
 EntityTypes.layers[EntityTypes.coin]     = 5
 EntityTypes.layers[EntityTypes.bullet]   = 4
-EntityTypes.layers[EntityTypes.goal]     = 5
+EntityTypes.layers[EntityTypes.goal]     = 6
 EntityTypes.layers[EntityTypes.bomb]     = 2
 EntityTypes.layers[EntityTypes.wall]     = 1
 EntityTypes.layers[EntityTypes.particle] = 3
