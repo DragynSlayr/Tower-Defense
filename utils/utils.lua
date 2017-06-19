@@ -171,3 +171,85 @@ lengthof = function(l)
   end
   return num
 end
+concatTables = function(t1, t2)
+  local t3 = { }
+  for k, v in pairs(t1) do
+    table.insert(t3, v)
+  end
+  for k, v in pairs(t2) do
+    table.insert(t3, v)
+  end
+  return t3
+end
+tableContains = function(t, i)
+  for k, v in pairs(t) do
+    if v == i then
+      return true
+    end
+  end
+  return false
+end
+getAllDirectories = function(root)
+  local files = getAllFiles(root)
+  local directories = { }
+  for k, v in pairs(files) do
+    local splitted = split(v, "/")
+    local directory = splitted[1]
+    for i = 2, #splitted - 1 do
+      directory = directory .. ("/" .. splitted[i])
+    end
+    if not tableContains(directories, directory) then
+      table.insert(directories, directory)
+    end
+  end
+  return directories
+end
+getAllFiles = function(root, current)
+  if current == nil then
+    current = { }
+  end
+  if love.filesystem.isDirectory(root) then
+    local files = love.filesystem.getDirectoryItems(root)
+    for k, v in pairs(files) do
+      current = getAllFiles(root .. "/" .. v, current)
+    end
+  else
+    table.insert(current, root)
+  end
+  return current
+end
+readKey = function(key)
+  local contents, size = love.filesystem.read("SETTINGS")
+  local lines = split(contents, "\n")
+  for k, v in pairs(lines) do
+    local splitted = split(v, " ")
+    local read_key, value = splitted[1], splitted[2]
+    if read_key == key then
+      return value == "1"
+    end
+  end
+  return false
+end
+writeKey = function(key, value)
+  local contents, size = love.filesystem.read("SETTINGS")
+  local lines = split(contents, "\n")
+  local key_found = false
+  for k, v in pairs(lines) do
+    local splitted = split(v, " ")
+    local read_key, read_value = splitted[1], splitted[2]
+    if read_key == key then
+      lines[k] = key .. " " .. value
+      key_found = true
+      break
+    end
+  end
+  if not key_found then
+    table.insert(lines, key .. " " .. value)
+  end
+  local s = ""
+  for i = 1, #lines - 1 do
+    s = s .. (lines[i] .. "\n")
+  end
+  s = s .. lines[#lines]
+  return love.filesystem.write("SETTINGS", s)
+end

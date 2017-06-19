@@ -170,3 +170,67 @@ export lengthof = (l) ->
     if v
       num += 1
   return num
+
+export concatTables = (t1, t2) ->
+  t3 = {}
+  for k, v in pairs t1
+    table.insert t3, v
+  for k, v in pairs t2
+    table.insert t3, v
+  return t3
+
+export tableContains = (t, i) ->
+  for k, v in pairs t
+    if v == i
+      return true
+  return false
+
+export getAllDirectories = (root) ->
+  files = getAllFiles root
+  directories = {}
+  for k, v in pairs files
+    splitted = split v, "/"
+    directory = splitted[1]
+    for i = 2, #splitted - 1
+      directory ..= "/" .. splitted[i]
+    if not tableContains directories, directory
+      table.insert directories, directory
+  return directories
+
+export getAllFiles = (root, current = {}) ->
+  if love.filesystem.isDirectory root
+    files = love.filesystem.getDirectoryItems root
+    for k, v in pairs files
+      current = getAllFiles root .. "/" .. v, current
+  else
+    table.insert current, root
+  return current
+
+export readKey = (key) ->
+  contents, size = love.filesystem.read "SETTINGS"
+  lines = split contents, "\n"
+  for k, v in pairs lines
+    splitted = split v, " "
+    read_key, value = splitted[1], splitted[2]
+    if read_key == key
+      return value == "1"
+  return false
+
+export writeKey = (key, value) ->
+  contents, size = love.filesystem.read "SETTINGS"
+  lines = split contents, "\n"
+  key_found = false
+  for k, v in pairs lines
+    splitted = split v, " "
+    read_key, read_value = splitted[1], splitted[2]
+    if read_key == key
+      lines[k] = key .. " " .. value
+      key_found = true
+      break
+  if not key_found
+    table.insert lines, key .. " " .. value
+  s = ""
+  for i = 1, #lines - 1
+    s ..= lines[i] .. "\n"
+  s ..= lines[#lines]
+  love.filesystem.write "SETTINGS", s
