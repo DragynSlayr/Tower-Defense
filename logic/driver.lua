@@ -257,8 +257,11 @@ do
         end
         local files = getAllFiles("assets")
         for k, v in pairs(files) do
-          local contents, size = love.filesystem.read(v)
-          love.filesystem.write("mods/" .. v, contents)
+          if not love.filesystem.exists("mods/" .. v) then
+            print("DUMPING " .. v)
+            local contents, size = love.filesystem.read(v)
+            love.filesystem.write("mods/" .. v, contents)
+          end
         end
         print("FILES DUMPED")
         writeKey("FILES_DUMPED", "1")

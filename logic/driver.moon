@@ -34,8 +34,10 @@ export class Driver
 
         files = getAllFiles "assets"
         for k, v in pairs files
-          contents, size = love.filesystem.read v
-          love.filesystem.write "mods/" .. v, contents
+          if not love.filesystem.exists "mods/" .. v
+            print "DUMPING " .. v
+            contents, size = love.filesystem.read v
+            love.filesystem.write "mods/" .. v, contents
 
         print "FILES DUMPED"
 
