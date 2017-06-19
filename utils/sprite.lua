@@ -94,7 +94,7 @@ do
       local flags = { }
       flags["linear"] = false
       flags["mipmaps"] = true
-      self.image = love.graphics.newImage("assets/sprites/" .. name, flags)
+      self.image = love.graphics.newImage(PATH_PREFIX .. "assets/sprites/" .. name, flags)
       self.frames = self.image:getWidth() / width
       self.height, self.width = height, width
       self.x_scale, self.y_scale = scale * Scale.width, scale * Scale.height

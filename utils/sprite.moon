@@ -16,7 +16,7 @@ export class Sprite
     flags["mipmaps"] = true
 
     -- Load the image
-    @image = love.graphics.newImage("assets/sprites/" .. name, flags)
+    @image = love.graphics.newImage(PATH_PREFIX .. "assets/sprites/" .. name, flags)
 
     -- Get number of frames
     @frames = @image\getWidth! / width

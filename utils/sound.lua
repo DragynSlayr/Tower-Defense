@@ -49,9 +49,9 @@ do
         static = false
       end
       if static then
-        self.audio = love.audio.newSource("assets/sounds/" .. name, "static")
+        self.audio = love.audio.newSource(PATH_PREFIX .. "assets/sounds/" .. name, "static")
       else
-        self.audio = love.audio.newSource("assets/sounds/" .. name)
+        self.audio = love.audio.newSource(PATH_PREFIX .. "assets/sounds/" .. name)
       end
       self.audio:setLooping(looping)
       self.audio:setPitch(pitch)

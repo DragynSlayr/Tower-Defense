@@ -2,7 +2,7 @@ do
   local _class_0
   local _base_0 = {
     newFont = function(self, size)
-      return love.graphics.newFont("assets/fonts/opsb.ttf", size * Scale.height)
+      return love.graphics.newFont(PATH_PREFIX .. "assets/fonts/opsb.ttf", size * Scale.height)
     end,
     add = function(self, object, layer)
       if self.layers[layer] then
@@ -91,11 +91,11 @@ do
     __init = function(self)
       self.queue = { }
       self.layers = { }
-      self.giant_font = love.graphics.newFont("assets/fonts/opsb.ttf", 250 * Scale.height)
-      self.title_font = love.graphics.newFont("assets/fonts/opsb.ttf", 70 * Scale.height)
-      self.status_font = love.graphics.newFont("assets/fonts/opsb.ttf", 50 * Scale.height)
-      self.hud_font = love.graphics.newFont("assets/fonts/opsb.ttf", 30 * Scale.height)
-      self.small_font = love.graphics.newFont("assets/fonts/opsb.ttf", 20 * Scale.height)
+      self.giant_font = love.graphics.newFont(PATH_PREFIX .. "assets/fonts/opsb.ttf", 250 * Scale.height)
+      self.title_font = love.graphics.newFont(PATH_PREFIX .. "assets/fonts/opsb.ttf", 70 * Scale.height)
+      self.status_font = love.graphics.newFont(PATH_PREFIX .. "assets/fonts/opsb.ttf", 50 * Scale.height)
+      self.hud_font = love.graphics.newFont(PATH_PREFIX .. "assets/fonts/opsb.ttf", 30 * Scale.height)
+      self.small_font = love.graphics.newFont(PATH_PREFIX .. "assets/fonts/opsb.ttf", 20 * Scale.height)
       for i = 1, 10 do
         self.layers[i] = { }
       end
