@@ -185,9 +185,18 @@ export class Player extends GameObject
             bullet = PlayerBullet @position.x, @position.y, v, @damage
             Driver\addObject bullet, EntityTypes.bullet
             attacked = true
+      if Driver.objects[EntityTypes.boss]
+        for k, v in pairs Driver.objects[EntityTypes.boss]
+          enemy = v\getHitBox!
+          player = @getHitBox!
+          player.radius += @attack_range + @range_boost
+          if enemy\contains player
+            bullet = PlayerBullet @position.x, @position.y, v, @damage
+            Driver\addObject bullet, EntityTypes.bullet
+            attacked = true
       if Driver.objects[EntityTypes.goal]
         for k, v in pairs Driver.objects[EntityTypes.goal]
-          if v.goal_type == GoalTypes.attack
+          if v.goal_type == GoalTypes.attack or v.goal_type == GoalTypes.tesseract
             goal = v\getHitBox!
             player = @getHitBox!
             player.radius += @attack_range + @range_boost
@@ -202,18 +211,16 @@ export class Player extends GameObject
             if goal\contains player
               v\onCollide @
               attacked = true
-          else if v.goal_type == GoalTypes.capture
-            goal = v\getHitBox!
-            player = @getHitBox!
-            player.radius += @repair_range
-            if goal\contains player
-              damage = @damage
-              @damage /= -15
-              v\onCollide @
-              attacked = true
-              @damage = damage
     if attacked
       @attack_timer = 0
+    if Driver.objects[EntityTypes.goal]
+      for k, v in pairs Driver.objects[EntityTypes.goal]
+        if v.goal_type == GoalTypes.capture
+          goal = v\getHitBox!
+          player = @getHitBox!
+          player.radius += @repair_range
+          if goal\contains player
+            v\onCollide @
     if Driver.objects[EntityTypes.enemy]
       for k, v in pairs Driver.objects[EntityTypes.enemy]
         enemy = v\getHitBox!

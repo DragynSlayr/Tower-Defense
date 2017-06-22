@@ -183,9 +183,21 @@ do
             end
           end
         end
+        if Driver.objects[EntityTypes.boss] then
+          for k, v in pairs(Driver.objects[EntityTypes.boss]) do
+            local enemy = v:getHitBox()
+            local player = self:getHitBox()
+            player.radius = player.radius + (self.attack_range + self.range_boost)
+            if enemy:contains(player) then
+              local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
+              Driver:addObject(bullet, EntityTypes.bullet)
+              attacked = true
+            end
+          end
+        end
         if Driver.objects[EntityTypes.goal] then
           for k, v in pairs(Driver.objects[EntityTypes.goal]) do
-            if v.goal_type == GoalTypes.attack then
+            if v.goal_type == GoalTypes.attack or v.goal_type == GoalTypes.tesseract then
               local goal = v:getHitBox()
               local player = self:getHitBox()
               player.radius = player.radius + (self.attack_range + self.range_boost)
@@ -203,19 +215,6 @@ do
                   v:onCollide(self)
                   attacked = true
                 end
-              else
-                if v.goal_type == GoalTypes.capture then
-                  local goal = v:getHitBox()
-                  local player = self:getHitBox()
-                  player.radius = player.radius + self.repair_range
-                  if goal:contains(player) then
-                    local damage = self.damage
-                    self.damage = self.damage / -15
-                    v:onCollide(self)
-                    attacked = true
-                    self.damage = damage
-                  end
-                end
               end
             end
           end
@@ -223,6 +222,18 @@ do
       end
       if attacked then
         self.attack_timer = 0
+      end
+      if Driver.objects[EntityTypes.goal] then
+        for k, v in pairs(Driver.objects[EntityTypes.goal]) do
+          if v.goal_type == GoalTypes.capture then
+            local goal = v:getHitBox()
+            local player = self:getHitBox()
+            player.radius = player.radius + self.repair_range
+            if goal:contains(player) then
+              v:onCollide(self)
+            end
+          end
+        end
       end
       if Driver.objects[EntityTypes.enemy] then
         for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
