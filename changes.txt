@@ -1,9 +1,24 @@
-V11A Changes
+V11B Changes
 ~~~~~~~~~~
+- Capture enemies (orange balls)
+  - No longer pass through objects
+  - Takes 10 hits to capture a flag
 
-NEW
-~~~
+- Capture goals (flags)
+  - Health does not Scale
+  - Always take constant damage from enemies and player
+  - Now spawned once at the start of the level
 
+- Capture mode
+  - Now timed (60 seconds to beat 3 waves)
+  - Turret enemies spawn instead of strong enemies
+  - Now has a single objective to destroy to win a wave (tesseract)
 
-FIXES
-~~~~~
+- Tesseract (blue square)
+  - Needs to be destroyed to win capture mode wave
+  - Damage received scales with total flag capture percentage
+    - Capture more of the flags to do more damage to this
+
+- Player
+  - Does constant damage to the flag
+    - Takes about 5 seconds to capture from 0
