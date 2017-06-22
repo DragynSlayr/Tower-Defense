@@ -3,57 +3,59 @@ do
   local _parent_0 = Wave
   local _base_0 = {
     start = function(self)
-      for k, p in pairs(self.point_positions) do
-        local goal = CaptureGoal(p.x, p.y)
-        goal.num = k
-        Driver:addObject(goal, EntityTypes.goal)
+      Objectives:spawn(GoalTypes.tesseract)
+      if Driver.objects[EntityTypes.goal] then
+        for k, g in pairs(Driver.objects[EntityTypes.goal]) do
+          g.unlocked = true
+        end
       end
-      self.point_positions = nil
       for i = 1, self.spawn_num do
         Objectives:spawn(EnemyTypes.capture)
       end
-      return Objectives:spawn(EnemyTypes.strong)
+      return Objectives:spawn(EnemyTypes.turret)
     end,
     entityKilled = function(self, entity)
-      if entity.id == EntityTypes.goal then
-        if entity.killer then
-          if entity.killer == EntityTypes.player then
-            self.captured = self.captured + 1
-          else
-            self.dead = self.dead + 1
-          end
-        end
+      if entity.id == EntityTypes.goal and entity.goal_type == GoalTypes.tesseract then
+        self.goal_complete = true
       end
     end,
     update = function(self, dt)
       _class_0.__parent.__base.update(self, dt)
       if not self.waiting then
+        self.parent.time_remaining = self.parent.time_remaining - dt
         self.elapsed = self.elapsed + dt
+        self.turret_spawn_timer = self.turret_spawn_timer + dt
         if self.elapsed >= self.spawn_time then
           self.elapsed = 0
           for i = 1, self.spawn_num do
             Objectives:spawn(EnemyTypes.capture)
           end
-          Objectives:spawn(EnemyTypes.strong)
+        end
+        if self.turret_spawn_timer >= self.turret_spawn_time then
+          self.turret_spawn_timer = 0
+          for i = 1, self.turret_spawn_num do
+            Objectives:spawn(EnemyTypes.turret)
+          end
         end
       end
-      if self.dead > 1 then
+      if self.parent.time_remaining <= 0 then
         Driver.game_over()
       end
-      if self.captured >= self.target - 1 then
+      if self.goal_complete then
         self.complete = true
+        Driver:killEnemies()
         if Driver.objects[EntityTypes.goal] then
           for k, o in pairs(Driver.objects[EntityTypes.goal]) do
-            Driver:removeObject(o, false)
+            o.unlocked = false
           end
         end
       end
     end,
     draw = function(self)
-      local message = "points"
-      local num = self.target - self.captured
+      local message = "seconds"
+      local num = math.floor(self.parent.time_remaining)
       if num == 1 then
-        message = "point"
+        message = "second"
       end
       self.parent.message1 = "\t" .. num .. " " .. message .. " remaining!"
       return _class_0.__parent.__base.draw(self)
@@ -68,19 +70,11 @@ do
       self.captured = 0
       self.dead = 0
       self.spawn_time = 2
-      self.spawn_num = {
-        3,
-        3,
-        4
-      }
-      self.spawn_num = self.spawn_num[self.parent.wave_count]
-      local x_space = 100
-      local y_space = 100
-      self.point_positions = {
-        Vector(x_space * Scale.width, Screen_Size.height - Screen_Size.border[2] - (y_space * Scale.height)),
-        Vector(Screen_Size.width - (x_space * Scale.width), Screen_Size.height - Screen_Size.border[2] - (y_space * Scale.height)),
-        Vector(Screen_Size.width / 2, Screen_Size.border[2] + (y_space * Scale.height))
-      }
+      self.spawn_num = 3
+      self.turret_spawn_timer = 0
+      self.turret_spawn_time = 5
+      self.turret_spawn_num = 3
+      self.goal_complete = false
     end,
     __base = _base_0,
     __name = "CaptureWave",
