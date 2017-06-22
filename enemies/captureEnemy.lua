@@ -9,6 +9,9 @@ do
       if not self.target or not self.target.alive then
         if Driver.objects[EntityTypes.goal] then
           self.target = pick(Driver.objects[EntityTypes.goal])
+          while self.target.goal_type == GoalTypes.tesseract do
+            self.target = pick(Driver.objects[EntityTypes.goal])
+          end
         end
       end
     end
@@ -21,13 +24,12 @@ do
       _class_0.__parent.__init(self, x, y, sprite, 0, 0)
       self.enemyType = EnemyTypes.capture
       self.score_value = 100
-      self.solid = false
       self.corner_target = false
       self.health = 12 + (12.8 * Objectives:getLevel())
       self.max_health = self.health
       self.max_speed = (250 + (10.8 * Objectives:getLevel())) * Scale.diag
       self.speed_multiplier = self.max_speed
-      self.damage = 1 + (0.55 * Objectives:getLevel())
+      self.damage = 1
     end,
     __base = _base_0,
     __name = "CaptureEnemy",

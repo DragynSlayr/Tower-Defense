@@ -4,14 +4,14 @@ export class CaptureEnemy extends Enemy
     super x, y, sprite, 0, 0
     @enemyType = EnemyTypes.capture
     @score_value = 100
-    @solid = false
+    --@solid = false
     @corner_target = false
 
     @health = 12 + (12.8 * Objectives\getLevel!)
     @max_health = @health
     @max_speed = (250 + (10.8 * Objectives\getLevel!)) * Scale.diag
     @speed_multiplier = @max_speed
-    @damage = 1 + (0.55 * Objectives\getLevel!)
+    @damage = 1
 
   __tostring: =>
     return "T: " .. @enemyType .. "\tH: " .. @max_health .. "\tD: " .. @damage .. "\tS: " .. @max_speed
@@ -20,3 +20,5 @@ export class CaptureEnemy extends Enemy
     if not @target or not @target.alive
       if Driver.objects[EntityTypes.goal]
         @target = pick Driver.objects[EntityTypes.goal]
+        while @target.goal_type == GoalTypes.tesseract
+          @target = pick Driver.objects[EntityTypes.goal]
