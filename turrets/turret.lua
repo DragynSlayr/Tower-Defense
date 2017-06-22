@@ -79,22 +79,44 @@ do
       end
     end,
     findTarget = function(self)
-      if not self.alive then
-        return 
-      end
+      local closest = nil
+      local closest_distance = math.max(love.graphics.getWidth() * 2, love.graphics.getHeight() * 2)
       if Driver.objects[EntityTypes.enemy] then
         for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
-          local enemy = v:getHitBox()
-          local turret = self:getAttackHitBox()
-          turret.radius = turret.radius + self.range
-          if enemy:contains(turret) then
-            if v.alive then
-              self.target = v
-              break
+          local player = v:getHitBox()
+          local enemy = self:getAttackHitBox()
+          local dist = Vector(enemy.center.x - player.center.x, enemy.center.y - player.center.y)
+          if dist:getLength() < closest_distance then
+            closest_distance = dist:getLength()
+            closest = v
+          end
+        end
+      end
+      if Driver.objects[EntityTypes.boss] then
+        for k, v in pairs(Driver.objects[EntityTypes.boss]) do
+          local turret = v:getHitBox()
+          local enemy = self:getAttackHitBox()
+          local dist = Vector(enemy.center.x - turret.center.x, enemy.center.y - turret.center.y)
+          if dist:getLength() < closest_distance then
+            closest_distance = dist:getLength()
+            closest = v
+          end
+        end
+      end
+      if Driver.objects[EntityTypes.goal] then
+        for k, v in pairs(Driver.objects[EntityTypes.goal]) do
+          if v.goal_type == GoalTypes.tesseract then
+            local turret = v:getHitBox()
+            local enemy = self:getAttackHitBox()
+            local dist = Vector(enemy.center.x - turret.center.x, enemy.center.y - turret.center.y)
+            if dist:getLength() < closest_distance then
+              closest_distance = dist:getLength()
+              closest = v
             end
           end
         end
       end
+      self.target = closest
     end,
     draw = function(self)
       if not self.alive then

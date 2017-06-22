@@ -79,16 +79,34 @@ export class Turret extends GameObject
       @attack_timer = 0
 
   findTarget: =>
-    if not @alive return
+    closest = nil
+    closest_distance = math.max love.graphics.getWidth! * 2, love.graphics.getHeight! * 2
     if Driver.objects[EntityTypes.enemy]
       for k, v in pairs Driver.objects[EntityTypes.enemy]
-        enemy = v\getHitBox!
-        turret = @getAttackHitBox!
-        turret.radius += @range
-        if enemy\contains turret
-          if v.alive
-            @target = v
-            break
+        player = v\getHitBox!
+        enemy = @getAttackHitBox!
+        dist = Vector enemy.center.x - player.center.x, enemy.center.y - player.center.y
+        if dist\getLength! < closest_distance
+          closest_distance = dist\getLength!
+          closest = v
+    if Driver.objects[EntityTypes.boss]
+      for k, v in pairs Driver.objects[EntityTypes.boss]
+        turret = v\getHitBox!
+        enemy = @getAttackHitBox!
+        dist = Vector enemy.center.x - turret.center.x, enemy.center.y - turret.center.y
+        if dist\getLength! < closest_distance
+          closest_distance = dist\getLength!
+          closest = v
+    if Driver.objects[EntityTypes.goal]
+      for k, v in pairs Driver.objects[EntityTypes.goal]
+        if v.goal_type == GoalTypes.tesseract
+          turret = v\getHitBox!
+          enemy = @getAttackHitBox!
+          dist = Vector enemy.center.x - turret.center.x, enemy.center.y - turret.center.y
+          if dist\getLength! < closest_distance
+            closest_distance = dist\getLength!
+            closest = v
+    @target = closest
 
   draw: =>
     if not @alive return
