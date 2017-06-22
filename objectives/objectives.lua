@@ -121,8 +121,12 @@ do
         enemy = DefendGoal(x, y)
       elseif GoalTypes.find == _exp_0 then
         enemy = FindGoal(x, y)
+      elseif GoalTypes.tesseract == _exp_0 then
+        enemy = TesseractGoal(x, y)
       elseif EntityTypes.player == _exp_0 then
         enemy = Player(x, y)
+      elseif BossTypes.vyder == _exp_0 then
+        enemy = BossVyder(x, y)
       end
       local touching = false
       for k, v in pairs(Driver.objects) do
@@ -141,8 +145,11 @@ do
         Driver:addObject(enemy, EntityTypes.player)
         return enemy
       else
-        if typeof == GoalTypes.attack or typeof == GoalTypes.defend or typeof == GoalTypes.find then
+        if tableContains(GoalTypes, typeof) then
           Driver:addObject(enemy, EntityTypes.goal)
+          return enemy
+        elseif tableContains(BossTypes, typeof) then
+          Driver:addObject(enemy, EntityTypes.boss)
           return enemy
         else
           Driver:addObject(enemy, EntityTypes.enemy)
@@ -158,12 +165,9 @@ do
       self.elapsed = 0
       self.delay = 3
       self.modes = {
-        AttackMode(self),
-        EliminationMode(self),
-        DefendMode(self),
-        DarkMode(self),
         CaptureMode(self)
       }
+      self.boss_mode = BossMode(self)
       self.num_modes = #self.modes
       shuffle(self.modes)
       self.counter = 0

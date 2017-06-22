@@ -4,12 +4,13 @@ export class ObjectivesHandler
     @elapsed = 0
     @delay = 3
     @modes = {
-      AttackMode @,
-      EliminationMode @,
-      DefendMode @,
-      DarkMode @,
+      --AttackMode @,
+      --EliminationMode @,
+      --DefendMode @,
+      --DarkMode @,
       CaptureMode @
     }
+    @boss_mode = BossMode @
     @num_modes = #@modes
     shuffle @modes
     @counter = 0
@@ -29,8 +30,10 @@ export class ObjectivesHandler
     else
       @counter = 0
       shuffle @modes
-      -- Boss Wave
       @nextMode!
+      -- Boss Wave
+      --@mode = @boss_mode
+      --@mode\start!
 
   entityKilled: (entity) =>
     @mode\entityKilled entity
@@ -108,8 +111,12 @@ export class ObjectivesHandler
         DefendGoal x, y
       when GoalTypes.find
         FindGoal x, y
+      when GoalTypes.tesseract
+        TesseractGoal x, y
       when EntityTypes.player
         Player x, y
+      when BossTypes.vyder
+        BossVyder x, y
     touching = false
     for k, v in pairs Driver.objects
       for k2, o in pairs v
@@ -124,10 +131,12 @@ export class ObjectivesHandler
       Driver\addObject enemy, EntityTypes.player
       return enemy
     else
-      if typeof == GoalTypes.attack or typeof == GoalTypes.defend or typeof == GoalTypes.find
+      if tableContains GoalTypes, typeof
         Driver\addObject enemy, EntityTypes.goal
         return enemy
+      elseif tableContains BossTypes, typeof
+        Driver\addObject enemy, EntityTypes.boss
+        return enemy
       else
-        --print enemy\__tostring!
         Driver\addObject enemy, EntityTypes.enemy
         return enemy
