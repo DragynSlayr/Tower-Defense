@@ -12,9 +12,6 @@ export class EliminationWave extends Wave
       @target += value
       @queue[#@queue + 1] = enemy
 
---    for k, v in pairs @queue
---      print k .. ", " .. v
-
   entityKilled: (entity) =>
     if entity.id == EntityTypes.enemy or entity.enemyType
       @killed += 1
@@ -29,10 +26,8 @@ export class EliminationWave extends Wave
     num = math.min 4, #@queue
     for i = 1, num
       enemy = @queue[1]
---      print "Spawning: " .. enemy
       @parent.parent\spawn enemy
       table.remove @queue, 1
-
 
   update: (dt) =>
     super dt

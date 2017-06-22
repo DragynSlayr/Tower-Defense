@@ -27,14 +27,12 @@ export class DefendWave extends Wave
       @target -= dt
       if @elapsed >= @max_time and @target > 0
         @elapsed = 0
-        --print "N: " .. @max_time .. "\tS: " .. @spawn_count
         @spawnRandomEnemy!
     if @dead > 0
       Driver.game_over!
     if @target <= 0
       @complete = true
       Driver\killEnemies!
-      -- Calculate score
 
   draw: =>
     message = "seconds"
