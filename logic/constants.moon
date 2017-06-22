@@ -11,6 +11,7 @@ EntityTypes.goal     = "Goal"
 EntityTypes.bomb     = "Bomb"
 EntityTypes.wall     = "Wall"
 EntityTypes.particle = "Particle"
+EntityTypes.boss     = "Boss"
 
 EntityTypes.layers = {}
 
@@ -25,6 +26,7 @@ EntityTypes.layers[EntityTypes.goal]     = 6
 EntityTypes.layers[EntityTypes.bomb]     = 2
 EntityTypes.layers[EntityTypes.wall]     = 1
 EntityTypes.layers[EntityTypes.particle] = 3
+EntityTypes.layers[EntityTypes.boss]     = 7
 
 export ModeTypes = {}
 
@@ -33,13 +35,15 @@ ModeTypes.elimination = "Elimination Mode"
 ModeTypes.attack      = "Attack Mode"
 ModeTypes.defend      = "Defend Mode"
 ModeTypes.capture     = "Capture Mode"
+ModeTypes.boss        = "Boss Mode"
 
 export GoalTypes = {}
 
-GoalTypes.attack  = "Attack"
-GoalTypes.defend  = "Defend"
-GoalTypes.find    = "Find"
-GoalTypes.capture = "Capture"
+GoalTypes.attack    = "Attack"
+GoalTypes.defend    = "Defend"
+GoalTypes.find      = "Find"
+GoalTypes.capture   = "Capture"
+GoalTypes.tesseract = "Tesseract"
 
 export EnemyTypes = {}
 
@@ -49,6 +53,10 @@ EnemyTypes.spawner = "SpawnerEnemy"
 EnemyTypes.strong  = "StrongEnemy"
 EnemyTypes.basic   = "BasicEnemy"
 EnemyTypes.capture = "CaptureEnemy"
+
+export BossTypes = {}
+
+BossTypes.vyder = "Vyder"
 
 export Scaling = {}
 

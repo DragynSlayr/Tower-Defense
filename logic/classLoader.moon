@@ -29,6 +29,11 @@ require "projectiles.projectileLoader"
 --+--------------+--
 require "turrets.turretLoader"
 
+--+-------------+--
+--| Load Bosses |--
+--+-------------+--
+require "bosses.bossLoader"
+
 --+-----------------+--
 --| Load Objectives |--
 --+-----------------+--
