@@ -3,60 +3,32 @@ do
   local _parent_0 = GameObject
   local _base_0 = {
     onCollide = function(self, entity)
-      if entity.id == EntityTypes.enemy and entity.enemyType == EnemyTypes.capture then
-        Driver:removeObject(entity, false)
-        if self.enabled then
-          self.health = self.health - entity.damage
-        end
-      else
-        if self.enabled then
-          _class_0.__parent.__base.onCollide(self, entity)
+      if self.unlocked then
+        if entity.id == EntityTypes.enemy and entity.enemyType == EnemyTypes.capture then
+          self.capture_amount = self.capture_amount - entity.damage
+          return Driver:removeObject(entity, false)
+        else
+          self.capture_amount = self.capture_amount + (2 / 60)
         end
       end
-      if self.enabled then
-        if math.random() < (0.25 / 60) then
-          self.enabled = false
-        end
-        self.last_hit = entity.id
-      end
-    end,
-    kill = function(self)
-      _class_0.__parent.__base.kill(self)
-      self.killer = self.last_hit
     end,
     update = function(self, dt)
-      if self.health >= self.max_health then
-        self.alive = false
-      end
-      if self.alive then
-        _class_0.__parent.__base.update(self, dt)
-      end
-      self.lock_timer = self.lock_timer + dt
-      if self.lock_timer >= self.disable_time and not self.enabled then
-        self.lock_timer = 0
-        self.enabled = true
-      end
+      _class_0.__parent.__base.update(self, dt)
+      self.capture_amount = clamp(self.capture_amount, 0, self.max_health)
     end,
     draw = function(self)
       _class_0.__parent.__base.draw(self)
       love.graphics.push("all")
-      if self.draw_health then
-        love.graphics.setShader(Driver.shader)
-        love.graphics.setColor(0, 0, 0, 255)
-        local radius = self.sprite.scaled_height / 2
-        love.graphics.rectangle("fill", (self.position.x - radius) - (3 * Scale.width), (self.position.y + radius) + (3 * Scale.height), (radius * 2) + (6 * Scale.width), 16 * Scale.height)
-        if self.enabled then
-          love.graphics.setColor(0, 127, 255, 255)
-          local ratio = self.health / self.max_health
-          love.graphics.rectangle("fill", self.position.x - radius, (self.position.y + radius) + (6 * Scale.height), (radius * 2) * ratio, 10 * Scale.height)
-          love.graphics.setColor(255, 127, 0, 255)
-          love.graphics.rectangle("fill", self.position.x - radius + ((radius * 2) * ratio), (self.position.y + radius) + (6 * Scale.height), (radius * 2) * (1 - ratio), 10 * Scale.height)
-        else
-          love.graphics.setColor(0, 255, 0, 255)
-          love.graphics.rectangle("fill", self.position.x - radius, (self.position.y + radius) + (6 * Scale.height), radius * 2, 10 * Scale.height)
-        end
-        love.graphics.setShader()
-      end
+      love.graphics.setShader(Driver.shader)
+      love.graphics.setColor(0, 0, 0, 255)
+      local radius = self.sprite.scaled_height / 2
+      love.graphics.rectangle("fill", (self.position.x - radius) - (3 * Scale.width), (self.position.y + radius) + (3 * Scale.height), (radius * 2) + (6 * Scale.width), 16 * Scale.height)
+      love.graphics.setColor(0, 127, 255, 255)
+      local ratio = self.capture_amount / self.max_health
+      love.graphics.rectangle("fill", self.position.x - radius, (self.position.y + radius) + (6 * Scale.height), (radius * 2) * ratio, 10 * Scale.height)
+      love.graphics.setColor(255, 127, 0, 255)
+      love.graphics.rectangle("fill", self.position.x - radius + ((radius * 2) * ratio), (self.position.y + radius) + (6 * Scale.height), (radius * 2) * (1 - ratio), 10 * Scale.height)
+      love.graphics.setShader()
       return love.graphics.pop()
     end
   }
@@ -68,14 +40,11 @@ do
       _class_0.__parent.__init(self, x, y, sprite)
       self.id = EntityTypes.goal
       self.goal_type = GoalTypes.capture
-      self.health = 10 + (5.5 * Objectives:getLevel())
+      self.health = 10
       self.max_health = self.health
-      self.health = self.health / 2
-      self.killer = nil
-      self.last_hit = nil
-      self.enabled = true
-      self.lock_timer = 0
-      self.disable_time = 5
+      self.capture_amount = self.health / 2
+      self.draw_health = false
+      self.unlocked = false
     end,
     __base = _base_0,
     __name = "CaptureGoal",
