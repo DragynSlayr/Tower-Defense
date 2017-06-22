@@ -250,7 +250,7 @@ do
       local MODS_ENABLED = readKey("MODS_ENABLED")
       local FILES_DUMPED = readKey("FILES_DUMPED")
       if MODS_ENABLED and not FILES_DUMPED then
-        print("DUMPING")
+        print("DUMPING FILES")
         local dirs = getAllDirectories("assets")
         for k, v in pairs(dirs) do
           love.filesystem.createDirectory("mods/" .. v)

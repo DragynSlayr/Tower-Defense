@@ -26,7 +26,7 @@ export class Driver
       FILES_DUMPED = readKey "FILES_DUMPED"
 
       if MODS_ENABLED and not FILES_DUMPED
-        print "DUMPING"
+        print "DUMPING FILES"
 
         dirs = getAllDirectories "assets"
         for k, v in pairs dirs
