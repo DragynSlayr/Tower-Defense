@@ -101,6 +101,11 @@ export class Driver
             sum += 1
       return sum == 0
 
+    getRandomPosition: =>
+      x = math.random Screen_Size.border[1], Screen_Size.border[3]
+      y = math.random Screen_Size.border[2], Screen_Size.border[4]
+      return Point x, y
+
     keypressed: (key, scancode, isrepeat) ->
       if key == "escape"
         love.event.quit 0

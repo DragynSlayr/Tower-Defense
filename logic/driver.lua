@@ -74,6 +74,11 @@ do
       end
       return sum == 0
     end,
+    getRandomPosition = function(self)
+      local x = math.random(Screen_Size.border[1], Screen_Size.border[3])
+      local y = math.random(Screen_Size.border[2], Screen_Size.border[4])
+      return Point(x, y)
+    end,
     keypressed = function(key, scancode, isrepeat)
       if key == "escape" then
         return love.event.quit(0)
