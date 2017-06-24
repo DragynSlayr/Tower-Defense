@@ -6,6 +6,25 @@ do
       local radius = math.min(self.sprite.scaled_height / 2, self.sprite.scaled_width / 2)
       radius = radius * 0.75
       return Circle(self.position.x, self.position.y + (25 * Scale.height), radius)
+    end,
+    update = function(self, dt)
+      self.speed = Vector(self.target_position.x - self.position.x, self.target_position.y - self.position.y)
+      local dist = self.speed:getLength()
+      self.speed:toUnitVector()
+      self.speed = self.speed:multiply(self.speed_multiplier)
+      _class_0.__parent.__base.update(self, dt)
+      if dist <= self:getHitBox().radius then
+        self.target_position = Driver:getRandomPosition()
+      end
+    end,
+    draw = function(self)
+      _class_0.__parent.__base.draw(self)
+      love.graphics.push("all")
+      love.graphics.setShader(Driver.shader)
+      love.graphics.setColor(255, 0, 0, 255)
+      love.graphics.circle("fill", self.target_position.x, self.target_position.y, 3, 360)
+      love.graphics.setShader()
+      return love.graphics.pop()
     end
   }
   _base_0.__index = _base_0
@@ -18,6 +37,13 @@ do
       self.bossType = BossTypes.vyder
       self.health = 300
       self.max_health = self.health
+      self.speed_multiplier = 200
+      sprite = Sprite("poison.tga", 64, 64, 1, 2)
+      self.trail = ParticleTrail(self.position.x, self.position.y, sprite, self)
+      self.trail.life_time = 3
+      self.ai = { }
+      self.ai.phase = 1
+      self.target_position = Driver:getRandomPosition()
     end,
     __base = _base_0,
     __name = "BossVyder",
