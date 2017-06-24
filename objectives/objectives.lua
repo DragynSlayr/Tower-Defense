@@ -5,12 +5,12 @@ do
       self.counter = self.counter + 1
       if self.counter <= self.num_modes then
         self.mode = self.modes[self.counter]
-        return self.mode:start()
       else
         self.counter = 0
         shuffle(self.modes)
-        return self:nextMode()
+        self.mode = self.boss_mode
       end
+      return self.mode:start()
     end,
     entityKilled = function(self, entity)
       return self.mode:entityKilled(entity)
@@ -164,9 +164,7 @@ do
       self.mode = nil
       self.elapsed = 0
       self.delay = 3
-      self.modes = {
-        CaptureMode(self)
-      }
+      self.modes = { }
       self.boss_mode = BossMode(self)
       self.num_modes = #self.modes
       shuffle(self.modes)

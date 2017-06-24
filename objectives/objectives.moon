@@ -8,7 +8,7 @@ export class ObjectivesHandler
       --EliminationMode @,
       --DefendMode @,
       --DarkMode @,
-      CaptureMode @
+      --CaptureMode @
     }
     @boss_mode = BossMode @
     @num_modes = #@modes
@@ -26,14 +26,13 @@ export class ObjectivesHandler
     @counter += 1
     if @counter <= @num_modes
       @mode = @modes[@counter]
-      @mode\start!
     else
       @counter = 0
       shuffle @modes
-      @nextMode!
+      --@nextMode!
       -- Boss Wave
-      --@mode = @boss_mode
-      --@mode\start!
+      @mode = @boss_mode
+    @mode\start!
 
   entityKilled: (entity) =>
     @mode\entityKilled entity
