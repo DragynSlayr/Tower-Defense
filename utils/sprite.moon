@@ -49,6 +49,9 @@ export class Sprite
     sprite.color = {@color[1], @color[2], @color[3], @color[4]}
     sprite.rotation_speed = @rotation_speed
     sprite.rotation = @rotation
+    x_scale = @scaled_width / (@width * Scale.width)
+    y_scale = @scaled_height / (@height * Scale.height)
+    sprite\setScale x_scale, y_scale
     if @shader
       sprite\setShader @shader
     return sprite

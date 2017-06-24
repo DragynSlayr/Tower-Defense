@@ -11,6 +11,9 @@ do
       }
       sprite.rotation_speed = self.rotation_speed
       sprite.rotation = self.rotation
+      local x_scale = self.scaled_width / (self.width * Scale.width)
+      local y_scale = self.scaled_height / (self.height * Scale.height)
+      sprite:setScale(x_scale, y_scale)
       if self.shader then
         sprite:setShader(self.shader)
       end
