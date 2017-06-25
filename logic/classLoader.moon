@@ -1,60 +1,64 @@
+queue = {}
+
 --+------------+--
 --| Load utils |--
 --+------------+--
-require "utils.utilsLoader"
+table.insert queue, "utils.utilsLoader"
 
 --+---------+--
 --| Load ui |--
 --+---------+--
-require "ui.uiLoader"
+table.insert queue, "ui.uiLoader"
 
 --+------------------+--
 --| Depends on utils |--
 --+------------------+--
-require "logic.gameObject"
-require "logic.player"
+table.insert queue, "logic.gameObject"
+table.insert queue, "logic.player"
 
 --+--------------+--
 --| Load Enemies |--
 --+--------------+--
-require "enemies.enemyLoader"
+table.insert queue, "enemies.enemyLoader"
 
 --+------------------+--
 --| Load Projectiles |--
 --+------------------+--
-require "projectiles.projectileLoader"
+table.insert queue, "projectiles.projectileLoader"
 
 --+--------------+--
 --| Load Turrets |--
 --+--------------+--
-require "turrets.turretLoader"
+table.insert queue, "turrets.turretLoader"
 
 --+-------------+--
 --| Load Bosses |--
 --+-------------+--
-require "bosses.bossLoader"
+table.insert queue, "bosses.bossLoader"
 
 --+-----------------+--
 --| Load Objectives |--
 --+-----------------+--
-require "objectives.objectiveLoader"
+table.insert queue, "objectives.objectiveLoader"
 
 --+----------------+--
 --| Load particles |--
 --+----------------+--
-require "particles.particleLoader"
+table.insert queue, "particles.particleLoader"
 
 --+-----------+--
 --| Load maps |--
 --+-----------+--
-require "maps.mapLoader"
+table.insert queue, "maps.mapLoader"
 
 --+--------------+--
 --| Load screens |--
 --+--------------+--
-require "screens.screenLoader"
+table.insert queue, "screens.screenLoader"
 
 --+------------------------------+--
 --| Dependent on everything else |--
 --+------------------------------+--
-require "logic.driver"
+table.insert queue, "logic.driver"
+
+return queue
