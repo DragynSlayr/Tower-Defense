@@ -12,7 +12,13 @@ do
       local change = Vector(self.last_position.x - self.position.x, self.last_position.y - self.position.y)
       if change:getLength() > self.average_size then
         self.last_position = Vector(self.parent.position:getComponents())
-        local particle = Particle(self.position.x, self.position.y, self.sprite, 255, 0, self.life_time)
+        local particle
+        local _exp_0 = self.particle_type
+        if ParticleTypes.normal == _exp_0 then
+          particle = Particle(self.position.x, self.position.y, self.sprite, 255, 0, self.life_time)
+        elseif ParticleTypes.poison == _exp_0 then
+          particle = PoisonParticle(self.position.x, self.position.y, self.sprite, 255, 0, self.life_time)
+        end
         return Driver:addObject(particle, EntityTypes.particle)
       end
     end
@@ -27,6 +33,7 @@ do
       self.position = self.last_position
       self.life_time = 1
       self.average_size = (self.sprite.scaled_width + self.sprite.scaled_height) / 8
+      self.particle_type = ParticleTypes.normal
     end,
     __base = _base_0,
     __name = "ParticleTrail",
