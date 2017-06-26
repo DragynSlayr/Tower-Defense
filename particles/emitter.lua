@@ -19,10 +19,18 @@ do
       self.elapsed = self.elapsed + dt
       if self.emitting and self.elapsed >= self.delay then
         self.elapsed = 0
-        local particle = Particle(self.position.x, self.position.y, self.sprite, 200, 50, self.life_time)
-        local x, y = getRandomUnitStart()
-        particle.speed = Vector(x, y, true)
-        particle.speed = particle.speed:multiply(250 * Scale.diag)
+        local particle
+        local _exp_0 = self.particle_type
+        if ParticleTypes.normal == _exp_0 then
+          particle = Particle(self.position.x, self.position.y, self.sprite, 200, 50, self.life_time)
+        elseif ParticleTypes.poison == _exp_0 then
+          particle = PoisonParticle(self.position.x, self.position.y, self.sprite, 200, 50, self.life_time)
+        end
+        if self.moving_particles then
+          local x, y = getRandomUnitStart()
+          particle.speed = Vector(x, y, true)
+          particle.speed = particle.speed:multiply(250 * Scale.diag)
+        end
         particle:setShader(self.shader, true)
         return Driver:addObject(particle, EntityTypes.particle)
       end
@@ -48,6 +56,8 @@ do
       self.parent = parent
       self.shader = nil
       self.sprite = Sprite("particle.tga", 32, 32, 1, 0.5)
+      self.particle_type = ParticleTypes.normal
+      self.moving_particles = true
     end,
     __base = _base_0,
     __name = "ParticleEmitter",

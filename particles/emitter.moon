@@ -11,6 +11,8 @@ export class ParticleEmitter extends GameObject
     @parent = parent
     @shader = nil
     @sprite = Sprite "particle.tga", 32, 32, 1, 0.5
+    @particle_type = ParticleTypes.normal
+    @moving_particles = true
 
   start: =>
     @emitting = true
@@ -27,9 +29,14 @@ export class ParticleEmitter extends GameObject
     @elapsed += dt
     if @emitting and @elapsed >= @delay
       @elapsed = 0
-      particle = Particle @position.x, @position.y, @sprite, 200, 50, @life_time
-      x, y = getRandomUnitStart!
-      particle.speed = Vector x, y, true
-      particle.speed = particle.speed\multiply 250 * Scale.diag
+      particle = switch @particle_type
+        when ParticleTypes.normal
+          Particle @position.x, @position.y, @sprite, 200, 50, @life_time
+        when ParticleTypes.poison
+          PoisonParticle @position.x, @position.y, @sprite, 200, 50, @life_time
+      if @moving_particles
+        x, y = getRandomUnitStart!
+        particle.speed = Vector x, y, true
+        particle.speed = particle.speed\multiply 250 * Scale.diag
       particle\setShader @shader, true
       Driver\addObject particle, EntityTypes.particle
