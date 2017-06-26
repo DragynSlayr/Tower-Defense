@@ -54,6 +54,11 @@ EnemyTypes.strong  = "StrongEnemy"
 EnemyTypes.basic   = "BasicEnemy"
 EnemyTypes.capture = "CaptureEnemy"
 
+export ParticleTypes = {}
+
+ParticleTypes.normal = "NormalParticle"
+ParticleTypes.poison = "PoisonParticle"
+
 export BossTypes = {}
 
 BossTypes.vyder = "Vyder"
