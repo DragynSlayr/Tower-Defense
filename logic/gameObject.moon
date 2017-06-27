@@ -15,6 +15,7 @@ export class GameObject
     @shield_timer = 0
     @max_shield_time = 7
     @solid = true
+    @contact_damage = false
 
     @trail = nil
 
@@ -83,6 +84,10 @@ export class GameObject
                 if o.speed\getLength! > 0
                   if o.id ~= EntityTypes.player
                     o.position\add dist_vec
+                if @contact_damage
+                  o\onCollide @
+                if o.contact_damage
+                  @onCollide o
 
   draw: =>
     love.graphics.push "all"

@@ -68,6 +68,12 @@ do
                       o.position:add(dist_vec)
                     end
                   end
+                  if self.contact_damage then
+                    o:onCollide(self)
+                  end
+                  if o.contact_damage then
+                    self:onCollide(o)
+                  end
                 end
               end
             end
@@ -135,6 +141,7 @@ do
       self.shield_timer = 0
       self.max_shield_time = 7
       self.solid = true
+      self.contact_damage = false
       self.trail = nil
       self.normal_sprite = self.sprite
       self.action_sprite = self.sprite
