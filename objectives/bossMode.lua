@@ -4,7 +4,8 @@ do
   local _base_0 = {
     nextWave = function(self)
       _class_0.__parent.__base.nextWave(self)
-      self.wave = BossWave(self, pick(self.bosses))
+      local boss = pick(self.bosses)
+      self.wave = BossWave(self, boss)
     end,
     update = function(self, dt)
       if not self.complete then

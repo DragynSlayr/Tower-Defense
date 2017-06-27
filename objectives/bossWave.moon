@@ -4,11 +4,11 @@ export class BossWave extends Wave
     @boss = boss
 
   entityKilled: (entity) =>
-    if entity.id == @boss.id
+    if entity == @boss
       @complete = true
 
   start: =>
-    Objectives\spawn @boss
+    @boss = Objectives\spawn @boss
 
   draw: =>
     @parent.message1 = "\t" .. "BOSS BATTLE!!"

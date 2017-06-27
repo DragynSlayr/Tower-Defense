@@ -30,9 +30,6 @@ do
         if Driver.objects[EntityTypes.player] then
           targets = concatTables(targets, Driver.objects[EntityTypes.player])
         end
-        if Driver.objects[EntityTypes.turret] then
-          targets = concatTables(targets, Driver.objects[EntityTypes.turret])
-        end
         local target = pick(targets)
         self.target_position = target.position
         self.ai_time = 0
@@ -44,7 +41,7 @@ do
         self.speed = self.speed:multiply(self.speed_multiplier * self.boost_multiplier)
         _class_0.__parent.__base.update(self, dt)
         self.chase_time = self.chase_time + dt
-        if dist < self:getHitBox().radius + (self.attack_range / 2) or self.ai_time >= 5 then
+        if dist < self:getHitBox().radius + (self.attack_range / 2) or self.ai_time >= 1 then
           self.ai_time = 0
           self.ai_phase = self.ai_phase + 1
         end
@@ -78,13 +75,15 @@ do
       end
     end,
     draw = function(self)
-      _class_0.__parent.__base.draw(self)
-      love.graphics.push("all")
-      love.graphics.setShader(Driver.shader)
-      love.graphics.setColor(255, 0, 0, 255)
-      love.graphics.circle("fill", self.target_position.x, self.target_position.y, 3, 360)
-      love.graphics.setShader()
-      return love.graphics.pop()
+      if DEBUGGING then
+        love.graphics.push("all")
+        love.graphics.setShader(Driver.shader)
+        love.graphics.setColor(255, 0, 0, 255)
+        love.graphics.circle("fill", self.target_position.x, self.target_position.y, 3, 360)
+        love.graphics.setShader()
+        love.graphics.pop()
+      end
+      return _class_0.__parent.__base.draw(self)
     end
   }
   _base_0.__index = _base_0
@@ -95,13 +94,15 @@ do
       sprite:setScale(0.25, 0.25)
       _class_0.__parent.__init(self, x, y, sprite)
       self.bossType = BossTypes.vyder
-      self.health = 300
+      local level = ((Objectives:getLevel() + 1) / (#Objectives.modes + 1)) - 1
+      self.health = 1000 + (1000 * level)
       self.max_health = self.health
-      self.speed_multiplier = 200
+      self.speed_multiplier = 200 + (100 * level)
       self.boost_multiplier = 3
       self.chase_time = 0
-      self.damage = 5 / 60
+      self.damage = (5 / 60) + ((10 / 60) * level)
       self.attack_range = 100 * Scale.diag
+      self.contact_damage = true
       sprite = Sprite("poison.tga", 64, 64, 1, 1.75)
       self.trail = ParticleEmitter(self.position.x, self.position.y, 0.2, 3, self)
       self.trail.sprite = sprite

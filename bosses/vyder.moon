@@ -4,13 +4,15 @@ export class BossVyder extends Boss
     sprite\setScale 0.25, 0.25
     super x, y, sprite
     @bossType = BossTypes.vyder
-    @health = 300
+    level = ((Objectives\getLevel! + 1) / (#Objectives.modes + 1)) - 1
+    @health = 1000 + (1000 * level)
     @max_health = @health
-    @speed_multiplier = 200
+    @speed_multiplier = 200 + (100 * level)
     @boost_multiplier = 3
     @chase_time = 0
-    @damage = 5 / 60
+    @damage = (5 / 60) + ((10 / 60) * level)
     @attack_range = 100 * Scale.diag
+    @contact_damage = true
 
     sprite = Sprite "poison.tga", 64, 64, 1, 1.75
     @trail = ParticleEmitter @position.x, @position.y, 0.2, 3, @
@@ -37,7 +39,6 @@ export class BossVyder extends Boss
     y_scale = @normal_sprite.scaled_height / (@normal_sprite.height * Scale.height)
 
     @action_sprite\setScale x_scale, y_scale
-
 
   getHitBox: =>
     -- Get the radius of this Sprite as the minimum of height and width
@@ -67,8 +68,8 @@ export class BossVyder extends Boss
         targets = {}
         if Driver.objects[EntityTypes.player]
           targets = concatTables targets, Driver.objects[EntityTypes.player]
-        if Driver.objects[EntityTypes.turret]
-          targets = concatTables targets, Driver.objects[EntityTypes.turret]
+        --if Driver.objects[EntityTypes.turret]
+          --targets = concatTables targets, Driver.objects[EntityTypes.turret]
         target = pick targets
         @target_position = target.position
         @ai_time = 0
@@ -80,7 +81,7 @@ export class BossVyder extends Boss
         @speed = @speed\multiply @speed_multiplier * @boost_multiplier
         super dt
         @chase_time += dt
-        if dist < @getHitBox!.radius + (@attack_range / 2) or @ai_time >= 5
+        if dist < @getHitBox!.radius + (@attack_range / 2) or @ai_time >= 1
           @ai_time = 0
           @ai_phase += 1
       when 4
@@ -106,10 +107,11 @@ export class BossVyder extends Boss
               v\onCollide @
 
   draw: =>
+    if DEBUGGING
+      love.graphics.push "all"
+      love.graphics.setShader Driver.shader
+      love.graphics.setColor 255, 0, 0, 255
+      love.graphics.circle "fill", @target_position.x, @target_position.y, 3, 360
+      love.graphics.setShader!
+      love.graphics.pop!
     super!
-    love.graphics.push "all"
-    love.graphics.setShader Driver.shader
-    love.graphics.setColor 255, 0, 0, 255
-    love.graphics.circle "fill", @target_position.x, @target_position.y, 3, 360
-    love.graphics.setShader!
-    love.graphics.pop!

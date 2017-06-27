@@ -3,12 +3,12 @@ do
   local _parent_0 = Wave
   local _base_0 = {
     entityKilled = function(self, entity)
-      if entity.id == self.boss.id then
+      if entity == self.boss then
         self.complete = true
       end
     end,
     start = function(self)
-      return Objectives:spawn(self.boss)
+      self.boss = Objectives:spawn(self.boss)
     end,
     draw = function(self)
       self.parent.message1 = "\t" .. "BOSS BATTLE!!"

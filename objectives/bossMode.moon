@@ -11,7 +11,8 @@ export class BossMode extends Mode
 
   nextWave: =>
     super!
-    @wave = BossWave @, pick @bosses
+    boss = pick @bosses
+    @wave = BossWave @, boss
 
   update: (dt) =>
     if not @complete
