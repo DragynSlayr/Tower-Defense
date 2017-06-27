@@ -5,14 +5,6 @@ do
     nextWave = function(self)
       _class_0.__parent.__base.nextWave(self)
       self.wave = DefendWave(self)
-    end,
-    finish = function(self)
-      _class_0.__parent.__base.finish(self)
-      if Driver.objects[EntityTypes.goal] then
-        for k, o in pairs(Driver.objects[EntityTypes.goal]) do
-          Driver:removeObject(o, false)
-        end
-      end
     end
   }
   _base_0.__index = _base_0

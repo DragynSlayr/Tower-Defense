@@ -7,9 +7,3 @@ export class DefendMode extends Mode
   nextWave: =>
     super!
     @wave = DefendWave @
-
-  finish: =>
-    super!
-    if Driver.objects[EntityTypes.goal]
-      for k, o in pairs Driver.objects[EntityTypes.goal]
-        Driver\removeObject o, false
