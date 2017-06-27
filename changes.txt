@@ -7,3 +7,6 @@ V12 Changes
 
   - Turret Multi-Target
     - Now hits Tesseracts along with other enemies
+
+  - General Fixes
+    - Loading indicator / screen added
