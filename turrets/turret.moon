@@ -56,6 +56,16 @@ export class Turret extends GameObject
               bullet = Bullet @position.x, @position.y - @sprite.scaled_height / 2 + 10, e, @damage
               Driver\addObject bullet, EntityTypes.bullet
               attacked = true
+        if Driver.objects[EntityTypes.goal]
+          for k, e in pairs Driver.objects[EntityTypes.goal]
+            if e.goal_type == GoalTypes.tesseract
+              enemy = e\getHitBox!
+              turret = @getAttackHitBox!
+              turret.radius += @range
+              if enemy\contains turret
+                bullet = Bullet @position.x, @position.y - @sprite.scaled_height / 2 + 10, e, @damage
+                Driver\addObject bullet, EntityTypes.bullet
+                attacked = true
       else
         if @target and @target.alive
           enemy = @target\getHitBox!
