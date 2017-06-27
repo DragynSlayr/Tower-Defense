@@ -14,10 +14,6 @@ do
     nextWave = function(self)
       _class_0.__parent.__base.nextWave(self)
       self.wave = CaptureWave(self)
-    end,
-    finish = function(self)
-      _class_0.__parent.__base.finish(self)
-      return Driver:clearObjects(EntityTypes.goal)
     end
   }
   _base_0.__index = _base_0

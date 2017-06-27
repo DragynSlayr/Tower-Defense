@@ -24,7 +24,3 @@ export class CaptureMode extends Mode
   nextWave: =>
     super!
     @wave = CaptureWave @
-
-  finish: =>
-    super!
-    Driver\clearObjects EntityTypes.goal
