@@ -27,6 +27,7 @@ export class Mode
     Driver\clearObjects EntityTypes.turret
     Driver\clearObjects EntityTypes.bullet
     Driver\clearObjects EntityTypes.bomb
+    Driver\clearObjects EntityTypes.goal
     hit = false
     if Driver.objects[EntityTypes.player]
       for k, p in pairs Driver.objects[EntityTypes.player]

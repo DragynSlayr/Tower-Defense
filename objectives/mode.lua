@@ -17,6 +17,7 @@ do
       Driver:clearObjects(EntityTypes.turret)
       Driver:clearObjects(EntityTypes.bullet)
       Driver:clearObjects(EntityTypes.bomb)
+      Driver:clearObjects(EntityTypes.goal)
       local hit = false
       if Driver.objects[EntityTypes.player] then
         for k, p in pairs(Driver.objects[EntityTypes.player]) do
