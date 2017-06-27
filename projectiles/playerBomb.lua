@@ -43,14 +43,29 @@ do
           end
         end
         if Driver.objects[EntityTypes.goal] then
+          local goals = {
+            GoalTypes.tesseract,
+            GoalTypes.attack,
+            GoalTypes.find
+          }
           for k, e in pairs(Driver.objects[EntityTypes.goal]) do
-            if e.goal_type == GoalTypes.attack then
+            if tableContains(goals, e.goal_type) then
               local target = e:getHitBox()
               local bomb = self.parent:getHitBox()
               bomb.radius = bomb.radius + self.parent.attack_range
               if target:contains(bomb) then
                 e:kill()
               end
+            end
+          end
+        end
+        if Driver.objects[EntityTypes.boss] then
+          for k, b in pairs(Driver.objects[EntityTypes.boss]) do
+            local target = b:getHitBox()
+            local bomb = self.parent:getHitBox()
+            bomb.radius = bomb.radius + self.parent.attack_range
+            if target:contains(bomb) then
+              b:kill()
             end
           end
         end

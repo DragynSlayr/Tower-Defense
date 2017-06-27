@@ -19,13 +19,21 @@ export class PlayerBomb extends GameObject
           if target\contains bomb
             e\kill!--onCollide @parent
       if Driver.objects[EntityTypes.goal]
+        goals = {GoalTypes.tesseract, GoalTypes.attack, GoalTypes.find}
         for k, e in pairs Driver.objects[EntityTypes.goal]
-          if e.goal_type == GoalTypes.attack
+          if tableContains goals, e.goal_type
             target = e\getHitBox!
             bomb = @parent\getHitBox!
             bomb.radius += @parent.attack_range
             if target\contains bomb
               e\kill!--onCollide @parent
+      if Driver.objects[EntityTypes.boss]
+        for k, b in pairs Driver.objects[EntityTypes.boss]
+          target = b\getHitBox!
+          bomb = @parent\getHitBox!
+          bomb.radius += @parent.attack_range
+          if target\contains bomb
+            b\kill!
       @parent\kill!
 
   update: (dt) =>
