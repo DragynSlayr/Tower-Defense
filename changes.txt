@@ -1,12 +1,33 @@
-V12 Changes
+V13 Changes
 ~~~~~~~~~~~
-  - First Boss added
+  - Items added
+    - Item boxes are dropped during the game, these can be opened in the inventory screen
+    - Items must be equipped in the inventory screen
+    - Only 1 active and passive can be equipped at a time
+    - Player can hold 6 items total, 3 passive and 3 active
 
-  - Bomb Upgrade
-    - Now hits Bosses and Objectives
+  - Turret
+    - Fixed shield upgrade to also shield other turrets when activated
 
-  - Turret Multi-Target
-    - Now hits Tesseracts along with other enemies
+  - Pause Screen
+    - No longer shows enemy stats
+    - Shows currently held items
 
-  - General Fixes
-    - Loading indicator / screen added
+  - Upgrade Screen
+    - Added button to go to Inventory Screen
+
+  - Inventory Screen
+    - Can be used to open boxes and equip items
+
+  - Objectives
+    - Now space must be pressed to continue to upgrade screen
+    - All modes re-enabled
+
+  - Capture Mode
+    - Only 3 turret enemies can be active at a time
+
+  - Heart Find Mode
+    - Hearts spawns reversed
+      - 3 spawn on wave 1
+      - 2 on wave 2
+      - 1 on wave 3
