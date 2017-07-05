@@ -21,6 +21,11 @@ table.insert queue, "logic.player"
 --+--------------+--
 table.insert queue, "enemies.enemyLoader"
 
+--+-------------------------+--
+--| Load background objects |--
+--+-------------------------+--
+table.insert queue, "backgrounds.backgroundLoader"
+
 --+------------------+--
 --| Load Projectiles |--
 --+------------------+--
@@ -45,6 +50,11 @@ table.insert queue, "objectives.objectiveLoader"
 --| Load particles |--
 --+----------------+--
 table.insert queue, "particles.particleLoader"
+
+--+------------+--
+--| Load items |--
+--+------------+--
+table.insert queue, "items.itemLoader"
 
 --+-----------+--
 --| Load maps |--
