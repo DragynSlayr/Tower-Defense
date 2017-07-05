@@ -2,7 +2,7 @@ export class DarkWave extends Wave
   new: (parent) =>
     super parent
     @killed = 0
-    @target = @parent.wave_count
+    @target = 4 - @parent.wave_count
     @parent.parent.shader = love.graphics.newShader "shaders/distance.fs"
     @parent.parent.shader\send "screen_size", Screen_Size.size
     @parent.parent.shader\send "size", 10 - (0.5 * Upgrade.player_stats[2])
@@ -22,7 +22,7 @@ export class DarkWave extends Wave
         life_time = math.random!
         em = ParticleEmitter 0, 0, delay, life_time, goal
         em.shader = love.graphics.newShader "shaders/normal.fs"
-        em.sprite = Sprite "orb.tga", 32, 32, 1, 0.5
+        em.sprite = Sprite "particle/orb.tga", 32, 32, 1, 0.5
         Driver\addObject em, EntityTypes.particle
     if Driver.objects[EntityTypes.player]
       for k, p in pairs Driver.objects[EntityTypes.player]

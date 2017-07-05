@@ -10,7 +10,7 @@ do
           local life_time = math.random()
           local em = ParticleEmitter(0, 0, delay, life_time, goal)
           em.shader = love.graphics.newShader("shaders/normal.fs")
-          em.sprite = Sprite("orb.tga", 32, 32, 1, 0.5)
+          em.sprite = Sprite("particle/orb.tga", 32, 32, 1, 0.5)
           Driver:addObject(em, EntityTypes.particle)
         end
       end
@@ -69,7 +69,7 @@ do
     __init = function(self, parent)
       _class_0.__parent.__init(self, parent)
       self.killed = 0
-      self.target = self.parent.wave_count
+      self.target = 4 - self.parent.wave_count
       self.parent.parent.shader = love.graphics.newShader("shaders/distance.fs")
       self.parent.parent.shader:send("screen_size", Screen_Size.size)
       self.parent.parent.shader:send("size", 10 - (0.5 * Upgrade.player_stats[2]))
