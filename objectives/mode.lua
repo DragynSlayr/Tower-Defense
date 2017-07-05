@@ -16,7 +16,7 @@ do
     finish = function(self)
       Driver:clearObjects(EntityTypes.turret)
       Driver:clearObjects(EntityTypes.bullet)
-      Driver:clearObjects(EntityTypes.bomb)
+      Driver:clearObjects(EntityTypes.background)
       Driver:clearObjects(EntityTypes.goal)
       local hit = false
       if Driver.objects[EntityTypes.player] then
