@@ -3,13 +3,14 @@ export class ScreenCreator
     @createPauseMenu!
     @createGameOverMenu!
     @createUpgradeMenu!
+    @createInventoryMenu!
     @createMainMenu!
 
   createHelp: (start_x = 100 * Scale.width, start_y = Screen_Size.height * 0.4) =>
     keys = {}
-    keys["space"] = Sprite "keys/space.tga", 32, 96, 1, 1
+    keys["space"] = Sprite "ui/keys/space.tga", 32, 96, 1, 1
     for k, v in pairs {"w", "a", "s", "d", "p", "e", "z"}
-      keys[v] = Sprite "keys/" .. v .. ".tga", 32, 32, 1, 1
+      keys[v] = Sprite "ui/keys/" .. v .. ".tga", 32, 32, 1, 1
 
     font = Renderer\newFont 20
 
@@ -117,23 +118,9 @@ export class ScreenCreator
     title = Text Screen_Size.width / 2, (Screen_Size.height / 3), "Game Paused"
     UI\add title
 
-    names = {"Basic", "Chaser", "Spawner", "Strong", "Turret"}
-    sprites = {(Sprite "enemy/tracker.tga", 32, 32, 1, 50 / 32), (Sprite "enemy/enemy.tga", 26, 26, 1, 50 / 26), (Sprite "projectile/dart.tga", 17, 17, 1, 50 / 17), (Sprite "enemy/bullet.tga", 26, 20, 1, 50 / 26), (Sprite "enemy/circle.tga", 26, 26, 1, 50 / 26)}
-
-    for i = 1, #names
-      x = map i, 1, #names, 100 * Scale.width, Screen_Size.width - (200 * Scale.width)
-      y = Screen_Size.height * 0.8
-      icon = Icon x, y, sprites[i]
-      UI\add icon
-      bounds = sprites[i]\getBounds x, y
-      font = Renderer\newFont 20
-      width = font\getWidth names[i]
-      text = Text x + (10 * Scale.width) + bounds.radius + (width / 2), y, names[i], font
-      UI\add text
-
-    sprite = Sprite "test.tga", 16, 16, 0.29, 50 / 16
+    sprite = Sprite "player/test.tga", 16, 16, 0.29, 50 / 16
     sprite\setRotationSpeed -math.pi / 2
-    x = Screen_Size.width * 0.20
+    x = Screen_Size.width * 0.05--0.20
     y = Screen_Size.height * 0.4
     icon = Icon x, y, sprite
     UI\add icon
@@ -143,8 +130,8 @@ export class ScreenCreator
     text = Text x + (10 * Scale.width) + bounds.radius + (width / 2), y, "Player", font
     UI\add text
 
-    sprite = Sprite "turret.tga", 34, 16, 2, 50 / 34
-    x = Screen_Size.width * 0.80
+    sprite = Sprite "turret/turret.tga", 34, 16, 2, 50 / 34
+    x = Screen_Size.width * 0.90--0.80
     y = Screen_Size.height * 0.4
     icon = Icon x, y, sprite
     UI\add icon
@@ -163,6 +150,26 @@ export class ScreenCreator
 
     quit_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (108 * Scale.height), 250, 60, "Quit", () -> love.event.quit 0
     UI\add quit_button
+
+    passive_text = Text Screen_Size.width * 0.25, (Screen_Size.height / 2) + (0 * Scale.height), "Passive", Renderer.hud_font
+    UI\add passive_text
+
+    active_text = Text Screen_Size.width * 0.75, (Screen_Size.height / 2) + (0 * Scale.height), "Active", Renderer.hud_font
+    UI\add active_text
+
+    x_positions = {Screen_Size.width * 0.25, Screen_Size.width * 0.75}
+    y = (Screen_Size.height / 2) + (108 * Scale.height) --+ (125 * Scale.height)
+
+    for k, x in pairs x_positions
+      frame = ItemFrame x, y
+      frame\scaleUniformly 0.75
+      UI\add frame
+      frame = ItemFrame x - (75 * Scale.width), y + (125 * Scale.height)
+      frame\scaleUniformly 0.75
+      UI\add frame
+      frame = ItemFrame x + (75 * Scale.width), y + (125 * Scale.height)
+      frame\scaleUniformly 0.75
+      UI\add frame
 
   createGameOverMenu: =>
     UI\set_screen Screen_State.game_over
@@ -290,7 +297,71 @@ export class ScreenCreator
             UI\add tt
             UI\add tt2
 
-    continue_button = Button Screen_Size.width - 150, Screen_Size.height - (32 * Scale.height), 200, 45, "Continue", () ->
+    inventory_button = Button Screen_Size.width - (370 * Scale.width), Screen_Size.height - (32 * Scale.height), 200, 45, "Inventory", () ->
+      UI\set_screen Screen_State.inventory
+      Driver.game_state = Game_State.inventory
+    UI\add inventory_button
+
+    continue_button = Button Screen_Size.width - (150 * Scale.width), Screen_Size.height - (32 * Scale.height), 200, 45, "Continue", () ->
+      UI\set_screen Screen_State.none
+      Driver.game_state = Game_State.playing
+      Driver\respawnPlayers!
+      Objectives\nextMode!
+    UI\add continue_button
+
+  createInventoryMenu: =>
+    UI\set_screen Screen_State.inventory
+
+    bg = Background {255, 255, 255, 255}--{8, 167, 0, 255}
+    UI\add bg
+
+    title = Text Screen_Size.width / 2, 25 * Scale.height, "Inventory"
+    UI\add title
+
+    passive_text = Text Screen_Size.width * 0.25, Screen_Size.height * 0.15, "Passive", Renderer.hud_font
+    UI\add passive_text
+
+    active_text = Text Screen_Size.width * 0.75, Screen_Size.height * 0.15, "Active", Renderer.hud_font
+    UI\add active_text
+
+    x_positions = {Screen_Size.width * 0.25, Screen_Size.width * 0.75}
+    y = (Screen_Size.height * 0.15) + (125 * Scale.height)
+
+    for k, x in pairs x_positions
+      frame1 = ItemFrame x, y
+      frame2 = ItemFrame x - (100 * Scale.width), y + (175 * Scale.height)
+      frame3 = ItemFrame x + (100 * Scale.width), y + (175 * Scale.height)
+      if k == 1
+        frame1.frameType = ItemFrameTypes.equippedPassive
+        frame2.frameType = ItemFrameTypes.passive
+        frame3.frameType = ItemFrameTypes.passive
+      else
+        frame1.frameType = ItemFrameTypes.equippedActive
+        frame2.frameType = ItemFrameTypes.active
+        frame3.frameType = ItemFrameTypes.active
+      UI\add frame1
+      UI\add frame2
+      UI\add frame3
+
+    default_item = ItemBox 0, 0
+    open_frame = ItemFrame 150 * Scale.width, Screen_Size.height - (150 * Scale.height), default_item
+    open_frame.usable = false
+    UI\add open_frame
+
+    opened_item_frame = ItemFrame 350 * Scale.width, Screen_Size.height - (150 * Scale.height)
+    opened_item_frame.frameType = ItemFrameTypes.transfer
+    UI\add opened_item_frame
+
+    open_button = Button 150 * Scale.width, Screen_Size.height - (32 * Scale.height), 200, 45, "Open", () ->
+      Inventory\open_box!
+    UI\add open_button
+
+    upgrade_button = Button Screen_Size.width - (370 * Scale.width), Screen_Size.height - (32 * Scale.height), 200, 45, "Upgrade", () ->
+      UI\set_screen Screen_State.upgrade
+      Driver.game_state = Game_State.upgrading
+    UI\add upgrade_button
+
+    continue_button = Button Screen_Size.width - (150 * Scale.width), Screen_Size.height - (32 * Scale.height), 200, 45, "Continue", () ->
       UI\set_screen Screen_State.none
       Driver.game_state = Game_State.playing
       Driver\respawnPlayers!

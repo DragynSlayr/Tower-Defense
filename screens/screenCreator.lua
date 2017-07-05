@@ -9,7 +9,7 @@ do
         start_y = Screen_Size.height * 0.4
       end
       local keys = { }
-      keys["space"] = Sprite("keys/space.tga", 32, 96, 1, 1)
+      keys["space"] = Sprite("ui/keys/space.tga", 32, 96, 1, 1)
       for k, v in pairs({
         "w",
         "a",
@@ -19,7 +19,7 @@ do
         "e",
         "z"
       }) do
-        keys[v] = Sprite("keys/" .. v .. ".tga", 32, 32, 1, 1)
+        keys[v] = Sprite("ui/keys/" .. v .. ".tga", 32, 32, 1, 1)
       end
       local font = Renderer:newFont(20)
       local x = start_x
@@ -99,34 +99,9 @@ do
       self:createHelp(nil, Screen_Size.height * 0.2)
       local title = Text(Screen_Size.width / 2, (Screen_Size.height / 3), "Game Paused")
       UI:add(title)
-      local names = {
-        "Basic",
-        "Chaser",
-        "Spawner",
-        "Strong",
-        "Turret"
-      }
-      local sprites = {
-        (Sprite("enemy/tracker.tga", 32, 32, 1, 50 / 32)),
-        (Sprite("enemy/enemy.tga", 26, 26, 1, 50 / 26)),
-        (Sprite("projectile/dart.tga", 17, 17, 1, 50 / 17)),
-        (Sprite("enemy/bullet.tga", 26, 20, 1, 50 / 26)),
-        (Sprite("enemy/circle.tga", 26, 26, 1, 50 / 26))
-      }
-      for i = 1, #names do
-        local x = map(i, 1, #names, 100 * Scale.width, Screen_Size.width - (200 * Scale.width))
-        local y = Screen_Size.height * 0.8
-        local icon = Icon(x, y, sprites[i])
-        UI:add(icon)
-        local bounds = sprites[i]:getBounds(x, y)
-        local font = Renderer:newFont(20)
-        local width = font:getWidth(names[i])
-        local text = Text(x + (10 * Scale.width) + bounds.radius + (width / 2), y, names[i], font)
-        UI:add(text)
-      end
-      local sprite = Sprite("test.tga", 16, 16, 0.29, 50 / 16)
+      local sprite = Sprite("player/test.tga", 16, 16, 0.29, 50 / 16)
       sprite:setRotationSpeed(-math.pi / 2)
-      local x = Screen_Size.width * 0.20
+      local x = Screen_Size.width * 0.05
       local y = Screen_Size.height * 0.4
       local icon = Icon(x, y, sprite)
       UI:add(icon)
@@ -135,8 +110,8 @@ do
       local width = font:getWidth("Player")
       local text = Text(x + (10 * Scale.width) + bounds.radius + (width / 2), y, "Player", font)
       UI:add(text)
-      sprite = Sprite("turret.tga", 34, 16, 2, 50 / 34)
-      x = Screen_Size.width * 0.80
+      sprite = Sprite("turret/turret.tga", 34, 16, 2, 50 / 34)
+      x = Screen_Size.width * 0.90
       y = Screen_Size.height * 0.4
       icon = Icon(x, y, sprite)
       UI:add(icon)
@@ -156,7 +131,27 @@ do
       local quit_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + (108 * Scale.height), 250, 60, "Quit", function()
         return love.event.quit(0)
       end)
-      return UI:add(quit_button)
+      UI:add(quit_button)
+      local passive_text = Text(Screen_Size.width * 0.25, (Screen_Size.height / 2) + (0 * Scale.height), "Passive", Renderer.hud_font)
+      UI:add(passive_text)
+      local active_text = Text(Screen_Size.width * 0.75, (Screen_Size.height / 2) + (0 * Scale.height), "Active", Renderer.hud_font)
+      UI:add(active_text)
+      local x_positions = {
+        Screen_Size.width * 0.25,
+        Screen_Size.width * 0.75
+      }
+      y = (Screen_Size.height / 2) + (108 * Scale.height)
+      for k, x in pairs(x_positions) do
+        local frame = ItemFrame(x, y)
+        frame:scaleUniformly(0.75)
+        UI:add(frame)
+        frame = ItemFrame(x - (75 * Scale.width), y + (125 * Scale.height))
+        frame:scaleUniformly(0.75)
+        UI:add(frame)
+        frame = ItemFrame(x + (75 * Scale.width), y + (125 * Scale.height))
+        frame:scaleUniformly(0.75)
+        UI:add(frame)
+      end
     end,
     createGameOverMenu = function(self)
       UI:set_screen(Screen_State.game_over)
@@ -373,7 +368,73 @@ do
           end
         end
       end
-      local continue_button = Button(Screen_Size.width - 150, Screen_Size.height - (32 * Scale.height), 200, 45, "Continue", function()
+      local inventory_button = Button(Screen_Size.width - (370 * Scale.width), Screen_Size.height - (32 * Scale.height), 200, 45, "Inventory", function()
+        UI:set_screen(Screen_State.inventory)
+        Driver.game_state = Game_State.inventory
+      end)
+      UI:add(inventory_button)
+      local continue_button = Button(Screen_Size.width - (150 * Scale.width), Screen_Size.height - (32 * Scale.height), 200, 45, "Continue", function()
+        UI:set_screen(Screen_State.none)
+        Driver.game_state = Game_State.playing
+        Driver:respawnPlayers()
+        return Objectives:nextMode()
+      end)
+      return UI:add(continue_button)
+    end,
+    createInventoryMenu = function(self)
+      UI:set_screen(Screen_State.inventory)
+      local bg = Background({
+        255,
+        255,
+        255,
+        255
+      })
+      UI:add(bg)
+      local title = Text(Screen_Size.width / 2, 25 * Scale.height, "Inventory")
+      UI:add(title)
+      local passive_text = Text(Screen_Size.width * 0.25, Screen_Size.height * 0.15, "Passive", Renderer.hud_font)
+      UI:add(passive_text)
+      local active_text = Text(Screen_Size.width * 0.75, Screen_Size.height * 0.15, "Active", Renderer.hud_font)
+      UI:add(active_text)
+      local x_positions = {
+        Screen_Size.width * 0.25,
+        Screen_Size.width * 0.75
+      }
+      local y = (Screen_Size.height * 0.15) + (125 * Scale.height)
+      for k, x in pairs(x_positions) do
+        local frame1 = ItemFrame(x, y)
+        local frame2 = ItemFrame(x - (100 * Scale.width), y + (175 * Scale.height))
+        local frame3 = ItemFrame(x + (100 * Scale.width), y + (175 * Scale.height))
+        if k == 1 then
+          frame1.frameType = ItemFrameTypes.equippedPassive
+          frame2.frameType = ItemFrameTypes.passive
+          frame3.frameType = ItemFrameTypes.passive
+        else
+          frame1.frameType = ItemFrameTypes.equippedActive
+          frame2.frameType = ItemFrameTypes.active
+          frame3.frameType = ItemFrameTypes.active
+        end
+        UI:add(frame1)
+        UI:add(frame2)
+        UI:add(frame3)
+      end
+      local default_item = ItemBox(0, 0)
+      local open_frame = ItemFrame(150 * Scale.width, Screen_Size.height - (150 * Scale.height), default_item)
+      open_frame.usable = false
+      UI:add(open_frame)
+      local opened_item_frame = ItemFrame(350 * Scale.width, Screen_Size.height - (150 * Scale.height))
+      opened_item_frame.frameType = ItemFrameTypes.transfer
+      UI:add(opened_item_frame)
+      local open_button = Button(150 * Scale.width, Screen_Size.height - (32 * Scale.height), 200, 45, "Open", function()
+        return Inventory:open_box()
+      end)
+      UI:add(open_button)
+      local upgrade_button = Button(Screen_Size.width - (370 * Scale.width), Screen_Size.height - (32 * Scale.height), 200, 45, "Upgrade", function()
+        UI:set_screen(Screen_State.upgrade)
+        Driver.game_state = Game_State.upgrading
+      end)
+      UI:add(upgrade_button)
+      local continue_button = Button(Screen_Size.width - (150 * Scale.width), Screen_Size.height - (32 * Scale.height), 200, 45, "Continue", function()
         UI:set_screen(Screen_State.none)
         Driver.game_state = Game_State.playing
         Driver:respawnPlayers()
@@ -388,6 +449,7 @@ do
       self:createPauseMenu()
       self:createGameOverMenu()
       self:createUpgradeMenu()
+      self:createInventoryMenu()
       return self:createMainMenu()
     end,
     __base = _base_0,
