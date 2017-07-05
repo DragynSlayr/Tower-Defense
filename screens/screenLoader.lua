@@ -1,4 +1,5 @@
 require("screens.screenCreator")
 require("screens.screen")
 require("screens.upgrade")
+require("screens.inventory")
 return require("screens.pause")
