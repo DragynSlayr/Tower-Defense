@@ -68,7 +68,7 @@ export class Sprite
   -- Resize the Sprite
   -- x: The new x scale
   -- y: The new y scale
-  setScale: (x, y) =>
+  setScale: (x, y = x) =>
     -- Set scale
     @x_scale = x * Scale.width
     @y_scale = y * Scale.height
@@ -76,6 +76,11 @@ export class Sprite
     -- Recalculate scaled height and width
     @scaled_width = @width * @x_scale
     @scaled_height = @height * @y_scale
+
+  scaleUniformly: (scale) =>
+    x_scale = @scaled_width / (@width * Scale.width)
+    y_scale = @scaled_height / (@height * Scale.height)
+    @setScale x_scale * scale, y_scale * scale
 
   -- Set the speed of rotation of this Sprite
   -- speed: The new rotation speed

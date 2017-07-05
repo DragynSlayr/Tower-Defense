@@ -26,10 +26,18 @@ do
       self.color = color
     end,
     setScale = function(self, x, y)
+      if y == nil then
+        y = x
+      end
       self.x_scale = x * Scale.width
       self.y_scale = y * Scale.height
       self.scaled_width = self.width * self.x_scale
       self.scaled_height = self.height * self.y_scale
+    end,
+    scaleUniformly = function(self, scale)
+      local x_scale = self.scaled_width / (self.width * Scale.width)
+      local y_scale = self.scaled_height / (self.height * Scale.height)
+      return self:setScale(x_scale * scale, y_scale * scale)
     end,
     setRotationSpeed = function(self, speed)
       self.rotation_speed = speed
