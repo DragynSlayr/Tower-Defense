@@ -6,6 +6,10 @@ do
       if not self.alive then
         return 
       end
+      if object.id == EntityTypes.item then
+        object:pickup(self)
+        return 
+      end
       if not self.shielded then
         if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret then
           self.health = self.health - (object.damage / 2)
@@ -40,11 +44,8 @@ do
         end
       end
       if key == "q" then
-        if DEBUGGING then
-          local x = math.random(love.graphics.getWidth())
-          local y = math.random(love.graphics.getHeight())
-          local enemy = BasicEnemy(x, y)
-          return Driver:addObject(enemy, EntityTypes.enemy)
+        for k, v in pairs(self.equipped_items) do
+          v:use()
         end
       elseif key == "e" then
         if self.num_turrets ~= self.max_turrets then
@@ -143,6 +144,9 @@ do
         _class_0.__parent.__base.update(self, dt)
         self.speed = start
       end
+      for k, i in pairs(self.equipped_items) do
+        i:update(dt)
+      end
       self.bomb_timer = self.bomb_timer + dt
       if self.bomb_timer >= self.max_bomb_time then
         self.bomb_timer = 0
@@ -150,7 +154,7 @@ do
           local x = math.random(Screen_Size.border[1], Screen_Size.border[3])
           local y = math.random(Screen_Size.border[2], Screen_Size.border[4])
           local bomb = PlayerBomb(x, y)
-          Driver:addObject(bomb, EntityTypes.bomb)
+          Driver:addObject(bomb, EntityTypes.background)
         end
       end
       for k, bullet_position in pairs(self.globes) do
@@ -283,6 +287,9 @@ do
       if not self.alive then
         return 
       end
+      for k, i in pairs(self.equipped_items) do
+        i:draw()
+      end
       if DEBUGGING then
         love.graphics.push("all")
         love.graphics.setColor(0, 0, 255, 100)
@@ -328,15 +335,22 @@ do
       end
     end,
     kill = function(self)
-      _class_0.__parent.kill(self)
-      return Driver.game_over()
+      self.lives = self.lives - 1
+      if self.lives <= 0 then
+        _class_0.__parent.__base.kill(self)
+        return Driver.game_over()
+      else
+        self.health = self.max_health
+        self.shielded = true
+        return Driver:addObject(self, EntityTypes.player)
+      end
     end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
-      local sprite = Sprite("test.tga", 16, 16, 0.29, 4)
+      local sprite = Sprite("player/test.tga", 16, 16, 0.29, 4)
       _class_0.__parent.__init(self, x, y, sprite)
       self.sprite:setRotationSpeed(-math.pi / 2)
       self.max_health = Stats.player[1]
@@ -350,6 +364,7 @@ do
       self.keys_pushed = 0
       self.hit = false
       self.attack_timer = 0
+      self.lives = 1
       local sprite_copy = sprite:getCopy()
       sprite_copy:setColor({
         50,
@@ -386,6 +401,7 @@ do
         vec:rotate(angle)
         self.globes[i] = Vector(vec.x, vec.y)
       end
+      self.equipped_items = { }
     end,
     __base = _base_0,
     __name = "Player",

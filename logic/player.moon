@@ -1,6 +1,6 @@
 export class Player extends GameObject
   new: (x, y) =>
-    sprite = Sprite "test.tga", 16, 16, 0.29, 4
+    sprite = Sprite "player/test.tga", 16, 16, 0.29, 4
     super x, y, sprite
     @sprite\setRotationSpeed -math.pi / 2
 
@@ -15,6 +15,7 @@ export class Player extends GameObject
     @keys_pushed = 0
     @hit = false
     @attack_timer = 0
+    @lives = 1
 
     sprite_copy = sprite\getCopy!
     sprite_copy\setColor {50, 50, 50, 255}
@@ -52,8 +53,13 @@ export class Player extends GameObject
       vec\rotate angle
       @globes[i] = Vector vec.x, vec.y
 
+    @equipped_items = {}
+
   onCollide: (object) =>
     if not @alive return
+    if object.id == EntityTypes.item
+      object\pickup @
+      return
     if not @shielded
       if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret
         @health -= object.damage / 2
@@ -77,11 +83,8 @@ export class Player extends GameObject
         @keys_pushed += 1
 
     if key == "q"
-      if DEBUGGING
-        x = math.random love.graphics.getWidth!
-        y = math.random love.graphics.getHeight!
-        enemy = BasicEnemy x, y
-        Driver\addObject enemy, EntityTypes.enemy
+      for k, v in pairs @equipped_items
+        v\use!
     elseif key == "e"
       if @num_turrets != @max_turrets
         if @can_place
@@ -153,6 +156,8 @@ export class Player extends GameObject
       super dt
       @speed = start
     --@trail\update dt
+    for k, i in pairs @equipped_items
+      i\update dt
     @bomb_timer += dt
     if @bomb_timer >= @max_bomb_time
       @bomb_timer = 0
@@ -160,7 +165,7 @@ export class Player extends GameObject
         x = math.random Screen_Size.border[1], Screen_Size.border[3]
         y = math.random Screen_Size.border[2], Screen_Size.border[4]
         bomb = PlayerBomb x, y
-        Driver\addObject bomb, EntityTypes.bomb
+        Driver\addObject bomb, EntityTypes.background
     for k, bullet_position in pairs @globes
       bullet_position\rotate dt * 1.25 * math.pi
     if @turret_count ~= @max_turrets
@@ -251,6 +256,8 @@ export class Player extends GameObject
 
   draw: =>
     if not @alive return
+    for k, i in pairs @equipped_items
+      i\draw!
     if DEBUGGING
       love.graphics.push "all"
       love.graphics.setColor 0, 0, 255, 100
@@ -299,5 +306,11 @@ export class Player extends GameObject
         love.graphics.circle "fill", x, y, 8 * Scale.diag, 360
 
   kill: =>
-    super\kill!
-    Driver.game_over!
+    @lives -= 1
+    if @lives <= 0
+      super!
+      Driver.game_over!
+    else
+      @health = @max_health
+      @shielded = true
+      Driver\addObject @, EntityTypes.player
