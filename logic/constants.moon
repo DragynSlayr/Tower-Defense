@@ -1,32 +1,32 @@
 export EntityTypes = {}
 
-EntityTypes.player   = "Player"
-EntityTypes.turret   = "Turret"
-EntityTypes.enemy    = "Enemy"
-EntityTypes.item     = "Item"
-EntityTypes.health   = "Health"
-EntityTypes.coin     = "Coin"
-EntityTypes.bullet   = "Bullet"
-EntityTypes.goal     = "Goal"
-EntityTypes.bomb     = "Bomb"
-EntityTypes.wall     = "Wall"
-EntityTypes.particle = "Particle"
-EntityTypes.boss     = "Boss"
+EntityTypes.player     = "Player"
+EntityTypes.turret     = "Turret"
+EntityTypes.enemy      = "Enemy"
+EntityTypes.item       = "Item"
+EntityTypes.health     = "Health"
+EntityTypes.coin       = "Coin"
+EntityTypes.bullet     = "Bullet"
+EntityTypes.goal       = "Goal"
+EntityTypes.background = "Background"
+EntityTypes.wall       = "Wall"
+EntityTypes.particle   = "Particle"
+EntityTypes.boss       = "Boss"
 
 EntityTypes.layers = {}
 
-EntityTypes.layers[EntityTypes.player]   = 8
-EntityTypes.layers[EntityTypes.turret]   = 5
-EntityTypes.layers[EntityTypes.enemy]    = 7
-EntityTypes.layers[EntityTypes.item]     = 5
-EntityTypes.layers[EntityTypes.health]   = 5
-EntityTypes.layers[EntityTypes.coin]     = 5
-EntityTypes.layers[EntityTypes.bullet]   = 4
-EntityTypes.layers[EntityTypes.goal]     = 6
-EntityTypes.layers[EntityTypes.bomb]     = 2
-EntityTypes.layers[EntityTypes.wall]     = 1
-EntityTypes.layers[EntityTypes.particle] = 3
-EntityTypes.layers[EntityTypes.boss]     = 7
+EntityTypes.layers[EntityTypes.player]     = 8
+EntityTypes.layers[EntityTypes.turret]     = 5
+EntityTypes.layers[EntityTypes.enemy]      = 7
+EntityTypes.layers[EntityTypes.item]       = 5
+EntityTypes.layers[EntityTypes.health]     = 5
+EntityTypes.layers[EntityTypes.coin]       = 5
+EntityTypes.layers[EntityTypes.bullet]     = 4
+EntityTypes.layers[EntityTypes.goal]       = 6
+EntityTypes.layers[EntityTypes.background] = 2
+EntityTypes.layers[EntityTypes.wall]       = 1
+EntityTypes.layers[EntityTypes.particle]   = 3
+EntityTypes.layers[EntityTypes.boss]       = 7
 
 export ModeTypes = {}
 
@@ -58,6 +58,20 @@ export ParticleTypes = {}
 
 ParticleTypes.normal = "NormalParticle"
 ParticleTypes.poison = "PoisonParticle"
+
+export ItemTypes = {}
+
+ItemTypes.passive = "PassiveItem"
+ItemTypes.active  = "ActiveItem"
+
+export ItemFrameTypes = {}
+
+ItemFrameTypes.passive         = "PassiveFrame"
+ItemFrameTypes.active          = "ActiveFrame"
+ItemFrameTypes.equippedActive  = "EquippedActive"
+ItemFrameTypes.equippedPassive = "EquippedPassive"
+ItemFrameTypes.transfer        = "Transfer"
+ItemFrameTypes.default         = "Default"
 
 export BossTypes = {}
 
@@ -122,6 +136,7 @@ Screen_State.upgrade    = "Upgrade"
 Screen_State.scores     = "Scores"
 Screen_State.loading    = "Loading"
 Screen_State.none       = "None"
+Screen_State.inventory  = "Inventory"
 
 export Game_State = {}
 
@@ -131,3 +146,4 @@ Game_State.game_over = "Game Over"
 Game_State.playing   = "Playing"
 Game_State.upgrading = "Upgrading"
 Game_State.none      = "None"
+Game_State.inventory = "Inventory"
