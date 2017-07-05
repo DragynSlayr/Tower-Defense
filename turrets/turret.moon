@@ -35,7 +35,9 @@ export class Turret extends GameObject
     if Upgrade.turret_special[2]
       if @health <= (@max_health / 2) and @shield_available
         @shield_available = false
-        @shielded = true
+        if Driver.objects[EntityTypes.turret]
+          for k, t in pairs Driver.objects[EntityTypes.turret]
+            t.shielded = true
         if Driver.objects[EntityTypes.player]
           for k, v in pairs Driver.objects[EntityTypes.player]
             v.shielded = true

@@ -19,7 +19,11 @@ do
       if Upgrade.turret_special[2] then
         if self.health <= (self.max_health / 2) and self.shield_available then
           self.shield_available = false
-          self.shielded = true
+          if Driver.objects[EntityTypes.turret] then
+            for k, t in pairs(Driver.objects[EntityTypes.turret]) do
+              t.shielded = true
+            end
+          end
           if Driver.objects[EntityTypes.player] then
             for k, v in pairs(Driver.objects[EntityTypes.player]) do
               v.shielded = true
