@@ -4,11 +4,11 @@ export class ObjectivesHandler
     @elapsed = 0
     @delay = 3
     @modes = {
-      --AttackMode @,
-      --EliminationMode @,
-      --DefendMode @,
-      --DarkMode @,
-      --CaptureMode @
+      AttackMode @,
+      EliminationMode @,
+      DefendMode @,
+      DarkMode @,
+      CaptureMode @
     }
     @boss_mode = BossMode @
     @num_modes = #@modes
@@ -21,6 +21,7 @@ export class ObjectivesHandler
     @strongChance = 0.05
     @spawnerChance = 0.05
     @shader = nil
+    @ready = false
 
   nextMode: =>
     @counter += 1
@@ -47,7 +48,8 @@ export class ObjectivesHandler
         @mode\finish!
     else
       @elapsed += dt
-      if @elapsed >= @delay
+      if @elapsed >= @delay and @ready
+        @ready = false
         @elapsed = 0
         Driver.game_state = Game_State.upgrading
         UI\set_screen Screen_State.upgrade
@@ -65,7 +67,8 @@ export class ObjectivesHandler
       @mode\draw!
     else
       love.graphics.push "all"
-      Renderer\drawStatusMessage "Objective Complete!", love.graphics.getHeight! / 2, Renderer.title_font, Color 255, 255, 255, 255
+      Renderer\drawStatusMessage "Objective Complete!", Screen_Size.half_height, Renderer.title_font, Color 255, 255, 255, 255
+      Renderer\drawStatusMessage "Press space to continue", Screen_Size.half_height + (70 * Scale.height), Renderer.title_font, Color 255, 255, 255, 255
       love.graphics.pop!
 
   getLevel: =>

@@ -26,7 +26,8 @@ do
         end
       else
         self.elapsed = self.elapsed + dt
-        if self.elapsed >= self.delay then
+        if self.elapsed >= self.delay and self.ready then
+          self.ready = false
           self.elapsed = 0
           Driver.game_state = Game_State.upgrading
           UI:set_screen(Screen_State.upgrade)
@@ -47,7 +48,8 @@ do
         return self.mode:draw()
       else
         love.graphics.push("all")
-        Renderer:drawStatusMessage("Objective Complete!", love.graphics.getHeight() / 2, Renderer.title_font, Color(255, 255, 255, 255))
+        Renderer:drawStatusMessage("Objective Complete!", Screen_Size.half_height, Renderer.title_font, Color(255, 255, 255, 255))
+        Renderer:drawStatusMessage("Press space to continue", Screen_Size.half_height + (70 * Scale.height), Renderer.title_font, Color(255, 255, 255, 255))
         return love.graphics.pop()
       end
     end,
@@ -164,7 +166,13 @@ do
       self.mode = nil
       self.elapsed = 0
       self.delay = 3
-      self.modes = { }
+      self.modes = {
+        AttackMode(self),
+        EliminationMode(self),
+        DefendMode(self),
+        DarkMode(self),
+        CaptureMode(self)
+      }
       self.boss_mode = BossMode(self)
       self.num_modes = #self.modes
       shuffle(self.modes)
@@ -176,6 +184,7 @@ do
       self.strongChance = 0.05
       self.spawnerChance = 0.05
       self.shader = nil
+      self.ready = false
     end,
     __base = _base_0,
     __name = "ObjectivesHandler"
