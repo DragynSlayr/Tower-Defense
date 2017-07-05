@@ -27,7 +27,7 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
-      local sprite = Sprite("boss/protector/core.tga", 32, 32, 1, 56 / 32)
+      local sprite = Sprite("objective/tesseract.tga", 32, 32, 1, 56 / 32)
       _class_0.__parent.__init(self, x, y, sprite)
       self.id = EntityTypes.goal
       self.goal_type = GoalTypes.tesseract

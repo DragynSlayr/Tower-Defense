@@ -103,7 +103,7 @@ do
       self.damage = (5 / 60) + ((10 / 60) * level)
       self.attack_range = 100 * Scale.diag
       self.contact_damage = true
-      sprite = Sprite("poison.tga", 64, 64, 1, 1.75)
+      sprite = Sprite("particle/poison.tga", 64, 64, 1, 1.75)
       self.trail = ParticleEmitter(self.position.x, self.position.y, 0.2, 3, self)
       self.trail.sprite = sprite
       self.trail.particle_type = ParticleTypes.poison

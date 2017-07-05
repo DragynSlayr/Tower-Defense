@@ -98,9 +98,9 @@ do
       self.hover_color = Color(100, 100, 100)
       self.selected = false
       self.active = true
-      local idle = Sprite("misc/hover.tga", 64, 256, 1, 1)
+      local idle = Sprite("ui/button/hover.tga", 64, 256, 1, 1)
       idle:setScale(width / 256, height / 64)
-      local hover = Sprite("misc/click.tga", 64, 256, 1, 1)
+      local hover = Sprite("ui/button/click.tga", 64, 256, 1, 1)
       hover:setScale(width / 256, height / 64)
       return self:setSprite(idle, hover)
     end,

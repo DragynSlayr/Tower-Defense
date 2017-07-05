@@ -22,7 +22,7 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y, width, height, color)
-      local sprite = Sprite("block.tga", 32, 32, 1, 1)
+      local sprite = Sprite("maps/block.tga", 32, 32, 1, 1)
       _class_0.__parent.__init(self, x, y, sprite)
       self.sprite.color = color:get()
       self.sprite:setScale(width / 32, height / 32)

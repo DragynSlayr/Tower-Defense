@@ -1,6 +1,6 @@
 export class CaptureEnemy extends Enemy
   new: (x, y) =>
-    sprite = Sprite "boss/orb/orb.tga", 32, 32, 1, 25 / 32
+    sprite = Sprite "enemy/capture.tga", 32, 32, 1, 25 / 32
     super x, y, sprite, 0, 0
     @enemyType = EnemyTypes.capture
     @score_value = 100

@@ -1,6 +1,6 @@
 export class Wall extends GameObject
   new: (x, y, width, height, color) =>
-    sprite = Sprite "block.tga", 32, 32, 1, 1
+    sprite = Sprite "maps/block.tga", 32, 32, 1, 1
     super x, y, sprite
 
     @sprite.color = color\get!

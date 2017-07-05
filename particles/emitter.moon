@@ -1,6 +1,6 @@
 export class ParticleEmitter extends GameObject
   new: (x, y, delay, life_time, parent) =>
-    sprite = Sprite "block.tga", 32, 32, 1, 1
+    sprite = Sprite "particle/particle.tga", 32, 32, 1, 0.5
     sprite\setColor {0, 0, 0, 0}
     super x, y, sprite
     @emitting = true
@@ -10,7 +10,6 @@ export class ParticleEmitter extends GameObject
     @draw_health = false
     @parent = parent
     @shader = nil
-    @sprite = Sprite "particle.tga", 32, 32, 1, 0.5
     @particle_type = ParticleTypes.normal
     @moving_particles = true
 

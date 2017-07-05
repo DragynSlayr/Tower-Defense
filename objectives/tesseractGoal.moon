@@ -1,6 +1,6 @@
 export class TesseractGoal extends GameObject
   new: (x, y) =>
-    sprite = Sprite "boss/protector/core.tga", 32, 32, 1, 56 / 32
+    sprite = Sprite "objective/tesseract.tga", 32, 32, 1, 56 / 32
     --color = {127, 0, 100, 255}
     --sprite\setColor color
     --sprite\setRotationSpeed math.pi * -0.75

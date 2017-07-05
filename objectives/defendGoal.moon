@@ -1,6 +1,6 @@
 export class DefendGoal extends GameObject
   new: (x, y) =>
-    sprite = Sprite "boss/boss2.tga", 26, 27, 1, 2
+    sprite = Sprite "objective/defend.tga", 26, 27, 1, 2
     color = {0, 127, 100, 255}
     --sprite\setColor color
     super x, y, sprite
@@ -8,4 +8,3 @@ export class DefendGoal extends GameObject
     @goal_type = GoalTypes.defend
     @health = 10 + (5.5 * Objectives\getLevel!)
     @max_health = @health
-    --print "DG: " .. @max_health

@@ -6,7 +6,7 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
-      local sprite = Sprite("boss/eye/eye.tga", 56, 56, 1, 1.1)
+      local sprite = Sprite("objective/portal.tga", 56, 56, 1, 1.1)
       local color = {
         127,
         0,
@@ -18,7 +18,7 @@ do
       _class_0.__parent.__init(self, x, y, sprite)
       self.id = EntityTypes.goal
       self.goal_type = GoalTypes.attack
-      self.health = 30 + (33 * Objectives:getLevel())
+      self.health = 100 + (33 * Objectives:getLevel())
       self.max_health = self.health
     end,
     __base = _base_0,

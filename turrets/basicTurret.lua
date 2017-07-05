@@ -6,7 +6,7 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
-      return _class_0.__parent.__init(self, x, y, Stats.turret[2], Sprite("turret.tga", 34, 16, 2, 2.5))
+      return _class_0.__parent.__init(self, x, y, Stats.turret[2], Sprite("turret/turret.tga", 34, 16, 2, 2.5))
     end,
     __base = _base_0,
     __name = "BasicTurret",

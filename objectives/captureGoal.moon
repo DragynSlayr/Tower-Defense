@@ -1,6 +1,6 @@
 export class CaptureGoal extends GameObject
   new: (x, y) =>
-    sprite = Sprite "flag.tga", 34, 16, 1, 2.5
+    sprite = Sprite "objective/flag.tga", 34, 16, 1, 2.5
     super x, y, sprite
     @id = EntityTypes.goal
     @goal_type = GoalTypes.capture

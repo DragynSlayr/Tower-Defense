@@ -40,7 +40,7 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y, delay, life_time, parent)
-      local sprite = Sprite("block.tga", 32, 32, 1, 1)
+      local sprite = Sprite("particle/particle.tga", 32, 32, 1, 0.5)
       sprite:setColor({
         0,
         0,
@@ -55,7 +55,6 @@ do
       self.draw_health = false
       self.parent = parent
       self.shader = nil
-      self.sprite = Sprite("particle.tga", 32, 32, 1, 0.5)
       self.particle_type = ParticleTypes.normal
       self.moving_particles = true
     end,
