@@ -12,11 +12,15 @@ do
       for i = 1, self.spawn_num do
         Objectives:spawn(EnemyTypes.capture)
       end
-      return Objectives:spawn(EnemyTypes.turret)
+      for i = 1, self.turret_spawn_num do
+        Objectives:spawn(EnemyTypes.turret)
+      end
     end,
     entityKilled = function(self, entity)
       if entity.id == EntityTypes.goal and entity.goal_type == GoalTypes.tesseract then
         self.goal_complete = true
+      elseif entity.id == EntityTypes.enemy and entity.enemyType == EnemyTypes.turret then
+        return Objectives:spawn(EnemyTypes.turret)
       end
     end,
     update = function(self, dt)
@@ -24,17 +28,10 @@ do
       if not self.waiting then
         self.parent.time_remaining = self.parent.time_remaining - dt
         self.elapsed = self.elapsed + dt
-        self.turret_spawn_timer = self.turret_spawn_timer + dt
         if self.elapsed >= self.spawn_time then
           self.elapsed = 0
           for i = 1, self.spawn_num do
             Objectives:spawn(EnemyTypes.capture)
-          end
-        end
-        if self.turret_spawn_timer >= self.turret_spawn_time then
-          self.turret_spawn_timer = 0
-          for i = 1, self.turret_spawn_num do
-            Objectives:spawn(EnemyTypes.turret)
           end
         end
       end
@@ -69,10 +66,8 @@ do
       self.target = 3
       self.captured = 0
       self.dead = 0
-      self.spawn_time = 2
+      self.spawn_time = 3
       self.spawn_num = 3
-      self.turret_spawn_timer = 0
-      self.turret_spawn_time = 5
       self.turret_spawn_num = 3
       self.goal_complete = false
     end,
