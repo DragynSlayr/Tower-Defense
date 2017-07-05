@@ -64,6 +64,9 @@ export class Driver
             if object == o
               Renderer\removeObject object
               if player_kill
+                if math.random! <= o.item_drop_chance
+                  box = ItemBox o.position.x, o.position.y
+                  Driver\addObject box, EntityTypes.item
                 v[k2]\kill!
                 Objectives\entityKilled v[k2]
               table.remove Driver.objects[k], k2
@@ -86,6 +89,8 @@ export class Driver
       if Driver.objects[EntityTypes.player]
         for k, p in pairs Driver.objects[EntityTypes.player]
           p2 = Player p.position.x, p.position.y
+          for k, i in pairs p.equipped_items
+            i\pickup p2
           Driver\removeObject p, false
           Driver\addObject p2, EntityTypes.player
 
@@ -122,8 +127,11 @@ export class Driver
         screenshot\encode "png", "screenshots/" .. os.time! .. ".png"
       else
         if Driver.game_state == Game_State.playing
-          for k, v in pairs Driver.objects[EntityTypes.player]
-            v\keypressed key
+          if Objectives.mode.complete and key == "space"
+            Objectives.ready = true
+          else
+            for k, v in pairs Driver.objects[EntityTypes.player]
+              v\keypressed key
 
     keyreleased: (key) ->
       if Driver.game_state == Game_State.playing
@@ -144,6 +152,7 @@ export class Driver
       UI\focus focus
 
     pause: ->
+      Inventory\set_message!
       Driver.state_stack\add Driver.game_state
       Driver.game_state = Game_State.paused
       for k, o in pairs Driver.objects[EntityTypes.player]
@@ -152,6 +161,7 @@ export class Driver
       UI\set_screen Screen_State.pause_menu
 
     unpause: ->
+      Inventory\set_message!
       Driver.game_state = Driver.state_stack\remove!
       UI\set_screen UI.state_stack\remove!
 
@@ -195,8 +205,14 @@ export class Driver
       -- Global objectives
       export Objectives = ObjectivesHandler!
 
+      -- Global item pool
+      export ItemPool = ItemPoolHandler!
+
       -- Create upgrade object
       export Upgrade = UpgradeScreen!
+
+      -- Create inventory object
+      export Inventory = InventoryScreen!
 
       -- Create pause object
       export Pause = PauseScreen!
@@ -240,6 +256,8 @@ export class Driver
           Pause\update dt
         when Game_State.upgrading
           Upgrade\update dt
+        when Game_State.inventory
+          Inventory\update dt
         when Game_State.playing
           for k, v in pairs Driver.objects
             for k2, o in pairs v
@@ -277,6 +295,8 @@ export class Driver
           Objectives\draw!
         when Game_State.upgrading
           Upgrade\draw!
+        when Game_State.inventory
+          Inventory\draw!
         when Game_State.paused
           Pause\draw!
       if DEBUGGING

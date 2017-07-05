@@ -21,6 +21,10 @@ do
             if object == o then
               Renderer:removeObject(object)
               if player_kill then
+                if math.random() <= o.item_drop_chance then
+                  local box = ItemBox(o.position.x, o.position.y)
+                  Driver:addObject(box, EntityTypes.item)
+                end
                 v[k2]:kill()
                 Objectives:entityKilled(v[k2])
               end
@@ -51,6 +55,9 @@ do
       if Driver.objects[EntityTypes.player] then
         for k, p in pairs(Driver.objects[EntityTypes.player]) do
           local p2 = Player(p.position.x, p.position.y)
+          for k, i in pairs(p.equipped_items) do
+            i:pickup(p2)
+          end
           Driver:removeObject(p, false)
           Driver:addObject(p2, EntityTypes.player)
         end
@@ -97,8 +104,12 @@ do
         return screenshot:encode("png", "screenshots/" .. os.time() .. ".png")
       else
         if Driver.game_state == Game_State.playing then
-          for k, v in pairs(Driver.objects[EntityTypes.player]) do
-            v:keypressed(key)
+          if Objectives.mode.complete and key == "space" then
+            Objectives.ready = true
+          else
+            for k, v in pairs(Driver.objects[EntityTypes.player]) do
+              v:keypressed(key)
+            end
           end
         end
       end
@@ -125,6 +136,7 @@ do
       return UI:focus(focus)
     end,
     pause = function()
+      Inventory:set_message()
       Driver.state_stack:add(Driver.game_state)
       Driver.game_state = Game_State.paused
       for k, o in pairs(Driver.objects[EntityTypes.player]) do
@@ -134,6 +146,7 @@ do
       return UI:set_screen(Screen_State.pause_menu)
     end,
     unpause = function()
+      Inventory:set_message()
       Driver.game_state = Driver.state_stack:remove()
       return UI:set_screen(UI.state_stack:remove())
     end,
@@ -158,7 +171,9 @@ do
       Driver.shader = nil
       UI = UIHandler()
       Objectives = ObjectivesHandler()
+      ItemPool = ItemPoolHandler()
       Upgrade = UpgradeScreen()
+      Inventory = InventoryScreen()
       Pause = PauseScreen()
       ScreenCreator()
       Map = MapCreator()
@@ -177,6 +192,8 @@ do
         Pause:update(dt)
       elseif Game_State.upgrading == _exp_0 then
         Upgrade:update(dt)
+      elseif Game_State.inventory == _exp_0 then
+        Inventory:update(dt)
       elseif Game_State.playing == _exp_0 then
         for k, v in pairs(Driver.objects) do
           for k2, o in pairs(v) do
@@ -219,6 +236,8 @@ do
         Objectives:draw()
       elseif Game_State.upgrading == _exp_0 then
         Upgrade:draw()
+      elseif Game_State.inventory == _exp_0 then
+        Inventory:draw()
       elseif Game_State.paused == _exp_0 then
         Pause:draw()
       end
