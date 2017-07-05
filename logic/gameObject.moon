@@ -16,13 +16,14 @@ export class GameObject
     @max_shield_time = 7
     @solid = true
     @contact_damage = false
+    @item_drop_chance = 0.00
 
     @trail = nil
 
     @normal_sprite = @sprite
     @action_sprite = @sprite
 
-    @shield_sprite = Sprite "shield.tga", 32, 32, 1, 1
+    @shield_sprite = Sprite "item/shield.tga", 32, 32, 1, 1
     x_scale = @sprite.scaled_width / 32
     y_scale = @sprite.scaled_height / 32
     @shield_sprite\setScale x_scale * 1.5, y_scale * 1.5
@@ -64,13 +65,13 @@ export class GameObject
     if @id ~= EntityTypes.wall
       @position.x = clamp @position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius
       @position.y = clamp @position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius
-    if not @solid--@id == EntityTypes.bullet or @id == EntityTypes.bomb or @id == EntityTypes.particle
+    if not @solid
       return
     for k, v in pairs Driver.objects
       for k2, o in pairs v
         if not (@id == EntityTypes.wall and o.id == EntityTypes.wall)
           if not ((@id == EntityTypes.player and o.id == EntityTypes.turret) or (@id == EntityTypes.turret and o.id == EntityTypes.player))
-            if o ~= @ and o.solid--not (o.id == EntityTypes.bullet or o.id == EntityTypes.bomb or o.id == EntityTypes.particle)
+            if o ~= @ and o.solid
               other = o\getHitBox!
               this = @getHitBox!
               if other\contains this
@@ -107,7 +108,6 @@ export class GameObject
     love.graphics.pop!
     if @shielded
       @shield_sprite\draw @position.x, @position.y
-
 
   isOnScreen: (bounds = Screen_Size.bounds) =>
     if not @alive return false

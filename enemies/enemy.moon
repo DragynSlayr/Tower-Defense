@@ -6,14 +6,12 @@ export class Enemy extends GameObject
     @attack_range = bounds.radius * 2
     @delay = attack_delay
     @id = EntityTypes.enemy
-    --@health = @health + (Scaling.health * Objectives\getLevel!)
-    --@max_health = @health
-    --@damage = @damage + (Scaling.damage * Objectives\getLevel!)
-    @max_speed = 150 * Scale.diag-- + (Scaling.speed * Objectives\getLevel!)
+    @max_speed = 150 * Scale.diag
     @speed_multiplier = @max_speed
     @value = 1
     @attacked_once = false
     @corner_target = true
+    @item_drop_chance = 0.10
 
     sprite_copy = sprite\getCopy!
     sprite_copy\setColor {50, 50, 50, 255}
@@ -58,7 +56,7 @@ export class Enemy extends GameObject
       super dt
       vec = Vector 0, 0
       @sprite.rotation = @speed\getAngleBetween vec
-
+      if not @target return
       target = @target\getHitBox!
       if @target.getAttackHitBox
         target = @target\getAttackHitBox!

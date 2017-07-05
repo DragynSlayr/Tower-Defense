@@ -8,6 +8,7 @@ do
     __init = function(self, x, y, sprite)
       _class_0.__parent.__init(self, x, y, sprite)
       self.bossType = nil
+      self.item_drop_chance = 0.75
     end,
     __base = _base_0,
     __name = "Boss",

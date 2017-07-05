@@ -142,10 +142,11 @@ do
       self.max_shield_time = 7
       self.solid = true
       self.contact_damage = false
+      self.item_drop_chance = 0.00
       self.trail = nil
       self.normal_sprite = self.sprite
       self.action_sprite = self.sprite
-      self.shield_sprite = Sprite("shield.tga", 32, 32, 1, 1)
+      self.shield_sprite = Sprite("item/shield.tga", 32, 32, 1, 1)
       local x_scale = self.sprite.scaled_width / 32
       local y_scale = self.sprite.scaled_height / 32
       return self.shield_sprite:setScale(x_scale * 1.5, y_scale * 1.5)

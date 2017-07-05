@@ -34,6 +34,9 @@ do
         _class_0.__parent.__base.update(self, dt)
         local vec = Vector(0, 0)
         self.sprite.rotation = self.speed:getAngleBetween(vec)
+        if not self.target then
+          return 
+        end
         local target = self.target:getHitBox()
         if self.target.getAttackHitBox then
           target = self.target:getAttackHitBox()
@@ -153,6 +156,7 @@ do
       self.value = 1
       self.attacked_once = false
       self.corner_target = true
+      self.item_drop_chance = 0.10
       local sprite_copy = sprite:getCopy()
       sprite_copy:setColor({
         50,
