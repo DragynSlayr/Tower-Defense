@@ -3,8 +3,7 @@ do
   local _base_0 = {
     start = function(self) end,
     finish = function(self)
-      Driver:killEnemies()
-      return Driver:clearObjects(EntityTypes.bomb)
+      return Driver:killEnemies()
     end,
     entityKilled = function(self, entity) end,
     update = function(self, dt)

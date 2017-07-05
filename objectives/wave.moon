@@ -11,7 +11,6 @@ export class Wave
 
   finish: =>
     Driver\killEnemies!
-    Driver\clearObjects EntityTypes.bomb
 
   entityKilled: (entity) =>
     return
