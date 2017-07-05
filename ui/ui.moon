@@ -18,6 +18,13 @@ export class UIHandler
   set_screen: (new_screen) =>
     @current_screen = new_screen
 
+  filter: (typeof, layer = @current_screen) =>
+    elements = {}
+    for k, v in pairs @screens[layer]
+      if v.__class == typeof.__class
+        table.insert elements, v
+    return elements
+
   keypressed: (key, scancode, isrepeat) =>
     for k, v in pairs @screens[@current_screen]
       v\keypressed key, scancode, isrepeat

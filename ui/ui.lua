@@ -10,6 +10,18 @@ do
     set_screen = function(self, new_screen)
       self.current_screen = new_screen
     end,
+    filter = function(self, typeof, layer)
+      if layer == nil then
+        layer = self.current_screen
+      end
+      local elements = { }
+      for k, v in pairs(self.screens[layer]) do
+        if v.__class == typeof.__class then
+          table.insert(elements, v)
+        end
+      end
+      return elements
+    end,
     keypressed = function(self, key, scancode, isrepeat)
       for k, v in pairs(self.screens[self.current_screen]) do
         v:keypressed(key, scancode, isrepeat)
