@@ -19,7 +19,7 @@ export class ParticleTrail extends GameObject
       @last_position = Vector @parent.position\getComponents!
       particle = switch @particle_type
         when ParticleTypes.normal
-          Particle @position.x, @position.y, @sprite, 255, 0, @life_time--(Sprite "test.tga", 16, 16, 0.29, 4), nil, nil, 10
+          Particle @position.x, @position.y, @sprite, 255, 0, @life_time
         when ParticleTypes.poison
           PoisonParticle @position.x, @position.y, @sprite, 255, 0, @life_time
       Driver\addObject particle, EntityTypes.particle

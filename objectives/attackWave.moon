@@ -33,7 +33,6 @@ export class AttackWave extends Wave
         @elapsed = 0
         @spawn_count += 1
         @max_time = (3 / @spawn_count) + 1
-        --print "N: " .. @max_time .. "\tS: " .. @spawn_count
         @spawnRandomEnemy!
     if @killed >= @target and Driver\isClear!
       --Driver\killEnemies!
