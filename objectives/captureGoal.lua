@@ -6,10 +6,15 @@ do
       if self.unlocked then
         if entity.id == EntityTypes.enemy and entity.enemyType == EnemyTypes.capture then
           self.capture_amount = self.capture_amount - entity.damage
-          return Driver:removeObject(entity, false)
+          Driver:removeObject(entity, false)
         else
-          self.capture_amount = self.capture_amount + (2 / 60)
+          if entity.__class == Missile then
+            self.capture_amount = self.capture_amount + 2
+          else
+            self.capture_amount = self.capture_amount + (2 / 60)
+          end
         end
+        self.capture_amount = clamp(self.capture_amount, 0, self.max_health)
       end
     end,
     update = function(self, dt)

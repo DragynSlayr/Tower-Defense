@@ -16,7 +16,11 @@ export class CaptureGoal extends GameObject
         @capture_amount -= entity.damage
         Driver\removeObject entity, false
       else
-        @capture_amount += 2 / 60
+        if entity.__class == Missile
+          @capture_amount += 2
+        else
+          @capture_amount += 2 / 60
+      @capture_amount = clamp @capture_amount, 0, @max_health
 
   update: (dt) =>
     super dt
