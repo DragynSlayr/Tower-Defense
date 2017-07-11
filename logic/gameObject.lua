@@ -11,6 +11,7 @@ do
       end
       if not self.shielded then
         self.health = self.health - object.damage
+        self.health = clamp(self.health, 0, self.max_health)
       end
     end,
     kill = function(self)

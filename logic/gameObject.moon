@@ -40,6 +40,7 @@ export class GameObject
     --print object.__class.__name .. " hit " .. @.__class.__name
     if not @shielded
       @health -= object.damage
+      @health = clamp @health, 0, @max_health
 
   kill: =>
     score = SCORE + @score_value
