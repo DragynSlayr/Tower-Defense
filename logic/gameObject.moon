@@ -28,6 +28,13 @@ export class GameObject
     y_scale = @sprite.scaled_height / 32
     @shield_sprite\setScale x_scale * 1.5, y_scale * 1.5
 
+    @setArmor 0, @max_health
+
+  setArmor: (armor, max_armor) =>
+    @armor = armor
+    @max_armor = max_armor
+    @armored = @armor > 0
+
   getHitBox: =>
     -- Get the radius of this Sprite as the minimum of height and width
     radius = math.min @sprite.scaled_height / 2, @sprite.scaled_width / 2
@@ -37,10 +44,16 @@ export class GameObject
 
   onCollide: (object) =>
     if not @alive return
-    --print object.__class.__name .. " hit " .. @.__class.__name
     if not @shielded
-      @health -= object.damage
+      if @armored
+        @armor -= object.damage
+        if @armor <= 0
+          @health += @armor
+        @armored = @armor > 0
+      else
+        @health -= object.damage
       @health = clamp @health, 0, @max_health
+      @armor = clamp @armor, 0, @max_armor
 
   kill: =>
     score = SCORE + @score_value
@@ -59,6 +72,9 @@ export class GameObject
     if @trail
       @trail\update dt
     @health = clamp @health, 0, @max_health
+    @armor = clamp @armor, 0, @max_armor
+    @armored = @armor > 0
+
     start = Vector @position.x, @position.y
     @elapsed += dt
     @position\add @speed\multiply dt
@@ -105,6 +121,10 @@ export class GameObject
       love.graphics.setColor 0, 255, 0, 255
       ratio = @health / @max_health
       love.graphics.rectangle "fill", @position.x - radius, (@position.y + radius) + (6 * Scale.height), (radius * 2) * ratio, 10 * Scale.height
+      if @armored
+        love.graphics.setColor 0, 127, 255, 255
+        ratio = @armor / @max_armor
+        love.graphics.rectangle "fill", @position.x - radius, (@position.y + radius) + (6 * Scale.height), (radius * 2) * ratio, 10 * Scale.height
       love.graphics.setShader!
     love.graphics.pop!
     if @shielded

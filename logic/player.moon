@@ -55,18 +55,30 @@ export class Player extends GameObject
 
     @equipped_items = {}
 
+    @setArmor 0, @max_health
+
   onCollide: (object) =>
     if not @alive return
     if object.id == EntityTypes.item
       object\pickup @
       return
     if not @shielded
-      if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret
-        @health -= object.damage / 2
+      if @armored
+        damage = object.damage
+        if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret
+          damage /= 2
+        @armor -= damage
+        if @armor <= 0
+          @health += @armor
+        @armored = @armor > 0
       else
-        @health -= object.damage
-      @hit = true
+        damage = object.damage
+        if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret
+          damage /= 2
+        @health -= damage
+        @hit = true
     @health = clamp @health, 0, @max_health
+    @armor = clamp @armor, 0, @max_armor
 
   keypressed: (key) =>
     if not @alive return
@@ -294,6 +306,10 @@ export class Player extends GameObject
     love.graphics.setColor 255, 0, 0, 255
     ratio = @health / @max_health
     love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (197 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
+    if @armored
+      love.graphics.setColor 0, 127, 255, 255
+      ratio = @armor / @max_armor
+      love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (197 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
 
     Renderer\drawAlignedMessage "Player Health", Screen_Size.height - (47 * Scale.height), nil, @font
 

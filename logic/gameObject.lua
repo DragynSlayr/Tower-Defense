@@ -1,6 +1,11 @@
 do
   local _class_0
   local _base_0 = {
+    setArmor = function(self, armor, max_armor)
+      self.armor = armor
+      self.max_armor = max_armor
+      self.armored = self.armor > 0
+    end,
     getHitBox = function(self)
       local radius = math.min(self.sprite.scaled_height / 2, self.sprite.scaled_width / 2)
       return Circle(self.position.x, self.position.y, radius)
@@ -10,8 +15,17 @@ do
         return 
       end
       if not self.shielded then
-        self.health = self.health - object.damage
+        if self.armored then
+          self.armor = self.armor - object.damage
+          if self.armor <= 0 then
+            self.health = self.health + self.armor
+          end
+          self.armored = self.armor > 0
+        else
+          self.health = self.health - object.damage
+        end
         self.health = clamp(self.health, 0, self.max_health)
+        self.armor = clamp(self.armor, 0, self.max_armor)
       end
     end,
     kill = function(self)
@@ -36,6 +50,8 @@ do
         self.trail:update(dt)
       end
       self.health = clamp(self.health, 0, self.max_health)
+      self.armor = clamp(self.armor, 0, self.max_armor)
+      self.armored = self.armor > 0
       local start = Vector(self.position.x, self.position.y)
       self.elapsed = self.elapsed + dt
       self.position:add(self.speed:multiply(dt))
@@ -96,6 +112,11 @@ do
         love.graphics.setColor(0, 255, 0, 255)
         local ratio = self.health / self.max_health
         love.graphics.rectangle("fill", self.position.x - radius, (self.position.y + radius) + (6 * Scale.height), (radius * 2) * ratio, 10 * Scale.height)
+        if self.armored then
+          love.graphics.setColor(0, 127, 255, 255)
+          ratio = self.armor / self.max_armor
+          love.graphics.rectangle("fill", self.position.x - radius, (self.position.y + radius) + (6 * Scale.height), (radius * 2) * ratio, 10 * Scale.height)
+        end
         love.graphics.setShader()
       end
       love.graphics.pop()
@@ -150,7 +171,8 @@ do
       self.shield_sprite = Sprite("item/shield.tga", 32, 32, 1, 1)
       local x_scale = self.sprite.scaled_width / 32
       local y_scale = self.sprite.scaled_height / 32
-      return self.shield_sprite:setScale(x_scale * 1.5, y_scale * 1.5)
+      self.shield_sprite:setScale(x_scale * 1.5, y_scale * 1.5)
+      return self:setArmor(0, self.max_health)
     end,
     __base = _base_0,
     __name = "GameObject"

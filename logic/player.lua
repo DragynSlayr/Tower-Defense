@@ -11,14 +11,27 @@ do
         return 
       end
       if not self.shielded then
-        if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret then
-          self.health = self.health - (object.damage / 2)
+        if self.armored then
+          local damage = object.damage
+          if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret then
+            damage = damage / 2
+          end
+          self.armor = self.armor - damage
+          if self.armor <= 0 then
+            self.health = self.health + self.armor
+          end
+          self.armored = self.armor > 0
         else
-          self.health = self.health - object.damage
+          local damage = object.damage
+          if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret then
+            damage = damage / 2
+          end
+          self.health = self.health - damage
+          self.hit = true
         end
-        self.hit = true
       end
       self.health = clamp(self.health, 0, self.max_health)
+      self.armor = clamp(self.armor, 0, self.max_armor)
     end,
     keypressed = function(self, key)
       if not self.alive then
@@ -320,6 +333,11 @@ do
       love.graphics.setColor(255, 0, 0, 255)
       ratio = self.health / self.max_health
       love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
+      if self.armored then
+        love.graphics.setColor(0, 127, 255, 255)
+        ratio = self.armor / self.max_armor
+        love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
+      end
       Renderer:drawAlignedMessage("Player Health", Screen_Size.height - (47 * Scale.height), nil, self.font)
       if SHOW_RANGE then
         love.graphics.setColor(0, 255, 255, 255)
@@ -400,6 +418,7 @@ do
         self.globes[i] = Vector(vec.x, vec.y)
       end
       self.equipped_items = { }
+      return self:setArmor(0, self.max_health)
     end,
     __base = _base_0,
     __name = "Player",
