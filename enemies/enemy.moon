@@ -37,12 +37,6 @@ export class Enemy extends GameObject
   __tostring: =>
     return "Enemy"
 
-  onCollide: (object) =>
-    if not @alive return
-    super object
-    if object.slowing
-      @speed_multiplier = 0
-
   update: (dt, search = false) =>
     if not @alive return
     @findNearestTarget search
