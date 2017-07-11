@@ -210,7 +210,7 @@ do
         {
           "Life Steal",
           "Range Boost",
-          "Bomb",
+          "Missile",
           "Speed Boost"
         },
         {
@@ -225,7 +225,7 @@ do
         {
           "Recover life from hit enemies",
           "Double player range near turret",
-          "An instant kill bomb drops randomly",
+          "A homing missile spawns periodically",
           "Player speed increases for every enemy near them"
         },
         {
