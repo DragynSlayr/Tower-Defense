@@ -1,11 +1,10 @@
-export class PlayerBomb extends BackgroundObject
+export class Bomb extends BackgroundObject
   new: (x, y) =>
     sprite = Sprite "background/bomb.tga", 32, 32, 1, 2
     super x, y, sprite
 
     @max_time = 0
     @attack_range = 100 * Scale.diag
-    --@damage = Stats.player[3] * 20--10 + (5 * Upgrade.player_stats[3])
     @action_sprite = ActionSprite "background/bombAction.tga", 32, 32, 3, 2, @, () =>
       if Driver.objects[EntityTypes.enemy]
         for k, e in pairs Driver.objects[EntityTypes.enemy]
@@ -13,7 +12,7 @@ export class PlayerBomb extends BackgroundObject
           bomb = @parent\getHitBox!
           bomb.radius += @parent.attack_range
           if target\contains bomb
-            e\kill!--onCollide @parent
+            e\kill!
       if Driver.objects[EntityTypes.goal]
         goals = {GoalTypes.tesseract, GoalTypes.attack, GoalTypes.find}
         for k, e in pairs Driver.objects[EntityTypes.goal]
@@ -22,7 +21,7 @@ export class PlayerBomb extends BackgroundObject
             bomb = @parent\getHitBox!
             bomb.radius += @parent.attack_range
             if target\contains bomb
-              e\kill!--onCollide @parent
+              e\kill!
       if Driver.objects[EntityTypes.boss]
         for k, b in pairs Driver.objects[EntityTypes.boss]
           target = b\getHitBox!
@@ -38,7 +37,6 @@ export class PlayerBomb extends BackgroundObject
       @sprite = @action_sprite
 
   draw: =>
-    --if DEBUGGING
     love.graphics.push "all"
     love.graphics.setShader Driver.shader
     color = map @action_sprite.current_frame, 1, @action_sprite.frames, 200, 0

@@ -70,7 +70,7 @@ do
       end)
     end,
     __base = _base_0,
-    __name = "PlayerBomb",
+    __name = "Bomb",
     __parent = _parent_0
   }, {
     __index = function(cls, name)
@@ -94,5 +94,5 @@ do
   if _parent_0.__inherited then
     _parent_0.__inherited(_parent_0, _class_0)
   end
-  PlayerBomb = _class_0
+  Bomb = _class_0
 end

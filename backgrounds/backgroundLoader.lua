@@ -1,3 +1,3 @@
 require("backgrounds.backgroundObject")
-require("backgrounds.playerBomb")
+require("backgrounds.bomb")
 return require("backgrounds.blackHole")
