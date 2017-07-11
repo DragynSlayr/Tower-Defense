@@ -18,6 +18,7 @@ do
         end
         self.hit = true
       end
+      self.health = clamp(self.health, 0, self.max_health)
     end,
     keypressed = function(self, key)
       if not self.alive then
@@ -147,14 +148,12 @@ do
       for k, i in pairs(self.equipped_items) do
         i:update(dt)
       end
-      self.bomb_timer = self.bomb_timer + dt
-      if self.bomb_timer >= self.max_bomb_time then
-        self.bomb_timer = 0
+      self.missile_timer = self.missile_timer + dt
+      if self.missile_timer >= self.max_missile_time then
+        self.missile_timer = 0
         if Upgrade.player_special[3] then
-          local x = math.random(Screen_Size.border[1], Screen_Size.border[3])
-          local y = math.random(Screen_Size.border[2], Screen_Size.border[4])
-          local bomb = PlayerBomb(x, y)
-          Driver:addObject(bomb, EntityTypes.background)
+          local missile = Missile(self.position.x, self.position.y)
+          Driver:addObject(missile, EntityTypes.bullet)
         end
       end
       for k, bullet_position in pairs(self.globes) do
@@ -372,7 +371,6 @@ do
         50,
         255
       })
-      self.trail = nil
       self.id = EntityTypes.player
       self.draw_health = false
       self.font = Renderer:newFont(20)
@@ -385,8 +383,8 @@ do
       self.turret = { }
       self.range_boost = 0
       self.speed_boost = 0
-      self.bomb_timer = 0
-      self.max_bomb_time = 7
+      self.missile_timer = 0
+      self.max_missile_time = 5.5
       self.speed_range = self.sprite:getBounds().radius + (150 * Scale.diag)
       self.turret_count = self.max_turrets
       self.charged = true

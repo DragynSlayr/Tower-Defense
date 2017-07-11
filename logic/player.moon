@@ -19,7 +19,7 @@ export class Player extends GameObject
 
     sprite_copy = sprite\getCopy!
     sprite_copy\setColor {50, 50, 50, 255}
-    @trail = nil--ParticleTrail x, y, sprite_copy, @
+    --@trail = ParticleTrail x, y, sprite_copy, @
 
     @id = EntityTypes.player
     @draw_health = false
@@ -35,8 +35,8 @@ export class Player extends GameObject
 
     @range_boost   = 0
     @speed_boost   = 0
-    @bomb_timer    = 0
-    @max_bomb_time = 7
+    @missile_timer    = 0
+    @max_missile_time = 5.5
     @speed_range   = @sprite\getBounds!.radius + (150 * Scale.diag)
     @turret_count  = @max_turrets
     @charged       = true
@@ -66,6 +66,7 @@ export class Player extends GameObject
       else
         @health -= object.damage
       @hit = true
+    @health = clamp @health, 0, @max_health
 
   keypressed: (key) =>
     if not @alive return
@@ -158,14 +159,15 @@ export class Player extends GameObject
     --@trail\update dt
     for k, i in pairs @equipped_items
       i\update dt
-    @bomb_timer += dt
-    if @bomb_timer >= @max_bomb_time
-      @bomb_timer = 0
+    @missile_timer += dt
+    if @missile_timer >= @max_missile_time
+      @missile_timer = 0
       if Upgrade.player_special[3]
-        x = math.random Screen_Size.border[1], Screen_Size.border[3]
-        y = math.random Screen_Size.border[2], Screen_Size.border[4]
-        bomb = PlayerBomb x, y
-        Driver\addObject bomb, EntityTypes.background
+        --x = math.random Screen_Size.border[1], Screen_Size.border[3]
+        --y = math.random Screen_Size.border[2], Screen_Size.border[4]
+        --bomb = Bomb x, y
+        missile = Missile @position.x, @position.y
+        Driver\addObject missile, EntityTypes.bullet
     for k, bullet_position in pairs @globes
       bullet_position\rotate dt * 1.25 * math.pi
     if @turret_count ~= @max_turrets
