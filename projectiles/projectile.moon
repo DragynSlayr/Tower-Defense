@@ -7,6 +7,7 @@ export class HomingProjectile extends GameObject
     @id = EntityTypes.bullet
     @draw_health = false
     @solid = false
+    @speed_multiplier = 1000
 
     sprite_copy = sprite\getCopy!
     --sprite_copy\setColor {50, 50, 50, 255}
@@ -23,7 +24,7 @@ export class HomingProjectile extends GameObject
 
     @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
     @speed\toUnitVector!
-    @speed = @speed\multiply 1000
+    @speed = @speed\multiply @speed_multiplier
 
     @position\add @speed\multiply dt
 

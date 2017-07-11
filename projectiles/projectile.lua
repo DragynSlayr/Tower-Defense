@@ -15,7 +15,7 @@ do
       self.sprite:update(dt)
       self.speed = Vector(self.target.position.x - self.position.x, self.target.position.y - self.position.y)
       self.speed:toUnitVector()
-      self.speed = self.speed:multiply(1000)
+      self.speed = self.speed:multiply(self.speed_multiplier)
       self.position:add(self.speed:multiply(dt))
       local vec = Vector(0, 0)
       self.sprite.rotation = self.speed:getAngleBetween(vec)
@@ -53,6 +53,7 @@ do
       self.id = EntityTypes.bullet
       self.draw_health = false
       self.solid = false
+      self.speed_multiplier = 1000
       local sprite_copy = sprite:getCopy()
       self.trail = nil
     end,
