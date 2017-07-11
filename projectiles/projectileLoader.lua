@@ -1,3 +1,4 @@
 require("projectiles.projectile")
 require("projectiles.bullet")
-return require("projectiles.playerBullet")
+require("projectiles.playerBullet")
+return require("projectiles.missile")
