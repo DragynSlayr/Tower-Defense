@@ -3,7 +3,6 @@ export class PlayerBullet extends HomingProjectile
     sprite = Sprite "enemy/bullet.tga", 26, 20, 1, 0.5
     super x, y, target, sprite
     @damage = damage
-
     @trail = nil
 
   kill: =>
