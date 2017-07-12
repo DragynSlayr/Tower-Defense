@@ -43,12 +43,6 @@ do
     __init = function(self)
       _class_0.__parent.__init(self)
       self.font = Renderer:newFont(20)
-      self.stats = {
-        "max_health",
-        "damage",
-        "speed_multiplier",
-        "score_value"
-      }
       self.sprites = {
         (Sprite("player/test.tga", 16, 16, 0.29, 50 / 16)),
         (Sprite("turret/turret.tga", 34, 16, 2, 50 / 34))
