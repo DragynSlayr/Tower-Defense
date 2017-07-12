@@ -2,10 +2,7 @@ export class DamageBoostActive extends ActiveItem
   new: (x, y) =>
     sprite = Sprite "item/damageBoost.tga", 32, 32, 1, 1.75
     effect = (player) =>
-      print "Activated"
-      print "B: " .. @player.damage
       @player.damage *= 2
-      print "A: " .. @player.damage
       @used = true
     super x, y, sprite, 15, effect
     @name = "Damage Boost"
@@ -24,7 +21,6 @@ export class DamageBoostActive extends ActiveItem
         @effect_timer = 0
         @used = false
         @player.damage = Stats.player[3]
-        print "Restored: " .. @player.damage
 
   draw2: =>
     super!

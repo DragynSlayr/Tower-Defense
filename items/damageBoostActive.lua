@@ -11,7 +11,6 @@ do
           self.effect_timer = 0
           self.used = false
           self.player.damage = Stats.player[3]
-          return print("Restored: " .. self.player.damage)
         end
       end
     end,
@@ -33,10 +32,7 @@ do
       local sprite = Sprite("item/damageBoost.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
-        print("Activated")
-        print("B: " .. self.player.damage)
         self.player.damage = self.player.damage * 2
-        print("A: " .. self.player.damage)
         self.used = true
       end
       _class_0.__parent.__init(self, x, y, sprite, 15, effect)
