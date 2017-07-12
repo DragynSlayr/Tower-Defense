@@ -2,6 +2,15 @@ do
   local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
+    getStats = function(self)
+      local stats = { }
+      stats[1] = self.max_health
+      stats[2] = self.attack_range
+      stats[3] = self.damage
+      stats[4] = self.max_speed
+      stats[5] = self.attack_speed
+      return stats
+    end,
     onCollide = function(self, object)
       if not self.alive then
         return 
@@ -82,7 +91,7 @@ do
         end
       elseif key == "space" then
         if self.show_turret then
-          local turret = BasicTurret(self.position.x, self.position.y)
+          local turret = BasicTurret(self.position.x, self.position.y, self.turret_cooldown)
           if self.num_turrets < self.max_turrets then
             Driver:addObject(turret, EntityTypes.turret)
             self.num_turrets = self.num_turrets + 1

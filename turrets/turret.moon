@@ -1,5 +1,5 @@
 export class Turret extends GameObject
-  new: (x, y, range, sprite) =>
+  new: (x, y, range, sprite, cooldown) =>
     super x, y, sprite, 0, 0
     @max_health   = Stats.turret[1]
     @damage       = Stats.turret[3]
@@ -7,6 +7,7 @@ export class Turret extends GameObject
     @health = @max_health
     @range = range
     @attack_timer = 0
+    @cooldown = cooldown
 
     @target = nil
 
@@ -16,6 +17,15 @@ export class Turret extends GameObject
     @shield_available = true
 
     @sprite\setShader love.graphics.newShader "shaders/health.fs"
+
+  getStats: =>
+    stats = {}
+    stats[1] = @max_health
+    stats[2] = @range
+    stats[3] = @damage
+    stats[4] = @cooldown
+    stats[5] = @attack_speed
+    return stats
 
   getAttackHitBox: =>
     radius = math.max @sprite.scaled_height / 2, @sprite.scaled_width / 2

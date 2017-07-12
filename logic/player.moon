@@ -57,6 +57,15 @@ export class Player extends GameObject
 
     @setArmor 0, @max_health
 
+  getStats: =>
+    stats = {}
+    stats[1] = @max_health
+    stats[2] = @attack_range
+    stats[3] = @damage
+    stats[4] = @max_speed
+    stats[5] = @attack_speed
+    return stats
+
   onCollide: (object) =>
     if not @alive return
     if object.id == EntityTypes.item
@@ -114,7 +123,7 @@ export class Player extends GameObject
               Driver\removeObject v, false
     elseif key == "space"
       if @show_turret
-        turret = BasicTurret @position.x, @position.y
+        turret = BasicTurret @position.x, @position.y, @turret_cooldown
         if @num_turrets < @max_turrets
           Driver\addObject turret, EntityTypes.turret
           @num_turrets += 1
