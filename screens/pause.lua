@@ -15,13 +15,22 @@ do
     end,
     draw = function(self)
       love.graphics.push("all")
+      local stats = { }
       for j = 1, 2 do
         local y = Screen_Size.height * 0.4
-        local stats = Stats.player
+        if Driver.objects[EntityTypes.player] and #Driver.objects[EntityTypes.player] > 0 then
+          stats = Driver.objects[EntityTypes.player][1]:getStats()
+        else
+          stats = Stats.player
+        end
         local x = Screen_Size.width * 0.05
         local icons = self.player_icons
         if j == 2 then
-          stats = Stats.turret
+          if Driver.objects[EntityTypes.turret] and #Driver.objects[EntityTypes.turret] > 0 then
+            stats = Driver.objects[EntityTypes.turret][1]:getStats()
+          else
+            stats = Stats.turret
+          end
           x = Screen_Size.width * 0.90
           icons = self.turret_icons
         end
