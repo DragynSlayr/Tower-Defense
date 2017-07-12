@@ -20,6 +20,10 @@ require "items.movingTurretPassive"
 require "items.damageBoostActive"
 require "items.blackHoleActive"
 require "items.bombPassive"
+require "items.damageBoostPassive"
+require "items.rangeBoostPassive"
+require "items.healthBoostPassive"
+require "items.speedBoostPassive"
 
 --+------------------+--
 --| Depends on items |--

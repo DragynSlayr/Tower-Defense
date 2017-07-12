@@ -25,6 +25,10 @@ do
         DamageBoostActive,
         BombPassive,
         ExtraLifePassive,
+        RangeBoostPassive,
+        SpeedBoostPassive,
+        DamageBoostPassive,
+        HealthBoostPassive,
         MovingTurretPassive,
         NullItem
       }
