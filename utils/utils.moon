@@ -146,23 +146,45 @@ export trim = (str, len) ->
       s ..= string.sub str, i, i
     return s
 
-export tableToString = (tab, depth = 0) ->
-  if (type tab) == "table"
-    s = "{ "
-    for k, v in pairs tab
+export tableToString = (t, d = 0) ->
+  if (type t) ~= "table"
+    error "This function only works on Tables"
+  s = ""
+  for i = 1, d
+    s ..= "\t"
+  s = "{"
+  count = 0
+  for k, v in pairs t
+    count += 1
+  if count > 0
+    s ..= "\n"
+    for i = 0, d
+      s ..= "\t"
+    idx = 1
+    for k, v in pairs t
       if (type v) == "table"
-        s ..= "\n"
-        for i = 1, depth + 1
-          s ..= "\t"
-        s ..= (tableToString v, depth + 1) .. "\n"
-        for i = 1, depth
-          s ..= "\t"
+        s ..= tableToString t[k], d + 1
       else
-        s ..= "\'" .. (tableToString v) .. "\' "
-    s ..= "}"
-    return s
-  else
-    return tostring tab
+        s ..= "\'" .. (tostring v) .. "\'"
+      if idx ~= count
+        s ..= ", "
+      else
+        s ..= " "
+      idx += 1
+  s ..= "\n"
+  for i = 1, d
+    s ..= "\t"
+  s ..= "}"
+  return s
+
+export copyTable = (t) ->
+  copy = {}
+  for k, v in pairs t
+    if (type v) == "table"
+      copy[k] = copyTable t[k]
+    else
+      copy[k] = v
+  return copy
 
 export lengthof = (l) ->
   num = 0

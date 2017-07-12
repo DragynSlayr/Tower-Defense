@@ -136,31 +136,59 @@ trim = function(str, len)
     return s
   end
 end
-tableToString = function(tab, depth)
-  if depth == nil then
-    depth = 0
+tableToString = function(t, d)
+  if d == nil then
+    d = 0
   end
-  if (type(tab)) == "table" then
-    local s = "{ "
-    for k, v in pairs(tab) do
-      if (type(v)) == "table" then
-        s = s .. "\n"
-        for i = 1, depth + 1 do
-          s = s .. "\t"
-        end
-        s = s .. ((tableToString(v, depth + 1)) .. "\n")
-        for i = 1, depth do
-          s = s .. "\t"
-        end
-      else
-        s = s .. ("\'" .. (tableToString(v)) .. "\' ")
-      end
+  if (type(t)) ~= "table" then
+    error("This function only works on Tables")
+  end
+  local s = ""
+  for i = 1, d do
+    s = s .. "\t"
+  end
+  s = "{"
+  local count = 0
+  for k, v in pairs(t) do
+    count = count + 1
+  end
+  if count > 0 then
+    s = s .. "\n"
+    for i = 0, d do
+      s = s .. "\t"
     end
-    s = s .. "}"
-    return s
-  else
-    return tostring(tab)
+    local idx = 1
+    for k, v in pairs(t) do
+      if (type(v)) == "table" then
+        s = s .. tableToString(t[k], d + 1)
+      else
+        s = s .. ("\'" .. (tostring(v)) .. "\'")
+      end
+      if idx ~= count then
+        s = s .. ", "
+      else
+        s = s .. " "
+      end
+      idx = idx + 1
+    end
   end
+  s = s .. "\n"
+  for i = 1, d do
+    s = s .. "\t"
+  end
+  s = s .. "}"
+  return s
+end
+copyTable = function(t)
+  local copy = { }
+  for k, v in pairs(t) do
+    if (type(v)) == "table" then
+      copy[k] = copyTable(t[k])
+    else
+      copy[k] = v
+    end
+  end
+  return copy
 end
 lengthof = function(l)
   local num = 0
