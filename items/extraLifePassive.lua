@@ -3,8 +3,8 @@ do
   local _parent_0 = PassiveItem
   local _base_0 = {
     unequip = function(self, player)
+      _class_0.__parent.__base.unequip(self, player)
       player.lives = 1
-      return _class_0.__parent.__base.unequip(self, player)
     end
   }
   _base_0.__index = _base_0

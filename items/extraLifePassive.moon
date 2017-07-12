@@ -8,5 +8,5 @@ export class ExtraLifePassive extends PassiveItem
     @description = "Gives an extra life"
 
   unequip: (player) =>
-    player.lives = 1
     super player
+    player.lives = 1
