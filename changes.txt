@@ -9,6 +9,9 @@ V13 Changes
   - Turret
     - Fixed shield upgrade to also shield other turrets when activated
 
+  - Player
+    - Player now shoots missiles instead of spawning bombs
+
   - Pause Screen
     - No longer shows enemy stats
     - Shows currently held items
