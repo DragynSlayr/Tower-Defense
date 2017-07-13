@@ -11,19 +11,23 @@ require "items.nullItem"
 require "items.passiveItem"
 require "items.activeItem"
 
---+----------------------------+--
---| Depends on everything else |--
---+----------------------------+--
+--+------------------------+--
+--| Depends on active item |--
+--+------------------------+--
 require "items.shieldActive"
-require "items.extraLifePassive"
-require "items.movingTurretPassive"
-require "items.damageBoostActive"
 require "items.blackHoleActive"
+require "items.damageBoostActive"
+
+--+-------------------------+--
+--| Depends on passive item |--
+--+-------------------------+--
 require "items.bombPassive"
-require "items.damageBoostPassive"
+require "items.extraLifePassive"
 require "items.rangeBoostPassive"
-require "items.healthBoostPassive"
 require "items.speedBoostPassive"
+require "items.damageBoostPassive"
+require "items.healthBoostPassive"
+require "items.movingTurretPassive"
 
 --+------------------+--
 --| Depends on items |--
