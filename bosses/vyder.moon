@@ -16,8 +16,6 @@ export class BossVyder extends Boss
 
     sprite = Sprite "particle/poison.tga", 64, 64, 1, 1.75
     @trail = ParticleEmitter @position.x, @position.y, 0.2, 3, @
-    --@trail = ParticleTrail @position.x, @position.y, sprite, @
-    --@trail.life_time = 3
     @trail.sprite = sprite
     @trail.particle_type = ParticleTypes.poison
     @trail.moving_particles = false
