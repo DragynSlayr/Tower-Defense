@@ -10,7 +10,7 @@ do
       end
       self.sprite.rotation = self.parent.sprite.rotation
       local change = Vector(self.last_position.x - self.position.x, self.last_position.y - self.position.y)
-      if change:getLength() > self.average_size then
+      if change:getLength() >= self.average_size then
         self.last_position = Vector(self.parent.position:getComponents())
         local particle
         local _exp_0 = self.particle_type
@@ -18,6 +18,8 @@ do
           particle = Particle(self.position.x, self.position.y, self.sprite, 255, 0, self.life_time)
         elseif ParticleTypes.poison == _exp_0 then
           particle = PoisonParticle(self.position.x, self.position.y, self.sprite, 255, 0, self.life_time)
+        elseif ParticleTypes.enemy_poison == _exp_0 then
+          particle = EnemyPoisonParticle(self.position.x, self.position.y, self.sprite, 255, 0, self.life_time)
         end
         return Driver:addObject(particle, EntityTypes.particle)
       end

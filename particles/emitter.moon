@@ -33,6 +33,8 @@ export class ParticleEmitter extends GameObject
           Particle @position.x, @position.y, @sprite, 200, 50, @life_time
         when ParticleTypes.poison
           PoisonParticle @position.x, @position.y, @sprite, 200, 50, @life_time
+        when ParticleTypes.enemy_poison
+          EnemyPoisonParticle @position.x, @position.y, @sprite, 255, 0, @life_time
       if @moving_particles
         x, y = getRandomUnitStart!
         particle.speed = Vector x, y, true

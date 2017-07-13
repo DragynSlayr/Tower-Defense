@@ -25,6 +25,8 @@ do
           particle = Particle(self.position.x, self.position.y, self.sprite, 200, 50, self.life_time)
         elseif ParticleTypes.poison == _exp_0 then
           particle = PoisonParticle(self.position.x, self.position.y, self.sprite, 200, 50, self.life_time)
+        elseif ParticleTypes.enemy_poison == _exp_0 then
+          particle = EnemyPoisonParticle(self.position.x, self.position.y, self.sprite, 255, 0, self.life_time)
         end
         if self.moving_particles then
           local x, y = getRandomUnitStart()
