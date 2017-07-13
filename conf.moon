@@ -4,7 +4,7 @@ love.conf = (t) ->
   t.window.title = "Tower Defense"
   t.window.width = 1600
   t.window.height = 900
-  t.window.vsync = true
+  t.window.vsync = false
   t.window.msaa = 8
 
   t.modules.joystick = false

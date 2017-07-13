@@ -6,8 +6,13 @@ V13 Changes
     - Only 1 active and passive can be equipped at a time
     - Player can hold 6 items total, 3 passive and 3 active
 
+  - General
+    - FPS Counter is now shown above the version number
+    - Boss trails now last for the correct amount of time
+
   - Turret
     - Fixed shield upgrade to also shield other turrets when activated
+    - Health indicator shows values instead of percent
 
   - Player
     - Player now shoots missiles instead of spawning bombs
