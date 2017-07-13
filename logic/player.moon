@@ -20,6 +20,7 @@ export class Player extends GameObject
     sprite_copy = sprite\getCopy!
     sprite_copy\setColor {50, 50, 50, 255}
     --@trail = ParticleTrail x, y, sprite_copy, @
+    @trail = nil
 
     @id = EntityTypes.player
     @draw_health = false

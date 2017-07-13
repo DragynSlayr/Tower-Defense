@@ -398,6 +398,7 @@ do
         50,
         255
       })
+      self.trail = nil
       self.id = EntityTypes.player
       self.draw_health = false
       self.font = Renderer:newFont(20)
