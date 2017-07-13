@@ -20,10 +20,12 @@ do
   _class_0 = setmetatable({
     __init = function(self)
       self.items = {
+        TrailActive,
         ShieldActive,
         BlackHoleActive,
         DamageBoostActive,
         BombPassive,
+        TrailPassive,
         ExtraLifePassive,
         RangeBoostPassive,
         SpeedBoostPassive,
