@@ -1,4 +1,5 @@
 require("particles.particle")
 require("particles.poisonParticle")
+require("particles.enemyPoisonParticle")
 require("particles.trail")
 return require("particles.emitter")
