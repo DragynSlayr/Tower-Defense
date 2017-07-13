@@ -160,12 +160,13 @@ do
       love.graphics.setShader(Driver.shader)
       local font = Renderer.small_font
       love.graphics.setFont(font)
-      local message = math.floor(((self.health / self.max_health) * 100))
-      message = message .. " %"
+      local message = self.health .. " / " .. self.max_health
+      local width = font:getWidth("92.5 / 92.5")
+      local height = font:getHeight()
       love.graphics.setColor(0, 0, 0, 50)
-      love.graphics.rectangle("fill", self.position.x - (self.sprite.scaled_width / 2) - (5 * Scale.width), self.position.y + (self.sprite.scaled_height / 2), self.sprite.scaled_width + (12 * Scale.width), font:getHeight() + (2 * Scale.height), 4 * Scale.diag)
+      love.graphics.rectangle("fill", self.position.x - (width / 2) - (2 * Scale.width), self.position.y + (self.sprite.scaled_height / 2), width + (4 * Scale.width), height + (2 * Scale.height), 4 * Scale.diag)
       love.graphics.setColor(0, 255, 0, 255)
-      love.graphics.printf(message, self.position.x - ((font:getWidth(message)) / 2), self.position.y + (self.sprite.scaled_height / 2), self.sprite.scaled_width + (10 * Scale.width), "center")
+      love.graphics.printf(message, self.position.x - (width / 2), self.position.y + (self.sprite.scaled_height / 2), width, "center")
       love.graphics.setShader()
       return love.graphics.pop()
     end,

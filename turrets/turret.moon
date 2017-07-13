@@ -142,12 +142,15 @@ export class Turret extends GameObject
     love.graphics.setShader Driver.shader
     font = Renderer.small_font
     love.graphics.setFont font
-    message = math.floor ((@health / @max_health) * 100)
-    message ..= " %"
+    --message = math.floor ((@health / @max_health) * 100)
+    --message ..= " %"
+    message = @health .. " / " .. @max_health
+    width = font\getWidth "92.5 / 92.5"
+    height = font\getHeight!
     love.graphics.setColor 0, 0, 0, 50
-    love.graphics.rectangle "fill", @position.x - (@sprite.scaled_width / 2) - (5 * Scale.width), @position.y + (@sprite.scaled_height / 2), @sprite.scaled_width + (12 * Scale.width), font\getHeight! + (2 * Scale.height), 4 * Scale.diag
+    love.graphics.rectangle "fill", @position.x - (width / 2) - (2 * Scale.width), @position.y + (@sprite.scaled_height / 2), width + (4 * Scale.width), height + (2 * Scale.height), 4 * Scale.diag
     love.graphics.setColor 0, 255, 0, 255
-    love.graphics.printf message, @position.x - ((font\getWidth message) / 2), @position.y + (@sprite.scaled_height / 2), @sprite.scaled_width + (10 * Scale.width), "center"
+    love.graphics.printf message, @position.x - (width / 2), @position.y + (@sprite.scaled_height / 2), width, "center"
     love.graphics.setShader!
     love.graphics.pop!
 
