@@ -56,8 +56,9 @@ EnemyTypes.capture = "CaptureEnemy"
 
 export ParticleTypes = {}
 
-ParticleTypes.normal = "NormalParticle"
-ParticleTypes.poison = "PoisonParticle"
+ParticleTypes.normal       = "NormalParticle"
+ParticleTypes.poison       = "PoisonParticle"
+ParticleTypes.enemy_poison = "EnemyPoisonParticle"
 
 export ItemTypes = {}
 

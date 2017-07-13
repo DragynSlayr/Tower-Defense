@@ -47,6 +47,7 @@ EnemyTypes.capture = "CaptureEnemy"
 ParticleTypes = { }
 ParticleTypes.normal = "NormalParticle"
 ParticleTypes.poison = "PoisonParticle"
+ParticleTypes.enemy_poison = "EnemyPoisonParticle"
 ItemTypes = { }
 ItemTypes.passive = "PassiveItem"
 ItemTypes.active = "ActiveItem"
