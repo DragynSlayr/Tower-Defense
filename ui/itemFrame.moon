@@ -166,6 +166,14 @@ export class ItemFrame extends UIElement
     love.graphics.push "all"
     love.graphics.setColor 200, 200, 200, 255
     love.graphics.rectangle "fill", @x, @y, @width, @height
+    if not @empty
+      love.graphics.setColor 0, 0, 0, 0
+      switch @item.item_type
+        when ItemTypes.active
+          love.graphics.setColor 255, 0, 0, 50
+        when ItemTypes.passive
+          love.graphics.setColor 0, 0, 255, 50
+      love.graphics.rectangle "fill", @x, @y, @width, @height
     love.graphics.setColor 0, 0, 0, 255
     love.graphics.rectangle "line", @x, @y, @width, @height
     if @phase == 1

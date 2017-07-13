@@ -64,6 +64,16 @@ do
       love.graphics.push("all")
       love.graphics.setColor(200, 200, 200, 255)
       love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+      if not self.empty then
+        love.graphics.setColor(0, 0, 0, 0)
+        local _exp_0 = self.item.item_type
+        if ItemTypes.active == _exp_0 then
+          love.graphics.setColor(255, 0, 0, 50)
+        elseif ItemTypes.passive == _exp_0 then
+          love.graphics.setColor(0, 0, 255, 50)
+        end
+        love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+      end
       love.graphics.setColor(0, 0, 0, 255)
       love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
       if self.phase == 1 then
