@@ -249,10 +249,9 @@ do
       love.graphics.setColor(0, 0, 0, 127)
       love.graphics.setFont(Renderer.small_font)
       love.graphics.printf(VERSION .. "\t", 0, Screen_Size.height - (25 * Scale.height), Screen_Size.width, "right")
+      love.graphics.printf(love.timer.getFPS() .. "\t", 0, Screen_Size.height - (50 * Scale.height), Screen_Size.width, "right")
       love.graphics.pop()
-      local before = math.floor(collectgarbage("count"))
-      collectgarbage("step")
-      local after = math.floor(collectgarbage("count"))
+      return collectgarbage("step")
     end
   }
   _base_0.__index = _base_0

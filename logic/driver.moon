@@ -1,12 +1,5 @@
 export class Driver
     new: =>
-      --@objects = {}
-      --@game_state = Game_State.none
-      --@state_stack = Stack!
-      --@state_stack\add Game_State.main_menu
-      --@state_stack\add Game_State.upgrading
-      --@elapsed = 0
-      --@shader = nil
       love.keypressed = @keypressed
       love.keyreleased = @keyreleased
       love.mousepressed = @mousepressed
@@ -181,8 +174,6 @@ export class Driver
       export SCORE_THRESHOLD = 10000
 
       -- Set love environment
-      --love.graphics.setBackgroundColor 91, 192, 255, 255
-      --love.graphics.setBackgroundColor 75, 163, 255, 255
       love.graphics.setDefaultFilter "nearest", "nearest", 1
 
       -- Global MusicHandler
@@ -195,7 +186,6 @@ export class Driver
       Driver.game_state = Game_State.none
       Driver.state_stack = Stack!
       Driver.state_stack\add Game_State.main_menu
-      --Driver.state_stack\add Game_State.upgrading
       Driver.elapsed = 0
       Driver.shader = nil
 
@@ -232,22 +222,8 @@ export class Driver
     load: (arg) ->
       Driver.restart!
 
-      --Driver.shader = love.graphics.newShader "shaders/map.fs"
-      --Driver.shader = love.graphics.newShader "shaders/distance.fs"
-      --Driver.shader\send "screen_size", Screen_Size.size
-
     update: (dt) ->
       Driver.elapsed += dt
-      --if Driver.objects[EntityTypes.player]
-      --  for k, v in pairs Driver.objects[EntityTypes.player]
-      --    Driver.shader\send "player_pos", {v.position.x, v.position.y}
-
-      --alpha = math.cos Driver.elapsed
-      --alpha = math.abs alpha
-      --Driver.shader\send "alpha", alpha
-      --print love.mouse.getPosition!
-
-      --Driver.shader\send "time", Driver.elapsed
 
       switch Driver.game_state
         when Game_State.game_over
@@ -307,9 +283,7 @@ export class Driver
       love.graphics.setColor 0, 0, 0, 127
       love.graphics.setFont Renderer.small_font
       love.graphics.printf VERSION .. "\t", 0, Screen_Size.height - (25 * Scale.height), Screen_Size.width, "right"
+      love.graphics.printf love.timer.getFPS! .. "\t", 0, Screen_Size.height - (50 * Scale.height), Screen_Size.width, "right"
       love.graphics.pop!
 
-      before = math.floor collectgarbage "count"
       collectgarbage "step"
-      after = math.floor collectgarbage "count"
-      --print "B: " .. before .. "; A: " .. after .. "; R: " .. (before - after)
