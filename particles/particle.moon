@@ -4,11 +4,12 @@ export class Particle extends GameObject
     @alpha = alpha_start
     @alpha_start = alpha_start
     @alpha_end = alpha_end
-    @alpha_step = (alpha_end - alpha_start) / (life_time * 60)
     @draw_health = false
     @id = EntityTypes.particle
     @sprite.color[4] = @alpha
     @solid = false
+    @count = 0
+    @life_time = life_time
 
     @setShader love.graphics.newShader "shaders/normal.fs"
 
@@ -18,13 +19,13 @@ export class Particle extends GameObject
     @sprite.should_shade = @block_shader
 
   update: (dt) =>
-    @sprite\update dt
-    if @sprite.should_shade ~= @block_shader
-      @sprite.should_shade = @block_shader
     if @speed\getLength! > 0
       @position\add @speed\multiply dt
-    @alpha += @alpha_step
-    if @alpha < @alpha_end
-      @kill!
+    @sprite\update dt
+    @count += dt
+    if @count >= @life_time
+      @health = 0
     else
-      @sprite.color[4] = math.floor @alpha
+      @alpha = @alpha_start + ((@alpha_end - @alpha_start) * (@count / @life_time))
+      alpha = math.floor @alpha
+      @sprite.color[4] = clamp alpha, 0, 255

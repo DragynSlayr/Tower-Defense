@@ -11,18 +11,17 @@ do
       self.sprite.should_shade = self.block_shader
     end,
     update = function(self, dt)
-      self.sprite:update(dt)
-      if self.sprite.should_shade ~= self.block_shader then
-        self.sprite.should_shade = self.block_shader
-      end
       if self.speed:getLength() > 0 then
         self.position:add(self.speed:multiply(dt))
       end
-      self.alpha = self.alpha + self.alpha_step
-      if self.alpha < self.alpha_end then
-        return self:kill()
+      self.sprite:update(dt)
+      self.count = self.count + dt
+      if self.count >= self.life_time then
+        self.health = 0
       else
-        self.sprite.color[4] = math.floor(self.alpha)
+        self.alpha = self.alpha_start + ((self.alpha_end - self.alpha_start) * (self.count / self.life_time))
+        local alpha = math.floor(self.alpha)
+        self.sprite.color[4] = clamp(alpha, 0, 255)
       end
     end
   }
@@ -43,11 +42,12 @@ do
       self.alpha = alpha_start
       self.alpha_start = alpha_start
       self.alpha_end = alpha_end
-      self.alpha_step = (alpha_end - alpha_start) / (life_time * 60)
       self.draw_health = false
       self.id = EntityTypes.particle
       self.sprite.color[4] = self.alpha
       self.solid = false
+      self.count = 0
+      self.life_time = life_time
       return self:setShader(love.graphics.newShader("shaders/normal.fs"))
     end,
     __base = _base_0,
