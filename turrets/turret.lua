@@ -160,7 +160,9 @@ do
       love.graphics.setShader(Driver.shader)
       local font = Renderer.small_font
       love.graphics.setFont(font)
-      local message = self.health .. " / " .. self.max_health
+      local h = string.format("%.1f", self.health)
+      local m = string.format("%.1f", self.max_health)
+      local message = h .. " / " .. m
       local width = font:getWidth("92.5 / 92.5")
       local height = font:getHeight()
       love.graphics.setColor(0, 0, 0, 50)

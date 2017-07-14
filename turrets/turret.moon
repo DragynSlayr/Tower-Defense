@@ -144,7 +144,9 @@ export class Turret extends GameObject
     love.graphics.setFont font
     --message = math.floor ((@health / @max_health) * 100)
     --message ..= " %"
-    message = @health .. " / " .. @max_health
+    h = string.format "%.1f", @health
+    m = string.format "%.1f", @max_health
+    message = h .. " / " .. m
     width = font\getWidth "92.5 / 92.5"
     height = font\getHeight!
     love.graphics.setColor 0, 0, 0, 50
