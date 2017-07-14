@@ -1,10 +1,14 @@
 export class ItemPoolHandler
   new: =>
     @items = {
+      BombActive,
       TrailActive,
       ShieldActive,
       BlackHoleActive,
       DamageBoostActive,
+      FreezeFieldActive,
+      PoisonFieldActive,
+      HealingFieldActive,
       BombPassive,
       TrailPassive,
       ExtraLifePassive,

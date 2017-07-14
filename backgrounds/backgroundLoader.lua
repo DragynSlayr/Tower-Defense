@@ -1,3 +1,6 @@
 require("backgrounds.backgroundObject")
 require("backgrounds.bomb")
-return require("backgrounds.blackHole")
+require("backgrounds.blackHole")
+require("backgrounds.frostField")
+require("backgrounds.poisonField")
+return require("backgrounds.healingField")

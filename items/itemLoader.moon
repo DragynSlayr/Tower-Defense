@@ -14,8 +14,12 @@ require "items.activeItem"
 --+------------------------+--
 --| Depends on active item |--
 --+------------------------+--
+require "items.bombActive"
 require "items.trailActive"
+require "items.freezeActive"
+require "items.poisonActive"
 require "items.shieldActive"
+require "items.healingActive"
 require "items.blackHoleActive"
 require "items.damageBoostActive"
 
