@@ -8,6 +8,7 @@ do
       return Circle(self.position.x, self.position.y + (25 * Scale.height), radius)
     end,
     update = function(self, dt)
+      self.speed_multiplier = clamp(self.speed_multiplier + 1, 0, self.max_speed)
       self.ai_time = self.ai_time + dt
       local _exp_0 = self.ai_phase
       if 1 == _exp_0 then
@@ -97,7 +98,8 @@ do
       local level = ((Objectives:getLevel() + 1) / (#Objectives.modes + 1)) - 1
       self.health = 1000 + (1000 * level)
       self.max_health = self.health
-      self.speed_multiplier = 200 + (100 * level)
+      self.max_speed = 200 + (100 * level)
+      self.speed_multiplier = self.max_speed
       self.boost_multiplier = 3
       self.chase_time = 0
       self.damage = (5 / 60) + ((10 / 60) * level)

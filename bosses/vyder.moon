@@ -7,7 +7,8 @@ export class BossVyder extends Boss
     level = ((Objectives\getLevel! + 1) / (#Objectives.modes + 1)) - 1
     @health = 1000 + (1000 * level)
     @max_health = @health
-    @speed_multiplier = 200 + (100 * level)
+    @max_speed = 200 + (100 * level)
+    @speed_multiplier = @max_speed
     @boost_multiplier = 3
     @chase_time = 0
     @damage = (5 / 60) + ((10 / 60) * level)
@@ -47,6 +48,7 @@ export class BossVyder extends Boss
     return Circle @position.x, @position.y + (25 * Scale.height), radius
 
   update: (dt) =>
+    @speed_multiplier = clamp @speed_multiplier + 1, 0, @max_speed
     @ai_time += dt
     switch @ai_phase
       when 1
