@@ -17,7 +17,8 @@ do
         "d",
         "p",
         "e",
-        "z"
+        "z",
+        "q"
       }) do
         keys[v] = Sprite("ui/keys/" .. v .. ".tga", 32, 32, 1, 1)
       end
@@ -77,6 +78,13 @@ do
       UI:add(i)
       text = "Toggle Range"
       t = Text(x, y + (36 * Scale.height), text, font)
+      UI:add(t)
+      x = (Screen_Size.width / 3) - (100 * Scale.width)
+      y = start_y
+      i = Icon(x, y, keys["q"])
+      UI:add(i)
+      text = "Use Item"
+      t = Text(x + (70 * Scale.width), y, text, font)
       return UI:add(t)
     end,
     createMainMenu = function(self)

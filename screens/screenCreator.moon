@@ -9,7 +9,7 @@ export class ScreenCreator
   createHelp: (start_x = 100 * Scale.width, start_y = Screen_Size.height * 0.4) =>
     keys = {}
     keys["space"] = Sprite "ui/keys/space.tga", 32, 96, 1, 1
-    for k, v in pairs {"w", "a", "s", "d", "p", "e", "z"}
+    for k, v in pairs {"w", "a", "s", "d", "p", "e", "z", "q"}
       keys[v] = Sprite "ui/keys/" .. v .. ".tga", 32, 32, 1, 1
 
     font = Renderer\newFont 20
@@ -92,6 +92,16 @@ export class ScreenCreator
 
     text = "Toggle Range"
     t = Text x, y + (36 * Scale.height), text, font
+    UI\add t
+
+    -- Q key
+    x = (Screen_Size.width / 3) - (100 * Scale.width)
+    y = start_y
+    i = Icon x, y, keys["q"]
+    UI\add i
+
+    text = "Use Item"
+    t = Text x + (70 * Scale.width), y, text, font
     UI\add t
 
   createMainMenu: =>
