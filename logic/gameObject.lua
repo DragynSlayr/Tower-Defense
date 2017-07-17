@@ -1,6 +1,12 @@
 do
   local _class_0
   local _base_0 = {
+    setSpeedOverride = function(self, new_speed, ratio)
+      local x, y = new_speed:getComponents()
+      self.speed_add = Vector(x, y, true)
+      self.speed_override_ratio = ratio
+      self.speed_override = true
+    end,
     setArmor = function(self, armor, max_armor)
       self.armor = armor
       self.max_armor = max_armor
@@ -54,7 +60,14 @@ do
       self.armored = self.armor > 0
       local start = Vector(self.position.x, self.position.y)
       self.elapsed = self.elapsed + dt
+      local start_speed = Vector(self.speed:getComponents())
+      if self.speed_override then
+        local speed = self.speed_add:multiply(self.speed:getLength() * self.speed_override_ratio)
+        self.speed:add(speed)
+        self.speed = self.speed:multiply(0.5)
+      end
       self.position:add(self.speed:multiply(dt))
+      self.speed = Vector(start_speed:getComponents())
       local radius = self:getHitBox().radius
       if self.id ~= EntityTypes.wall then
         self.position.x = clamp(self.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius)
@@ -166,6 +179,9 @@ do
       self.contact_damage = false
       self.item_drop_chance = 0.00
       self.trail = nil
+      self.speed_override = false
+      self.speed_add = Vector(0, 0)
+      self.speed_override_ratio = 0
       self.normal_sprite = self.sprite
       self.action_sprite = self.sprite
       self.shield_sprite = Sprite("item/shield.tga", 32, 32, 1, 1)

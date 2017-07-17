@@ -20,6 +20,10 @@ export class GameObject
 
     @trail = nil
 
+    @speed_override = false
+    @speed_add = Vector 0, 0
+    @speed_override_ratio = 0
+
     @normal_sprite = @sprite
     @action_sprite = @sprite
 
@@ -29,6 +33,12 @@ export class GameObject
     @shield_sprite\setScale x_scale * 1.5, y_scale * 1.5
 
     @setArmor 0, @max_health
+
+  setSpeedOverride: (new_speed, ratio) =>
+    x, y = new_speed\getComponents!
+    @speed_add = Vector x, y, true
+    @speed_override_ratio = ratio
+    @speed_override = true
 
   setArmor: (armor, max_armor) =>
     @armor = armor
@@ -77,7 +87,13 @@ export class GameObject
 
     start = Vector @position.x, @position.y
     @elapsed += dt
+    start_speed = Vector @speed\getComponents!
+    if @speed_override
+      speed = @speed_add\multiply @speed\getLength! * @speed_override_ratio
+      @speed\add speed
+      @speed = @speed\multiply 0.5
     @position\add @speed\multiply dt
+    @speed = Vector start_speed\getComponents!
     radius = @getHitBox!.radius
     if @id ~= EntityTypes.wall
       @position.x = clamp @position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius
