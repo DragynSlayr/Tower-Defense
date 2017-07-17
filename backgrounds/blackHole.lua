@@ -2,6 +2,19 @@ do
   local _class_0
   local _parent_0 = BackgroundObject
   local _base_0 = {
+    kill = function(self)
+      _class_0.__parent.__base.kill(self)
+      if Driver.objects[EntityTypes.enemy] then
+        for k, e in pairs(Driver.objects[EntityTypes.enemy]) do
+          e.speed_override = false
+        end
+      end
+      if Driver.objects[EntityTypes.boss] then
+        for k, b in pairs(Driver.objects[EntityTypes.boss]) do
+          b.speed_override = false
+        end
+      end
+    end,
     update = function(self, dt)
       _class_0.__parent.__base.update(self, dt)
       if Driver.objects[EntityTypes.enemy] then
@@ -18,23 +31,21 @@ do
       end
       self.life_time = self.life_time - dt
       if self.life_time <= 0 then
-        return self:kill()
+        self.health = 0
       end
     end,
     applyPull = function(self, entity, dt)
       local x = self.position.x - entity.position.x
       local y = self.position.y - entity.position.y
-      local veb = Vector(x, y)
-      local ratio = map(veb:getLength(), 0, self.diag, 0, 10 * Scale.diag)
-      local factor = 1 - (dt / ratio)
-      factor = factor / (50 * Scale.diag)
-      veb = veb:multiply(factor)
-      return entity.position:add(veb)
+      local vec = Vector(x, y)
+      local ratio = vec:getLength() / self.diag
+      ratio = map(ratio, 0, 1, 1, 0)
+      return entity:setSpeedOverride(vec, ratio)
     end,
     applyDamage = function(self, entity)
       local x = self.position.x - entity.position.x
       local y = self.position.y - entity.position.y
-      local veb = Vector(x, y)
+      local vec = Vector(x, y)
       local damage = 0
       local num = 0
       if Driver.objects[EntityTypes.player] then
@@ -44,7 +55,9 @@ do
         end
       end
       damage = damage / num
-      self.damage = map(veb:getLength(), 0, self.diag, 0, damage / 2)
+      local ratio = vec:getLength() / self.diag
+      ratio = ratio * 300
+      self.damage = (1 / ratio) * damage
       return entity:onCollide(self)
     end
   }

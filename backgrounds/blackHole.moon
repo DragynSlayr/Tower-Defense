@@ -5,6 +5,15 @@ export class BlackHole extends BackgroundObject
     @life_time = 17
     @diag = (Vector Screen_Size.border[3], Screen_Size.border[4])\getLength!
 
+  kill: =>
+    super!
+    if Driver.objects[EntityTypes.enemy]
+      for k, e in pairs Driver.objects[EntityTypes.enemy]
+        e.speed_override = false
+    if Driver.objects[EntityTypes.boss]
+      for k, b in pairs Driver.objects[EntityTypes.boss]
+        b.speed_override = false
+
   update: (dt) =>
     super dt
     if Driver.objects[EntityTypes.enemy]
@@ -17,22 +26,20 @@ export class BlackHole extends BackgroundObject
         @applyDamage b
     @life_time -= dt
     if @life_time <= 0
-      @kill!
+      @health = 0
 
   applyPull: (entity, dt) =>
     x = @position.x - entity.position.x
     y = @position.y - entity.position.y
-    veb = Vector x, y
-    ratio = map veb\getLength!, 0, @diag, 0, 10 * Scale.diag
-    factor = 1 - (dt / ratio)
-    factor /= 50 * Scale.diag
-    veb = veb\multiply factor
-    entity.position\add veb
+    vec = Vector x, y
+    ratio = vec\getLength! / @diag
+    ratio = map ratio, 0, 1, 1, 0
+    entity\setSpeedOverride vec, ratio
 
   applyDamage: (entity) =>
     x = @position.x - entity.position.x
     y = @position.y - entity.position.y
-    veb = Vector x, y
+    vec = Vector x, y
     damage = 0
     num = 0
     if Driver.objects[EntityTypes.player]
@@ -40,5 +47,7 @@ export class BlackHole extends BackgroundObject
         damage += p.damage
         num += 1
     damage /= num
-    @damage = map veb\getLength!, 0, @diag, 0, damage / 2
+    ratio = vec\getLength! / @diag
+    ratio *= 300
+    @damage = (1 / ratio) * damage
     entity\onCollide @
