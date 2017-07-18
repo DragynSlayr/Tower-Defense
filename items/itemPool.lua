@@ -12,8 +12,7 @@ do
       return shuffle(self.items)
     end,
     getItem = function(self)
-      local item = pick(self.items)
-      return item(0, 0)
+      return TurretSlagPassive(0, 0)
     end
   }
   _base_0.__index = _base_0
@@ -29,13 +28,18 @@ do
         PoisonFieldActive,
         HealingFieldActive,
         BombPassive,
+        ArmorPassive,
         TrailPassive,
         ExtraLifePassive,
+        DoubleShotPassive,
         RangeBoostPassive,
         SpeedBoostPassive,
+        TurretSlagPassive,
         DamageBoostPassive,
         HealthBoostPassive,
+        DamageAbsorbPassive,
         MovingTurretPassive,
+        DamageReflectPassive,
         NullItem
       }
       return self:generatePool()

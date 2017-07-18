@@ -10,13 +10,18 @@ export class ItemPoolHandler
       PoisonFieldActive,
       HealingFieldActive,
       BombPassive,
+      ArmorPassive,
       TrailPassive,
       ExtraLifePassive,
+      DoubleShotPassive,
       RangeBoostPassive,
       SpeedBoostPassive,
+      TurretSlagPassive,
       DamageBoostPassive,
       HealthBoostPassive,
+      DamageAbsorbPassive,
       MovingTurretPassive,
+      DamageReflectPassive,
       NullItem
     }
     @generatePool!
@@ -30,5 +35,6 @@ export class ItemPoolHandler
       shuffle @items
 
   getItem: =>
-    item = pick @items
-    return item 0, 0
+    return TurretSlagPassive 0, 0
+    --item = pick @items
+    --return item 0, 0

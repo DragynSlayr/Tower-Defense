@@ -27,13 +27,18 @@ require "items.damageBoostActive"
 --| Depends on passive item |--
 --+-------------------------+--
 require "items.bombPassive"
+require "items.armorPassive"
 require "items.trailPassive"
 require "items.extraLifePassive"
+require "items.doubleShotPassive"
 require "items.rangeBoostPassive"
 require "items.speedBoostPassive"
+require "items.turretSlagPassive"
 require "items.damageBoostPassive"
 require "items.healthBoostPassive"
+require "items.damageAbsorbPassive"
 require "items.movingTurretPassive"
+require "items.damageReflectPassive"
 
 --+------------------+--
 --| Depends on items |--
