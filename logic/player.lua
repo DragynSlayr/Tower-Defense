@@ -20,8 +20,11 @@ do
         return 
       end
       if not self.shielded then
+        local damage = object.damage
+        if self.slagged then
+          damage = damage * 2
+        end
         if self.armored then
-          local damage = object.damage
           if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret then
             damage = damage / 2
           end
@@ -31,12 +34,15 @@ do
           end
           self.armored = self.armor > 0
         else
-          local damage = object.damage
+          damage = object.damage
           if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret then
             damage = damage / 2
           end
           self.health = self.health - damage
           self.hit = true
+        end
+        if object.slagging then
+          self.slagged = true
         end
       end
       self.health = clamp(self.health, 0, self.max_health)

@@ -73,8 +73,10 @@ export class Player extends GameObject
       object\pickup @
       return
     if not @shielded
+      damage = object.damage
+      if @slagged
+        damage *= 2
       if @armored
-        damage = object.damage
         if object.id == EntityTypes.enemy and object.enemyType == EnemyTypes.turret
           damage /= 2
         @armor -= damage
@@ -87,6 +89,8 @@ export class Player extends GameObject
           damage /= 2
         @health -= damage
         @hit = true
+      if object.slagging
+        @slagged = true
     @health = clamp @health, 0, @max_health
     @armor = clamp @armor, 0, @max_armor
 

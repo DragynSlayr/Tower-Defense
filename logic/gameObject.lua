@@ -21,14 +21,21 @@ do
         return 
       end
       if not self.shielded then
+        local damage = object.damage
+        if self.slagged then
+          damage = damage * 1.5
+        end
         if self.armored then
-          self.armor = self.armor - object.damage
+          self.armor = self.armor - damage
           if self.armor <= 0 then
             self.health = self.health + self.armor
           end
           self.armored = self.armor > 0
         else
-          self.health = self.health - object.damage
+          self.health = self.health - damage
+        end
+        if object.slagging then
+          self.slagged = true
         end
         self.health = clamp(self.health, 0, self.max_health)
         self.armor = clamp(self.armor, 0, self.max_armor)
@@ -58,6 +65,13 @@ do
       self.health = clamp(self.health, 0, self.max_health)
       self.armor = clamp(self.armor, 0, self.max_armor)
       self.armored = self.armor > 0
+      if self.slagged then
+        self.slag_timer = self.slag_timer + dt
+        if self.slag_timer >= self.max_slag_time then
+          self.slagged = false
+          self.slag_timer = 0
+        end
+      end
       local start = Vector(self.position.x, self.position.y)
       self.elapsed = self.elapsed + dt
       local start_speed = Vector(self.speed:getComponents())
@@ -113,7 +127,12 @@ do
     end,
     draw = function(self)
       love.graphics.push("all")
+      local old_color = self.sprite.color[2]
+      if self.slagged then
+        self.sprite.color[2] = 0
+      end
       self.sprite:draw(self.position.x, self.position.y)
+      self.sprite.color[2] = old_color
       if DEBUGGING then
         self:getHitBox():draw()
       end
@@ -188,7 +207,11 @@ do
       local x_scale = self.sprite.scaled_width / 32
       local y_scale = self.sprite.scaled_height / 32
       self.shield_sprite:setScale(x_scale * 1.5, y_scale * 1.5)
-      return self:setArmor(0, self.max_health)
+      self:setArmor(0, self.max_health)
+      self.slagged = false
+      self.slagging = false
+      self.slag_timer = 0
+      self.max_slag_time = 2
     end,
     __base = _base_0,
     __name = "GameObject"

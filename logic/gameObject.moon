@@ -34,6 +34,11 @@ export class GameObject
 
     @setArmor 0, @max_health
 
+    @slagged = false
+    @slagging = false
+    @slag_timer = 0
+    @max_slag_time = 2
+
   setSpeedOverride: (new_speed, ratio) =>
     x, y = new_speed\getComponents!
     @speed_add = Vector x, y, true
@@ -55,13 +60,18 @@ export class GameObject
   onCollide: (object) =>
     if not @alive return
     if not @shielded
+      damage = object.damage
+      if @slagged
+        damage *= 1.5
       if @armored
-        @armor -= object.damage
+        @armor -= damage
         if @armor <= 0
           @health += @armor
         @armored = @armor > 0
       else
-        @health -= object.damage
+        @health -= damage
+      if object.slagging
+        @slagged = true
       @health = clamp @health, 0, @max_health
       @armor = clamp @armor, 0, @max_armor
 
@@ -84,7 +94,11 @@ export class GameObject
     @health = clamp @health, 0, @max_health
     @armor = clamp @armor, 0, @max_armor
     @armored = @armor > 0
-
+    if @slagged
+      @slag_timer += dt
+      if @slag_timer >= @max_slag_time
+        @slagged = false
+        @slag_timer = 0
     start = Vector @position.x, @position.y
     @elapsed += dt
     start_speed = Vector @speed\getComponents!
@@ -125,7 +139,11 @@ export class GameObject
 
   draw: =>
     love.graphics.push "all"
+    old_color = @sprite.color[2]
+    if @slagged
+        @sprite.color[2] = 0
     @sprite\draw @position.x, @position.y
+    @sprite.color[2] = old_color
     -- Draw bounds if debugging
     if DEBUGGING
       @getHitBox!\draw!
