@@ -15,12 +15,15 @@ require "items.activeItem"
 --| Depends on active item |--
 --+------------------------+--
 require "items.bombActive"
+require "items.dashActive"
 require "items.trailActive"
 require "items.freezeActive"
 require "items.poisonActive"
 require "items.shieldActive"
 require "items.healingActive"
+require "items.wholeHogActive"
 require "items.blackHoleActive"
+require "items.moltenCoreActive"
 require "items.damageBoostActive"
 
 --+-------------------------+--

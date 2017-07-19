@@ -2,9 +2,12 @@ export class ItemPoolHandler
   new: =>
     @items = {
       BombActive,
+      DashActive,
       TrailActive,
       ShieldActive,
+      WholeHogActive,
       BlackHoleActive,
+      MoltenCoreActive,
       DamageBoostActive,
       FreezeFieldActive,
       PoisonFieldActive,
@@ -35,6 +38,6 @@ export class ItemPoolHandler
       shuffle @items
 
   getItem: =>
-    return TurretSlagPassive 0, 0
+    return WholeHogActive 0, 0
     --item = pick @items
     --return item 0, 0
