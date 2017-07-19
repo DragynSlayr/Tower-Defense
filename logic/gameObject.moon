@@ -39,6 +39,8 @@ export class GameObject
     @slag_timer = 0
     @max_slag_time = 2
 
+    @knockback = false
+
   setSpeedOverride: (new_speed, ratio) =>
     x, y = new_speed\getComponents!
     @speed_add = Vector x, y, true
@@ -72,6 +74,13 @@ export class GameObject
         @health -= damage
       if object.slagging
         @slagged = true
+      if object.knockback
+        x, y = object.speed\getComponents!
+        speed = Vector x, y, true
+        @position\add speed\multiply (Scale.diag * 10)
+        radius = @getHitBox!.radius
+        @position.x = clamp @position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius
+        @position.y = clamp @position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius
       @health = clamp @health, 0, @max_health
       @armor = clamp @armor, 0, @max_armor
 

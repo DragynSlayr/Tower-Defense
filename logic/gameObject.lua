@@ -37,6 +37,14 @@ do
         if object.slagging then
           self.slagged = true
         end
+        if object.knockback then
+          local x, y = object.speed:getComponents()
+          local speed = Vector(x, y, true)
+          self.position:add(speed:multiply((Scale.diag * 10)))
+          local radius = self:getHitBox().radius
+          self.position.x = clamp(self.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius)
+          self.position.y = clamp(self.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius)
+        end
         self.health = clamp(self.health, 0, self.max_health)
         self.armor = clamp(self.armor, 0, self.max_armor)
       end
@@ -212,6 +220,7 @@ do
       self.slagging = false
       self.slag_timer = 0
       self.max_slag_time = 2
+      self.knockback = false
     end,
     __base = _base_0,
     __name = "GameObject"
