@@ -58,6 +58,8 @@ export class Player extends GameObject
 
     @setArmor 0, @max_health
 
+    @knocking_back = false
+
   getStats: =>
     stats = {}
     stats[1] = @max_health
@@ -218,6 +220,11 @@ export class Player extends GameObject
             bullet = PlayerBullet @position.x, @position.y, v, @damage
             Driver\addObject bullet, EntityTypes.bullet
             attacked = true
+            if @knocking_back
+              bullet = PlayerBullet @position.x, @position.y, v, 0
+              bullet.sprite = Sprite "projectile/knockback.tga", 26, 20, 1, 0.75
+              bullet.knockback = true
+              Driver\addObject bullet, EntityTypes.bullet
       if Driver.objects[EntityTypes.boss]
         for k, v in pairs Driver.objects[EntityTypes.boss]
           enemy = v\getHitBox!
@@ -227,6 +234,11 @@ export class Player extends GameObject
             bullet = PlayerBullet @position.x, @position.y, v, @damage
             Driver\addObject bullet, EntityTypes.bullet
             attacked = true
+            if @knocking_back
+              bullet = PlayerBullet @position.x, @position.y, v, 0
+              bullet.sprite = Sprite "projectile/knockback.tga", 26, 20, 1, 0.75
+              bullet.knockback = true
+              Driver\addObject bullet, EntityTypes.bullet
       if Driver.objects[EntityTypes.goal]
         for k, v in pairs Driver.objects[EntityTypes.goal]
           if v.goal_type == GoalTypes.attack or v.goal_type == GoalTypes.tesseract

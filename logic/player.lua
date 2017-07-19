@@ -211,6 +211,12 @@ do
               local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
               Driver:addObject(bullet, EntityTypes.bullet)
               attacked = true
+              if self.knocking_back then
+                bullet = PlayerBullet(self.position.x, self.position.y, v, 0)
+                bullet.sprite = Sprite("projectile/knockback.tga", 26, 20, 1, 0.75)
+                bullet.knockback = true
+                Driver:addObject(bullet, EntityTypes.bullet)
+              end
             end
           end
         end
@@ -223,6 +229,12 @@ do
               local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
               Driver:addObject(bullet, EntityTypes.bullet)
               attacked = true
+              if self.knocking_back then
+                bullet = PlayerBullet(self.position.x, self.position.y, v, 0)
+                bullet.sprite = Sprite("projectile/knockback.tga", 26, 20, 1, 0.75)
+                bullet.knockback = true
+                Driver:addObject(bullet, EntityTypes.bullet)
+              end
             end
           end
         end
@@ -434,7 +446,8 @@ do
         self.globes[i] = Vector(vec.x, vec.y)
       end
       self.equipped_items = { }
-      return self:setArmor(0, self.max_health)
+      self:setArmor(0, self.max_health)
+      self.knocking_back = false
     end,
     __base = _base_0,
     __name = "Player",
