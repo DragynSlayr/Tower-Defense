@@ -147,7 +147,7 @@ export class Turret extends GameObject
     h = string.format "%.1f", @health
     m = string.format "%.1f", @max_health
     message = h .. " / " .. m
-    width = font\getWidth "92.5 / 92.5"
+    width = (font\getWidth "185.0 / 185.0") + (5 * Scale.width)
     height = font\getHeight!
     love.graphics.setColor 0, 0, 0, 50
     love.graphics.rectangle "fill", @position.x - (width / 2) - (2 * Scale.width), @position.y + (@sprite.scaled_height / 2), width + (4 * Scale.width), height + (2 * Scale.height), 4 * Scale.diag

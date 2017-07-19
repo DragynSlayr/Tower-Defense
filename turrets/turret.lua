@@ -163,7 +163,7 @@ do
       local h = string.format("%.1f", self.health)
       local m = string.format("%.1f", self.max_health)
       local message = h .. " / " .. m
-      local width = font:getWidth("92.5 / 92.5")
+      local width = (font:getWidth("185.0 / 185.0")) + (5 * Scale.width)
       local height = font:getHeight()
       love.graphics.setColor(0, 0, 0, 50)
       love.graphics.rectangle("fill", self.position.x - (width / 2) - (2 * Scale.width), self.position.y + (self.sprite.scaled_height / 2), width + (4 * Scale.width), height + (2 * Scale.height), 4 * Scale.diag)
