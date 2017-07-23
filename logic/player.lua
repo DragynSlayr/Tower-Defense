@@ -52,24 +52,26 @@ do
       if not self.alive then
         return 
       end
-      self.last_pressed = key
-      if key == "a" then
-        self.speed.x = self.speed.x - self.max_speed
-      elseif key == "d" then
-        self.speed.x = self.speed.x + self.max_speed
-      elseif key == "w" then
-        self.speed.y = self.speed.y - self.max_speed
-      elseif key == "s" then
-        self.speed.y = self.speed.y + self.max_speed
-      end
-      for k, v in pairs({
-        "w",
-        "a",
-        "s",
-        "d"
-      }) do
-        if key == v then
-          self.keys_pushed = self.keys_pushed + 1
+      if not self.movement_blocked then
+        self.last_pressed = key
+        if key == "a" then
+          self.speed.x = self.speed.x - self.max_speed
+        elseif key == "d" then
+          self.speed.x = self.speed.x + self.max_speed
+        elseif key == "w" then
+          self.speed.y = self.speed.y - self.max_speed
+        elseif key == "s" then
+          self.speed.y = self.speed.y + self.max_speed
+        end
+        for k, v in pairs({
+          "w",
+          "a",
+          "s",
+          "d"
+        }) do
+          if key == v then
+            self.keys_pushed = self.keys_pushed + 1
+          end
         end
       end
       if key == "q" then
@@ -131,25 +133,27 @@ do
       if not self.alive then
         return 
       end
-      self.last_released = key
-      if self.keys_pushed > 0 then
-        if key == "a" then
-          self.speed.x = self.speed.x + self.max_speed
-        elseif key == "d" then
-          self.speed.x = self.speed.x - self.max_speed
-        elseif key == "w" then
-          self.speed.y = self.speed.y + self.max_speed
-        elseif key == "s" then
-          self.speed.y = self.speed.y - self.max_speed
-        end
-        for k, v in pairs({
-          "w",
-          "a",
-          "s",
-          "d"
-        }) do
-          if key == v then
-            self.keys_pushed = self.keys_pushed - 1
+      if not self.movement_blocked then
+        self.last_released = key
+        if self.keys_pushed > 0 then
+          if key == "a" then
+            self.speed.x = self.speed.x + self.max_speed
+          elseif key == "d" then
+            self.speed.x = self.speed.x - self.max_speed
+          elseif key == "w" then
+            self.speed.y = self.speed.y + self.max_speed
+          elseif key == "s" then
+            self.speed.y = self.speed.y - self.max_speed
+          end
+          for k, v in pairs({
+            "w",
+            "a",
+            "s",
+            "d"
+          }) do
+            if key == v then
+              self.keys_pushed = self.keys_pushed - 1
+            end
           end
         end
       end
@@ -158,7 +162,7 @@ do
       if not self.alive then
         return 
       end
-      if self.keys_pushed == 0 then
+      if self.keys_pushed == 0 or self.movement_blocked then
         self.speed = Vector(0, 0)
         _class_0.__parent.__base.update(self, dt)
       else
@@ -173,6 +177,7 @@ do
         _class_0.__parent.__base.update(self, dt)
         self.speed = start
       end
+      self.lock_sprite:update(dt)
       for k, i in pairs(self.equipped_items) do
         i:update(dt)
       end
@@ -339,6 +344,9 @@ do
         love.graphics.pop()
       end
       _class_0.__parent.__base.draw(self)
+      if self.movement_blocked then
+        self.lock_sprite:draw(self.position.x, self.position.y)
+      end
       love.graphics.setColor(0, 0, 0, 255)
       love.graphics.setFont(self.font)
       local message = "Turret Cooldown"
@@ -448,6 +456,8 @@ do
       self.equipped_items = { }
       self:setArmor(0, self.max_health)
       self.knocking_back = false
+      self.movement_blocked = false
+      self.lock_sprite = Sprite("effect/lock.tga", 32, 32, 1, 1.75)
     end,
     __base = _base_0,
     __name = "Player",

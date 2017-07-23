@@ -60,6 +60,9 @@ export class Player extends GameObject
 
     @knocking_back = false
 
+    @movement_blocked = false
+    @lock_sprite = Sprite "effect/lock.tga", 32, 32, 1, 1.75
+
   getStats: =>
     stats = {}
     stats[1] = @max_health
@@ -98,18 +101,20 @@ export class Player extends GameObject
 
   keypressed: (key) =>
     if not @alive return
-    @last_pressed = key
-    if key == "a"
-      @speed.x -= @max_speed
-    elseif key == "d"
-      @speed.x += @max_speed
-    elseif key == "w"
-      @speed.y -= @max_speed
-    elseif key == "s"
-      @speed.y += @max_speed
-    for k, v in pairs {"w", "a", "s", "d"}
-      if key == v
-        @keys_pushed += 1
+
+    if not @movement_blocked
+      @last_pressed = key
+      if key == "a"
+        @speed.x -= @max_speed
+      elseif key == "d"
+        @speed.x += @max_speed
+      elseif key == "w"
+        @speed.y -= @max_speed
+      elseif key == "s"
+        @speed.y += @max_speed
+      for k, v in pairs {"w", "a", "s", "d"}
+        if key == v
+          @keys_pushed += 1
 
     if key == "q"
       for k, v in pairs @equipped_items
@@ -155,23 +160,25 @@ export class Player extends GameObject
 
   keyreleased: (key) =>
     if not @alive return
-    @last_released = key
-    if @keys_pushed > 0
-      if key == "a"
-        @speed.x += @max_speed
-      elseif key == "d"
-        @speed.x -= @max_speed
-      elseif key == "w"
-        @speed.y += @max_speed
-      elseif key == "s"
-        @speed.y -= @max_speed
-      for k, v in pairs {"w", "a", "s", "d"}
-        if key == v
-          @keys_pushed -= 1
+
+    if not @movement_blocked
+      @last_released = key
+      if @keys_pushed > 0
+        if key == "a"
+          @speed.x += @max_speed
+        elseif key == "d"
+          @speed.x -= @max_speed
+        elseif key == "w"
+          @speed.y += @max_speed
+        elseif key == "s"
+          @speed.y -= @max_speed
+        for k, v in pairs {"w", "a", "s", "d"}
+          if key == v
+            @keys_pushed -= 1
 
   update: (dt) =>
     if not @alive return
-    if @keys_pushed == 0
+    if @keys_pushed == 0 or @movement_blocked
       @speed = Vector 0, 0
       super dt
     else
@@ -185,6 +192,7 @@ export class Player extends GameObject
       super dt
       @speed = start
     --@trail\update dt
+    @lock_sprite\update dt
     for k, i in pairs @equipped_items
       i\update dt
     @missile_timer += dt
@@ -307,6 +315,8 @@ export class Player extends GameObject
       love.graphics.circle "fill", @position.x, @position.y, @speed_range, 360
       love.graphics.pop!
     super!
+    if @movement_blocked
+      @lock_sprite\draw @position.x, @position.y
 
     love.graphics.setColor 0, 0, 0, 255
     love.graphics.setFont @font
