@@ -12,7 +12,7 @@ do
       return shuffle(self.items)
     end,
     getItem = function(self)
-      return WholeHogActive(0, 0)
+      return DeadEyeActive(0, 0)
     end
   }
   _base_0.__index = _base_0
@@ -23,6 +23,7 @@ do
         DashActive,
         TrailActive,
         ShieldActive,
+        DeadEyeActive,
         WholeHogActive,
         BlackHoleActive,
         MoltenCoreActive,

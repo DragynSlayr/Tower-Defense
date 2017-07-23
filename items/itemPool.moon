@@ -5,6 +5,7 @@ export class ItemPoolHandler
       DashActive,
       TrailActive,
       ShieldActive,
+      DeadEyeActive,
       WholeHogActive,
       BlackHoleActive,
       MoltenCoreActive,
@@ -38,6 +39,6 @@ export class ItemPoolHandler
       shuffle @items
 
   getItem: =>
-    return WholeHogActive 0, 0
+    return DeadEyeActive 0, 0
     --item = pick @items
     --return item 0, 0
