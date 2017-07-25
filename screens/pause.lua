@@ -7,10 +7,12 @@ do
       local frames = UI:filter(typeof, Screen_State.inventory)
       local frames2 = UI:filter(typeof)
       for k, v in pairs(frames2) do
-        v:setItem(frames[k].item)
-        v.sprite:setScale(2.5)
-        v.small_sprite = v.sprite
-        v.normal_sprite = v.small_sprite
+        if frames[k].item.__class ~= v.item.__class then
+          v:setItem(frames[k].item)
+          v.sprite:setScale(2.5)
+          v.small_sprite = v.sprite
+          v.normal_sprite = v.small_sprite
+        end
       end
     end,
     draw = function(self)

@@ -18,10 +18,11 @@ export class PauseScreen extends Screen
     frames = UI\filter typeof, Screen_State.inventory
     frames2 = UI\filter typeof
     for k, v in pairs frames2
-      v\setItem frames[k].item
-      v.sprite\setScale 2.5
-      v.small_sprite = v.sprite
-      v.normal_sprite = v.small_sprite
+      if frames[k].item.__class ~= v.item.__class
+        v\setItem frames[k].item
+        v.sprite\setScale 2.5
+        v.small_sprite = v.sprite
+        v.normal_sprite = v.small_sprite
 
   draw: =>
     love.graphics.push "all"
