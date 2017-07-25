@@ -12,6 +12,8 @@ export class ItemPoolHandler
       DamageBoostActive,
       FreezeFieldActive,
       PoisonFieldActive,
+      DragonStrikeActive,
+      EarthShatterActive,
       HealingFieldActive,
       BombPassive,
       ArmorPassive,
@@ -39,6 +41,5 @@ export class ItemPoolHandler
       shuffle @items
 
   getItem: =>
-    return DeadEyeActive 0, 0
-    --item = pick @items
-    --return item 0, 0
+    item = pick @items
+    return item 0, 0

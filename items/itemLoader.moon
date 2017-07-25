@@ -26,6 +26,8 @@ require "items.wholeHogActive"
 require "items.blackHoleActive"
 require "items.moltenCoreActive"
 require "items.damageBoostActive"
+require "items.dragonStrikeActive"
+require "items.earthShatterActive"
 
 --+-------------------------+--
 --| Depends on passive item |--
