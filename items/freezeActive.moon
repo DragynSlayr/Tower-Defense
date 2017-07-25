@@ -6,4 +6,4 @@ export class FreezeFieldActive extends ActiveItem
       Driver\addObject field, EntityTypes.background
     super x, y, sprite, 15, effect
     @name = "Frozen Field"
-    @description = "Place a frozen field"
+    @description = "Place a freezing field"

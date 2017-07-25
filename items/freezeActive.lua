@@ -14,7 +14,7 @@ do
       end
       _class_0.__parent.__init(self, x, y, sprite, 15, effect)
       self.name = "Frozen Field"
-      self.description = "Place a frozen field"
+      self.description = "Place a freezing field"
     end,
     __base = _base_0,
     __name = "FreezeFieldActive",
