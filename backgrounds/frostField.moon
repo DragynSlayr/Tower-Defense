@@ -12,18 +12,14 @@ export class FrostField extends BackgroundObject
     @timer += dt
     if @timer >= @frost_delay
       @timer = 0
-      if Driver.objects[EntityTypes.enemy]
-        for k, e in pairs Driver.objects[EntityTypes.enemy]
-          target = e\getHitBox!
-          frost = @getHitBox!
-          if target\contains frost
-            e.speed_multiplier *= 0.5
-      if Driver.objects[EntityTypes.boss]
-        for k, b in pairs Driver.objects[EntityTypes.boss]
-          target = b\getHitBox!
-          frost = @getHitBox!
-          if target\contains frost
-            b.speed_multiplier *= 0.5
+      filters = {EntityTypes.enemy, EntityTypes.boss}
+      for k2, filter in pairs filters
+        if Driver.objects[filter]
+          for k, e in pairs Driver.objects[filter]
+            target = e\getHitBox!
+            frost = @getHitBox!
+            if target\contains frost
+              e.speed_multiplier *= 0.5
     @life_time -= dt
     if @life_time <= 0
       @health = 0

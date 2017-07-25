@@ -7,21 +7,18 @@ do
       self.timer = self.timer + dt
       if self.timer >= self.frost_delay then
         self.timer = 0
-        if Driver.objects[EntityTypes.enemy] then
-          for k, e in pairs(Driver.objects[EntityTypes.enemy]) do
-            local target = e:getHitBox()
-            local frost = self:getHitBox()
-            if target:contains(frost) then
-              e.speed_multiplier = e.speed_multiplier * 0.5
-            end
-          end
-        end
-        if Driver.objects[EntityTypes.boss] then
-          for k, b in pairs(Driver.objects[EntityTypes.boss]) do
-            local target = b:getHitBox()
-            local frost = self:getHitBox()
-            if target:contains(frost) then
-              b.speed_multiplier = b.speed_multiplier * 0.5
+        local filters = {
+          EntityTypes.enemy,
+          EntityTypes.boss
+        }
+        for k2, filter in pairs(filters) do
+          if Driver.objects[filter] then
+            for k, e in pairs(Driver.objects[filter]) do
+              local target = e:getHitBox()
+              local frost = self:getHitBox()
+              if target:contains(frost) then
+                e.speed_multiplier = e.speed_multiplier * 0.5
+              end
             end
           end
         end
