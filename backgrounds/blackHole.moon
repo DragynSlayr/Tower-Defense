@@ -2,7 +2,7 @@ export class BlackHole extends BackgroundObject
   new: (x, y) =>
     sprite = Sprite "background/blackhole.tga", 32, 32, 1, 1
     super x, y, sprite
-    @life_time = 17
+    @life_time = 7.5
     @diag = (Vector Screen_Size.border[3], Screen_Size.border[4])\getLength!
 
   kill: =>

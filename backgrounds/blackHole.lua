@@ -67,7 +67,7 @@ do
     __init = function(self, x, y)
       local sprite = Sprite("background/blackhole.tga", 32, 32, 1, 1)
       _class_0.__parent.__init(self, x, y, sprite)
-      self.life_time = 17
+      self.life_time = 7.5
       self.diag = (Vector(Screen_Size.border[3], Screen_Size.border[4])):getLength()
     end,
     __base = _base_0,
