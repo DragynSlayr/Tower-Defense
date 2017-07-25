@@ -11,6 +11,8 @@ do
       }
       sprite.rotation_speed = self.rotation_speed
       sprite.rotation = self.rotation
+      sprite.x_shear = self.x_shear
+      sprite.y_shear = self.y_shear
       local x_scale = self.scaled_width / (self.width * Scale.width)
       local y_scale = self.scaled_height / (self.height * Scale.height)
       sprite:setScale(x_scale, y_scale)
@@ -24,6 +26,10 @@ do
     end,
     setColor = function(self, color)
       self.color = color
+    end,
+    setShear = function(self, x_shear, y_shear)
+      self.x_shear = x_shear
+      self.y_shear = y_shear
     end,
     setScale = function(self, x, y)
       if y == nil then
@@ -76,7 +82,7 @@ do
         end
       end
       love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.color[4])
-      love.graphics.draw(self.image, self.sprites[self.current_frame], math.floor(x), math.floor(y), self.rotation, self.x_scale, self.y_scale, self.width / 2, self.height / 2)
+      love.graphics.draw(self.image, self.sprites[self.current_frame], math.floor(x), math.floor(y), self.rotation, self.x_scale, self.y_scale, self.width / 2, self.height / 2, self.x_shear, self.y_shear)
       if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none then
         love.graphics.setShader()
       end
@@ -125,6 +131,8 @@ do
         255,
         255
       }
+      self.x_shear = 0
+      self.y_shear = 0
     end,
     __base = _base_0,
     __name = "Sprite"

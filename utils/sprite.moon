@@ -44,11 +44,16 @@ export class Sprite
 
     @color = {255, 255, 255, 255}
 
+    @x_shear = 0
+    @y_shear = 0
+
   getCopy: =>
     sprite = Sprite @name, @getProperties!
     sprite.color = {@color[1], @color[2], @color[3], @color[4]}
     sprite.rotation_speed = @rotation_speed
     sprite.rotation = @rotation
+    sprite.x_shear = @x_shear
+    sprite.y_shear = @y_shear
     x_scale = @scaled_width / (@width * Scale.width)
     y_scale = @scaled_height / (@height * Scale.height)
     sprite\setScale x_scale, y_scale
@@ -64,6 +69,10 @@ export class Sprite
   setColor: (color) =>
     -- Set the color
     @color = color
+
+  setShear: (x_shear, y_shear) =>
+    @x_shear = x_shear
+    @y_shear = y_shear
 
   -- Resize the Sprite
   -- x: The new x scale
@@ -146,7 +155,7 @@ export class Sprite
     love.graphics.setColor @color[1], @color[2], @color[3], @color[4]
 
     -- Draw the sprite
-    love.graphics.draw @image, @sprites[@current_frame], math.floor(x), math.floor(y), @rotation, @x_scale, @y_scale, @width / 2, @height / 2
+    love.graphics.draw @image, @sprites[@current_frame], math.floor(x), math.floor(y), @rotation, @x_scale, @y_scale, @width / 2, @height / 2, @x_shear, @y_shear
 
     -- Restore previous transforms
     if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none
