@@ -125,8 +125,6 @@ do
         end
       elseif key == "z" then
         SHOW_RANGE = not SHOW_RANGE
-      elseif key == "`" then
-        DEBUGGING = not DEBUGGING
       end
     end,
     keyreleased = function(self, key)

@@ -155,8 +155,6 @@ export class Player extends GameObject
             v.health = clamp v.health, 0, v.max_health
     elseif key == "z"
       export SHOW_RANGE = not SHOW_RANGE
-    elseif key == "`"
-      export DEBUGGING = not DEBUGGING
 
   keyreleased: (key) =>
     if not @alive return
