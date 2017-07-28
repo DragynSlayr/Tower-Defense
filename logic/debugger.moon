@@ -20,22 +20,8 @@ export class DebugMenu
 
     width = Screen_Size.width - (20 * Scale.width)
     height = Screen_Size.height - (95 * Scale.height)
-    text_box = TextBox 10 * Scale.width, 10 * Scale.height, width, height
-    text_box.action["return"] = () ->
-      text = text_box.text
-      text_box.text = ""
-      f = loadstring text
-      pcall f
+    text_box = DebugTextBox 10 * Scale.width, 10 * Scale.height, width, height
     @add text_box
-
-    --x = 135 * Scale.width
-    --y = Screen_Size.height - (40 * Scale.height)
-    --run_button = Button x, y, 250, 60, "Run", () ->
-      --text = text_box.text
-      --text_box.text = ""
-      --f = loadstring text
-      --pcall f
-    --@add run_button
 
   add: (object) =>
     table.insert @ui_objects, object

@@ -18,4 +18,5 @@ require "ui.itemFrame"
 --+---------------------+--
 require "ui.tooltip"
 require "ui.tooltipButton"
+require "ui.debugTextBox"
 require "ui.ui"

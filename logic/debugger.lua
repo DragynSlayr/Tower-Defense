@@ -17,13 +17,7 @@ do
       self:add(back_button)
       local width = Screen_Size.width - (20 * Scale.width)
       local height = Screen_Size.height - (95 * Scale.height)
-      local text_box = TextBox(10 * Scale.width, 10 * Scale.height, width, height)
-      text_box.action["return"] = function()
-        local text = text_box.text
-        text_box.text = ""
-        local f = loadstring(text)
-        return pcall(f)
-      end
+      local text_box = DebugTextBox(10 * Scale.width, 10 * Scale.height, width, height)
       return self:add(text_box)
     end,
     add = function(self, object)
