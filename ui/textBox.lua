@@ -2,21 +2,52 @@ do
   local _class_0
   local _parent_0 = UIElement
   local _base_0 = {
+    getText = function(self)
+      local s = ""
+      for k, v in pairs(self.lines) do
+        for k2, v2 in pairs(v) do
+          s = s .. v2
+        end
+        if k ~= #self.lines then
+          s = s .. "\n"
+        end
+      end
+      return s
+    end,
+    getLine = function(self, idx, idx2)
+      if idx2 == nil then
+        idx2 = #self.lines[idx]
+      end
+      local s = ""
+      for k, v in pairs(self.lines[idx]) do
+        if k < idx2 then
+          s = s .. v
+        end
+      end
+      return s
+    end,
     textinput = function(self, text)
       if self.active then
         if text ~= '`' then
-          self.text = self.text .. text
+          if not self.lines[self.lines_index] then
+            self.lines[self.lines_index] = { }
+          end
+          self.char_index = self.char_index + 1
+          return table.insert(self.lines[self.lines_index], self.char_index, text)
         end
       end
     end,
     keypressed = function(self, key, scancode, isrepeat)
       if self.active then
         if key == "backspace" then
-          local length = string.len(self.text)
-          if length > 0 then
-            self.text = string.sub(self.text, 1, length - 1)
+          if #self.lines[self.lines_index] ~= 0 then
+            table.remove(self.lines[self.lines_index], self.char_index)
+            self.char_index = self.char_index - 1
           else
-            self.text = ""
+            if self.lines_index > 1 then
+              self.lines_index = self.lines_index - 1
+              self.char_index = #self.lines[self.lines_index]
+            end
           end
         else
           if self.action[key] then
@@ -66,23 +97,19 @@ do
       love.graphics.push("all")
       love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.color[4])
       love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+      local text = self:getText()
       love.graphics.setColor(0, 255, 0, 255)
       love.graphics.setFont(self.font)
       local height = self.font:getHeight()
-      local width = self.font:getWidth(self.text)
-      love.graphics.printf(self.text, self.x + (10 * Scale.width), self.y + (height / 2), self.width, "left")
+      local width = self.font:getWidth(text)
+      love.graphics.printf(text, self.x + (10 * Scale.width), self.y + (height / 2), self.width, "left")
       if self.active then
         love.graphics.setColor(0, 255, 0, self.cursor.alpha)
-        local num_lines = 0
-        local last_n = 1
-        for i = 1, #self.text do
-          if (string.sub(self.text, i, i)) == "\n" then
-            num_lines = num_lines + 1
-            last_n = i
-          end
+        width = 0
+        if self.lines[self.lines_index] then
+          width = self.font:getWidth(self:getLine(self.lines_index, (self.char_index + 1)))
         end
-        width = self.font:getWidth(string.sub(self.text, last_n, #self.text))
-        love.graphics.rectangle("fill", self.x + (10 * Scale.width) + width, self.y + (height / 2) + (num_lines * height), 10 * Scale.width, height)
+        love.graphics.rectangle("fill", self.x + (10 * Scale.width) + width, self.y + (height / 2) + ((self.lines_index - 1) * height), 10 * Scale.width, height)
       end
       return love.graphics.pop()
     end
@@ -107,12 +134,44 @@ do
       self.cursor.on_time = 0.33
       self.cursor.off_time = 0.33
       self.cursor.is_on = true
+      self.active = true
+      self.selected = false
+      self.lines = { }
+      self.lines_index = 1
+      self.char_index = 1
       self.action = { }
       self.action["tab"] = function()
-        self.text = self.text .. "    "
+        return table.insert(self.lines[self.lines_index], "    ")
       end
-      self.active = false
-      self.selected = false
+      self.action["return"] = function()
+        self.lines_index = self.lines_index + 1
+        table.insert(self.lines, self.lines_index, { })
+        self.char_index = 1
+      end
+      self.action["up"] = function()
+        if self.lines_index > 1 then
+          self.lines_index = self.lines_index - 1
+          self.char_index = #self.lines[self.lines_index]
+        end
+      end
+      self.action["down"] = function()
+        if self.lines_index < #self.lines then
+          self.lines_index = self.lines_index + 1
+          self.char_index = #self.lines[self.lines_index]
+        end
+      end
+      self.action["left"] = function()
+        if self.char_index > 1 then
+          self.char_index = self.char_index - 1
+        end
+      end
+      self.action["right"] = function()
+        if self.lines[self.lines_index] then
+          if self.char_index < #self.lines[self.lines_index] then
+            self.char_index = self.char_index + 1
+          end
+        end
+      end
     end,
     __base = _base_0,
     __name = "TextBox",

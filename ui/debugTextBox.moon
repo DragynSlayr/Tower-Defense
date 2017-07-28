@@ -3,37 +3,64 @@ export class DebugTextBox extends TextBox
     super x, y, width, height
     @status_text = ""
 
-    @saved = {"", "", "", "", "", "", "", "", "", ""}
+    @saved = {{}, {}, {}, {}, {}, {}, {}, {}, {}, {}}
     @max_saved = 10
     @saved_index = 1
 
     @action["return"] = () ->
       if love.keyboard.isDown "rshift", "lshift"
-        @text ..= "\n"
+        @lines_index += 1
+        table.insert @lines, @lines_index, {}
+        @char_index = 1
       else
-        @saved[@saved_index] = @text
+        @saved[@saved_index] = @lines
         @saved_index += 1
-        if @saved_index > @max_saved
+        if  @saved_index > @max_saved
           @saved_index = 1
-        text = @text
-        @text = ""
+        text = @getText!
+        @lines = {}
+        @lines_index = 1
+        @char_index = 1
         f = loadstring text
         if (pcall f)
           @status_text = "Command Successful"
         else
           @status_text = "Invalid Command"
+      --else
+        --@saved[@saved_index] = @text
+        --@saved_index += 1
+        --if @saved_index > @max_saved
+          --@saved_index = 1
+        --text = @text
+        --@text = ""
+        --f = loadstring text
+        --if (pcall f)
+          --@status_text = "Command Successful"
+        --else
+          --@status_text = "Invalid Command"
 
-    @action["up"] = () ->
+    @action["pageup"] = () ->
       @saved_index -= 1
       if @saved_index < 1
         @saved_index = @max_saved
-      @text = @saved[@saved_index]
+      @recoverSaved!
 
-    @action["down"] = () ->
+    @action["pagedown"] = () ->
       @saved_index += 1
       if @saved_index > @max_saved
         @saved_index = 1
-      @text = @saved[@saved_index]
+      @recoverSaved!
+
+  recoverSaved: =>
+    @lines = @saved[@saved_index]
+    if #@lines > 0
+      @lines_index = #@lines
+    else
+      @lines_index = 1
+    if @lines[@lines_index]
+      @char_index = #@lines[@lines_index]
+    else
+      @char_index = 1
 
   draw: =>
     super!

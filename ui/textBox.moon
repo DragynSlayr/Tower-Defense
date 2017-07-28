@@ -13,26 +13,75 @@ export class TextBox extends UIElement
     @cursor.off_time = 0.33
     @cursor.is_on = true
 
+    @active = true
+    @selected = false
+
+    @lines = {}
+    @lines_index = 1
+    @char_index = 1
+
     @action = {}
     @action["tab"] = () ->
-      @text ..= "    "
+      table.insert @lines[@lines_index], "    "
 
-    @active = false
-    @selected = false
+    @action["return"] = () ->
+      @lines_index += 1
+      table.insert @lines, @lines_index, {}
+      @char_index = 1
+
+    @action["up"] = () ->
+      if @lines_index > 1
+        @lines_index -= 1
+        @char_index = #@lines[@lines_index]
+
+    @action["down"] = () ->
+      if @lines_index < #@lines
+        @lines_index += 1
+        @char_index = #@lines[@lines_index]
+
+    @action["left"] = () ->
+      if @char_index > 1
+        @char_index -= 1
+
+    @action["right"] = () ->
+      if @lines[@lines_index]
+        if @char_index < #@lines[@lines_index]
+          @char_index += 1
+
+  getText: =>
+    s = ""
+    for k, v in pairs @lines
+      for k2, v2 in pairs v
+        s ..= v2
+      if k ~= #@lines
+        s ..= "\n"
+    return s
+
+  getLine: (idx, idx2 = #@lines[idx]) =>
+    s = ""
+    for k, v in pairs @lines[idx]
+      if k < idx2
+        s ..= v
+    return s
 
   textinput: (text) =>
     if @active
       if text ~= '`'
-        @text ..= text
+        if not @lines[@lines_index]
+          @lines[@lines_index] = {}
+        @char_index += 1
+        table.insert @lines[@lines_index], @char_index, text
 
   keypressed: (key, scancode, isrepeat) =>
     if @active
       if key == "backspace"
-        length = string.len @text
-        if length > 0
-          @text = string.sub @text, 1, length - 1
+        if #@lines[@lines_index] ~= 0
+          table.remove @lines[@lines_index], @char_index
+          @char_index -= 1
         else
-          @text = ""
+          if @lines_index > 1
+            @lines_index -= 1
+            @char_index = #@lines[@lines_index]
       else
         if @action[key]
           @action[key]!
@@ -74,21 +123,19 @@ export class TextBox extends UIElement
     love.graphics.setColor @color[1], @color[2], @color[3], @color[4]
     love.graphics.rectangle "fill", @x, @y, @width, @height
 
+    text = @getText!
+
     love.graphics.setColor 0, 255, 0, 255
     love.graphics.setFont @font
     height = @font\getHeight!
-    width = @font\getWidth @text
-    love.graphics.printf @text, @x + (10 * Scale.width), @y + (height / 2), @width, "left"
+    width = @font\getWidth text
+    love.graphics.printf text, @x + (10 * Scale.width), @y + (height / 2), @width, "left"
 
     if @active
       love.graphics.setColor 0, 255, 0, @cursor.alpha
-      num_lines = 0
-      last_n = 1
-      for i = 1, #@text
-        if (string.sub @text, i, i) == "\n"
-          num_lines += 1
-          last_n = i
-      width = @font\getWidth string.sub @text, last_n, #@text
-      love.graphics.rectangle "fill", @x + (10 * Scale.width) + width, @y + (height / 2) + (num_lines * height), 10 * Scale.width, height
+      width = 0
+      if @lines[@lines_index]
+        width = @font\getWidth @getLine @lines_index, (@char_index + 1)
+      love.graphics.rectangle "fill", @x + (10 * Scale.width) + width, @y + (height / 2) + ((@lines_index - 1) * height), 10 * Scale.width, height
 
     love.graphics.pop!

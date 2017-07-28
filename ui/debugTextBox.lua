@@ -2,6 +2,19 @@ do
   local _class_0
   local _parent_0 = TextBox
   local _base_0 = {
+    recoverSaved = function(self)
+      self.lines = self.saved[self.saved_index]
+      if #self.lines > 0 then
+        self.lines_index = #self.lines
+      else
+        self.lines_index = 1
+      end
+      if self.lines[self.lines_index] then
+        self.char_index = #self.lines[self.lines_index]
+      else
+        self.char_index = 1
+      end
+    end,
     draw = function(self)
       _class_0.__parent.__base.draw(self)
       love.graphics.push("all")
@@ -20,30 +33,34 @@ do
       _class_0.__parent.__init(self, x, y, width, height)
       self.status_text = ""
       self.saved = {
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        ""
+        { },
+        { },
+        { },
+        { },
+        { },
+        { },
+        { },
+        { },
+        { },
+        { }
       }
       self.max_saved = 10
       self.saved_index = 1
       self.action["return"] = function()
         if love.keyboard.isDown("rshift", "lshift") then
-          self.text = self.text .. "\n"
+          self.lines_index = self.lines_index + 1
+          table.insert(self.lines, self.lines_index, { })
+          self.char_index = 1
         else
-          self.saved[self.saved_index] = self.text
+          self.saved[self.saved_index] = self.lines
           self.saved_index = self.saved_index + 1
           if self.saved_index > self.max_saved then
             self.saved_index = 1
           end
-          local text = self.text
-          self.text = ""
+          local text = self:getText()
+          self.lines = { }
+          self.lines_index = 1
+          self.char_index = 1
           local f = loadstring(text)
           if (pcall(f)) then
             self.status_text = "Command Successful"
@@ -52,19 +69,19 @@ do
           end
         end
       end
-      self.action["up"] = function()
+      self.action["pageup"] = function()
         self.saved_index = self.saved_index - 1
         if self.saved_index < 1 then
           self.saved_index = self.max_saved
         end
-        self.text = self.saved[self.saved_index]
+        return self:recoverSaved()
       end
-      self.action["down"] = function()
+      self.action["pagedown"] = function()
         self.saved_index = self.saved_index + 1
         if self.saved_index > self.max_saved then
           self.saved_index = 1
         end
-        self.text = self.saved[self.saved_index]
+        return self:recoverSaved()
       end
     end,
     __base = _base_0,
