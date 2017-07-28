@@ -4,6 +4,7 @@ export class Driver
       love.keyreleased = @keyreleased
       love.mousepressed = @mousepressed
       love.mousereleased = @mousereleased
+      love.textinput = @textinput
       love.focus = @focus
       love.load = @load
       love.update = @update
@@ -107,35 +108,56 @@ export class Driver
     keypressed: (key, scancode, isrepeat) ->
       if key == "escape"
         love.event.quit 0
-      elseif key == "p"
-        if Driver.game_state == Game_State.paused
-          Driver.unpause!
-        else
-          Driver.pause!
-      elseif key == "u"
-        if DEBUGGING
-          Objectives.mode.complete = true
       elseif key == "printscreen"
         screenshot = love.graphics.newScreenshot true
         screenshot\encode "png", "screenshots/" .. os.time! .. ".png"
+
+      if DEBUG_MENU
+        if key == "`"
+          export DEBUG_MENU = false
+        else
+          Debugger\keypressed key, scancode, isrepeat
       else
-        if Driver.game_state == Game_State.playing
-          if Objectives.mode.complete and key == "space"
-            Objectives.ready = true
+        if key == "`"
+          export DEBUG_MENU = true
+        elseif key == "p"
+          if Driver.game_state == Game_State.paused
+            Driver.unpause!
           else
-            for k, v in pairs Driver.objects[EntityTypes.player]
-              v\keypressed key
+            Driver.pause!
+        else
+          if Driver.game_state == Game_State.playing
+            if Objectives.mode.complete and key == "space"
+              Objectives.ready = true
+            else
+              for k, v in pairs Driver.objects[EntityTypes.player]
+                v\keypressed key
 
     keyreleased: (key) ->
-      if Driver.game_state == Game_State.playing
-        for k, v in pairs Driver.objects[EntityTypes.player]
-          v\keyreleased key
+      if DEBUG_MENU
+        Debugger\keyreleased key
+      else
+        if Driver.game_state == Game_State.playing
+          for k, v in pairs Driver.objects[EntityTypes.player]
+            v\keyreleased key
 
     mousepressed: (x, y, button, isTouch) ->
-      UI\mousepressed x, y, button, isTouch
+      if DEBUG_MENU
+        Debugger\mousepressed x, y, button, isTouch
+      else
+        UI\mousepressed x, y, button, isTouch
 
     mousereleased: (x, y, button, isTouch) ->
-      UI\mousereleased x, y, button, isTouch
+      if DEBUG_MENU
+        Debugger\mousereleased x, y, button, isTouch
+      else
+        UI\mousereleased x, y, button, isTouch
+
+    textinput: (text) ->
+      if DEBUG_MENU
+        Debugger\textinput text
+      else
+        UI\textinput text
 
     focus: (focus) ->
       if focus
@@ -165,10 +187,6 @@ export class Driver
     restart: ->
       loadBaseStats!
 
-      -- Enable to show extra info
-      export DEBUGGING = false
-      export SHOW_RANGE = false
-
       -- Global stats
       export SCORE = 0
       export SCORE_THRESHOLD = 10000
@@ -191,6 +209,9 @@ export class Driver
 
       -- Global UI
       export UI = UIHandler!
+
+      -- Debugging menu
+      export Debugger = DebugMenu!
 
       -- Global objectives
       export Objectives = ObjectivesHandler!
@@ -223,28 +244,30 @@ export class Driver
       Driver.restart!
 
     update: (dt) ->
-      Driver.elapsed += dt
+      if DEBUG_MENU
+        Debugger\update dt
+      else
+        Driver.elapsed += dt
+        switch Driver.game_state
+          when Game_State.game_over
+            return
+          when Game_State.paused
+            Pause\update dt
+          when Game_State.upgrading
+            Upgrade\update dt
+          when Game_State.inventory
+            Inventory\update dt
+          when Game_State.playing
+            for k, v in pairs Driver.objects
+              for k2, o in pairs v
+                o\update dt
+                if o.health <= 0 or not o.alive
+                  Driver\removeObject o
+            Objectives\update dt
+        UI\update dt
 
-      switch Driver.game_state
-        when Game_State.game_over
-          return
-        when Game_State.paused
-          Pause\update dt
-        when Game_State.upgrading
-          Upgrade\update dt
-        when Game_State.inventory
-          Inventory\update dt
-        when Game_State.playing
-          for k, v in pairs Driver.objects
-            for k2, o in pairs v
-              o\update dt
-              if o.health <= 0 or not o.alive
-                Driver\removeObject o
-          Objectives\update dt
-      UI\update dt
-
-      if not Driver.shader
-        Driver.shader = love.graphics.newShader "shaders/normal.fs"
+        if not Driver.shader
+          Driver.shader = love.graphics.newShader "shaders/normal.fs"
 
     draw: ->
       love.graphics.push "all"
@@ -275,15 +298,13 @@ export class Driver
           Inventory\draw!
         when Game_State.paused
           Pause\draw!
-      if DEBUGGING
-        love.graphics.setColor 200, 200, 200, 100
-        bounds = Screen_Size.border
-        love.graphics.rectangle "fill", bounds[1], bounds[2], bounds[3], bounds[4]
-
       love.graphics.setColor 0, 0, 0, 127
       love.graphics.setFont Renderer.small_font
       love.graphics.printf VERSION .. "\t", 0, Screen_Size.height - (25 * Scale.height), Screen_Size.width, "right"
       love.graphics.printf love.timer.getFPS! .. " FPS\t", 0, Screen_Size.height - (50 * Scale.height), Screen_Size.width, "right"
       love.graphics.pop!
+
+      if DEBUG_MENU
+        Debugger\draw!
 
       collectgarbage "step"

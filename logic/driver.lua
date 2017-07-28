@@ -88,44 +88,70 @@ do
     end,
     keypressed = function(key, scancode, isrepeat)
       if key == "escape" then
-        return love.event.quit(0)
-      elseif key == "p" then
-        if Driver.game_state == Game_State.paused then
-          return Driver.unpause()
-        else
-          return Driver.pause()
-        end
-      elseif key == "u" then
-        if DEBUGGING then
-          Objectives.mode.complete = true
-        end
+        love.event.quit(0)
       elseif key == "printscreen" then
         local screenshot = love.graphics.newScreenshot(true)
-        return screenshot:encode("png", "screenshots/" .. os.time() .. ".png")
+        screenshot:encode("png", "screenshots/" .. os.time() .. ".png")
+      end
+      if DEBUG_MENU then
+        if key == "`" then
+          DEBUG_MENU = false
+        else
+          return Debugger:keypressed(key, scancode, isrepeat)
+        end
       else
-        if Driver.game_state == Game_State.playing then
-          if Objectives.mode.complete and key == "space" then
-            Objectives.ready = true
+        if key == "`" then
+          DEBUG_MENU = true
+        elseif key == "p" then
+          if Driver.game_state == Game_State.paused then
+            return Driver.unpause()
           else
-            for k, v in pairs(Driver.objects[EntityTypes.player]) do
-              v:keypressed(key)
+            return Driver.pause()
+          end
+        else
+          if Driver.game_state == Game_State.playing then
+            if Objectives.mode.complete and key == "space" then
+              Objectives.ready = true
+            else
+              for k, v in pairs(Driver.objects[EntityTypes.player]) do
+                v:keypressed(key)
+              end
             end
           end
         end
       end
     end,
     keyreleased = function(key)
-      if Driver.game_state == Game_State.playing then
-        for k, v in pairs(Driver.objects[EntityTypes.player]) do
-          v:keyreleased(key)
+      if DEBUG_MENU then
+        return Debugger:keyreleased(key)
+      else
+        if Driver.game_state == Game_State.playing then
+          for k, v in pairs(Driver.objects[EntityTypes.player]) do
+            v:keyreleased(key)
+          end
         end
       end
     end,
     mousepressed = function(x, y, button, isTouch)
-      return UI:mousepressed(x, y, button, isTouch)
+      if DEBUG_MENU then
+        return Debugger:mousepressed(x, y, button, isTouch)
+      else
+        return UI:mousepressed(x, y, button, isTouch)
+      end
     end,
     mousereleased = function(x, y, button, isTouch)
-      return UI:mousereleased(x, y, button, isTouch)
+      if DEBUG_MENU then
+        return Debugger:mousereleased(x, y, button, isTouch)
+      else
+        return UI:mousereleased(x, y, button, isTouch)
+      end
+    end,
+    textinput = function(text)
+      if DEBUG_MENU then
+        return Debugger:textinput(text)
+      else
+        return UI:textinput(text)
+      end
     end,
     focus = function(focus)
       if focus then
@@ -156,8 +182,6 @@ do
     end,
     restart = function()
       loadBaseStats()
-      DEBUGGING = false
-      SHOW_RANGE = false
       SCORE = 0
       SCORE_THRESHOLD = 10000
       love.graphics.setDefaultFilter("nearest", "nearest", 1)
@@ -170,6 +194,7 @@ do
       Driver.elapsed = 0
       Driver.shader = nil
       UI = UIHandler()
+      Debugger = DebugMenu()
       Objectives = ObjectivesHandler()
       ItemPool = ItemPoolHandler()
       Upgrade = UpgradeScreen()
@@ -184,30 +209,34 @@ do
       return Driver.restart()
     end,
     update = function(dt)
-      Driver.elapsed = Driver.elapsed + dt
-      local _exp_0 = Driver.game_state
-      if Game_State.game_over == _exp_0 then
-        return 
-      elseif Game_State.paused == _exp_0 then
-        Pause:update(dt)
-      elseif Game_State.upgrading == _exp_0 then
-        Upgrade:update(dt)
-      elseif Game_State.inventory == _exp_0 then
-        Inventory:update(dt)
-      elseif Game_State.playing == _exp_0 then
-        for k, v in pairs(Driver.objects) do
-          for k2, o in pairs(v) do
-            o:update(dt)
-            if o.health <= 0 or not o.alive then
-              Driver:removeObject(o)
+      if DEBUG_MENU then
+        return Debugger:update(dt)
+      else
+        Driver.elapsed = Driver.elapsed + dt
+        local _exp_0 = Driver.game_state
+        if Game_State.game_over == _exp_0 then
+          return 
+        elseif Game_State.paused == _exp_0 then
+          Pause:update(dt)
+        elseif Game_State.upgrading == _exp_0 then
+          Upgrade:update(dt)
+        elseif Game_State.inventory == _exp_0 then
+          Inventory:update(dt)
+        elseif Game_State.playing == _exp_0 then
+          for k, v in pairs(Driver.objects) do
+            for k2, o in pairs(v) do
+              o:update(dt)
+              if o.health <= 0 or not o.alive then
+                Driver:removeObject(o)
+              end
             end
           end
+          Objectives:update(dt)
         end
-        Objectives:update(dt)
-      end
-      UI:update(dt)
-      if not Driver.shader then
-        Driver.shader = love.graphics.newShader("shaders/normal.fs")
+        UI:update(dt)
+        if not Driver.shader then
+          Driver.shader = love.graphics.newShader("shaders/normal.fs")
+        end
       end
     end,
     draw = function()
@@ -241,16 +270,14 @@ do
       elseif Game_State.paused == _exp_0 then
         Pause:draw()
       end
-      if DEBUGGING then
-        love.graphics.setColor(200, 200, 200, 100)
-        local bounds = Screen_Size.border
-        love.graphics.rectangle("fill", bounds[1], bounds[2], bounds[3], bounds[4])
-      end
       love.graphics.setColor(0, 0, 0, 127)
       love.graphics.setFont(Renderer.small_font)
       love.graphics.printf(VERSION .. "\t", 0, Screen_Size.height - (25 * Scale.height), Screen_Size.width, "right")
       love.graphics.printf(love.timer.getFPS() .. " FPS\t", 0, Screen_Size.height - (50 * Scale.height), Screen_Size.width, "right")
       love.graphics.pop()
+      if DEBUG_MENU then
+        Debugger:draw()
+      end
       return collectgarbage("step")
     end
   }
@@ -261,6 +288,7 @@ do
       love.keyreleased = self.keyreleased
       love.mousepressed = self.mousepressed
       love.mousereleased = self.mousereleased
+      love.textinput = self.textinput
       love.focus = self.focus
       love.load = self.load
       love.update = self.update
