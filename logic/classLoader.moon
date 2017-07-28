@@ -66,6 +66,11 @@ table.insert queue, "maps.mapLoader"
 --+--------------+--
 table.insert queue, "screens.screenLoader"
 
+--+---------------+--
+--| Load debugger |--
+--+---------------+--
+table.insert queue, "logic.debugger"
+
 --+------------------------------+--
 --| Dependent on everything else |--
 --+------------------------------+--

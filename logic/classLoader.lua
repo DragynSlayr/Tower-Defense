@@ -13,5 +13,6 @@ table.insert(queue, "particles.particleLoader")
 table.insert(queue, "items.itemLoader")
 table.insert(queue, "maps.mapLoader")
 table.insert(queue, "screens.screenLoader")
+table.insert(queue, "logic.debugger")
 table.insert(queue, "logic.driver")
 return queue
