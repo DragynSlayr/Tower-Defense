@@ -5,6 +5,7 @@ do
     keyreleased = function(self, key) end,
     mousepressed = function(self, x, y, button, isTouch) end,
     mousereleased = function(self, x, y, button, isTouch) end,
+    textinput = function(self, text) end,
     focus = function(self, focus) end,
     update = function(self, dt) end,
     draw = function(self)

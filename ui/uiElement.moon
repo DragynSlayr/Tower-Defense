@@ -18,6 +18,9 @@ export class UIElement
   mousereleased: (x, y, button, isTouch) =>
     return
 
+  textinput: (text) =>
+    return
+
   focus: (focus) =>
     return
 
