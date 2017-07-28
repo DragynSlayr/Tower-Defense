@@ -42,6 +42,11 @@ do
         v:mousereleased(x, y, button, isTouch)
       end
     end,
+    textinput = function(self, text)
+      for k, v in pairs(self.screens[self.current_screen]) do
+        v:textinput(text)
+      end
+    end,
     focus = function(self, focus)
       for k, v in pairs(self.screens[self.current_screen]) do
         v:focus(focus)

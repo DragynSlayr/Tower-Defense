@@ -41,6 +41,10 @@ export class UIHandler
     for k, v in pairs @screens[@current_screen]
       v\mousereleased x, y, button, isTouch
 
+  textinput: (text) =>
+    for k, v in pairs @screens[@current_screen]
+      v\textinput text
+
   focus: (focus) =>
     for k, v in pairs @screens[@current_screen]
       v\focus focus
