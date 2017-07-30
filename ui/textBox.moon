@@ -16,7 +16,7 @@ export class TextBox extends UIElement
     @active = true
     @selected = false
 
-    @lines = {}
+    @lines = {{}}
     @lines_index = 1
     @char_index = 1
 

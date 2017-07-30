@@ -136,7 +136,9 @@ do
       self.cursor.is_on = true
       self.active = true
       self.selected = false
-      self.lines = { }
+      self.lines = {
+        { }
+      }
       self.lines_index = 1
       self.char_index = 1
       self.action = { }
