@@ -26,18 +26,6 @@ export class DebugTextBox extends TextBox
           @status_text = "Command Successful"
         else
           @status_text = "Invalid Command"
-      --else
-        --@saved[@saved_index] = @text
-        --@saved_index += 1
-        --if @saved_index > @max_saved
-          --@saved_index = 1
-        --text = @text
-        --@text = ""
-        --f = loadstring text
-        --if (pcall f)
-          --@status_text = "Command Successful"
-        --else
-          --@status_text = "Invalid Command"
 
     @action["pageup"] = () ->
       @saved_index -= 1
