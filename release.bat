@@ -1,14 +1,9 @@
-call build.bat
-cp "Tower Defense.love" "./../build/Tower Defense.love"
-cd ./../build
-mv "Tower Defense.love" TD.love
-cp ../love.exe love.exe
-copy /b love.exe + TD.love TD.exe
-mv TD.exe "Tower Defense.exe"
-mv TD.love "./../release/Mac/Tower Defense.love"
-rm love.exe
-cp * ./../release/Windows
+rm "./../release/Mac.zip"
+rm "./../release/Windows.zip"
+rm "./../release/Tower Defense.zip"
+call build-mac.bat
+call build-windows.bat
 cd ./../release
 set path="C:\Program Files\WinRAR\";%path%
-winrar a -r -afzip "Tower Defense"
+winrar a -r -x\Mac -x\Windows -afzip "Tower Defense"
 cd "./../Tower Defense"
