@@ -110,6 +110,7 @@ do
           width = self.font:getWidth(self:getLine(self.lines_index, (self.char_index + 1)))
         end
         love.graphics.rectangle("fill", self.x + (10 * Scale.width) + width, self.y + (height / 2) + ((self.lines_index - 1) * height), 10 * Scale.width, height)
+        self.cursor.position = Point(self.x + (10 * Scale.width) + width, self.y + (height / 2) + ((self.lines_index - 1) * height))
       end
       return love.graphics.pop()
     end
@@ -134,6 +135,7 @@ do
       self.cursor.on_time = 0.33
       self.cursor.off_time = 0.33
       self.cursor.is_on = true
+      self.cursor.position = Point(0, 0)
       self.active = true
       self.selected = false
       self.lines = { }

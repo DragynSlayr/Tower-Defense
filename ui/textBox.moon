@@ -12,6 +12,7 @@ export class TextBox extends UIElement
     @cursor.on_time = 0.33
     @cursor.off_time = 0.33
     @cursor.is_on = true
+    @cursor.position = Point 0, 0
 
     @active = true
     @selected = false
@@ -141,5 +142,6 @@ export class TextBox extends UIElement
       if @lines[@lines_index]
         width = @font\getWidth @getLine @lines_index, (@char_index + 1)
       love.graphics.rectangle "fill", @x + (10 * Scale.width) + width, @y + (height / 2) + ((@lines_index - 1) * height), 10 * Scale.width, height
+      @cursor.position = Point @x + (10 * Scale.width) + width, @y + (height / 2) + ((@lines_index - 1) * height)
 
     love.graphics.pop!
