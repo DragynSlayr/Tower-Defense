@@ -146,6 +146,20 @@ export trim = (str, len) ->
       s ..= string.sub str, i, i
     return s
 
+export removeChars = (str, chars = {}) ->
+  str = tostring str
+  s = ""
+  for i = 1, #str
+    c = string.sub str, i, i
+    found = false
+    for k, v in pairs chars
+      if v == c
+        found = true
+        break
+    if not found
+      s ..= c
+  return s
+
 export tableToString = (t, d = 0) ->
   if (type t) ~= "table"
     error "This function only works on Tables"

@@ -136,6 +136,27 @@ trim = function(str, len)
     return s
   end
 end
+removeChars = function(str, chars)
+  if chars == nil then
+    chars = { }
+  end
+  str = tostring(str)
+  local s = ""
+  for i = 1, #str do
+    local c = string.sub(str, i, i)
+    local found = false
+    for k, v in pairs(chars) do
+      if v == c then
+        found = true
+        break
+      end
+    end
+    if not found then
+      s = s .. c
+    end
+  end
+  return s
+end
 tableToString = function(t, d)
   if d == nil then
     d = 0
