@@ -23,6 +23,12 @@ export class DebugMenu
     text_box = DebugTextBox 10 * Scale.width, 10 * Scale.height, width, height
     @add text_box
 
+    x = 135 * Scale.width
+    y = Screen_Size.height - (40 * Scale.height)
+    run_button = Button x, y, 250, 60, "Run", () ->
+      text_box\runText!
+    @add run_button
+
   add: (object) =>
     table.insert @ui_objects, object
 

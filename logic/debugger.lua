@@ -18,7 +18,13 @@ do
       local width = Screen_Size.width - (20 * Scale.width)
       local height = Screen_Size.height - (95 * Scale.height)
       local text_box = DebugTextBox(10 * Scale.width, 10 * Scale.height, width, height)
-      return self:add(text_box)
+      self:add(text_box)
+      x = 135 * Scale.width
+      y = Screen_Size.height - (40 * Scale.height)
+      local run_button = Button(x, y, 250, 60, "Run", function()
+        return text_box:runText()
+      end)
+      return self:add(run_button)
     end,
     add = function(self, object)
       return table.insert(self.ui_objects, object)
