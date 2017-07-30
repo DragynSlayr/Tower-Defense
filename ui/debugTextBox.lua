@@ -15,6 +15,18 @@ do
       else
         self.char_index = 1
       end
+    end,
+    runText = function(self)
+      self.saved[self.saved_index] = self.lines
+      self.saved_index = self.saved_index + 1
+      if self.saved_index > self.max_saved then
+        self.saved_index = 1
+      end
+      local text = self:getText()
+      self.lines = { }
+      self.lines_index = 1
+      self.char_index = 1
+      return pcall(moonscript.loadstring(text))
     end
   }
   _base_0.__index = _base_0
@@ -36,26 +48,6 @@ do
       }
       self.max_saved = 10
       self.saved_index = 1
-      self.action["return"] = function()
-        if love.keyboard.isDown("rshift", "lshift") then
-          self.lines_index = self.lines_index + 1
-          table.insert(self.lines, self.lines_index, { })
-          self.char_index = 1
-        else
-          self.saved[self.saved_index] = self.lines
-          self.saved_index = self.saved_index + 1
-          if self.saved_index > self.max_saved then
-            self.saved_index = 1
-          end
-          local text = self:getText()
-          self.lines = {
-            { }
-          }
-          self.lines_index = 1
-          self.char_index = 1
-          return pcall(moonscript.loadstring(text))
-        end
-      end
       self.action["pageup"] = function()
         self.saved_index = self.saved_index - 1
         if self.saved_index < 1 then

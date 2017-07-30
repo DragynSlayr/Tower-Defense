@@ -8,22 +8,6 @@ export class DebugTextBox extends TextBox
     @max_saved = 10
     @saved_index = 1
 
-    @action["return"] = () ->
-      if love.keyboard.isDown "rshift", "lshift"
-        @lines_index += 1
-        table.insert @lines, @lines_index, {}
-        @char_index = 1
-      else
-        @saved[@saved_index] = @lines
-        @saved_index += 1
-        if  @saved_index > @max_saved
-          @saved_index = 1
-        text = @getText!
-        @lines = {{}}
-        @lines_index = 1
-        @char_index = 1
-        pcall moonscript.loadstring text
-
     @action["pageup"] = () ->
       @saved_index -= 1
       if @saved_index < 1
@@ -46,3 +30,14 @@ export class DebugTextBox extends TextBox
       @char_index = #@lines[@lines_index]
     else
       @char_index = 1
+
+  runText: =>
+    @saved[@saved_index] = @lines
+    @saved_index += 1
+    if  @saved_index > @max_saved
+      @saved_index = 1
+    text = @getText!
+    @lines = {}
+    @lines_index = 1
+    @char_index = 1
+    pcall moonscript.loadstring text
