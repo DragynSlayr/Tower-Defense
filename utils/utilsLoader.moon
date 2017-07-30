@@ -16,6 +16,7 @@ require "utils.musicHandler"
 --| Depends on linked list |--
 --+------------------------+--
 require "utils.stack"
+require "utils.trie"
 
 --+--------------------+--
 --| Basic math classes |--
