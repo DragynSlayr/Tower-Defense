@@ -19,10 +19,14 @@ do
       local height = Screen_Size.height - (95 * Scale.height)
       local text_box = DebugTextBox(10 * Scale.width, 10 * Scale.height, width, height)
       self:add(text_box)
+      self.completer.text_box = text_box
       x = 135 * Scale.width
       y = Screen_Size.height - (40 * Scale.height)
       local run_button = Button(x, y, 250, 60, "Run", function()
-        return text_box:runText()
+        text_box:runText()
+        self.completer.text = ""
+        self.completer.last_text = " "
+        self.completer.words = { }
       end)
       return self:add(run_button)
     end,
@@ -33,6 +37,7 @@ do
       for k, v in pairs(self.ui_objects) do
         v:keypressed(key, scancode, isrepeat)
       end
+      return self.completer:keypressed(key, scancode, isrepeat)
     end,
     keyreleased = function(self, key)
       for k, v in pairs(self.ui_objects) do
@@ -53,16 +58,19 @@ do
       for k, v in pairs(self.ui_objects) do
         v:textinput(text)
       end
+      return self.completer:textinput(text)
     end,
     update = function(self, dt)
       for k, v in pairs(self.ui_objects) do
         v:update(dt)
       end
+      return self.completer:update(dt)
     end,
     draw = function(self)
       for k, v in pairs(self.ui_objects) do
         v:draw()
       end
+      return self.completer:draw()
     end
   }
   _base_0.__index = _base_0
@@ -72,6 +80,7 @@ do
       DEBUG_MENU = false
       DEBUGGING = false
       SHOW_RANGE = false
+      self.completer = AutoComplete()
       self.ui_objects = { }
       return self:createMenu()
     end,

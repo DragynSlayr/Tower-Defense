@@ -69,6 +69,7 @@ table.insert queue, "screens.screenLoader"
 --+---------------+--
 --| Load debugger |--
 --+---------------+--
+table.insert queue, "logic.autoComplete"
 table.insert queue, "logic.debugger"
 
 --+------------------------------+--

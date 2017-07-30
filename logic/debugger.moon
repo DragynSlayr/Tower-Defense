@@ -5,6 +5,8 @@ export class DebugMenu
     export DEBUGGING = false
     export SHOW_RANGE = false
 
+    @completer = AutoComplete!
+
     @ui_objects = {}
     @createMenu!
 
@@ -23,10 +25,15 @@ export class DebugMenu
     text_box = DebugTextBox 10 * Scale.width, 10 * Scale.height, width, height
     @add text_box
 
+    @completer.text_box = text_box
+
     x = 135 * Scale.width
     y = Screen_Size.height - (40 * Scale.height)
     run_button = Button x, y, 250, 60, "Run", () ->
       text_box\runText!
+      @completer.text = ""
+      @completer.last_text = " "
+      @completer.words = {}
     @add run_button
 
   add: (object) =>
@@ -35,6 +42,7 @@ export class DebugMenu
   keypressed: (key, scancode, isrepeat) =>
     for k, v in pairs @ui_objects
       v\keypressed key, scancode, isrepeat
+    @completer\keypressed key, scancode, isrepeat
 
   keyreleased: (key) =>
     for k, v in pairs @ui_objects
@@ -51,11 +59,14 @@ export class DebugMenu
   textinput: (text) =>
     for k, v in pairs @ui_objects
       v\textinput text
+    @completer\textinput text
 
   update: (dt) =>
     for k, v in pairs @ui_objects
       v\update dt
+    @completer\update dt
 
   draw: =>
     for k, v in pairs @ui_objects
       v\draw!
+    @completer\draw!
