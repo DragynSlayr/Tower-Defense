@@ -94,14 +94,18 @@ do
         screenshot:encode("png", "screenshots/" .. os.time() .. ".png")
       end
       if DEBUG_MENU then
-        if key == "`" then
-          DEBUG_MENU = false
-        else
-          return Debugger:keypressed(key, scancode, isrepeat)
+        if DEBUG_MENU_ENABLED then
+          if key == "`" then
+            DEBUG_MENU = false
+          else
+            return Debugger:keypressed(key, scancode, isrepeat)
+          end
         end
       else
         if key == "`" then
-          DEBUG_MENU = true
+          if DEBUG_MENU_ENABLED then
+            DEBUG_MENU = true
+          end
         elseif key == "p" then
           if Driver.game_state == Game_State.paused then
             return Driver.unpause()

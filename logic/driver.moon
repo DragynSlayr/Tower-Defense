@@ -113,13 +113,15 @@ export class Driver
         screenshot\encode "png", "screenshots/" .. os.time! .. ".png"
 
       if DEBUG_MENU
-        if key == "`"
-          export DEBUG_MENU = false
-        else
-          Debugger\keypressed key, scancode, isrepeat
+        if DEBUG_MENU_ENABLED
+          if key == "`"
+            export DEBUG_MENU = false
+          else
+            Debugger\keypressed key, scancode, isrepeat
       else
         if key == "`"
-          export DEBUG_MENU = true
+          if DEBUG_MENU_ENABLED
+            export DEBUG_MENU = true
         elseif key == "p"
           if Driver.game_state == Game_State.paused
             Driver.unpause!
