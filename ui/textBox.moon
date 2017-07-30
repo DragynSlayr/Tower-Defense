@@ -16,13 +16,17 @@ export class TextBox extends UIElement
     @active = true
     @selected = false
 
-    @lines = {{}}
+    @lines = {}
     @lines_index = 1
     @char_index = 1
 
     @action = {}
     @action["tab"] = () ->
-      table.insert @lines[@lines_index], "    "
+      if not @lines[@lines_index]
+        @lines[@lines_index] = {}
+      for i = 1, 4
+        table.insert @lines[@lines_index], @char_index, " "
+        @char_index += 1
 
     @action["return"] = () ->
       @lines_index += 1

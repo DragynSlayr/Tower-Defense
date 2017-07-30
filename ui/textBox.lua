@@ -136,14 +136,18 @@ do
       self.cursor.is_on = true
       self.active = true
       self.selected = false
-      self.lines = {
-        { }
-      }
+      self.lines = { }
       self.lines_index = 1
       self.char_index = 1
       self.action = { }
       self.action["tab"] = function()
-        return table.insert(self.lines[self.lines_index], "    ")
+        if not self.lines[self.lines_index] then
+          self.lines[self.lines_index] = { }
+        end
+        for i = 1, 4 do
+          table.insert(self.lines[self.lines_index], self.char_index, " ")
+          self.char_index = self.char_index + 1
+        end
       end
       self.action["return"] = function()
         self.lines_index = self.lines_index + 1
