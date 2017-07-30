@@ -1,7 +1,8 @@
+moonscript = require "moonscript.base"
+
 export class DebugTextBox extends TextBox
   new: (x, y, width, height) =>
     super x, y, width, height
-    @status_text = ""
 
     @saved = {{}, {}, {}, {}, {}, {}, {}, {}, {}, {}}
     @max_saved = 10
@@ -18,14 +19,10 @@ export class DebugTextBox extends TextBox
         if  @saved_index > @max_saved
           @saved_index = 1
         text = @getText!
-        @lines = {}
+        @lines = {{}}
         @lines_index = 1
         @char_index = 1
-        f = loadstring text
-        if (pcall f)
-          @status_text = "Command Successful"
-        else
-          @status_text = "Invalid Command"
+        pcall moonscript.loadstring text
 
     @action["pageup"] = () ->
       @saved_index -= 1
@@ -49,16 +46,3 @@ export class DebugTextBox extends TextBox
       @char_index = #@lines[@lines_index]
     else
       @char_index = 1
-
-  draw: =>
-    super!
-
-    love.graphics.push "all"
-
-    love.graphics.setColor 0, 255, 0, 255
-    love.graphics.setFont @font
-    height = @font\getHeight!
-    width = @font\getWidth @status_text
-    love.graphics.printf @status_text, @x + @width - (10 * Scale.width) - width, @y + @height - (10 * Scale.height) - height, width, "center"
-
-    love.graphics.pop!

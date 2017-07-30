@@ -1,3 +1,4 @@
+local moonscript = require("moonscript.base")
 do
   local _class_0
   local _parent_0 = TextBox
@@ -14,16 +15,6 @@ do
       else
         self.char_index = 1
       end
-    end,
-    draw = function(self)
-      _class_0.__parent.__base.draw(self)
-      love.graphics.push("all")
-      love.graphics.setColor(0, 255, 0, 255)
-      love.graphics.setFont(self.font)
-      local height = self.font:getHeight()
-      local width = self.font:getWidth(self.status_text)
-      love.graphics.printf(self.status_text, self.x + self.width - (10 * Scale.width) - width, self.y + self.height - (10 * Scale.height) - height, width, "center")
-      return love.graphics.pop()
     end
   }
   _base_0.__index = _base_0
@@ -31,7 +22,6 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y, width, height)
       _class_0.__parent.__init(self, x, y, width, height)
-      self.status_text = ""
       self.saved = {
         { },
         { },
@@ -58,15 +48,12 @@ do
             self.saved_index = 1
           end
           local text = self:getText()
-          self.lines = { }
+          self.lines = {
+            { }
+          }
           self.lines_index = 1
           self.char_index = 1
-          local f = loadstring(text)
-          if (pcall(f)) then
-            self.status_text = "Command Successful"
-          else
-            self.status_text = "Invalid Command"
-          end
+          return pcall(moonscript.loadstring(text))
         end
       end
       self.action["pageup"] = function()
