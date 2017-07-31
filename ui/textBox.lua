@@ -62,6 +62,7 @@ do
     keypressed = function(self, key, scancode, isrepeat)
       if self.active then
         if key == "backspace" then
+          self.holding_back = true
           if #self.lines[self.lines_index] ~= 0 then
             if self.char_index > 0 then
               table.remove(self.lines[self.lines_index], self.char_index)
@@ -78,6 +79,12 @@ do
             return self.action[key]()
           end
         end
+      end
+    end,
+    keyreleased = function(self, key)
+      if key == "backspace" then
+        self.holding_back = false
+        self.repeating = false
       end
     end,
     isHovering = function(self, x, y)
@@ -102,20 +109,29 @@ do
       end
     end,
     update = function(self, dt)
-      self.hold_timer = self.hold_timer + dt
       if self.active then
-        if self.hold_timer >= self.hold_delay then
-          if love.keyboard.isDown("backspace") then
-            self.hold_timer = 0
-            if #self.lines[self.lines_index] ~= 0 then
-              if self.char_index > 0 then
-                table.remove(self.lines[self.lines_index], self.char_index)
-                self.char_index = self.char_index - 1
-              end
-            else
-              if self.lines_index > 1 then
-                self.lines_index = self.lines_index - 1
-                self.char_index = #self.lines[self.lines_index]
+        if self.holding_back then
+          self.delay_timer = self.delay_timer + dt
+          if self.delay_timer >= self.max_delay then
+            self.delay_timer = 0
+            self.repeating = true
+          end
+        end
+        if self.repeating then
+          self.hold_timer = self.hold_timer + dt
+          if self.hold_timer >= self.hold_delay then
+            if love.keyboard.isDown("backspace") then
+              self.hold_timer = 0
+              if #self.lines[self.lines_index] ~= 0 then
+                if self.char_index > 0 then
+                  table.remove(self.lines[self.lines_index], self.char_index)
+                  self.char_index = self.char_index - 1
+                end
+              else
+                if self.lines_index > 1 then
+                  self.lines_index = self.lines_index - 1
+                  self.char_index = #self.lines[self.lines_index]
+                end
               end
             end
           end
@@ -188,7 +204,11 @@ do
       self.active = true
       self.selected = false
       self.hold_timer = 0
-      self.hold_delay = 1 / 15
+      self.hold_delay = 1 / 30
+      self.holding_back = false
+      self.delay_timer = 0
+      self.max_delay = 1
+      self.repeating = false
       self:resetText()
       self.action = { }
       self.action["tab"] = function()

@@ -18,7 +18,11 @@ export class TextBox extends UIElement
     @selected = false
 
     @hold_timer = 0
-    @hold_delay = 1 / 15
+    @hold_delay = 1 / 30
+    @holding_back = false
+    @delay_timer = 0
+    @max_delay = 1
+    @repeating = false
 
     @resetText!
 
@@ -99,6 +103,7 @@ export class TextBox extends UIElement
   keypressed: (key, scancode, isrepeat) =>
     if @active
       if key == "backspace"
+        @holding_back = true
         if #@lines[@lines_index] ~= 0
           if @char_index > 0
             table.remove @lines[@lines_index], @char_index
@@ -110,6 +115,11 @@ export class TextBox extends UIElement
       else
         if @action[key]
           @action[key]!
+
+  keyreleased: (key) =>
+    if key == "backspace"
+      @holding_back = false
+      @repeating = false
 
   isHovering: (x, y) =>
     xOn = @x <= x and @x + @width >= x
@@ -130,19 +140,25 @@ export class TextBox extends UIElement
       @selected = false
 
   update: (dt) =>
-    @hold_timer += dt
     if @active
-      if @hold_timer >= @hold_delay
-        if love.keyboard.isDown "backspace"
-          @hold_timer = 0
-          if #@lines[@lines_index] ~= 0
-            if @char_index > 0
-              table.remove @lines[@lines_index], @char_index
-              @char_index -= 1
-          else
-            if @lines_index > 1
-              @lines_index -= 1
-              @char_index = #@lines[@lines_index]
+      if @holding_back
+        @delay_timer += dt
+        if @delay_timer >= @max_delay
+          @delay_timer = 0
+          @repeating = true
+      if @repeating
+        @hold_timer += dt
+        if @hold_timer >= @hold_delay
+          if love.keyboard.isDown "backspace"
+            @hold_timer = 0
+            if #@lines[@lines_index] ~= 0
+              if @char_index > 0
+                table.remove @lines[@lines_index], @char_index
+                @char_index -= 1
+            else
+              if @lines_index > 1
+                @lines_index -= 1
+                @char_index = #@lines[@lines_index]
 
     @elapsed += dt
     if @cursor.is_on
