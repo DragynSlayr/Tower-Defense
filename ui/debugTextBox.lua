@@ -1,4 +1,9 @@
-local moonscript = require("moonscript.base")
+local moonscript = nil
+local use_moon = false
+if pcall(loadstring([[moonscript = require "moonscript.base"]])) then
+  moonscript = require("moonscript.base")
+  use_moon = true
+end
 do
   local _class_0
   local _parent_0 = TextBox
@@ -24,7 +29,15 @@ do
       end
       local text = self:getText()
       self:resetText()
-      return pcall(moonscript.loadstring(text))
+      if use_moon then
+        return pcall(moonscript.loadstring(text))
+      else
+        if pcall(loadstring(text)) then
+          return print("Success")
+        else
+          return print("Failure")
+        end
+      end
     end
   }
   _base_0.__index = _base_0

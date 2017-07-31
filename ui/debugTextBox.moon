@@ -1,4 +1,8 @@
-moonscript = require "moonscript.base"
+moonscript = nil
+use_moon = false
+if pcall loadstring [[moonscript = require "moonscript.base"]]
+  moonscript = require "moonscript.base"
+  use_moon = true
 
 export class DebugTextBox extends TextBox
   new: (x, y, width, height) =>
@@ -38,4 +42,10 @@ export class DebugTextBox extends TextBox
       @saved_index = 1
     text = @getText!
     @resetText!
-    pcall moonscript.loadstring text
+    if use_moon
+      pcall moonscript.loadstring text
+    else
+      if pcall loadstring text
+        print "Success"
+      else
+        print "Failure"
