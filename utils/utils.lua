@@ -238,6 +238,13 @@ tableContains = function(t, i)
   end
   return false
 end
+reverseTable = function(t)
+  local reversed = { }
+  for k, v in pairs(t) do
+    table.insert(reversed, 1, v)
+  end
+  return reversed
+end
 getAllDirectories = function(root)
   local files = getAllFiles(root)
   local directories = { }

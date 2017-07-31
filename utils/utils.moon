@@ -221,6 +221,12 @@ export tableContains = (t, i) ->
       return true
   return false
 
+export reverseTable = (t) ->
+  reversed = {}
+  for k, v in pairs t
+    table.insert reversed, 1, v
+  return reversed
+
 export getAllDirectories = (root) ->
   files = getAllFiles root
   directories = {}
