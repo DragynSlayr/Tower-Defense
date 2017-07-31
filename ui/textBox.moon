@@ -121,6 +121,11 @@ export class TextBox extends UIElement
         @elapsed = 0
         @cursor.alpha = 255
         @cursor.is_on = true
+    height = @font\getHeight!
+    width = 0
+    if @lines[@lines_index]
+      width = @font\getWidth @getLine @lines_index, (@char_index + 1)
+    @cursor.position = Point @x + (10 * Scale.width) + width, @y + (height / 2) + ((@lines_index - 1) * height)
 
   draw: =>
     love.graphics.push "all"

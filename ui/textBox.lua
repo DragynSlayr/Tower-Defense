@@ -92,6 +92,12 @@ do
           self.cursor.is_on = true
         end
       end
+      local height = self.font:getHeight()
+      local width = 0
+      if self.lines[self.lines_index] then
+        width = self.font:getWidth(self:getLine(self.lines_index, (self.char_index + 1)))
+      end
+      self.cursor.position = Point(self.x + (10 * Scale.width) + width, self.y + (height / 2) + ((self.lines_index - 1) * height))
     end,
     draw = function(self)
       love.graphics.push("all")
