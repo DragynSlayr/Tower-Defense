@@ -2,6 +2,28 @@ do
   local _class_0
   local _parent_0 = UIElement
   local _base_0 = {
+    resetText = function(self)
+      self.lines = {
+        { }
+      }
+      self.lines_index = 1
+      self.char_index = 1
+    end,
+    addText = function(self, word, replace_text)
+      local remove_len = #replace_text
+      local start = self.char_index
+      self.char_index = self.char_index - (3 + remove_len)
+      if self.char_index < 1 then
+        self.char_index = 1
+      end
+      local adjusted = self.char_index
+      for i = 1, #word do
+        local letter = string.sub(word, i, i)
+        self.lines[self.lines_index][self.char_index] = letter
+        self.char_index = self.char_index + 1
+      end
+      self.char_index = self.char_index - 1
+    end,
     getText = function(self)
       local s = ""
       for k, v in pairs(self.lines) do
@@ -41,8 +63,10 @@ do
       if self.active then
         if key == "backspace" then
           if #self.lines[self.lines_index] ~= 0 then
-            table.remove(self.lines[self.lines_index], self.char_index)
-            self.char_index = self.char_index - 1
+            if self.char_index > 0 then
+              table.remove(self.lines[self.lines_index], self.char_index)
+              self.char_index = self.char_index - 1
+            end
           else
             if self.lines_index > 1 then
               self.lines_index = self.lines_index - 1
@@ -78,6 +102,25 @@ do
       end
     end,
     update = function(self, dt)
+      self.hold_timer = self.hold_timer + dt
+      if self.active then
+        if self.hold_timer >= self.hold_delay then
+          if love.keyboard.isDown("backspace") then
+            self.hold_timer = 0
+            if #self.lines[self.lines_index] ~= 0 then
+              if self.char_index > 0 then
+                table.remove(self.lines[self.lines_index], self.char_index)
+                self.char_index = self.char_index - 1
+              end
+            else
+              if self.lines_index > 1 then
+                self.lines_index = self.lines_index - 1
+                self.char_index = #self.lines[self.lines_index]
+              end
+            end
+          end
+        end
+      end
       self.elapsed = self.elapsed + dt
       if self.cursor.is_on then
         if self.elapsed >= self.cursor.on_time then
@@ -144,17 +187,17 @@ do
       self.cursor.position = Point(0, 0)
       self.active = true
       self.selected = false
-      self.lines = { }
-      self.lines_index = 1
-      self.char_index = 1
+      self.hold_timer = 0
+      self.hold_delay = 1 / 15
+      self:resetText()
       self.action = { }
       self.action["tab"] = function()
         if not self.lines[self.lines_index] then
           self.lines[self.lines_index] = { }
         end
         for i = 1, 4 do
-          table.insert(self.lines[self.lines_index], self.char_index, " ")
           self.char_index = self.char_index + 1
+          table.insert(self.lines[self.lines_index], self.char_index, " ")
         end
       end
       self.action["return"] = function()

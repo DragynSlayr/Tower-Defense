@@ -17,17 +17,18 @@ export class TextBox extends UIElement
     @active = true
     @selected = false
 
-    @lines = {}
-    @lines_index = 1
-    @char_index = 1
+    @hold_timer = 0
+    @hold_delay = 1 / 15
+
+    @resetText!
 
     @action = {}
     @action["tab"] = () ->
       if not @lines[@lines_index]
         @lines[@lines_index] = {}
       for i = 1, 4
-        table.insert @lines[@lines_index], @char_index, " "
         @char_index += 1
+        table.insert @lines[@lines_index], @char_index, " "
 
     @action["return"] = () ->
       @lines_index += 1
@@ -52,6 +53,24 @@ export class TextBox extends UIElement
       if @lines[@lines_index]
         if @char_index < #@lines[@lines_index]
           @char_index += 1
+
+  resetText: =>
+    @lines = {{}}
+    @lines_index = 1
+    @char_index = 1
+
+  addText: (word, replace_text) =>
+    remove_len = #replace_text
+    start = @char_index
+    @char_index -= (3 + remove_len)
+    if @char_index < 1
+      @char_index = 1
+    adjusted = @char_index
+    for i = 1, #word
+      letter = string.sub word, i, i
+      @lines[@lines_index][@char_index] = letter
+      @char_index += 1
+    @char_index -= 1
 
   getText: =>
     s = ""
@@ -81,8 +100,9 @@ export class TextBox extends UIElement
     if @active
       if key == "backspace"
         if #@lines[@lines_index] ~= 0
-          table.remove @lines[@lines_index], @char_index
-          @char_index -= 1
+          if @char_index > 0
+            table.remove @lines[@lines_index], @char_index
+            @char_index -= 1
         else
           if @lines_index > 1
             @lines_index -= 1
@@ -110,6 +130,20 @@ export class TextBox extends UIElement
       @selected = false
 
   update: (dt) =>
+    @hold_timer += dt
+    if @active
+      if @hold_timer >= @hold_delay
+        if love.keyboard.isDown "backspace"
+          @hold_timer = 0
+          if #@lines[@lines_index] ~= 0
+            if @char_index > 0
+              table.remove @lines[@lines_index], @char_index
+              @char_index -= 1
+          else
+            if @lines_index > 1
+              @lines_index -= 1
+              @char_index = #@lines[@lines_index]
+
     @elapsed += dt
     if @cursor.is_on
       if @elapsed >= @cursor.on_time
@@ -121,6 +155,7 @@ export class TextBox extends UIElement
         @elapsed = 0
         @cursor.alpha = 255
         @cursor.is_on = true
+
     height = @font\getHeight!
     width = 0
     if @lines[@lines_index]

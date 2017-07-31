@@ -8,21 +8,30 @@ do
         self.trie:add(removeChars(v, {
           "\r",
           "\n",
-          "\t"
+          "\t",
+          " "
         }))
       end
     end,
     resetText = function(self)
       self.text = ""
-      self.last_text = " "
+      self.last_text = ""
       self.words = { }
     end,
     keypressed = function(self, key, scancode, isrepeat)
       if self.text_box.active then
         if key == "return" then
           return self:resetText()
+        elseif key == "tab" then
+          if #self.text > 0 and #self.words > 0 then
+            self.text_box:addText(self.words[1], self.text)
+          end
+          return self:resetText()
         elseif key == "backspace" then
           self.text = string.sub(self.text, 1, #self.text - 1)
+          if #self.text == 0 then
+            return self:resetText()
+          end
         end
       end
     end,

@@ -15,19 +15,25 @@ export class AutoComplete
     contents, size = love.filesystem.read "words.txt"
     splitted = split contents, "\n"
     for k, v in pairs splitted
-      @trie\add removeChars v, {"\r", "\n", "\t"}
+      @trie\add removeChars v, {"\r", "\n", "\t", " "}
 
   resetText: =>
     @text = ""
-    @last_text = " "
+    @last_text = ""
     @words = {}
 
   keypressed: (key, scancode, isrepeat) =>
     if @text_box.active
       if key == "return"
         @resetText!
+      elseif key == "tab"
+        if #@text > 0 and #@words > 0
+           @text_box\addText @words[1], @text
+        @resetText!
       elseif key == "backspace"
         @text = string.sub @text, 1, #@text - 1
+        if #@text == 0
+          @resetText!
 
   textinput: (text) =>
     if @text_box.active
