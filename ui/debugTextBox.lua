@@ -23,9 +23,7 @@ do
         self.saved_index = 1
       end
       local text = self:getText()
-      self.lines = { }
-      self.lines_index = 1
-      self.char_index = 1
+      self:resetText()
       return pcall(moonscript.loadstring(text))
     end
   }

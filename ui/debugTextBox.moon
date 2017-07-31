@@ -37,7 +37,5 @@ export class DebugTextBox extends TextBox
     if  @saved_index > @max_saved
       @saved_index = 1
     text = @getText!
-    @lines = {}
-    @lines_index = 1
-    @char_index = 1
+    @resetText!
     pcall moonscript.loadstring text
