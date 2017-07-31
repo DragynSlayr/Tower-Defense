@@ -9,37 +9,13 @@ export class AutoComplete
       @addWords!
 
     @text_box = nil
+    @reset_chars = {".", " ", "\\", "(", ")", "{", "}", "[", "]"}
 
   addWords: =>
-    temp = getAllDirectories ""
-    dirs = {}
-    for k, v in pairs temp
-      splitted = split v, "/"
-      if splitted[2] ~= "assets" and splitted[2] ~= ".git"
-        table.insert dirs, splitted[2]
-    to_read = {}
-    for k, v in pairs dirs
-      files = getAllFiles v
-      for k, v in pairs files
-        splitted = split v, "."
-        if splitted[2] == "moon"
-          table.insert to_read, v
-    for k, v in pairs to_read
-      contents, size = love.filesystem.read v
-      splitted = split contents, "\n"
-      for k2, v2 in pairs splitted
-        words = split v2, " "
-        found = false
-        var = ""
-        for k3, v3 in pairs words
-          if v3 == "export"
-            found = true
-            var = words[k3 + 1]
-            if var == "class"
-              var = words[k3 + 2]
-            break
-        if found
-          @trie\add removeChars var, {",", ".", "/", "+", "-", "*", "(", ")", "?", "<", ">", ":", ";", "~", "=", "%", "\t", "\n", "\r"}
+    contents, size = love.filesystem.read "words.txt"
+    splitted = split contents, "\n"
+    for k, v in pairs splitted
+      @trie\add removeChars v, {"\r", "\n", "\t"}
 
   resetText: =>
     @text = ""
@@ -47,22 +23,33 @@ export class AutoComplete
     @words = {}
 
   keypressed: (key, scancode, isrepeat) =>
-    if key == "return"
-      @resetText!
-    elseif key == "backspace"
-      @text = string.sub @text, 1, #@text - 1
+    if @text_box.active
+      if key == "return"
+        @resetText!
+      elseif key == "backspace"
+        @text = string.sub @text, 1, #@text - 1
 
   textinput: (text) =>
-    if text == "." or text == " "
-      @resetText!
-    else
-      if text ~= '`'
-        @text ..= text
+    if @text_box.active
+      if tableContains @reset_chars, text
+        @resetText!
+      else
+        if text ~= '`'
+          @text ..= text
 
   update: (dt) =>
+    @max_words = @text_box.height - (@text_box.cursor.position.y + @font\getHeight! + (5 * Scale.height))
+    @max_words /= @font\getHeight! * 1.25
+    @max_words = math.ceil @max_words
     if @last_text ~= @text
       @last_text = @text
       @words = @trie\getWords @text
+      table.sort @words
+      if #@words > @max_words
+        words = {}
+        for i = 1, @max_words
+          table.insert words, @words[i]
+        @words = words
 
   draw: =>
     love.graphics.push "all"
@@ -71,12 +58,12 @@ export class AutoComplete
     love.graphics.setFont @font
 
     height = @font\getHeight!
-    x = @text_box.cursor.position.x--Screen_Size.width * 0.8
-    y = @text_box.cursor.position.y + height + (5 * Scale.height)--(10 * Scale.height) + (height / 2)
+    x = @text_box.cursor.position.x
+    y = @text_box.cursor.position.y + height + (5 * Scale.height)
 
     for k, word in pairs @words
       if y + (height * 1.25) < (@text_box.x + @text_box.height)
-        love.graphics.printf word, x, y, @font\getWidth word, "right"
+        love.graphics.printf word, x, y, @font\getWidth word, "center"
         y += height * 1.25
       else
         break

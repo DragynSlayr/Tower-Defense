@@ -2,65 +2,14 @@ do
   local _class_0
   local _base_0 = {
     addWords = function(self)
-      local temp = getAllDirectories("")
-      local dirs = { }
-      for k, v in pairs(temp) do
-        local splitted = split(v, "/")
-        if splitted[2] ~= "assets" and splitted[2] ~= ".git" then
-          table.insert(dirs, splitted[2])
-        end
-      end
-      local to_read = { }
-      for k, v in pairs(dirs) do
-        local files = getAllFiles(v)
-        for k, v in pairs(files) do
-          local splitted = split(v, ".")
-          if splitted[2] == "moon" then
-            table.insert(to_read, v)
-          end
-        end
-      end
-      for k, v in pairs(to_read) do
-        local contents, size = love.filesystem.read(v)
-        local splitted = split(contents, "\n")
-        for k2, v2 in pairs(splitted) do
-          local words = split(v2, " ")
-          local found = false
-          local var = ""
-          for k3, v3 in pairs(words) do
-            if v3 == "export" then
-              found = true
-              var = words[k3 + 1]
-              if var == "class" then
-                var = words[k3 + 2]
-              end
-              break
-            end
-          end
-          if found then
-            self.trie:add(removeChars(var, {
-              ",",
-              ".",
-              "/",
-              "+",
-              "-",
-              "*",
-              "(",
-              ")",
-              "?",
-              "<",
-              ">",
-              ":",
-              ";",
-              "~",
-              "=",
-              "%",
-              "\t",
-              "\n",
-              "\r"
-            }))
-          end
-        end
+      local contents, size = love.filesystem.read("words.txt")
+      local splitted = split(contents, "\n")
+      for k, v in pairs(splitted) do
+        self.trie:add(removeChars(v, {
+          "\r",
+          "\n",
+          "\t"
+        }))
       end
     end,
     resetText = function(self)
@@ -69,25 +18,40 @@ do
       self.words = { }
     end,
     keypressed = function(self, key, scancode, isrepeat)
-      if key == "return" then
-        return self:resetText()
-      elseif key == "backspace" then
-        self.text = string.sub(self.text, 1, #self.text - 1)
+      if self.text_box.active then
+        if key == "return" then
+          return self:resetText()
+        elseif key == "backspace" then
+          self.text = string.sub(self.text, 1, #self.text - 1)
+        end
       end
     end,
     textinput = function(self, text)
-      if text == "." or text == " " then
-        return self:resetText()
-      else
-        if text ~= '`' then
-          self.text = self.text .. text
+      if self.text_box.active then
+        if tableContains(self.reset_chars, text) then
+          return self:resetText()
+        else
+          if text ~= '`' then
+            self.text = self.text .. text
+          end
         end
       end
     end,
     update = function(self, dt)
+      self.max_words = self.text_box.height - (self.text_box.cursor.position.y + self.font:getHeight() + (5 * Scale.height))
+      self.max_words = self.max_words / (self.font:getHeight() * 1.25)
+      self.max_words = math.ceil(self.max_words)
       if self.last_text ~= self.text then
         self.last_text = self.text
         self.words = self.trie:getWords(self.text)
+        table.sort(self.words)
+        if #self.words > self.max_words then
+          local words = { }
+          for i = 1, self.max_words do
+            table.insert(words, self.words[i])
+          end
+          self.words = words
+        end
       end
     end,
     draw = function(self)
@@ -99,7 +63,7 @@ do
       local y = self.text_box.cursor.position.y + height + (5 * Scale.height)
       for k, word in pairs(self.words) do
         if y + (height * 1.25) < (self.text_box.x + self.text_box.height) then
-          love.graphics.printf(word, x, y, self.font:getWidth(word, "right"))
+          love.graphics.printf(word, x, y, self.font:getWidth(word, "center"))
           y = y + (height * 1.25)
         else
           break
@@ -118,6 +82,17 @@ do
         self:addWords()
       end
       self.text_box = nil
+      self.reset_chars = {
+        ".",
+        " ",
+        "\\",
+        "(",
+        ")",
+        "{",
+        "}",
+        "[",
+        "]"
+      }
     end,
     __base = _base_0,
     __name = "AutoComplete"
