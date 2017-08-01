@@ -160,6 +160,7 @@ active_text
 add
 addChild
 addObject
+addText
 addWords
 add_point
 add_skill
@@ -277,6 +278,7 @@ default
 default_item
 defend
 delay
+delay_timer
 description
 diag
 diff
@@ -424,6 +426,9 @@ health
 height
 height_scale
 hit
+hold_delay
+hold_timer
+holding_back
 hole
 hover
 hover_color
@@ -459,6 +464,7 @@ items
 k
 k2
 key
+keyboard
 keypressed
 keyreleased
 keys
@@ -477,6 +483,7 @@ layers
 len
 length
 lengthof
+letter
 level
 level_count
 life_time
@@ -503,6 +510,7 @@ master
 math
 max
 max_armor
+max_delay
 max_health
 max_height
 max_missile_time
@@ -514,6 +522,7 @@ max_speed
 max_time
 max_turrets
 max_width
+max_words
 menu_music
 message
 message1
@@ -633,6 +642,7 @@ remove
 removeChars
 removeObject
 repair_range
+repeating
 require
 resetText
 reset_chars
