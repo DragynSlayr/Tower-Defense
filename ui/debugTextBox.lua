@@ -30,14 +30,15 @@ do
       local text = self:getText()
       self:resetText()
       if use_moon then
-        return pcall(moonscript.loadstring(text))
+        pcall(moonscript.loadstring(text))
       else
         if pcall(loadstring(text)) then
-          return print("Success")
+          print("Success")
         else
-          return print("Failure")
+          print("Failure")
         end
       end
+      self.active = true
     end
   }
   _base_0.__index = _base_0

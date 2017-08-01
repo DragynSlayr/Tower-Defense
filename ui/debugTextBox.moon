@@ -49,3 +49,4 @@ export class DebugTextBox extends TextBox
         print "Success"
       else
         print "Failure"
+    @active = true
