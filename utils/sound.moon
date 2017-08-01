@@ -9,9 +9,9 @@ export class Sound
   new: (name, volume = 1.0, looping = true, pitch = 1.0, static = false) =>
     -- Load Sound
     if static
-      @audio = love.audio.newSource(PATH_PREFIX .. "assets/sounds/" .. name, "static")
+      @audio = love.audio.newSource PATH_PREFIX .. "assets/sounds/" .. name, "static"
     else
-      @audio = love.audio.newSource(PATH_PREFIX .. "assets/sounds/" .. name)
+      @audio = love.audio.newSource PATH_PREFIX .. "assets/sounds/" .. name
 
     -- Set initial values
     @audio\setLooping looping
@@ -41,7 +41,7 @@ export class Sound
   -- Set the pitch of the Sound
   -- pitch: The new pitch
   setPitch: (pitch) =>
-    @audio\setPitch(pitch)
+    @audio\setPitch pitch
 
   -- Set the looping of the Sound
   -- looping: The new looping
