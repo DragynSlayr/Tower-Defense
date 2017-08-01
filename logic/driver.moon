@@ -94,7 +94,7 @@ export class Driver
         for k, v in pairs Driver.objects[EntityTypes.enemy]
           if v.alive
             sum += 1
-      if Driver.objects[EntityTypes.bulet]
+      if Driver.objects[EntityTypes.bullet]
         for k, b in pairs Driver.objects[EntityTypes.bullet]
           if b.alive
             sum += 1

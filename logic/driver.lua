@@ -72,7 +72,7 @@ do
           end
         end
       end
-      if Driver.objects[EntityTypes.bulet] then
+      if Driver.objects[EntityTypes.bullet] then
         for k, b in pairs(Driver.objects[EntityTypes.bullet]) do
           if b.alive then
             sum = sum + 1
