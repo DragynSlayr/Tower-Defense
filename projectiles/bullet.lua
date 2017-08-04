@@ -9,6 +9,8 @@ do
       local sprite = Sprite("projectile/bullet_anim.tga", 32, 16, 0.02, 0.75)
       _class_0.__parent.__init(self, x, y, target, sprite)
       self.damage = damage
+      local sound = Sound("turret_bullet.ogg", 0.0075, false, 0.75, true)
+      self.death_sound = MusicPlayer:add(sound)
     end,
     __base = _base_0,
     __name = "Bullet",

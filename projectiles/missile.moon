@@ -9,6 +9,9 @@ export class Missile extends HomingProjectile
     if not @target
       @kill!
 
+    sound = Sound "player_missile.ogg", 0.25, false, 0.50, true
+    @death_sound = MusicPlayer\add sound
+
   findTarget: =>
     targets = {}
     if Driver.objects[EntityTypes.enemy]

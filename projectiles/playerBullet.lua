@@ -22,6 +22,8 @@ do
       _class_0.__parent.__init(self, x, y, target, sprite)
       self.damage = damage
       self.trail = nil
+      local sound = Sound("player_bullet.ogg", 0.025, false, 1.125, true)
+      self.death_sound = MusicPlayer:add(sound)
     end,
     __base = _base_0,
     __name = "PlayerBullet",

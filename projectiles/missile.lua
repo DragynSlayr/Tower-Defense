@@ -36,8 +36,10 @@ do
       self.speed_multiplier = 250
       self.target = self:findTarget()
       if not self.target then
-        return self:kill()
+        self:kill()
       end
+      local sound = Sound("player_missile.ogg", 0.25, false, 0.50, true)
+      self.death_sound = MusicPlayer:add(sound)
     end,
     __base = _base_0,
     __name = "Missile",

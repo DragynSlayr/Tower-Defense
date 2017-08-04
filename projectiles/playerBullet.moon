@@ -5,6 +5,9 @@ export class PlayerBullet extends HomingProjectile
     @damage = damage
     @trail = nil
 
+    sound = Sound "player_bullet.ogg", 0.025, false, 1.125, true
+    @death_sound = MusicPlayer\add sound
+
   kill: =>
     super!
     if Upgrade.player_special[1]
