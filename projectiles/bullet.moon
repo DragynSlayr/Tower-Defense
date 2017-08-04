@@ -4,5 +4,5 @@ export class Bullet extends HomingProjectile
     super x, y, target, sprite
     @damage = damage
 
-    sound = Sound "turret_bullet.ogg", 0.0075, false, 0.75, true
+    sound = Sound "turret_bullet.ogg", 0.005, false, 0.75, true
     @death_sound = MusicPlayer\add sound
