@@ -13,6 +13,9 @@ export class PlayerEnemy extends Enemy
     @speed_multiplier = @max_speed
     @damage = 0.5 + (0.3 * Objectives\getLevel!)
 
+    sound = Sound "player_enemy_death.ogg", 2.0, false, 1.25, true
+    @death_sound = MusicPlayer\add sound
+
   __tostring: =>
     return "T: " .. @enemyType .. "\tH: " .. @max_health .. "\tD: " .. @damage .. "\tS: " .. @max_speed
 

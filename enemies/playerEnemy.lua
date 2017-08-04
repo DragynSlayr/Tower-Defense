@@ -37,6 +37,8 @@ do
       self.max_speed = (300 + (10 * Objectives:getLevel())) * Scale.diag
       self.speed_multiplier = self.max_speed
       self.damage = 0.5 + (0.3 * Objectives:getLevel())
+      local sound = Sound("player_enemy_death.ogg", 2.0, false, 1.25, true)
+      self.death_sound = MusicPlayer:add(sound)
     end,
     __base = _base_0,
     __name = "PlayerEnemy",

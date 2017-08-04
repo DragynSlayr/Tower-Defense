@@ -34,6 +34,12 @@ export class Enemy extends GameObject
         if @parent.target.health <= 0
           @parent\findNearestTarget!
 
+    @death_sound = 0
+
+  kill: =>
+    super!
+    MusicPlayer\play @death_sound
+
   __tostring: =>
     return "Enemy"
 

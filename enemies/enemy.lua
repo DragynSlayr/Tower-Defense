@@ -2,6 +2,10 @@ do
   local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
+    kill = function(self)
+      _class_0.__parent.__base.kill(self)
+      return MusicPlayer:play(self.death_sound)
+    end,
     __tostring = function(self)
       return "Enemy"
     end,
@@ -175,6 +179,7 @@ do
           end
         end
       end)
+      self.death_sound = 0
     end,
     __base = _base_0,
     __name = "Enemy",

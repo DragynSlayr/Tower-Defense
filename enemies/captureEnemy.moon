@@ -13,6 +13,9 @@ export class CaptureEnemy extends Enemy
     @speed_multiplier = @max_speed
     @damage = 1
 
+    sound = Sound "capture_enemy_death.ogg", 0.75, false, 1.25, true
+    @death_sound = MusicPlayer\add sound
+
   __tostring: =>
     return "T: " .. @enemyType .. "\tH: " .. @max_health .. "\tD: " .. @damage .. "\tS: " .. @max_speed
 
