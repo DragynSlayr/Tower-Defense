@@ -1,65 +1,46 @@
 do
   local _class_0
   local _base_0 = {
-    fadeTo = function(self, song, in1p, out1p, in2p, out2p, outTime, inTime)
-      local in1 = in1p / 100
-      local out1 = out1p / 100
-      local in2 = in2p / 100
-      local out2 = out2p / 100
-      self.next = song
-      self.fadeOut = true
-      self.outStep = (in1 - out1) / (outTime * 60)
-      self.inStep = (out2 - in2) / (inTime * 60)
-      self.outStop = out1
-      self.inStop = out2
-      self.outStart = in2
-    end,
-    update = function(self, dt)
-      if self.fadeOut then
-        if self.current_music:getVolume() > self.outStop then
-          self.current_music:setVolume(self.current_music:getVolume() - self.outStep)
-        else
-          self.fadeOut = false
-          self.fadeIn = true
-          self.current_music:stop()
-          self.current_music = self.next
-          self.current_music:setVolume(self.outStart)
-          self.current_music:start()
+    play = function(self, idx)
+      if idx > 0 then
+        if self.sounds[idx].audio:isPlaying() then
+          self.sounds[idx].audio:rewind()
         end
-      end
-      if self.fadeIn then
-        if self.current_music:getVolume() < self.inStop then
-          return self.current_music:setVolume((function()
-            local _base_1 = self.current_music
-            local _fn_0 = _base_1.getVolume
-            return function(...)
-              return _fn_0(_base_1, ...)
-            end
-          end)() + self.inStep)
-        else
-          self.fadeIn = false
-          return self.current_music:setVolume(self.inStop)
-        end
+        return self.sounds[idx]:start()
       end
     end,
-    play = function(self)
-      return self.current_music:start()
+    toggle = function(self, idx)
+      return self.sounds[idx]:toggle()
     end,
-    toggle = function(self)
-      return self.current_music:toggle()
+    stop = function(self, idx)
+      return self.sounds[idx]:stop()
     end,
-    stop = function(self)
-      return self.current_music:stop()
+    setVolume = function(self, idx, value)
+      return self.sounds[idx]:setVolume(value)
+    end,
+    setPitch = function(self, idx, value)
+      return self.sounds[idx]:setPitch(value)
+    end,
+    setLooping = function(self, idx, value)
+      return self.sounds[idx]:setLooping(value)
+    end,
+    add = function(self, sound)
+      for k, v in pairs(self.sounds) do
+        if v.name == sound.name then
+          return k
+        end
+      end
+      table.insert(self.sounds, sound)
+      return #self.sounds
+    end,
+    get = function(self, idx)
+      return self.sounds[idx]
     end
   }
   _base_0.__index = _base_0
   _class_0 = setmetatable({
     __init = function(self)
-      self.menu_music = Sound("themes/menu.mp3", 0.5)
-      self.enemy_music = Sound("themes/enemy.mp3", 0.01)
-      self.current_music = self.menu_music
-      self.fade_in = false
-      self.fade_out = false
+      self.sounds = { }
     end,
     __base = _base_0,
     __name = "MusicHandler"
