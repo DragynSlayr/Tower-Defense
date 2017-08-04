@@ -14,7 +14,7 @@ export class CaptureGoal extends GameObject
     if @unlocked
       if entity.id == EntityTypes.enemy and entity.enemyType == EnemyTypes.capture
         @capture_amount -= entity.damage
-        Driver\removeObject entity, false
+        entity.health = 0
       else
         if entity.__class == Missile
           @capture_amount += 2

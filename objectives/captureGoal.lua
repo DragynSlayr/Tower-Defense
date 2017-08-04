@@ -6,7 +6,7 @@ do
       if self.unlocked then
         if entity.id == EntityTypes.enemy and entity.enemyType == EnemyTypes.capture then
           self.capture_amount = self.capture_amount - entity.damage
-          Driver:removeObject(entity, false)
+          entity.health = 0
         else
           if entity.__class == Missile then
             self.capture_amount = self.capture_amount + 2
