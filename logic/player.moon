@@ -63,6 +63,12 @@ export class Player extends GameObject
     @movement_blocked = false
     @lock_sprite = Sprite "effect/lock.tga", 32, 32, 1, 1.75
 
+    sound = Sound "turret_repair.ogg", 0.50, false, 0.33, true
+    @repair_sound = MusicPlayer\add sound
+
+    sound = Sound "turret_place.ogg", 0.75, false, 0.5, true
+    @place_sound = MusicPlayer\add sound
+
   getStats: =>
     stats = {}
     stats[1] = @max_health
@@ -138,6 +144,7 @@ export class Player extends GameObject
         turret = BasicTurret @position.x, @position.y, @turret_cooldown
         if @num_turrets < @max_turrets
           Driver\addObject turret, EntityTypes.turret
+          MusicPlayer\play @place_sound
           @num_turrets += 1
           @turret[#@turret + 1] = turret
           @show_turret = false
@@ -145,12 +152,14 @@ export class Player extends GameObject
           if @turret_count == 0
             @can_place = false
           @charged = false
-      if @turret
+      elseif @turret
         for k, v in pairs @turret
           turret = v\getAttackHitBox!
           player = @getHitBox!
           player.radius += @repair_range
           if turret\contains player
+            if v.health < v.max_health
+              MusicPlayer\play @repair_sound
             v.health += 1
             v.health = clamp v.health, 0, v.max_health
     elseif key == "z"

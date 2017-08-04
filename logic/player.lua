@@ -102,6 +102,7 @@ do
           local turret = BasicTurret(self.position.x, self.position.y, self.turret_cooldown)
           if self.num_turrets < self.max_turrets then
             Driver:addObject(turret, EntityTypes.turret)
+            MusicPlayer:play(self.place_sound)
             self.num_turrets = self.num_turrets + 1
             self.turret[#self.turret + 1] = turret
             self.show_turret = false
@@ -111,13 +112,15 @@ do
             end
             self.charged = false
           end
-        end
-        if self.turret then
+        elseif self.turret then
           for k, v in pairs(self.turret) do
             local turret = v:getAttackHitBox()
             local player = self:getHitBox()
             player.radius = player.radius + self.repair_range
             if turret:contains(player) then
+              if v.health < v.max_health then
+                MusicPlayer:play(self.repair_sound)
+              end
               v.health = v.health + 1
               v.health = clamp(v.health, 0, v.max_health)
             end
@@ -456,6 +459,10 @@ do
       self.knocking_back = false
       self.movement_blocked = false
       self.lock_sprite = Sprite("effect/lock.tga", 32, 32, 1, 1.75)
+      local sound = Sound("turret_repair.ogg", 0.50, false, 0.33, true)
+      self.repair_sound = MusicPlayer:add(sound)
+      sound = Sound("turret_place.ogg", 0.75, false, 0.5, true)
+      self.place_sound = MusicPlayer:add(sound)
     end,
     __base = _base_0,
     __name = "Player",
