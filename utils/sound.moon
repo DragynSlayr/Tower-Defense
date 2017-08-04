@@ -13,6 +13,8 @@ export class Sound
     else
       @audio = love.audio.newSource PATH_PREFIX .. "assets/sounds/" .. name
 
+    @name = name
+
     -- Set initial values
     @audio\setLooping looping
     @audio\setPitch pitch

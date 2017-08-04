@@ -53,6 +53,7 @@ do
       else
         self.audio = love.audio.newSource(PATH_PREFIX .. "assets/sounds/" .. name)
       end
+      self.name = name
       self.audio:setLooping(looping)
       self.audio:setPitch(pitch)
       return self.audio:setVolume(volume)
