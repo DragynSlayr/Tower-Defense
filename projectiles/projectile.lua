@@ -24,6 +24,7 @@ do
       bullet.radius = bullet.radius + self.attack_range
       if target:contains(bullet) then
         self.target:onCollide(self)
+        MusicPlayer:play(self.death_sound)
         return self:kill()
       end
     end,
@@ -56,6 +57,7 @@ do
       self.speed_multiplier = 1000
       local sprite_copy = sprite:getCopy()
       self.trail = nil
+      self.death_sound = 0
     end,
     __base = _base_0,
     __name = "HomingProjectile",

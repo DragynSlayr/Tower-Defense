@@ -13,11 +13,14 @@ export class HomingProjectile extends GameObject
     --sprite_copy\setColor {50, 50, 50, 255}
     @trail = nil--ParticleTrail x, y, sprite_copy, @
 
+    @death_sound = 0
+
   update: (dt) =>
     if not @alive
       return
     if not @target
       @kill!
+
     if @trail
       @trail\update dt
     @sprite\update dt
@@ -36,6 +39,7 @@ export class HomingProjectile extends GameObject
     bullet.radius += @attack_range
     if target\contains bullet
       @target\onCollide @
+      MusicPlayer\play @death_sound
       @kill!
 
   draw: =>
