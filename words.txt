@@ -263,7 +263,6 @@ createUpgradeMenu
 current
 current_frame
 current_item
-current_music
 current_node
 current_screen
 current_stats
@@ -274,6 +273,7 @@ damage_scale
 dark
 data
 dead
+death_sound
 default
 default_item
 defend
@@ -316,7 +316,6 @@ enabled
 encode
 enemy
 enemyType
-enemy_music
 enemy_poison
 enqueue
 entity
@@ -333,11 +332,6 @@ export
 extends
 f
 factor
-fadeIn
-fadeOut
-fadeTo
-fade_in
-fade_out
 false
 field
 files
@@ -443,8 +437,6 @@ idle_sprite
 if
 image
 in
-inStep
-inStop
 in_x
 in_y
 insert
@@ -455,6 +447,7 @@ isDirectory
 isDown
 isHovering
 isOnScreen
+isPlaying
 is_on
 is_word
 item
@@ -523,7 +516,6 @@ max_time
 max_turrets
 max_width
 max_words
-menu_music
 message
 message1
 message2
@@ -582,9 +574,6 @@ open_frame
 opened_item_frame
 or
 os
-outStart
-outStep
-outStop
 p
 p2
 pairs
@@ -601,6 +590,7 @@ phase
 pi
 pick
 pickup
+place_sound
 play
 player
 playerChance
@@ -642,6 +632,7 @@ remove
 removeChars
 removeObject
 repair_range
+repair_sound
 repeating
 require
 resetText
@@ -655,6 +646,7 @@ return
 reverse
 reverseTable
 reversed
+rewind
 rjust
 root
 rotate
@@ -717,6 +709,8 @@ small_font
 small_sprite
 solid
 sort
+sound
+sounds
 spawn
 spawnRandomEnemy
 spawn_count
