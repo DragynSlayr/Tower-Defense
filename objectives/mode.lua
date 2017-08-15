@@ -35,13 +35,6 @@ do
       else
         Upgrade:add_point(2)
       end
-      if SCORE >= SCORE_THRESHOLD then
-        local score_change = SCORE - SCORE_THRESHOLD
-        score_change = math.floor(score_change / 10000)
-        score_change = score_change + 1
-        SCORE_THRESHOLD = SCORE_THRESHOLD + 10000
-        Upgrade:add_point(score_change)
-      end
       self.parent.shader = nil
     end,
     update = function(self, dt)
