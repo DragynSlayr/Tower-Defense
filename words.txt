@@ -60,6 +60,8 @@ FindGoal
 FreezeFieldActive
 FrostField
 GameObject
+GameOver
+GameOverScreen
 Game_State
 GoalTypes
 HealingField
@@ -108,11 +110,11 @@ PoisonParticle
 RangeBoostPassive
 Rectangle
 Renderer
-SCORE
-SCORE_THRESHOLD
 SHOW_RANGE
 Scale
 Scaling
+Score
+ScoreTracker
 Screen
 ScreenCreator
 Screen_Size
@@ -160,6 +162,7 @@ active_text
 add
 addChild
 addObject
+addScore
 addText
 addWords
 add_point
@@ -209,6 +212,7 @@ buffed
 bullet
 bullet_position
 buttons
+byte
 c
 can_place
 capture
@@ -263,6 +267,7 @@ createUpgradeMenu
 current
 current_frame
 current_item
+current_line
 current_node
 current_screen
 current_stats
@@ -274,6 +279,7 @@ dark
 data
 dead
 death_sound
+decode
 default
 default_item
 defend
@@ -419,6 +425,7 @@ healing_amount
 health
 height
 height_scale
+high_scores
 hit
 hold_delay
 hold_timer
@@ -488,6 +495,7 @@ ljust
 load
 loadBaseStats
 loadMap
+loadScores
 loading
 loadstring
 lock_sprite
@@ -612,6 +620,7 @@ props
 push
 queue
 quit
+quitGame
 quit_button
 r
 radius
@@ -656,6 +665,7 @@ rstrip
 runText
 s
 s2
+saveScores
 saved
 saved_index
 scale
@@ -664,6 +674,7 @@ scaled_height
 scaled_width
 score
 score_change
+score_threshold
 score_value
 scores
 screens
@@ -696,6 +707,7 @@ shield_available
 shield_sprite
 shield_timer
 shielded
+shift
 should_shade
 show_turret
 shuffle
@@ -709,6 +721,7 @@ small_font
 small_sprite
 solid
 sort
+sorted
 sound
 sounds
 spawn
@@ -749,7 +762,11 @@ strip
 strong
 strongChance
 sub
+submitScore
+submit_box
+sum
 super
+swap
 switch
 t
 t3
@@ -759,11 +776,13 @@ tableToString
 target
 target_position
 targets
+temp
 temp_damage
 tesseract
 text
 textFunc
 text_box
+text_color
 textinput
 time
 time_remaining
@@ -840,3 +859,4 @@ yOn
 y_border
 y_scale
 y_shear
+y_start
