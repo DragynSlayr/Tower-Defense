@@ -13,12 +13,22 @@ do
     end,
     draw2 = function(self)
       love.graphics.push("all")
-      love.graphics.setColor(0, 0, 0, 255)
-      local message = "Ready"
-      if not self.charged then
-        message = math.ceil((self.charge_time - self.timer))
+      local x = ((Screen_Size.width / 2) + (10 * Scale.width)) / 2
+      local y = Screen_Size.height - (35 * Scale.height)
+      if self.charged then
+        love.graphics.setColor(132, 87, 15, 200)
+      else
+        love.graphics.setColor(15, 87, 132, 200)
       end
-      Renderer:drawHUDMessage(message, Screen_Size.width * 0.2, Screen_Size.height - (50 * Scale.height), Renderer.hud_font)
+      love.graphics.rectangle("fill", x - (60 * Scale.width * 0.5), y - (60 * Scale.height * 0.5), 60 * Scale.width, 60 * Scale.height)
+      self.sprite:draw(x, y)
+      if not self.charged then
+        love.graphics.setColor(0, 0, 0, 127)
+        local font = Renderer.hud_font
+        love.graphics.setFont(font)
+        local message = math.ceil((self.charge_time - self.timer))
+        love.graphics.printf(message, x + (60 * Scale.width * 0.5), y - (font:getHeight() / 2), 60 * Scale.width, "center")
+      end
       return love.graphics.pop()
     end,
     update2 = function(self, dt)
@@ -27,6 +37,11 @@ do
         self.timer = 0
         self.charged = true
       end
+      local amount = 0
+      if not self.charged then
+        amount = 1 - (self.timer / self.charge_time)
+      end
+      return self.sprite.shader:send("amount", amount)
     end
   }
   _base_0.__index = _base_0
@@ -41,6 +56,7 @@ do
       self.charged = true
       self.charge_time = charge_time
       self.effect = effect
+      return self.sprite:setShader(love.graphics.newShader("shaders/active_item_shader.fs"))
     end,
     __base = _base_0,
     __name = "ActiveItem",
