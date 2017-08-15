@@ -86,9 +86,13 @@ do
       local y = math.random(Screen_Size.border[2], Screen_Size.border[4])
       return Point(x, y)
     end,
+    quitGame = function()
+      ScoreTracker:saveScores()
+      return love.event.quit(0)
+    end,
     keypressed = function(key, scancode, isrepeat)
       if key == "escape" then
-        love.event.quit(0)
+        Driver.quitGame()
       elseif key == "printscreen" then
         local screenshot = love.graphics.newScreenshot(true)
         screenshot:encode("png", "screenshots/" .. os.time() .. ".png")
@@ -107,13 +111,16 @@ do
             DEBUG_MENU = true
           end
         elseif key == "p" then
-          if Driver.game_state == Game_State.paused then
-            return Driver.unpause()
-          else
-            return Driver.pause()
+          if not Driver.game_state == Game_State.game_over then
+            if Driver.game_state == Game_State.paused then
+              return Driver.unpause()
+            else
+              return Driver.pause()
+            end
           end
         else
-          if Driver.game_state == Game_State.playing then
+          local _exp_0 = Driver.game_state
+          if Game_State.playing == _exp_0 then
             if Objectives.mode.complete and key == "space" then
               Objectives.ready = true
             else
@@ -121,6 +128,8 @@ do
                 v:keypressed(key)
               end
             end
+          elseif Game_State.game_over == _exp_0 then
+            return GameOver:keypressed(key, scancode, isrepeat)
           end
         end
       end
@@ -129,10 +138,13 @@ do
       if DEBUG_MENU then
         return Debugger:keyreleased(key)
       else
-        if Driver.game_state == Game_State.playing then
+        local _exp_0 = Driver.game_state
+        if Game_State.playing == _exp_0 then
           for k, v in pairs(Driver.objects[EntityTypes.player]) do
             v:keyreleased(key)
           end
+        elseif Game_State.game_over == _exp_0 then
+          return GameOver:keyreleased(key)
         end
       end
     end,
@@ -140,21 +152,33 @@ do
       if DEBUG_MENU then
         return Debugger:mousepressed(x, y, button, isTouch)
       else
-        return UI:mousepressed(x, y, button, isTouch)
+        UI:mousepressed(x, y, button, isTouch)
+        local _exp_0 = Driver.game_state
+        if Game_State.game_over == _exp_0 then
+          return GameOver:mousepressed(x, y, button, isTouch)
+        end
       end
     end,
     mousereleased = function(x, y, button, isTouch)
       if DEBUG_MENU then
         return Debugger:mousereleased(x, y, button, isTouch)
       else
-        return UI:mousereleased(x, y, button, isTouch)
+        UI:mousereleased(x, y, button, isTouch)
+        local _exp_0 = Driver.game_state
+        if Game_State.game_over == _exp_0 then
+          return GameOver:mousereleased(x, y, button, isTouch)
+        end
       end
     end,
     textinput = function(text)
       if DEBUG_MENU then
         return Debugger:textinput(text)
       else
-        return UI:textinput(text)
+        UI:textinput(text)
+        local _exp_0 = Driver.game_state
+        if Game_State.game_over == _exp_0 then
+          return GameOver:textinput(text)
+        end
       end
     end,
     focus = function(focus)
@@ -186,8 +210,7 @@ do
     end,
     restart = function()
       loadBaseStats()
-      SCORE = 0
-      SCORE_THRESHOLD = 10000
+      ScoreTracker = Score()
       love.graphics.setDefaultFilter("nearest", "nearest", 1)
       MusicPlayer = MusicHandler()
       Renderer = ObjectRenderer()
@@ -204,6 +227,7 @@ do
       Upgrade = UpgradeScreen()
       Inventory = InventoryScreen()
       Pause = PauseScreen()
+      GameOver = GameOverScreen()
       ScreenCreator()
       Map = MapCreator()
       Objectives:spawn(EntityTypes.player, 0, love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
@@ -219,7 +243,7 @@ do
         Driver.elapsed = Driver.elapsed + dt
         local _exp_0 = Driver.game_state
         if Game_State.game_over == _exp_0 then
-          return 
+          GameOver:update(dt)
         elseif Game_State.paused == _exp_0 then
           Pause:update(dt)
         elseif Game_State.upgrading == _exp_0 then
@@ -238,6 +262,7 @@ do
           Objectives:update(dt)
         end
         UI:update(dt)
+        ScoreTracker:update(dt)
         if not Driver.shader then
           Driver.shader = love.graphics.newShader("shaders/normal.fs")
         end
@@ -264,7 +289,7 @@ do
         love.graphics.rectangle("fill", 0, 0, bounds[3], bounds[2])
         love.graphics.rectangle("fill", 0, bounds[2] + bounds[4], bounds[3], bounds[2])
         love.graphics.pop()
-        Renderer:drawAlignedMessage(SCORE .. "\t", 20 * Scale.height, "right", Renderer.hud_font)
+        Renderer:drawAlignedMessage(ScoreTracker.score .. "\t", 20 * Scale.height, "right", Renderer.hud_font)
         Renderer:drawAll()
         Objectives:draw()
       elseif Game_State.upgrading == _exp_0 then
@@ -273,6 +298,8 @@ do
         Inventory:draw()
       elseif Game_State.paused == _exp_0 then
         Pause:draw()
+      elseif Game_State.game_over == _exp_0 then
+        GameOver:draw()
       end
       love.graphics.setColor(0, 0, 0, 127)
       love.graphics.setFont(Renderer.small_font)

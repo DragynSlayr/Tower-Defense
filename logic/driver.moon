@@ -105,9 +105,13 @@ export class Driver
       y = math.random Screen_Size.border[2], Screen_Size.border[4]
       return Point x, y
 
+    quitGame: ->
+      ScoreTracker\saveScores!
+      love.event.quit 0
+
     keypressed: (key, scancode, isrepeat) ->
       if key == "escape"
-        love.event.quit 0
+        Driver.quitGame!
       elseif key == "printscreen"
         screenshot = love.graphics.newScreenshot true
         screenshot\encode "png", "screenshots/" .. os.time! .. ".png"
@@ -123,43 +127,59 @@ export class Driver
           if DEBUG_MENU_ENABLED
             export DEBUG_MENU = true
         elseif key == "p"
-          if Driver.game_state == Game_State.paused
-            Driver.unpause!
-          else
-            Driver.pause!
-        else
-          if Driver.game_state == Game_State.playing
-            if Objectives.mode.complete and key == "space"
-              Objectives.ready = true
+          if not Driver.game_state == Game_State.game_over
+            if Driver.game_state == Game_State.paused
+              Driver.unpause!
             else
-              for k, v in pairs Driver.objects[EntityTypes.player]
-                v\keypressed key
+              Driver.pause!
+        else
+          switch Driver.game_state
+            when Game_State.playing
+              if Objectives.mode.complete and key == "space"
+                Objectives.ready = true
+              else
+                for k, v in pairs Driver.objects[EntityTypes.player]
+                  v\keypressed key
+            when Game_State.game_over
+              GameOver\keypressed key, scancode, isrepeat
 
     keyreleased: (key) ->
       if DEBUG_MENU
         Debugger\keyreleased key
       else
-        if Driver.game_state == Game_State.playing
-          for k, v in pairs Driver.objects[EntityTypes.player]
-            v\keyreleased key
+        switch Driver.game_state
+          when Game_State.playing
+            for k, v in pairs Driver.objects[EntityTypes.player]
+              v\keyreleased key
+          when Game_State.game_over
+            GameOver\keyreleased key
 
     mousepressed: (x, y, button, isTouch) ->
       if DEBUG_MENU
         Debugger\mousepressed x, y, button, isTouch
       else
         UI\mousepressed x, y, button, isTouch
+        switch Driver.game_state
+          when Game_State.game_over
+            GameOver\mousepressed x, y, button, isTouch
 
     mousereleased: (x, y, button, isTouch) ->
       if DEBUG_MENU
         Debugger\mousereleased x, y, button, isTouch
       else
         UI\mousereleased x, y, button, isTouch
+        switch Driver.game_state
+          when Game_State.game_over
+            GameOver\mousereleased x, y, button, isTouch
 
     textinput: (text) ->
       if DEBUG_MENU
         Debugger\textinput text
       else
         UI\textinput text
+        switch Driver.game_state
+          when Game_State.game_over
+            GameOver\textinput text
 
     focus: (focus) ->
       if focus
@@ -190,8 +210,7 @@ export class Driver
       loadBaseStats!
 
       -- Global stats
-      export SCORE = 0
-      export SCORE_THRESHOLD = 10000
+      export ScoreTracker = Score!
 
       -- Set love environment
       love.graphics.setDefaultFilter "nearest", "nearest", 1
@@ -230,6 +249,9 @@ export class Driver
       -- Create pause object
       export Pause = PauseScreen!
 
+      -- Create game over object
+      export GameOver = GameOverScreen!
+
       ScreenCreator!
 
       -- Global map
@@ -252,7 +274,7 @@ export class Driver
         Driver.elapsed += dt
         switch Driver.game_state
           when Game_State.game_over
-            return
+            GameOver\update dt
           when Game_State.paused
             Pause\update dt
           when Game_State.upgrading
@@ -267,6 +289,7 @@ export class Driver
                   Driver\removeObject o
             Objectives\update dt
         UI\update dt
+        ScoreTracker\update dt
 
         if not Driver.shader
           Driver.shader = love.graphics.newShader "shaders/normal.fs"
@@ -291,7 +314,7 @@ export class Driver
           love.graphics.rectangle "fill", 0, bounds[2] + bounds[4], bounds[3], bounds[2]
           love.graphics.pop!
 
-          Renderer\drawAlignedMessage SCORE .. "\t", 20 * Scale.height, "right", Renderer.hud_font
+          Renderer\drawAlignedMessage ScoreTracker.score .. "\t", 20 * Scale.height, "right", Renderer.hud_font
           Renderer\drawAll!
           Objectives\draw!
         when Game_State.upgrading
@@ -300,6 +323,8 @@ export class Driver
           Inventory\draw!
         when Game_State.paused
           Pause\draw!
+        when Game_State.game_over
+          GameOver\draw!
       love.graphics.setColor 0, 0, 0, 127
       love.graphics.setFont Renderer.small_font
       love.graphics.printf VERSION .. "\t", 0, Screen_Size.height - (25 * Scale.height), Screen_Size.width, "right"
