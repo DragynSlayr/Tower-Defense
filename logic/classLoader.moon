@@ -71,6 +71,7 @@ table.insert queue, "screens.screenLoader"
 --+---------------+--
 table.insert queue, "logic.autoComplete"
 table.insert queue, "logic.debugger"
+table.insert queue, "logic.score"
 
 --+------------------------------+--
 --| Dependent on everything else |--

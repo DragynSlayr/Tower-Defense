@@ -23,8 +23,7 @@ do
     entityKilled = function(self, entity)
       if entity.id == EntityTypes.goal then
         self.killed = self.killed + 1
-        local score = SCORE + 500
-        SCORE = score
+        ScoreTracker:addScore(500)
         self.health = self.health + 6
         self.health = clamp(self.health, 0, self.max_health)
       end

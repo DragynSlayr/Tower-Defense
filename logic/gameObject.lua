@@ -50,8 +50,7 @@ do
       end
     end,
     kill = function(self)
-      local score = SCORE + self.score_value
-      SCORE = score
+      ScoreTracker:addScore(self.score_value)
       self.alive = false
       self.health = 0
     end,

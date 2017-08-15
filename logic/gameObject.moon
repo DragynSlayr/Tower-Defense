@@ -85,8 +85,7 @@ export class GameObject
       @armor = clamp @armor, 0, @max_armor
 
   kill: =>
-    score = SCORE + @score_value
-    export SCORE = score
+    ScoreTracker\addScore @score_value
     @alive = false
     @health = 0
 

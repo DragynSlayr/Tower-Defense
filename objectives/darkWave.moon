@@ -31,8 +31,7 @@ export class DarkWave extends Wave
   entityKilled: (entity) =>
     if entity.id == EntityTypes.goal
       @killed += 1
-      score = SCORE + 500
-      export SCORE = score
+      ScoreTracker\addScore 500
       @health += 6
       @health = clamp @health, 0, @max_health
 

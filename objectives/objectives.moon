@@ -43,8 +43,7 @@ export class ObjectivesHandler
     if not @mode.complete
       @mode\update dt
       if @mode.complete
-        score = SCORE + 5000
-        export SCORE = score
+        ScoreTracker\addScore 5000
         @mode\finish!
     else
       @elapsed += dt
