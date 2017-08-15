@@ -1,41 +1,19 @@
-V13 Changes
+V15 Changes
 ~~~~~~~~~~~
-  - Items added
-    - Item boxes are dropped during the game, these can be opened in the inventory screen
-    - Items must be equipped in the inventory screen
-    - Only 1 active and passive can be equipped at a time
-    - Player can hold 6 items total, 3 passive and 3 active
+  - Game Over Screen
+    - Now shows final score
+    - Has local leaderboard
 
-  - General
-    - FPS Counter is now shown above the version number
-    - Boss trails now last for the correct amount of time
+  - Active Items
+    - Now shows currently equipped item in bottom left
+    - Has charge effect as well as timer
 
-  - Turret
-    - Fixed shield upgrade to also shield other turrets when activated
-    - Health indicator shows values instead of percent
+  - Dead Eye Active
+    - Cool down increased from 10 to 15 seconds
+    - Indicator bar added to show remaining time
 
-  - Player
-    - Player now shoots missiles instead of spawning bombs
+  - Earth Shatter Active
+    - Cool down fixed, takes 20 seconds to charge (was 1)
 
-  - Pause Screen
-    - No longer shows enemy stats
-    - Shows currently held items
-
-  - Upgrade Screen
-    - Added button to go to Inventory Screen
-
-  - Inventory Screen
-    - Can be used to open boxes and equip items
-
-  - Objectives
-    - Now space must be pressed to continue to upgrade screen
-    - All modes re-enabled
-
-  - Capture Mode
-    - Only 3 turret enemies can be active at a time
-
-  - Heart Find Mode
-    - Hearts spawns reversed
-      - 3 spawn on wave 1
-      - 2 on wave 2
-      - 1 on wave 3
+  - Sounds
+    - Sounds for major events added
