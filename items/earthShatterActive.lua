@@ -41,7 +41,7 @@ do
           end
         end
       end
-      _class_0.__parent.__init(self, x, y, sprite, 1, effect)
+      _class_0.__parent.__init(self, x, y, sprite, 20, effect)
       self.name = "Earth Shatter"
       self.description = "Slow enemies"
     end,

@@ -20,7 +20,7 @@ export class EarthShatterActive extends ActiveItem
           v\add player.position
           x, y = v\getComponents!
           @createShatter x, y, angle + (math.pi / 2)
-    super x, y, sprite, 1, effect
+    super x, y, sprite, 20, effect
     @name = "Earth Shatter"
     @description = "Slow enemies"
 
