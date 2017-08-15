@@ -10,9 +10,7 @@ do
       for k2, filter in pairs(filters) do
         if Driver.objects[filter] then
           for k, v in pairs(Driver.objects[filter]) do
-            print("B: " .. v.health)
             v:onCollide(self)
-            print("A: " .. v.health)
           end
         end
       end
@@ -41,16 +39,21 @@ do
         self.effect_sprite:update(dt)
         self.effect_timer = self.effect_timer + dt
         self.damage = self.damage + (self.damage_scale * dt)
-        print("Damage: " .. self.damage)
         if self.effect_timer >= self.effect_time then
-          return self:fire()
+          self:fire()
         end
+        return self.sprite.shader:send("amount", 1)
       else
         self.timer = self.timer + dt
         if not self.charged and self.timer >= self.charge_time then
           self.timer = 0
           self.charged = true
         end
+        local amount = 0
+        if not self.charged then
+          amount = 1 - (self.timer / self.charge_time)
+        end
+        return self.sprite.shader:send("amount", amount)
       end
     end,
     draw2 = function(self)
@@ -71,6 +74,14 @@ do
             end
           end
         end
+        local radius = self.player:getHitBox().radius
+        local x = self.player.position.x - radius
+        local y = self.player.position.y + radius + (5 * Scale.height)
+        love.graphics.setColor(0, 0, 0, 255)
+        love.graphics.rectangle("fill", x, y, radius * 2, 10 * Scale.height)
+        local ratio = (self.effect_time - self.effect_timer) / self.effect_time
+        love.graphics.setColor(0, 255, 255, 127)
+        love.graphics.rectangle("fill", x + (1 * Scale.width), y + (1 * Scale.height), ((radius * 2) - (2 * Scale.width)) * ratio, 8 * Scale.height)
         love.graphics.setShader()
         return love.graphics.pop()
       end
@@ -87,7 +98,7 @@ do
         player.movement_blocked = true
         self.damage = 0
       end
-      _class_0.__parent.__init(self, x, y, sprite, 10, effect)
+      _class_0.__parent.__init(self, x, y, sprite, 15, effect)
       self.name = "Dead Eye"
       self.description = "Take aim and fire"
       self.used = false
