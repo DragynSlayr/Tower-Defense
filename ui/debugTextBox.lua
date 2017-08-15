@@ -74,6 +74,15 @@ do
         end
         return self:recoverSaved()
       end
+      self.action["return"] = function()
+        if love.keyboard.isDown("rshift", "lshift") then
+          return self:runText()
+        else
+          self.lines_index = self.lines_index + 1
+          table.insert(self.lines, self.lines_index, { })
+          self.char_index = 1
+        end
+      end
     end,
     __base = _base_0,
     __name = "DebugTextBox",

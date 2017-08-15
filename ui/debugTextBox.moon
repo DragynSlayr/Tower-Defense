@@ -24,6 +24,14 @@ export class DebugTextBox extends TextBox
         @saved_index = 1
       @recoverSaved!
 
+    @action["return"] = () ->
+      if love.keyboard.isDown "rshift", "lshift"
+        @runText!
+      else
+        @lines_index += 1
+        table.insert @lines, @lines_index, {}
+        @char_index = 1
+
   recoverSaved: =>
     @lines = @saved[@saved_index]
     if #@lines > 0
