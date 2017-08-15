@@ -10,6 +10,9 @@ do
       self.char_index = 1
     end,
     addText = function(self, word, replace_text)
+      if replace_text == nil then
+        replace_text = ""
+      end
       local remove_len = #replace_text
       local start = self.char_index
       self.char_index = self.char_index - (3 + remove_len)
@@ -54,8 +57,13 @@ do
           if not self.lines[self.lines_index] then
             self.lines[self.lines_index] = { }
           end
-          self.char_index = self.char_index + 1
-          return table.insert(self.lines[self.lines_index], self.char_index, text)
+          local current_line = self:getLine(self.lines_index)
+          current_line = current_line .. text
+          local width = self.font:getWidth(current_line)
+          if width + (30 * Scale.width) < self.width then
+            self.char_index = self.char_index + 1
+            return table.insert(self.lines[self.lines_index], self.char_index, text)
+          end
         end
       end
     end,
@@ -163,13 +171,13 @@ do
       love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.color[4])
       love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
       local text = self:getText()
-      love.graphics.setColor(0, 255, 0, 255)
+      love.graphics.setColor(self.text_color[1], self.text_color[2], self.text_color[3], self.text_color[4])
       love.graphics.setFont(self.font)
       local height = self.font:getHeight()
       local width = self.font:getWidth(text)
       love.graphics.printf(text, self.x + (10 * Scale.width), self.y + (height / 2), self.width, "left")
       if self.active then
-        love.graphics.setColor(0, 255, 0, self.cursor.alpha)
+        love.graphics.setColor(self.text_color[1], self.text_color[2], self.text_color[3], self.cursor.alpha)
         width = 0
         if self.lines[self.lines_index] then
           width = self.font:getWidth(self:getLine(self.lines_index, (self.char_index + 1)))
@@ -192,6 +200,12 @@ do
         0,
         0,
         127
+      }
+      self.text_color = {
+        0,
+        255,
+        0,
+        255
       }
       self.font = love.graphics.newFont(20)
       self.elapsed = 0

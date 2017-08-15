@@ -4,6 +4,7 @@ export class TextBox extends UIElement
     @width = width
     @height = height
     @color = {0, 0, 0, 127}
+    @text_color = {0, 255, 0, 255}
     @font = love.graphics.newFont 20
     @elapsed = 0
 
@@ -63,7 +64,7 @@ export class TextBox extends UIElement
     @lines_index = 1
     @char_index = 1
 
-  addText: (word, replace_text) =>
+  addText: (word, replace_text = "") =>
     remove_len = #replace_text
     start = @char_index
     @char_index -= (3 + remove_len)
@@ -97,8 +98,12 @@ export class TextBox extends UIElement
       if text ~= '`'
         if not @lines[@lines_index]
           @lines[@lines_index] = {}
-        @char_index += 1
-        table.insert @lines[@lines_index], @char_index, text
+        current_line = @getLine @lines_index
+        current_line ..= text
+        width = @font\getWidth current_line
+        if width + (30 * Scale.width) < @width
+          @char_index += 1
+          table.insert @lines[@lines_index], @char_index, text
 
   keypressed: (key, scancode, isrepeat) =>
     if @active
@@ -186,14 +191,14 @@ export class TextBox extends UIElement
 
     text = @getText!
 
-    love.graphics.setColor 0, 255, 0, 255
+    love.graphics.setColor @text_color[1], @text_color[2], @text_color[3], @text_color[4]
     love.graphics.setFont @font
     height = @font\getHeight!
     width = @font\getWidth text
     love.graphics.printf text, @x + (10 * Scale.width), @y + (height / 2), @width, "left"
 
     if @active
-      love.graphics.setColor 0, 255, 0, @cursor.alpha
+      love.graphics.setColor @text_color[1], @text_color[2], @text_color[3], @cursor.alpha
       width = 0
       if @lines[@lines_index]
         width = @font\getWidth @getLine @lines_index, (@char_index + 1)
