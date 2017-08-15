@@ -10,11 +10,14 @@ do
       local effect
       effect = function(self, player)
         x, y = player.speed:getComponents()
-        local speed = Vector(x, y, true)
-        player.position:add(speed:multiply((Scale.diag * 350)))
-        local radius = player:getHitBox().radius
-        player.position.x = clamp(player.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius)
-        player.position.y = clamp(player.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius)
+        local sum = (math.abs(x)) + (math.abs(y))
+        if sum > 0 then
+          local speed = Vector(x, y, true)
+          player.position:add(speed:multiply((Scale.diag * 350)))
+          local radius = player:getHitBox().radius
+          player.position.x = clamp(player.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius)
+          player.position.y = clamp(player.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius)
+        end
       end
       _class_0.__parent.__init(self, x, y, sprite, 5, effect)
       self.name = "Dash"
