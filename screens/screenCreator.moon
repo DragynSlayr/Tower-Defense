@@ -117,7 +117,8 @@ export class ScreenCreator
       UI\set_screen Screen_State.none
     UI\add start_button
 
-    exit_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (32 * Scale.height), 250, 60, "Exit", () -> love.event.quit 0
+    exit_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (32 * Scale.height), 250, 60, "Exit", () ->
+      Driver.quitGame!
     UI\add exit_button
 
   createPauseMenu: =>
@@ -155,10 +156,13 @@ export class ScreenCreator
       Driver.unpause!
     UI\add resume_button
 
-    restart_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (38 * Scale.height), 250, 60, "Restart", () -> Driver.restart!
+    restart_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (38 * Scale.height), 250, 60, "Restart", () ->
+      ScoreTracker\saveScores!
+      Driver.restart!
     UI\add restart_button
 
-    quit_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (108 * Scale.height), 250, 60, "Quit", () -> love.event.quit 0
+    quit_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (108 * Scale.height), 250, 60, "Quit", () ->
+      Driver.quitGame!
     UI\add quit_button
 
     passive_text = Text Screen_Size.width * 0.25, (Screen_Size.height / 2) + (0 * Scale.height), "Passive", Renderer.hud_font
@@ -184,13 +188,16 @@ export class ScreenCreator
   createGameOverMenu: =>
     UI\set_screen Screen_State.game_over
 
-    title = Text Screen_Size.width / 2, (Screen_Size.height / 2), "YOU LOSE!", Renderer.giant_font
+    title = Text Screen_Size.width / 2, Renderer.giant_font\getHeight! / 2, "GAME OVER", Renderer.giant_font
     UI\add title
 
-    restart_button = Button Screen_Size.width / 2, Screen_Size.height - (200 * Scale.height), 250, 60, "Restart", () -> Driver.restart!
+    restart_button = Button (Screen_Size.width / 2) - (127.5 * Scale.width), Screen_Size.height - (35 * Scale.height), 250, 60, "Restart", () ->
+      ScoreTracker\saveScores!
+      Driver.restart!
     UI\add restart_button
 
-    quit_button = Button Screen_Size.width / 2, Screen_Size.height - (130 * Scale.height), 250, 60, "Quit", () -> love.event.quit 0
+    quit_button = Button (Screen_Size.width / 2) + (127.5 * Scale.width), Screen_Size.height - (35 * Scale.height), 250, 60, "Quit", () ->
+      Driver.quitGame!
     UI\add quit_button
 
   createUpgradeMenu: =>
