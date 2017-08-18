@@ -22,12 +22,17 @@ do
   _base_0.__class = _class_0
   ScoreNode = _class_0
 end
-local ScoreArray
 do
   local _class_0
   local _base_0 = {
     add = function(self, score, name)
-      table.insert(self.elements, (ScoreNode((tonumber(score)), (tostring(name)))))
+      local node = ScoreNode((tonumber(score)), (tostring(name)))
+      for k, v in pairs(self.elements) do
+        if v.name == node.name and v.score == node.score then
+          return 
+        end
+      end
+      table.insert(self.elements, node)
       self.size = self.size + 1
       self.sorted = false
     end,
@@ -70,6 +75,17 @@ do
         end
       end
       return print(s)
+    end,
+    getTopScores = function(self, n)
+      n = math.min(n, #self.elements)
+      self:sort()
+      local temp = ScoreArray()
+      for i = 1, n do
+        local node = self.elements[i]
+        temp:add(node.score, node.name)
+      end
+      temp:sort()
+      return temp
     end
   }
   _base_0.__index = _base_0
@@ -92,9 +108,45 @@ do
   _base_0.__class = _class_0
   ScoreArray = _class_0
 end
+local s = require("socket")
 do
   local _class_0
   local _base_0 = {
+    tryConnection = function(self)
+      self.socket = s.udp()
+      self.socket:settimeout(0)
+      self.socket:setpeername(self.server_address, self.server_port)
+      self.connected = true
+    end,
+    disconnect = function(self)
+      if self.connected then
+        return self.socket:close()
+      end
+    end,
+    retrieveScores = function(self)
+      if not self.connected then
+        return 
+      end
+      self.socket:send("update")
+      local temp = ScoreArray()
+      local data = ""
+      while data do
+        local msg
+        data, msg = self.socket:receive()
+        if data then
+          local splitted = split(data, "\t")
+          local score = tonumber(splitted[2])
+          local name = splitted[1]
+          temp:add(score, name)
+        elseif msg ~= "timeout" then
+          error("Network error: " .. tostring(msg))
+        end
+      end
+      if #temp.elements > #self.high_scores.elements then
+        temp:sort()
+        self.high_scores = temp
+      end
+    end,
     loadScores = function(self)
       self.high_scores = ScoreArray()
       local contents, size = love.filesystem.read("HIGH_SCORES")
@@ -109,7 +161,7 @@ do
     end,
     saveScores = function(self)
       local temp = ScoreArray()
-      local s = ""
+      s = ""
       while self.high_scores.size > 0 do
         local node = self.high_scores:remove()
         temp:add(node.score, node.name)
@@ -125,7 +177,7 @@ do
       if shift == nil then
         shift = self.shift
       end
-      local s = ""
+      s = ""
       for i = 1, #str do
         local char = string.sub(str, i, i)
         local num = string.byte(char)
@@ -143,16 +195,30 @@ do
         score_change = math.floor(score_change / 10000)
         score_change = score_change + 1
         self.score_threshold = self.score_threshold + 10000
-        return Upgrade:add_point(score_change)
+        Upgrade:add_point(score_change)
+      end
+      if Driver.game_state == Game_State.game_over then
+        self.elapsed = self.elapsed + dt
+        if self.elapsed > self.update_delay then
+          self.elapsed = 0
+          return self:retrieveScores()
+        end
       end
     end,
     addScore = function(self, score)
       self.score = self.score + score
     end,
     submitScore = function(self, text)
-      local name = text
-      local score = tostring(self.score)
-      return self.high_scores:add(score, name)
+      if self.connected then
+        local name = tostring(text)
+        local score = tonumber(self.score)
+        local dg = string.format("%s\t%d", name, score)
+        return self.socket:send(dg)
+      else
+        local name = text
+        local score = tostring(self.score)
+        return self.high_scores:add(score, name)
+      end
     end
   }
   _base_0.__index = _base_0
@@ -164,7 +230,15 @@ do
       if not love.filesystem.exists("HIGH_SCORES") then
         love.filesystem.write("HIGH_SCORES", "")
       end
-      return self:loadScores()
+      self.high_scores = ScoreArray()
+      self.socket = nil
+      self.server_address = "70.72.212.179"
+      self.server_port = 19615
+      self.connected = false
+      self:tryConnection()
+      self:loadScores()
+      self.elapsed = 0
+      self.update_delay = 1
     end,
     __base = _base_0,
     __name = "Score"

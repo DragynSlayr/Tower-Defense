@@ -4,14 +4,19 @@ class ScoreNode
     @name = name
     @next = nil
 
-class ScoreArray
+export class ScoreArray
   new: =>
     @elements = {}
     @size = 0
     @sorted = true
 
   add: (score, name) =>
-    table.insert @elements, (ScoreNode (tonumber score), (tostring name))
+    node = ScoreNode (tonumber score), (tostring name)
+    for k, v in pairs @elements
+      if v.name == node.name and v.score == node.score
+        return
+
+    table.insert @elements, node
     @size += 1
     @sorted = false
 
@@ -47,6 +52,18 @@ class ScoreArray
         s ..= "\n"
     print s
 
+  getTopScores: (n) =>
+    n = math.min n, #@elements
+    @sort!
+    temp = ScoreArray!
+    for i = 1, n
+      node = @elements[i]
+      temp\add node.score, node.name
+    temp\sort!
+    return temp
+
+s = require "socket"
+
 export class Score
   new: =>
     @score = 0
@@ -56,7 +73,52 @@ export class Score
     if not love.filesystem.exists "HIGH_SCORES"
       love.filesystem.write "HIGH_SCORES", ""
 
+    @high_scores = ScoreArray!
+
+    @socket = nil
+
+    @server_address = "70.72.212.179"
+    @server_port = 19615
+
+    @connected = false
+    @tryConnection!
+
     @loadScores!
+
+    @elapsed = 0
+    @update_delay = 1
+
+  tryConnection: =>
+    @socket = s.udp!
+    @socket\settimeout 0
+    @socket\setpeername @server_address, @server_port
+    @connected = true
+
+  disconnect: =>
+    if @connected
+      @socket\close!
+
+  retrieveScores: =>
+    if not @connected
+      return
+
+    @socket\send "update"
+
+    temp = ScoreArray!
+    data = ""
+    while data
+      data, msg = @socket\receive!
+      if data
+        splitted = split data, "\t"
+        score = tonumber splitted[2]
+        name = splitted[1]
+        temp\add score, name
+      elseif msg ~= "timeout"
+        error "Network error: " .. tostring msg
+
+    if #temp.elements > #@high_scores.elements
+      temp\sort!
+      @high_scores = temp
 
   loadScores: =>
     @high_scores = ScoreArray!
@@ -99,11 +161,22 @@ export class Score
       score_change += 1
       @score_threshold += 10000
       Upgrade\add_point score_change
+    if Driver.game_state == Game_State.game_over
+      @elapsed += dt
+      if @elapsed > @update_delay
+        @elapsed = 0
+        @retrieveScores!
 
   addScore: (score) =>
     @score += score
 
   submitScore: (text) =>
-    name = text
-    score = tostring @score
-    @high_scores\add score, name
+    if @connected
+      name = tostring text
+      score = tonumber @score
+      dg = string.format "%s\t%d", name, score
+      @socket\send dg
+    else
+      name = text
+      score = tostring @score
+      @high_scores\add score, name
