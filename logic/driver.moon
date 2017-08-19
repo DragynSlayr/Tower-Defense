@@ -106,6 +106,7 @@ export class Driver
       return Point x, y
 
     quitGame: ->
+      ScoreTracker\disconnect!
       ScoreTracker\saveScores!
       love.event.quit 0
 

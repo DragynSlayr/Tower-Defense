@@ -87,6 +87,7 @@ do
       return Point(x, y)
     end,
     quitGame = function()
+      ScoreTracker:disconnect()
       ScoreTracker:saveScores()
       return love.event.quit(0)
     end,
