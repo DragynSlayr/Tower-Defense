@@ -5,6 +5,8 @@ export class MusicHandler
 
   -- Play the current sound
   play: (idx) =>
+    if true
+      return
     if idx > 0
       if @sounds[idx].audio\isPlaying!
         @sounds[idx].audio\rewind!

@@ -2,6 +2,9 @@ do
   local _class_0
   local _base_0 = {
     play = function(self, idx)
+      if true then
+        return 
+      end
       if idx > 0 then
         if self.sounds[idx].audio:isPlaying() then
           self.sounds[idx].audio:rewind()
