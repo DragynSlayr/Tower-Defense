@@ -114,6 +114,7 @@ SHOW_RANGE
 Scale
 Scaling
 Score
+ScoreArray
 ScoreTracker
 Screen
 ScreenCreator
@@ -235,6 +236,7 @@ circle
 clamp
 class
 clearObjects
+close
 closest_distance
 coin
 collectable
@@ -242,6 +244,7 @@ color
 complete
 completer
 concatTables
+connected
 contact_damage
 contains
 contents
@@ -286,12 +289,14 @@ defend
 delay
 delay_timer
 description
+dg
 diag
 diff
 difference
 difficulty
 directories
 directory
+disconnect
 dist
 dist_vec
 do
@@ -331,6 +336,7 @@ equipped
 equippedActive
 equippedPassive
 equipped_items
+error
 event
 exists
 exit_button
@@ -401,6 +407,7 @@ getRandomPosition
 getRandomUnitStart
 getStats
 getText
+getTopScores
 getVolume
 getWidth
 getWords
@@ -540,6 +547,7 @@ mousepressed
 mousereleased
 movement_blocked
 moving_particles
+msg
 multiply
 n
 name
@@ -651,6 +659,7 @@ restart
 restart_button
 resume
 resume_button
+retrieveScores
 return
 reverse
 reverseTable
@@ -681,6 +690,8 @@ screens
 screenshot
 selected
 send
+server_address
+server_port
 setArmor
 setCenter
 setColor
@@ -701,6 +712,8 @@ setSprite
 setVolume
 set_message
 set_screen
+setpeername
+settimeout
 shader
 shatter
 shield_available
@@ -719,6 +732,7 @@ slagged
 slagging
 small_font
 small_sprite
+socket
 solid
 sort
 sorted
@@ -804,6 +818,7 @@ trees
 trie
 trim
 true
+tryConnection
 tt
 tt2
 tt3
@@ -816,12 +831,14 @@ turret_spawn_num
 turret_special
 turret_stats
 typeof
+udp
 ui_objects
 unequip
 unlocked
 unpause
 update
 update2
+update_delay
 upgrade
 upgrade_button
 upgrade_cost
