@@ -4,9 +4,3 @@ export class ItemBox extends Item
     super x, y, sprite
     @name = "Item Box"
     @description = "Open to get a random item"
-
-  pickup: (player) =>
-    @collectable = false
-    @contact_damage = false
-    @solid = false
-    Inventory.boxes += 1
