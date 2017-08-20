@@ -38,6 +38,8 @@ do
           print("Failure")
         end
       end
+      ScoreTracker.submit_box = function(self, text) end
+      GameOver.ui_objects[2].active = false
       self.active = true
     end
   }
