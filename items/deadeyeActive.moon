@@ -80,7 +80,7 @@ export class DeadEyeActive extends ActiveItem
 
       ratio = (@effect_time - @effect_timer) / @effect_time
 
-      love.graphics.setColor 0, 255, 255, 127
+      love.graphics.setColor 0, 255, 255, 200
       love.graphics.rectangle "fill", x + (1 * Scale.width), y + (1 * Scale.height), ((radius * 2) - (2 * Scale.width)) * ratio, 8 * Scale.height
 
       love.graphics.setShader!
