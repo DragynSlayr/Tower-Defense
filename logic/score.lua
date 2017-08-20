@@ -108,12 +108,11 @@ do
   _base_0.__class = _class_0
   ScoreArray = _class_0
 end
-local s = require("socket")
 do
   local _class_0
   local _base_0 = {
     tryConnection = function(self)
-      self.socket = s.udp()
+      self.socket = self.s.udp()
       self.socket:settimeout(0)
       self.socket:setpeername(self.server_address, self.server_port)
       self.connected = true
@@ -161,7 +160,7 @@ do
     end,
     saveScores = function(self)
       local temp = ScoreArray()
-      s = ""
+      local s = ""
       while self.high_scores.size > 0 do
         local node = self.high_scores:remove()
         temp:add(node.score, node.name)
@@ -177,7 +176,7 @@ do
       if shift == nil then
         shift = self.shift
       end
-      s = ""
+      local s = ""
       for i = 1, #str do
         local char = string.sub(str, i, i)
         local num = string.byte(char)
@@ -224,6 +223,7 @@ do
   _base_0.__index = _base_0
   _class_0 = setmetatable({
     __init = function(self)
+      self.s = require("socket")
       self.score = 0
       self.score_threshold = 10000
       self.shift = 128

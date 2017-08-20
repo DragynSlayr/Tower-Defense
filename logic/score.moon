@@ -62,10 +62,9 @@ export class ScoreArray
     temp\sort!
     return temp
 
-s = require "socket"
-
 export class Score
   new: =>
+    @s = require "socket"
     @score = 0
     @score_threshold = 10000
     @shift = 128
@@ -89,7 +88,7 @@ export class Score
     @update_delay = 1
 
   tryConnection: =>
-    @socket = s.udp!
+    @socket = @s.udp!
     @socket\settimeout 0
     @socket\setpeername @server_address, @server_port
     @connected = true
