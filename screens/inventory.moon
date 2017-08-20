@@ -4,7 +4,6 @@ export class InventoryScreen extends Screen
     @message1 = ""
     @message2 = ""
     @boxes = 0
-    @boxes = 100
 
   open_box: =>
     if @boxes < 1

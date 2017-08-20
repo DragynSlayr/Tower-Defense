@@ -56,7 +56,6 @@ do
       self.message1 = ""
       self.message2 = ""
       self.boxes = 0
-      self.boxes = 100
     end,
     __base = _base_0,
     __name = "InventoryScreen",
