@@ -22,7 +22,7 @@ do
               Renderer:removeObject(object)
               if player_kill then
                 if math.random() <= o.item_drop_chance then
-                  local box = ItemBox(o.position.x, o.position.y)
+                  local box = ItemBoxPickUp(o.position.x, o.position.y)
                   Driver:addObject(box, EntityTypes.item)
                 end
                 v[k2]:kill()
@@ -112,7 +112,7 @@ do
             DEBUG_MENU = true
           end
         elseif key == "p" then
-          if not Driver.game_state == Game_State.game_over then
+          if Driver.game_state ~= Game_State.game_over then
             if Driver.game_state == Game_State.paused then
               return Driver.unpause()
             else

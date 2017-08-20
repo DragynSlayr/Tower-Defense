@@ -59,7 +59,7 @@ export class Driver
               Renderer\removeObject object
               if player_kill
                 if math.random! <= o.item_drop_chance
-                  box = ItemBox o.position.x, o.position.y
+                  box = ItemBoxPickUp o.position.x, o.position.y
                   Driver\addObject box, EntityTypes.item
                 v[k2]\kill!
                 Objectives\entityKilled v[k2]
@@ -128,7 +128,7 @@ export class Driver
           if DEBUG_MENU_ENABLED
             export DEBUG_MENU = true
         elseif key == "p"
-          if not Driver.game_state == Game_State.game_over
+          if Driver.game_state ~= Game_State.game_over
             if Driver.game_state == Game_State.paused
               Driver.unpause!
             else
