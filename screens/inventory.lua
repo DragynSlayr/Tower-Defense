@@ -14,6 +14,7 @@ do
             break
           end
         end
+        self:set_item()
         if opened_item_frame.empty then
           local item = ItemPool:getItem()
           self.boxes = self.boxes - 1
@@ -40,10 +41,48 @@ do
       self.message1 = message1
       self.message2 = message2
     end,
+    set_colors = function(self, title_color, text_color)
+      if title_color == nil then
+        title_color = Item_Rarity[1]
+      end
+      if text_color == nil then
+        text_color = Item_Rarity_Text[1]
+      end
+      self.title_color = Color(title_color[1], title_color[2], title_color[3], title_color[4])
+      self.text_color = Color(text_color[1], text_color[2], text_color[3], text_color[4])
+    end,
+    set_item = function(self, item)
+      if item == nil then
+        item = nil
+      end
+      if item then
+        self:set_message(item.name, item.description)
+        self:set_colors(Item_Rarity[item.rarity], Item_Rarity_Text[item.rarity])
+      else
+        self:set_message()
+        self:set_colors()
+      end
+      self.item = item
+    end,
     draw = function(self)
       love.graphics.push("all")
-      Renderer:drawAlignedMessage(self.message1, Screen_Size.height * 0.15, "center", Renderer.hud_font)
-      Renderer:drawAlignedMessage(self.message2, Screen_Size.height * 0.19, "center", Renderer.hud_font)
+      if self.item then
+        local stats = self.item:getStats()
+        local y = Screen_Size.height * 0.15
+        for k, v in pairs(stats) do
+          if y < Screen_Size.height then
+            local color = self.text_color
+            if k == 1 then
+              color = self.title_color
+            end
+            Renderer:drawAlignedMessage(v, y, "center", Renderer.hud_font, color)
+            y = y + (35 * Scale.height)
+          end
+        end
+      else
+        Renderer:drawAlignedMessage(self.message1, Screen_Size.height * 0.15, "center", Renderer.hud_font, self.title_color)
+        Renderer:drawAlignedMessage(self.message2, Screen_Size.height * 0.19, "center", Renderer.hud_font, self.text_color)
+      end
       Renderer:drawHUDMessage("x " .. self.boxes, 175 * Scale.width, Screen_Size.height - (100 * Scale.height), Renderer.small_font)
       return love.graphics.pop()
     end
@@ -53,9 +92,10 @@ do
   _class_0 = setmetatable({
     __init = function(self)
       _class_0.__parent.__init(self)
-      self.message1 = ""
-      self.message2 = ""
+      self:set_message()
+      self:set_colors()
       self.boxes = 0
+      self.item = nil
     end,
     __base = _base_0,
     __name = "InventoryScreen",
