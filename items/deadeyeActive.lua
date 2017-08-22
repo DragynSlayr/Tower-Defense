@@ -2,6 +2,11 @@ do
   local _class_0
   local _parent_0 = ActiveItem
   local _base_0 = {
+    getStats = function(self)
+      local stats = _class_0.__parent.__base.getStats(self)
+      table.insert(stats, "Damage Multiplier: " .. self.damage_multiplier)
+      return stats
+    end,
     fire = function(self)
       local filters = {
         EntityTypes.enemy,
@@ -21,7 +26,7 @@ do
     end,
     pickup = function(self, player)
       _class_0.__parent.__base.pickup(self, player)
-      self.damage_scale = player.damage * 10
+      self.damage_scale = player.damage * 10 * self.damage_multiplier
     end,
     use = function(self)
       if self.used then
@@ -91,6 +96,14 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
+      self.rarity = self:getRandomRarity()
+      local cd = ({
+        15,
+        14,
+        13,
+        12,
+        11
+      })[self.rarity]
       local sprite = Sprite("item/deadeyeActive.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
@@ -98,14 +111,21 @@ do
         player.movement_blocked = true
         self.damage = 0
       end
-      _class_0.__parent.__init(self, x, y, sprite, 15, effect)
+      _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Dead Eye"
       self.description = "Take aim and fire"
       self.used = false
       self.effect_time = 6
       self.effect_timer = 0
       self.damage = 0
-      self.damage_scale = 1
+      self.damage_scale = 0
+      self.damage_multiplier = ({
+        1,
+        1.1,
+        1.2,
+        1.3,
+        1.4
+      })[self.rarity]
       self.effect_sprite = Sprite("effect/deadeye.tga", 32, 32, 1, 1.75)
     end,
     __base = _base_0,

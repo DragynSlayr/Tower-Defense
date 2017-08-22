@@ -1,5 +1,6 @@
 export class TurretSlagPassive extends PassiveItem
   new: (x, y) =>
+    @rarity = 5
     sprite = Sprite "item/turretSlagPassive.tga", 32, 32, 1, 1.75
     effect = (player) =>
       for k, t in pairs player.turret

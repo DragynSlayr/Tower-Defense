@@ -2,6 +2,11 @@ do
   local _class_0
   local _parent_0 = PassiveItem
   local _base_0 = {
+    getStats = function(self)
+      local stats = _class_0.__parent.__base.getStats(self)
+      table.insert(stats, "Damage Multiplier: " .. self.damage_multiplier)
+      return stats
+    end,
     pickup = function(self, player)
       _class_0.__parent.__base.pickup(self, player)
       self.delay = player.attack_speed
@@ -11,6 +16,14 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
+      self.rarity = self:getRandomRarity()
+      self.damage_multiplier = ({
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9
+      })[self.rarity]
       local sprite = Sprite("item/doubleShotPassive.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
@@ -25,7 +38,7 @@ do
               local p = player:getHitBox()
               p.radius = p.radius + (player.attack_range + player.range_boost)
               if p:contains(enemy) then
-                local bullet = PlayerBullet(player.position.x, player.position.y, v, player.damage / 2)
+                local bullet = PlayerBullet(player.position.x, player.position.y, v, player.damage * self.damage_multiplier)
                 bullet.sprite = Sprite("projectile/doubleShot.tga", 26, 20, 1, 0.5)
                 Driver:addObject(bullet, EntityTypes.bullet)
               end

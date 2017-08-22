@@ -2,6 +2,11 @@ do
   local _class_0
   local _parent_0 = PassiveItem
   local _base_0 = {
+    getStats = function(self)
+      local stats = _class_0.__parent.__base.getStats(self)
+      table.insert(stats, "Length: " .. self.life_time)
+      return stats
+    end,
     unequip = function(self, player)
       _class_0.__parent.__base.unequip(self, player)
       player.trail = self.old_trail
@@ -11,12 +16,20 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
+      self.rarity = self:getRandomRarity()
+      self.life_time = ({
+        1.5,
+        1.75,
+        2,
+        2.25,
+        2.5
+      })[self.rarity]
       local sprite = Sprite("item/trailPassive.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
         sprite = Sprite("item/trailPassive.tga", 32, 32, 1, 1.75)
         local trail = ParticleTrail(player.position.x, player.position.y, sprite, player)
-        trail.life_time = 1.5
+        trail.life_time = self.life_time
         trail.particle_type = ParticleTypes.enemy_poison
         self.old_trail = player.trail
         player.trail = trail

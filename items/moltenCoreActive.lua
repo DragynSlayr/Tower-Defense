@@ -2,6 +2,11 @@ do
   local _class_0
   local _parent_0 = ActiveItem
   local _base_0 = {
+    getStats = function(self)
+      local stats = _class_0.__parent.__base.getStats(self)
+      table.insert(stats, "Duration: " .. self.effect_time .. "s")
+      return stats
+    end,
     update2 = function(self, dt)
       _class_0.__parent.__base.update2(self, dt)
       if self.used then
@@ -40,6 +45,14 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
+      self.rarity = self:getRandomRarity()
+      local cd = ({
+        30,
+        27,
+        24,
+        21,
+        18
+      })[self.rarity]
       local sprite = Sprite("item/moltenCoreActive.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
@@ -51,11 +64,17 @@ do
           t.max_health = t.max_health * 2
         end
       end
-      _class_0.__parent.__init(self, x, y, sprite, 30, effect)
+      _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Molten Core"
       self.description = "Boosts turret damage and health"
       self.used = false
-      self.effect_time = 10
+      self.effect_time = ({
+        10,
+        11,
+        12,
+        13,
+        14
+      })[self.rarity]
       self.effect_timer = 0
       self.effect_sprite = Sprite("effect/damageBoost.tga", 32, 32, 0.5, 1)
     end,

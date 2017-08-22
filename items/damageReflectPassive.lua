@@ -2,6 +2,11 @@ do
   local _class_0
   local _parent_0 = PassiveItem
   local _base_0 = {
+    getStats = function(self)
+      local stats = _class_0.__parent.__base.getStats(self)
+      table.insert(stats, "Reflect Chance: " .. self.chance .. "%")
+      return stats
+    end,
     pickup = function(self, player)
       _class_0.__parent.__base.pickup(self, player)
       self.last_health = player.health
@@ -11,6 +16,14 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
+      self.rarity = self:getRandomRarity()
+      self.chance = ({
+        50,
+        55,
+        60,
+        65,
+        70
+      })[self.rarity]
       local sprite = Sprite("item/damageReflectPassive.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
@@ -18,7 +31,7 @@ do
         if health < self.last_health then
           local difference = self.last_health - health
           self.last_health = health
-          if math.random() >= 0.5 then
+          if math.random() >= ((100 - self.chance) / 100) then
             local filters = {
               EntityTypes.enemy,
               EntityTypes.player

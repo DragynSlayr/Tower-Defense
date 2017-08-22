@@ -2,6 +2,11 @@ do
   local _class_0
   local _parent_0 = Item
   local _base_0 = {
+    getStats = function(self)
+      local stats = _class_0.__parent.__base.getStats(self)
+      table.insert(stats, "Cooldown: " .. self.charge_time .. "s")
+      return stats
+    end,
     use = function(self)
       if self.charged then
         self.timer = 0

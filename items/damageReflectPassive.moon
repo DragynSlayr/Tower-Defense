@@ -1,12 +1,14 @@
 export class DamageReflectPassive extends PassiveItem
   new: (x, y) =>
+    @rarity = @getRandomRarity!
+    @chance = ({50, 55, 60, 65, 70})[@rarity]
     sprite = Sprite "item/damageReflectPassive.tga", 32, 32, 1, 1.75
     effect = (player) =>
       health = player.health
       if health < @last_health
         difference = @last_health - health
         @last_health = health
-        if math.random! >= 0.5
+        if math.random! >= ((100 - @chance) / 100)
           filters = {EntityTypes.enemy, EntityTypes.player}
           for k2, typeof in pairs filters
             if Driver.objects[typeof]
@@ -22,6 +24,11 @@ export class DamageReflectPassive extends PassiveItem
     super x, y, sprite, 0, effect
     @name = "Damage Reflect"
     @description = "Has a chance to reflect damage taken"
+
+  getStats: =>
+    stats = super!
+    table.insert stats, "Reflect Chance: " .. @chance .. "%"
+    return stats
 
   pickup: (player) =>
     super player

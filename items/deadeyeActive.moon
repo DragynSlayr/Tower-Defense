@@ -1,19 +1,27 @@
 export class DeadEyeActive extends ActiveItem
   new: (x, y) =>
+    @rarity = @getRandomRarity!
+    cd = ({15, 14, 13, 12, 11})[@rarity]
     sprite = Sprite "item/deadeyeActive.tga", 32, 32, 1, 1.75
     effect = (player) =>
       @used = true
       player.movement_blocked = true
       @damage = 0
-    super x, y, sprite, 15, effect
+    super x, y, sprite, cd, effect
     @name = "Dead Eye"
     @description = "Take aim and fire"
     @used = false
     @effect_time = 6
     @effect_timer = 0
     @damage = 0
-    @damage_scale = 1
+    @damage_scale = 0
+    @damage_multiplier = ({1, 1.1, 1.2, 1.3, 1.4})[@rarity]
     @effect_sprite = Sprite "effect/deadeye.tga", 32, 32, 1, 1.75
+
+  getStats: =>
+    stats = super!
+    table.insert stats, "Damage Multiplier: " .. @damage_multiplier
+    return stats
 
   fire: =>
     filters = {EntityTypes.enemy, EntityTypes.boss}
@@ -28,7 +36,7 @@ export class DeadEyeActive extends ActiveItem
 
   pickup: (player) =>
     super player
-    @damage_scale = player.damage * 10
+    @damage_scale = player.damage * 10 * @damage_multiplier
 
   use: =>
     if @used

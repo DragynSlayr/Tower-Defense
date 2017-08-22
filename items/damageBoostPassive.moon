@@ -1,12 +1,14 @@
 export class DamageBoostPassive extends PassiveItem
   new: (x, y) =>
+    @rarity = @getRandomRarity!
+    @amount = ({1.2, 1.25, 1.3, 1.35, 1.4})[@rarity]
     sprite = Sprite "item/damageBoostPassive.tga", 24, 24, 1, 56 / 24
     effect = (player) =>
-      player.damage *= 1.2
+      player.damage *= @amount
     super x, y, sprite, nil, effect
     @name = "Damage Up"
-    @description = "Raises player damage by 20%"
+    @description = "Raises player damage by " .. ((@amount - 1) * 100) .. "%"
 
   unequip: (player) =>
     super player
-    player.damage /= 1.2
+    player.damage /= @amount

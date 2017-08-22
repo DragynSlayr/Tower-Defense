@@ -6,13 +6,21 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
+      self.rarity = self:getRandomRarity()
+      local cd = ({
+        15,
+        12.5,
+        10,
+        7.5,
+        5
+      })[self.rarity]
       local sprite = Sprite("background/bomb.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
         local bomb = Bomb(player.position.x, player.position.y)
         return Driver:addObject(bomb, EntityTypes.background)
       end
-      _class_0.__parent.__init(self, x, y, sprite, 15, effect)
+      _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Bomb"
       self.description = "Places a powerful bomb"
     end,

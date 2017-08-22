@@ -6,12 +6,20 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
+      self.rarity = self:getRandomRarity()
+      local cd = ({
+        20,
+        18,
+        16,
+        14,
+        12
+      })[self.rarity]
       local sprite = Sprite("item/shield.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
         player.shielded = true
       end
-      _class_0.__parent.__init(self, x, y, sprite, 20, effect)
+      _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Shield"
       self.description = "Gives a temporary shield"
     end,

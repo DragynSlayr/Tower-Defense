@@ -6,12 +6,20 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
+      self.rarity = self:getRandomRarity()
+      local cd = ({
+        0.5,
+        0.4,
+        0.3,
+        0.2,
+        0.1
+      })[self.rarity]
       local sprite = Sprite("item/armorPassive.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
         return player:setArmor(player.armor + (player.max_armor * 0.005), player.max_armor)
       end
-      _class_0.__parent.__init(self, x, y, sprite, 0.5, effect)
+      _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Armor Generator"
       self.description = "Provides armor over time"
     end,

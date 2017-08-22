@@ -8,6 +8,11 @@ export class ActiveItem extends Item
 
     @sprite\setShader love.graphics.newShader "shaders/active_item_shader.fs"
 
+  getStats: =>
+    stats = super!
+    table.insert stats, "Cooldown: " .. @charge_time .. "s"
+    return stats
+
   use: =>
     if @charged
       @timer = 0

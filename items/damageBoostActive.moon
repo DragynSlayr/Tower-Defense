@@ -1,17 +1,24 @@
 export class DamageBoostActive extends ActiveItem
   new: (x, y) =>
+    @rarity = @getRandomRarity!
+    cd = ({15, 14, 13, 12, 11})[@rarity]
     sprite = Sprite "item/damageBoost.tga", 32, 32, 1, 1.75
     effect = (player) =>
       @player.damage *= 2
       @used = true
-    super x, y, sprite, 15, effect
+    super x, y, sprite, cd, effect
     @name = "Damage Boost"
     @description = "Gives a temporary boost to damage"
     @used = false
-    @effect_time = 3
+    @effect_time = ({3, 4, 5, 6, 7})[@rarity]
     @effect_timer = 0
     @effect_sprite = Sprite "effect/damageBoost.tga", 32, 32, 0.5, 2.25
 
+  getStats: =>
+    stats = super!
+    table.insert stats, "Duration: " .. @effect_time .. "s"
+    return stats
+    
   update2: (dt) =>
     super dt
     if @used

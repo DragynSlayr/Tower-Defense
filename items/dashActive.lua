@@ -6,6 +6,14 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
+      self.rarity = self:getRandomRarity()
+      local cd = ({
+        5,
+        4,
+        3,
+        2,
+        1
+      })[self.rarity]
       local sprite = Sprite("item/dashActive.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
@@ -19,7 +27,7 @@ do
           player.position.y = clamp(player.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius)
         end
       end
-      _class_0.__parent.__init(self, x, y, sprite, 5, effect)
+      _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Dash"
       self.description = "Dash in the direction you are moving"
     end,

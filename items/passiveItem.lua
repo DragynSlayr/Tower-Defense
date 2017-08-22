@@ -2,6 +2,14 @@ do
   local _class_0
   local _parent_0 = Item
   local _base_0 = {
+    getStats = function(self)
+      local stats = _class_0.__parent.__base.getStats(self)
+      if self.delay > 0 then
+        local s = string.format("Frequency: %.2fs", self.delay)
+        table.insert(stats, s)
+      end
+      return stats
+    end,
     pickup = function(self, player)
       _class_0.__parent.__base.pickup(self, player)
       if self.delay == -1 then

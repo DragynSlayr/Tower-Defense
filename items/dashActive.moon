@@ -1,5 +1,7 @@
 export class DashActive extends ActiveItem
   new: (x, y) =>
+    @rarity = @getRandomRarity!
+    cd = ({5, 4, 3, 2, 1})[@rarity]
     sprite = Sprite "item/dashActive.tga", 32, 32, 1, 1.75
     effect = (player) =>
       x, y = player.speed\getComponents!
@@ -10,6 +12,6 @@ export class DashActive extends ActiveItem
         radius = player\getHitBox!.radius
         player.position.x = clamp player.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius
         player.position.y = clamp player.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius
-    super x, y, sprite, 5, effect
+    super x, y, sprite, cd, effect
     @name = "Dash"
     @description = "Dash in the direction you are moving"

@@ -4,7 +4,14 @@ export class PassiveItem extends Item
     @item_type = ItemTypes.passive
     @effect = effect
     @delay = delay
-    
+
+  getStats: =>
+    stats = super!
+    if @delay > 0
+      s = string.format "Frequency: %.2fs", @delay
+      table.insert stats, s
+    return stats
+
   pickup: (player) =>
     super player
     if @delay == -1

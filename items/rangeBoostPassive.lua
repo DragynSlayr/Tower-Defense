@@ -4,21 +4,29 @@ do
   local _base_0 = {
     unequip = function(self, player)
       _class_0.__parent.__base.unequip(self, player)
-      player.attack_range = player.attack_range / 1.2
+      player.attack_range = player.attack_range / self.amount
     end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
+      self.rarity = self:getRandomRarity()
+      self.amount = ({
+        1.2,
+        1.25,
+        1.3,
+        1.35,
+        1.4
+      })[self.rarity]
       local sprite = Sprite("item/rangeBoost.tga", 24, 24, 1, 56 / 24)
       local effect
       effect = function(self, player)
-        player.attack_range = player.attack_range * 1.2
+        player.attack_range = player.attack_range * self.amount
       end
       _class_0.__parent.__init(self, x, y, sprite, nil, effect)
       self.name = "Range Up"
-      self.description = "Raises player range by 20%"
+      self.description = "Raises player range by " .. ((self.amount - 1) * 100) .. "%"
     end,
     __base = _base_0,
     __name = "RangeBoostPassive",

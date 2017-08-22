@@ -25,6 +25,14 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
+      self.rarity = self:getRandomRarity()
+      local cd = ({
+        18,
+        16,
+        14,
+        12,
+        10
+      })[self.rarity]
       local sprite = Sprite("item/dragonStrikeActive.tga", 32, 32, 1, 1.75)
       sprite:setRotationSpeed(-math.pi / 3)
       local effect
@@ -55,7 +63,7 @@ do
           end
         end
       end
-      _class_0.__parent.__init(self, x, y, sprite, 18, effect)
+      _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Dragon Strike"
       self.description = "Summon a dragon"
     end,
