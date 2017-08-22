@@ -46,7 +46,7 @@ do
             self.phase = 2
             self.sprite = self.small_sprite
           end
-          Inventory:set_message(self.item.name, self.item.description)
+          Inventory:set_item(self.item)
         else
           self.phase = 1
           self.sprite = self.normal_sprite
@@ -73,6 +73,16 @@ do
           love.graphics.setColor(0, 0, 255, 50)
         end
         love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+        local names = {
+          "Item Box",
+          "Empty"
+        }
+        if not tableContains(names, self.item.name) then
+          local color = Item_Rarity[self.item.rarity]
+          love.graphics.setColor(color[1], color[2], color[3], 100)
+          local gap = 10
+          love.graphics.rectangle("fill", self.x + (gap * Scale.width), self.y + (gap * Scale.height), self.width - (2 * gap * Scale.width), self.height - (2 * gap * Scale.height))
+        end
       end
       love.graphics.setColor(0, 0, 0, 255)
       love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
@@ -145,8 +155,10 @@ do
             end
           end
           if equipped then
+            Inventory:set_item()
             return Inventory:set_message("", "Item stored")
           else
+            Inventory:set_item()
             return Inventory:set_message("Item can't be stored", "No " .. slot .. " item slot available")
           end
         else
@@ -197,6 +209,7 @@ do
               end
             end
           end
+          Inventory:set_item()
           return Inventory:set_message("", equipped.item.name .. " equipped in " .. slot .. " slot")
         end
       end)
@@ -211,6 +224,7 @@ do
       local back_sprite = Sprite("ui/button/back.tga", 32, 32, 1, 50 / 32)
       back_button:setSprite(back_sprite, back_sprite)
       local trash_button = Button(self.x + (self.width * 0.5) + (50 * Scale.width), self.y + self.height - (25 * Scale.height), 50 * Scale.width, 50 * Scale.height, "", function(self)
+        Inventory:set_item()
         Inventory:set_message("", "Destroyed " .. self.master.item.name)
         self.master:setItem(NullItem(0, 0))
         self.master.phase = 1

@@ -47,8 +47,10 @@ export class ItemFrame extends UIElement
                 equipped = true
                 break
         if equipped
+          Inventory\set_item!
           Inventory\set_message "", "Item stored"
         else
+          Inventory\set_item!
           Inventory\set_message "Item can't be stored", "No " .. slot .. " item slot available"
       else
         frames = UI\filter ItemFrame
@@ -88,6 +90,7 @@ export class ItemFrame extends UIElement
             for k, p in pairs Driver.objects[EntityTypes.player]
               new_item\pickup p
               current_item\unequip p
+        Inventory\set_item!
         Inventory\set_message "", equipped.item.name .. " equipped in " .. slot .. " slot"
     check_button.master = @
     check_sprite = Sprite "ui/button/check.tga", 32, 32, 1, 50 / 32
@@ -101,6 +104,7 @@ export class ItemFrame extends UIElement
     back_button\setSprite back_sprite, back_sprite
 
     trash_button = Button @x + (@width * 0.5) + (50 * Scale.width), @y + @height - (25 * Scale.height), 50 * Scale.width, 50 * Scale.height, "", () =>
+      Inventory\set_item!
       Inventory\set_message "", "Destroyed " .. @master.item.name
       @master\setItem NullItem 0, 0
       @master.phase = 1
@@ -152,7 +156,7 @@ export class ItemFrame extends UIElement
         if @usable
           @phase = 2
           @sprite = @small_sprite
-        Inventory\set_message @item.name, @item.description
+        Inventory\set_item @item
       else
         @phase = 1
         @sprite = @normal_sprite
@@ -174,6 +178,12 @@ export class ItemFrame extends UIElement
         when ItemTypes.passive
           love.graphics.setColor 0, 0, 255, 50
       love.graphics.rectangle "fill", @x, @y, @width, @height
+      names = {"Item Box", "Empty"}
+      if not tableContains names, @item.name
+        color = Item_Rarity[@item.rarity]
+        love.graphics.setColor color[1], color[2], color[3], 100
+        gap = 10
+        love.graphics.rectangle "fill", @x + (gap * Scale.width), @y + (gap * Scale.height), @width - (2 * gap * Scale.width), @height - (2 * gap * Scale.height)
     love.graphics.setColor 0, 0, 0, 255
     love.graphics.rectangle "line", @x, @y, @width, @height
     if @phase == 1
