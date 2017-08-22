@@ -1,4 +1,4 @@
-V15 Changes
+V16 Changes
 ~~~~~~~~~~~
   - Game Over Screen
     - Now shows final score
@@ -17,3 +17,6 @@ V15 Changes
 
   - Sounds
     - Sounds for major events added
+
+  - Items
+    - Tier system added
