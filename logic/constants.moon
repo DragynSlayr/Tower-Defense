@@ -128,6 +128,27 @@ Base_Stats.turret[3] = 0.25
 Base_Stats.turret[4] = 20
 Base_Stats.turret[5] = 1 / 90
 
+export Item_Rarity = {}
+
+Item_Rarity[1] = {0, 0, 0, 255}      -- Black
+Item_Rarity[2] = {0, 220, 83, 255}   -- Green
+Item_Rarity[3] = {37, 136, 255, 255} -- Blue
+Item_Rarity[4] = {180, 0, 180, 255}  -- Purple
+Item_Rarity[5] = {255, 182, 24, 255} -- Orange
+
+export Item_Rarity_Text = {}
+
+--Item_Rarity_Text[1] = {100, 100, 100, 200} -- Grey
+--Item_Rarity_Text[2] = {0, 255, 0, 255}     -- Green
+--Item_Rarity_Text[3] = {0, 0, 255, 255}     -- Blue
+--Item_Rarity_Text[4] = {255, 0, 255, 255}   -- Purple
+--Item_Rarity_Text[5] = {255, 255, 0, 255}   -- Orange
+
+for k, v in pairs Item_Rarity
+  Item_Rarity_Text[k] = {}
+  for k2, v2 in pairs v
+    table.insert Item_Rarity_Text[k], (math.min v2 + 127, 255) * 0.75
+
 export Screen_State = {}
 
 Screen_State.main_menu  = "Main Menu"

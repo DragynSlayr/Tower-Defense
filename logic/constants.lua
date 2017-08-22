@@ -107,6 +107,44 @@ Base_Stats.turret[2] = 250 * Scale.diag
 Base_Stats.turret[3] = 0.25
 Base_Stats.turret[4] = 20
 Base_Stats.turret[5] = 1 / 90
+Item_Rarity = { }
+Item_Rarity[1] = {
+  0,
+  0,
+  0,
+  255
+}
+Item_Rarity[2] = {
+  0,
+  220,
+  83,
+  255
+}
+Item_Rarity[3] = {
+  37,
+  136,
+  255,
+  255
+}
+Item_Rarity[4] = {
+  180,
+  0,
+  180,
+  255
+}
+Item_Rarity[5] = {
+  255,
+  182,
+  24,
+  255
+}
+Item_Rarity_Text = { }
+for k, v in pairs(Item_Rarity) do
+  Item_Rarity_Text[k] = { }
+  for k2, v2 in pairs(v) do
+    table.insert(Item_Rarity_Text[k], (math.min(v2 + 127, 255)) * 0.75)
+  end
+end
 Screen_State = { }
 Screen_State.main_menu = "Main Menu"
 Screen_State.pause_menu = "Pause Menu"
