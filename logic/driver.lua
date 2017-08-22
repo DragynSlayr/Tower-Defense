@@ -191,7 +191,7 @@ do
       return UI:focus(focus)
     end,
     pause = function()
-      Inventory:set_message()
+      Inventory:set_item()
       Driver.state_stack:add(Driver.game_state)
       Driver.game_state = Game_State.paused
       for k, o in pairs(Driver.objects[EntityTypes.player]) do
@@ -201,7 +201,7 @@ do
       return UI:set_screen(Screen_State.pause_menu)
     end,
     unpause = function()
-      Inventory:set_message()
+      Inventory:set_item()
       Driver.game_state = Driver.state_stack:remove()
       return UI:set_screen(UI.state_stack:remove())
     end,
