@@ -2,6 +2,33 @@ do
   local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
+    getRandomRarity = function(self)
+      local level = clamp((Objectives:getLevel() / 2) + 1, 1, #Item_Rarity)
+      level = level - 1
+      local blackChance = 70 - (5 * level)
+      local greenChance = 15 + (1.25 * level)
+      local blueChance = greenChance - 5
+      local purpleChance = greenChance - 10
+      local orangeChance = greenChance - 15
+      local num = math.random() * 100
+      if num > blackChance + greenChance + blueChance + purpleChance then
+        return 5
+      elseif num > blackChance + greenChance + blueChance then
+        return 4
+      elseif num > blackChance + greenChance then
+        return 3
+      elseif num > blackChance then
+        return 2
+      else
+        return 1
+      end
+    end,
+    getStats = function(self)
+      local stats = { }
+      table.insert(stats, self.name)
+      table.insert(stats, self.description)
+      return stats
+    end,
     pickup = function(self, player)
       table.insert(player.equipped_items, self)
       self.collectable = false
@@ -56,6 +83,9 @@ do
       self.damage = 0
       self.name = "No name"
       self.description = "No description"
+      if not self.rarity then
+        self.rarity = 1
+      end
     end,
     __base = _base_0,
     __name = "Item",
