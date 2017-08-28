@@ -83,6 +83,30 @@ do
         Renderer:drawAlignedMessage(self.message1, Screen_Size.height * 0.15, "center", Renderer.hud_font, self.title_color)
         Renderer:drawAlignedMessage(self.message2, Screen_Size.height * 0.19, "center", Renderer.hud_font, self.text_color)
       end
+      local y = Screen_Size.height * 0.15 - (20 * Scale.height)
+      local x = {
+        0.25,
+        0.75
+      }
+      local colors = {
+        {
+          0,
+          0,
+          255,
+          255
+        },
+        {
+          255,
+          0,
+          0,
+          255
+        }
+      }
+      love.graphics.setLineWidth(5)
+      for k, v in pairs(x) do
+        love.graphics.setColor(colors[k][1], colors[k][2], colors[k][3], colors[k][4])
+        love.graphics.rectangle("line", (v * Screen_Size.width) - (55 * Scale.width), y, 110 * Scale.width, 40 * Scale.height)
+      end
       Renderer:drawHUDMessage("x " .. self.boxes, 175 * Scale.width, Screen_Size.height - (100 * Scale.height), Renderer.small_font)
       return love.graphics.pop()
     end

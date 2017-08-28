@@ -65,5 +65,12 @@ export class InventoryScreen extends Screen
     else
       Renderer\drawAlignedMessage @message1, Screen_Size.height * 0.15, "center", Renderer.hud_font, @title_color
       Renderer\drawAlignedMessage @message2, Screen_Size.height * 0.19, "center", Renderer.hud_font, @text_color
+    y = Screen_Size.height * 0.15 - (20 * Scale.height)
+    x = {0.25, 0.75}
+    colors = {{0, 0, 255, 255}, {255, 0, 0, 255}}
+    love.graphics.setLineWidth 5
+    for k, v in pairs x
+      love.graphics.setColor colors[k][1], colors[k][2], colors[k][3], colors[k][4]
+      love.graphics.rectangle "line", (v * Screen_Size.width) - (55 * Scale.width), y, 110 * Scale.width, 40 * Scale.height
     Renderer\drawHUDMessage "x " .. @boxes, 175 * Scale.width, Screen_Size.height - (100 * Scale.height), Renderer.small_font
     love.graphics.pop!
