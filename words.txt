@@ -73,11 +73,14 @@ Inventory
 InventoryScreen
 Item
 ItemBox
+ItemBoxPickUp
 ItemFrame
 ItemFrameTypes
 ItemPool
 ItemPoolHandler
 ItemTypes
+Item_Rarity
+Item_Rarity_Text
 LinkedList
 Map
 MapCreator
@@ -222,6 +225,7 @@ captured
 cd
 ceil
 center
+chance
 change
 char
 char_index
@@ -277,6 +281,7 @@ current_stats
 cursor
 d
 damage
+damage_multiplier
 damage_scale
 dark
 data
@@ -404,6 +409,7 @@ getProperties
 getRadius
 getRandomEnemy
 getRandomPosition
+getRandomRarity
 getRandomUnitStart
 getStats
 getText
@@ -419,6 +425,7 @@ goal_complete
 goal_type
 goals
 graphics
+greenChance
 h
 half_height
 half_width
@@ -638,6 +645,7 @@ randomSign
 randomseed
 range
 range_boost
+rarity
 ratio
 read
 readKey
@@ -710,6 +718,8 @@ setShear
 setSpeedOverride
 setSprite
 setVolume
+set_colors
+set_item
 set_message
 set_screen
 setpeername
@@ -802,6 +812,7 @@ time
 time_remaining
 timer
 title
+title_color
 title_font
 toUnitVector
 to_spawn
