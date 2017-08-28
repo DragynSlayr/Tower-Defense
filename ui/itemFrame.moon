@@ -23,29 +23,53 @@ export class ItemFrame extends UIElement
         if @master.item.item_type == ItemTypes.active
           slot = "active"
           for k, f in pairs frames
-            if f.frameType == ItemFrameTypes.active
+            if f.frameType == ItemFrameTypes.equippedActive
               if f.empty
                 f\setItem @master.item
-                f.usable = true
+                f.usable = false
                 @master\setItem NullItem 0, 0
                 @master.phase = 1
                 @master.sprite = @master.normal_sprite
                 @master.usable = false
                 equipped = true
                 break
+          if not equipped
+            for k, f in pairs frames
+              if f.frameType == ItemFrameTypes.active
+                if f.empty
+                  f\setItem @master.item
+                  f.usable = true
+                  @master\setItem NullItem 0, 0
+                  @master.phase = 1
+                  @master.sprite = @master.normal_sprite
+                  @master.usable = false
+                  equipped = true
+                  break
         else
           for k, f in pairs frames
-            slot = "passive"
-            if f.frameType == ItemFrameTypes.passive
+            if f.frameType == ItemFrameTypes.equippedPassive
               if f.empty
                 f\setItem @master.item
-                f.usable = true
+                f.usable = false
                 @master\setItem NullItem 0, 0
                 @master.phase = 1
                 @master.sprite = @master.normal_sprite
                 @master.usable = false
                 equipped = true
                 break
+          if not equipped
+            for k, f in pairs frames
+              slot = "passive"
+              if f.frameType == ItemFrameTypes.passive
+                if f.empty
+                  f\setItem @master.item
+                  f.usable = true
+                  @master\setItem NullItem 0, 0
+                  @master.phase = 1
+                  @master.sprite = @master.normal_sprite
+                  @master.usable = false
+                  equipped = true
+                  break
         if equipped
           Inventory\set_item!
           Inventory\set_message "", "Item stored"
@@ -174,14 +198,14 @@ export class ItemFrame extends UIElement
       love.graphics.setColor 0, 0, 0, 0
       switch @item.item_type
         when ItemTypes.active
-          love.graphics.setColor 255, 0, 0, 50
+          love.graphics.setColor 255, 0, 0, 255
         when ItemTypes.passive
-          love.graphics.setColor 0, 0, 255, 50
+          love.graphics.setColor 0, 0, 255, 255
       love.graphics.rectangle "fill", @x, @y, @width, @height
       names = {"Item Box", "Empty"}
       if not tableContains names, @item.name
         color = Item_Rarity[@item.rarity]
-        love.graphics.setColor color[1], color[2], color[3], 100
+        love.graphics.setColor color[1], color[2], color[3], color[4]
         gap = 10
         love.graphics.rectangle "fill", @x + (gap * Scale.width), @y + (gap * Scale.height), @width - (2 * gap * Scale.width), @height - (2 * gap * Scale.height)
     love.graphics.setColor 0, 0, 0, 255

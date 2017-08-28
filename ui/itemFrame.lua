@@ -68,9 +68,9 @@ do
         love.graphics.setColor(0, 0, 0, 0)
         local _exp_0 = self.item.item_type
         if ItemTypes.active == _exp_0 then
-          love.graphics.setColor(255, 0, 0, 50)
+          love.graphics.setColor(255, 0, 0, 255)
         elseif ItemTypes.passive == _exp_0 then
-          love.graphics.setColor(0, 0, 255, 50)
+          love.graphics.setColor(0, 0, 255, 255)
         end
         love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
         local names = {
@@ -79,7 +79,7 @@ do
         }
         if not tableContains(names, self.item.name) then
           local color = Item_Rarity[self.item.rarity]
-          love.graphics.setColor(color[1], color[2], color[3], 100)
+          love.graphics.setColor(color[1], color[2], color[3], color[4])
           local gap = 10
           love.graphics.rectangle("fill", self.x + (gap * Scale.width), self.y + (gap * Scale.height), self.width - (2 * gap * Scale.width), self.height - (2 * gap * Scale.height))
         end
@@ -124,10 +124,10 @@ do
           if self.master.item.item_type == ItemTypes.active then
             slot = "active"
             for k, f in pairs(frames) do
-              if f.frameType == ItemFrameTypes.active then
+              if f.frameType == ItemFrameTypes.equippedActive then
                 if f.empty then
                   f:setItem(self.master.item)
-                  f.usable = true
+                  f.usable = false
                   self.master:setItem(NullItem(0, 0))
                   self.master.phase = 1
                   self.master.sprite = self.master.normal_sprite
@@ -137,19 +137,51 @@ do
                 end
               end
             end
+            if not equipped then
+              for k, f in pairs(frames) do
+                if f.frameType == ItemFrameTypes.active then
+                  if f.empty then
+                    f:setItem(self.master.item)
+                    f.usable = true
+                    self.master:setItem(NullItem(0, 0))
+                    self.master.phase = 1
+                    self.master.sprite = self.master.normal_sprite
+                    self.master.usable = false
+                    equipped = true
+                    break
+                  end
+                end
+              end
+            end
           else
             for k, f in pairs(frames) do
-              slot = "passive"
-              if f.frameType == ItemFrameTypes.passive then
+              if f.frameType == ItemFrameTypes.equippedPassive then
                 if f.empty then
                   f:setItem(self.master.item)
-                  f.usable = true
+                  f.usable = false
                   self.master:setItem(NullItem(0, 0))
                   self.master.phase = 1
                   self.master.sprite = self.master.normal_sprite
                   self.master.usable = false
                   equipped = true
                   break
+                end
+              end
+            end
+            if not equipped then
+              for k, f in pairs(frames) do
+                slot = "passive"
+                if f.frameType == ItemFrameTypes.passive then
+                  if f.empty then
+                    f:setItem(self.master.item)
+                    f.usable = true
+                    self.master:setItem(NullItem(0, 0))
+                    self.master.phase = 1
+                    self.master.sprite = self.master.normal_sprite
+                    self.master.usable = false
+                    equipped = true
+                    break
+                  end
                 end
               end
             end
