@@ -378,7 +378,7 @@ do
           end
         end
       end
-      local inventory_button = Button(Screen_Size.width - (370 * Scale.width), Screen_Size.height - (32 * Scale.height), 200, 45, "Inventory", function()
+      local inventory_button = Button(Screen_Size.width - (150 * Scale.width), Screen_Size.height - (32 * Scale.height), 200, 45, "Inventory", function()
         UI:set_screen(Screen_State.inventory)
         Driver.game_state = Game_State.inventory
       end)
@@ -389,7 +389,6 @@ do
         Driver:respawnPlayers()
         return Objectives:nextMode()
       end)
-      return UI:add(continue_button)
     end,
     createInventoryMenu = function(self)
       UI:set_screen(Screen_State.inventory)
@@ -450,7 +449,15 @@ do
         Driver:respawnPlayers()
         return Objectives:nextMode()
       end)
-      return UI:add(continue_button)
+      UI:add(continue_button)
+      local sprite = Sprite("ui/icons/spectrum.tga", 4, 20, 1, 20)
+      local spectrum = Icon(Screen_Size.width * 0.5, Screen_Size.height * 0.80, sprite)
+      UI:add(spectrum)
+      sprite = Sprite("ui/icons/arrow.tga", 8, 40, 1, 10)
+      local arrow = Icon(Screen_Size.width * 0.5, (Screen_Size.height * 0.80) + (85 * Scale.height), sprite)
+      UI:add(arrow)
+      local text = Text(Screen_Size.width * 0.5, (Screen_Size.height * 0.80) - (60 * Scale.height), "Item Rarity", (Renderer:newFont(25)))
+      return UI:add(text)
     end
   }
   _base_0.__index = _base_0

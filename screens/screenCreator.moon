@@ -314,7 +314,9 @@ export class ScreenCreator
             UI\add tt
             UI\add tt2
 
-    inventory_button = Button Screen_Size.width - (370 * Scale.width), Screen_Size.height - (32 * Scale.height), 200, 45, "Inventory", () ->
+    --Button Screen_Size.width - (370 * Scale.width), Screen_Size.height - (32 * Scale.height)
+
+    inventory_button = Button Screen_Size.width - (150 * Scale.width), Screen_Size.height - (32 * Scale.height), 200, 45, "Inventory", () ->
       UI\set_screen Screen_State.inventory
       Driver.game_state = Game_State.inventory
     UI\add inventory_button
@@ -324,7 +326,7 @@ export class ScreenCreator
       Driver.game_state = Game_State.playing
       Driver\respawnPlayers!
       Objectives\nextMode!
-    UI\add continue_button
+    --UI\add continue_button
 
   createInventoryMenu: =>
     UI\set_screen Screen_State.inventory
@@ -384,3 +386,14 @@ export class ScreenCreator
       Driver\respawnPlayers!
       Objectives\nextMode!
     UI\add continue_button
+
+    sprite = Sprite "ui/icons/spectrum.tga", 4, 20, 1, 20
+    spectrum = Icon Screen_Size.width * 0.5, Screen_Size.height * 0.80, sprite
+    UI\add spectrum
+
+    sprite = Sprite "ui/icons/arrow.tga", 8, 40, 1, 10
+    arrow = Icon Screen_Size.width * 0.5, (Screen_Size.height * 0.80) + (85 * Scale.height), sprite
+    UI\add arrow
+
+    text = Text Screen_Size.width * 0.5, (Screen_Size.height * 0.80) - (60 * Scale.height), "Item Rarity", (Renderer\newFont 25)
+    UI\add text
