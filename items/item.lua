@@ -10,6 +10,11 @@ do
       local blueChance = greenChance - 5
       local purpleChance = greenChance - 10
       local orangeChance = greenChance - 15
+      blackChance = 50
+      greenChance = 20
+      blueChance = 15
+      purpleChance = 10
+      orangeChance = 5
       local num = math.random() * 100
       if num > blackChance + greenChance + blueChance + purpleChance then
         return 5

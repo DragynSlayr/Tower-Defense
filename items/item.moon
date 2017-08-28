@@ -26,6 +26,12 @@ export class Item extends GameObject
     purpleChance = greenChance - 10
     orangeChance = greenChance - 15
 
+    blackChance  = 50
+    greenChance  = 20
+    blueChance   = 15
+    purpleChance = 10
+    orangeChance = 5
+
     num = math.random! * 100
     if num > blackChance + greenChance + blueChance + purpleChance
       return 5
