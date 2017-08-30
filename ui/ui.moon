@@ -56,6 +56,7 @@ export class UIHandler
       v\update dt
 
   -- Draw the GUI elements
-  draw: =>
+  draw: (excluded = {}) =>
     for k, v in pairs @screens[@current_screen]
-      v\draw!
+      if #excluded == 0 or not (tableContains excluded, v.__class)
+        v\draw!
