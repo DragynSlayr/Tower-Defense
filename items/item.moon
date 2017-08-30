@@ -17,20 +17,11 @@ export class Item extends GameObject
       @rarity = 1
 
   getRandomRarity: =>
-    level = clamp (Objectives\getLevel! / 2) + 1, 1, #Item_Rarity
-    level -= 1
-
-    blackChance  = 70 - (5 * level)
-    greenChance  = 15 + (1.25 * level)
-    blueChance   = greenChance - 5
-    purpleChance = greenChance - 10
-    orangeChance = greenChance - 15
-
     blackChance  = 50
-    greenChance  = 20
+    greenChance  = 26
     blueChance   = 15
-    purpleChance = 10
-    orangeChance = 5
+    purpleChance = 8
+    orangeChance = 1
 
     num = math.random! * 100
     if num > blackChance + greenChance + blueChance + purpleChance

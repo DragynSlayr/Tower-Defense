@@ -3,18 +3,11 @@ do
   local _parent_0 = GameObject
   local _base_0 = {
     getRandomRarity = function(self)
-      local level = clamp((Objectives:getLevel() / 2) + 1, 1, #Item_Rarity)
-      level = level - 1
-      local blackChance = 70 - (5 * level)
-      local greenChance = 15 + (1.25 * level)
-      local blueChance = greenChance - 5
-      local purpleChance = greenChance - 10
-      local orangeChance = greenChance - 15
-      blackChance = 50
-      greenChance = 20
-      blueChance = 15
-      purpleChance = 10
-      orangeChance = 5
+      local blackChance = 50
+      local greenChance = 26
+      local blueChance = 15
+      local purpleChance = 8
+      local orangeChance = 1
       local num = math.random() * 100
       if num > blackChance + greenChance + blueChance + purpleChance then
         return 5
