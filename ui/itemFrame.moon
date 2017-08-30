@@ -32,6 +32,9 @@ export class ItemFrame extends UIElement
                 @master.sprite = @master.normal_sprite
                 @master.usable = false
                 equipped = true
+                if Driver.objects[EntityTypes.player]
+                  for k, p in pairs Driver.objects[EntityTypes.player]
+                    f.item\pickup p
                 break
           if not equipped
             for k, f in pairs frames
@@ -56,6 +59,9 @@ export class ItemFrame extends UIElement
                 @master.sprite = @master.normal_sprite
                 @master.usable = false
                 equipped = true
+                if Driver.objects[EntityTypes.player]
+                  for k, p in pairs Driver.objects[EntityTypes.player]
+                    f.item\pickup p
                 break
           if not equipped
             for k, f in pairs frames

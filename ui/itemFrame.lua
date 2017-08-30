@@ -133,6 +133,11 @@ do
                   self.master.sprite = self.master.normal_sprite
                   self.master.usable = false
                   equipped = true
+                  if Driver.objects[EntityTypes.player] then
+                    for k, p in pairs(Driver.objects[EntityTypes.player]) do
+                      f.item:pickup(p)
+                    end
+                  end
                   break
                 end
               end
@@ -164,6 +169,11 @@ do
                   self.master.sprite = self.master.normal_sprite
                   self.master.usable = false
                   equipped = true
+                  if Driver.objects[EntityTypes.player] then
+                    for k, p in pairs(Driver.objects[EntityTypes.player]) do
+                      f.item:pickup(p)
+                    end
+                  end
                   break
                 end
               end
