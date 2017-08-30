@@ -35,6 +35,9 @@ export class ObjectivesHandler
       @mode = @boss_mode
     @mode\start!
 
+    --@mode.complete = true
+    --@ready = true
+
   entityKilled: (entity) =>
     @mode\entityKilled entity
 
