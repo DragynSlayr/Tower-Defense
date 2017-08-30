@@ -320,6 +320,7 @@ export class Driver
           Objectives\draw!
         when Game_State.upgrading
           Upgrade\draw!
+          UI\draw {Background}
         when Game_State.inventory
           Inventory\draw!
         when Game_State.paused

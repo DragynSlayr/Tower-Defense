@@ -295,6 +295,9 @@ do
         Objectives:draw()
       elseif Game_State.upgrading == _exp_0 then
         Upgrade:draw()
+        UI:draw({
+          Background
+        })
       elseif Game_State.inventory == _exp_0 then
         Inventory:draw()
       elseif Game_State.paused == _exp_0 then
