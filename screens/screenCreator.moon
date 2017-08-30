@@ -218,6 +218,7 @@ export class ScreenCreator
     descriptions = {{"Recover life from hit enemies", "Double player range near turret", "A homing missile spawns periodically", "Player speed increases for every enemy near them"}, {"Use 'E' to place another turret", "Allies receive a temporary shield when a turret gets to half health", "Turret can hit more than a single enemy", "Use 'E' to pickup turrets after they have been placed"}}
     width = 0
     font = Renderer\newFont 15
+    font2 = Renderer\newFont 20
 
     for k, v in pairs specials
       for k2, v2 in pairs v
@@ -225,20 +226,24 @@ export class ScreenCreator
         if w >= width
           width = w
 
+    width *= 1.1
+
     for i = 1, 2
       mod = i - 1
-      UI\add Text (90 - (5 * mod)) * Scale.width, (65 + (420 * mod)) * Scale.height, names[i], Renderer.hud_font
+      y = Screen_Size.height / 4
+      space = 425 * Scale.height
+      UI\add Text (90 - (5 * mod)) * Scale.width, y + (space * mod), names[i], Renderer.hud_font
 
       for j = 1, num_stats
         y = (25 + (j * 65) + (425 * mod)) * Scale.height
-        UI\add Text 190 * Scale.width, y, stats[i][j], Renderer.small_font
+        UI\add Text (0.5 * Screen_Size.width) - (400 * Scale.width), y, stats[i][j], Renderer.small_font
         if j ~= num_stats
           stats_table = Upgrade.player_stats
           current_stats = Stats.player
           if i == 2
             stats_table = Upgrade.turret_stats
             current_stats = Stats.turret
-          tt = Tooltip Screen_Size.width * (5 / 24), y - (30 * Scale.height), (() =>
+          tt = Tooltip (0.5 * Screen_Size.width) + (375 * Scale.width), y, (() =>
             level = stats_table[j]
             if level == Upgrade.max_skill
               return "Upgrade Complete!"
@@ -255,60 +260,37 @@ export class ScreenCreator
               else
                 message = "Increase" .. message
               return message
-          ), font
-          tt2 = Tooltip Screen_Size.width * 0.72, y, (() =>
-            level = stats_table[j]
-            if level == Upgrade.max_skill
-              return ""
-            else
-              modifier = 0
-              if level > 0
-                modifier = Upgrade.amount[i][j][level]
-              amount = Upgrade.amount[i][j][level + 1] - modifier
-              message = "("
-              if amount < 0
-                message ..= "-"
+          ), font2
+          ttb = TooltipBox Screen_Size.half_width - (250 * Scale.width), y + (0 * Scale.height), 100 * Scale.width, 40 * Scale.height, (() =>
+            if not @index
+              @index = 1
+            return Upgrade.upgrade_cost[@index]
+          )
+          b = TooltipButton (0.5 * Screen_Size.width) + (340 * Scale.width), y, 50, 50, "+", (() ->
+            result = Upgrade\add_skill trees[i], j
+            if result
+              if ttb.index < #Upgrade.upgrade_cost
+                ttb.index += 1
+                ttb.x += ttb.width
               else
-                message ..= "+"
-              message ..= (string.format "%.3f", math.abs amount) .. ")"
-              return message
-          ), Renderer.hud_font, "right"
-          tt2.color = {0, 225, 0, 255}
-          tt3 = Tooltip Screen_Size.width * 0.95, 17.5 * Scale.height, (() =>
-            level = stats_table[j] + 1
-            if level <= Upgrade.max_skill
-              return "-" .. Upgrade.upgrade_cost[level]
-            else
-              return ""
-          ), Renderer.hud_font
-          tt3.color = {225, 0, 0, 255}
-          b = TooltipButton 280 * Scale.width, y, 30, 30, "+", (() ->
-            Upgrade\add_skill trees[i], j
-          ), nil, {tt, tt2, tt3}
+                ttb.blocked = true
+          ), nil, {tt, ttb}
           UI\add b
           UI\add tt
-          UI\add tt2
-          UI\add tt3
+          UI\add ttb
         else
-          x = (280 + (width / 2)) * Scale.width
+          x = (0.5 * Screen_Size.width) - (260 * Scale.width)
           for k = 1, num_specials
             special_table = Upgrade.player_special
             if i == 2
               special_table = Upgrade.turret_special
-            tt = Tooltip 280 * Scale.width, y - (30 * Scale.height), (() =>
+            tt = Tooltip x - ((font\getWidth descriptions[i][k]) / 2), y - (30 * Scale.height), (() =>
               return descriptions[i][k]
             ), font
-            tt2 = Tooltip Screen_Size.width * 0.95, 17.5 * Scale.height, (() =>
-              if special_table[k]
-                return ""
-              else
-                return "-5"
-            ), Renderer.hud_font
-            tt2.color = {225, 0, 0, 255}
             b = TooltipButton x, y, width + 10, 30, specials[i][k], (() =>
               result = Upgrade\add_skill trees[2 + i], k
               @active = not result
-            ), font, {tt, tt2}
+            ), font, {tt}
             x += b.width + (10 * Scale.width)
             UI\add b
             UI\add tt
