@@ -1,6 +1,8 @@
 import os
 import string
 
+num_lines = 0
+
 files = []
 ignore = [".git", "assets"]
 key_words = {}
@@ -32,9 +34,11 @@ def parseDirs(arg, dirname, names):
 os.path.walk(".", parseDirs, "")
 
 def readFile(name):
+    global num_lines
     opened = open(name, "r")
     temp = opened.readlines()
     opened.close()
+    num_lines += len(temp)
     lines = []
     for line in temp:
         line = line.strip()
@@ -117,3 +121,4 @@ for i in range(len(keys)):
         opened.write("\n")
 opened.close()
 key_words = {}
+print("Lines: " + str(num_lines))

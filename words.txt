@@ -136,6 +136,7 @@ TesseractGoal
 Text
 TextBox
 Tooltip
+TooltipBox
 TooltipButton
 TrailActive
 TrailPassive
@@ -185,6 +186,7 @@ applyDamage
 applyPull
 armor
 armored
+arrow
 atan2
 attack
 attack_range
@@ -201,6 +203,7 @@ background
 basic
 basicChance
 block_shader
+blocked
 bomb
 boost
 boost_multiplier
@@ -211,6 +214,7 @@ boss_mode
 bosses
 bounds
 box
+box_color
 boxes
 buffed
 bullet
@@ -245,6 +249,7 @@ closest_distance
 coin
 collectable
 color
+colors
 complete
 completer
 concatTables
@@ -343,6 +348,7 @@ equippedPassive
 equipped_items
 error
 event
+excluded
 exists
 exit_button
 export
@@ -425,7 +431,6 @@ goal_complete
 goal_type
 goals
 graphics
-greenChance
 h
 half_height
 half_width
@@ -460,6 +465,7 @@ image
 in
 in_x
 in_y
+index
 insert
 inventory
 inventory_button
@@ -707,6 +713,7 @@ setDefaultFilter
 setFont
 setIdentity
 setItem
+setLineWidth
 setLooping
 setPitch
 setRadius
@@ -748,6 +755,7 @@ sort
 sorted
 sound
 sounds
+space
 spawn
 spawnRandomEnemy
 spawn_count
@@ -756,6 +764,7 @@ spawn_time
 spawner
 spawnerChance
 special_table
+spectrum
 speed
 speed_add
 speed_boost
@@ -831,8 +840,7 @@ trim
 true
 tryConnection
 tt
-tt2
-tt3
+ttb
 turret
 turretChance
 turret_cooldown
