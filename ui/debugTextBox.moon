@@ -57,6 +57,6 @@ export class DebugTextBox extends TextBox
         print "Success"
       else
         print "Failure"
-    ScoreTracker.submit_box = (text) => return
+    ScoreTracker.submitScore = (text) => return
     GameOver.ui_objects[2].active = false
     @active = true
