@@ -52,7 +52,7 @@ do
           local height = 40 * Scale.height
           local width = 600 * Scale.width
           local y = (25 * Scale.height) + (i * 65 * Scale.height) - (height / 2) + (425 * j * Scale.height)
-          local x = 320 * Scale.width
+          local x = (0.5 * Screen_Size.width) - (width / 2)
           local ratio = self.player_stats[i] / self.max_skill
           if j == 1 then
             ratio = self.turret_stats[i] / self.max_skill
@@ -65,12 +65,6 @@ do
           for i = x, x + width, width / self.max_skill do
             love.graphics.line(i, y, i, y + height)
           end
-          local stats = Stats.player
-          if j == 1 then
-            stats = Stats.turret
-          end
-          local message = string.format("%.3f", stats[i])
-          Renderer:drawHUDMessage(message, Screen_Size.width * 0.8, y)
         end
       end
       local message = "Skill Points: " .. self.skill_points

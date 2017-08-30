@@ -76,7 +76,7 @@ export class UpgradeScreen extends Screen
         height = 40 * Scale.height
         width = 600 * Scale.width
         y = (25 * Scale.height) + (i * 65 * Scale.height) - (height / 2) + (425 * j * Scale.height)
-        x = 320 * Scale.width
+        x = (0.5 * Screen_Size.width) - (width / 2)
         ratio = @player_stats[i] / @max_skill
         if j == 1
           ratio = @turret_stats[i] / @max_skill
@@ -90,13 +90,6 @@ export class UpgradeScreen extends Screen
         love.graphics.setColor 0, 0, 0, 255
         for i = x, x + width, width / @max_skill
           love.graphics.line i, y, i, y + height
-
-        stats = Stats.player
-        if j == 1
-          stats = Stats.turret
-
-        message = string.format "%.3f", stats[i]
-        Renderer\drawHUDMessage message, Screen_Size.width * 0.8, y
 
     message = "Skill Points: " .. @skill_points
     Renderer\drawHUDMessage message, Screen_Size.width * 0.80, 0
