@@ -296,7 +296,7 @@ do
       elseif Game_State.upgrading == _exp_0 then
         Upgrade:draw()
         UI:draw({
-          Background
+          TooltipBox
         })
       elseif Game_State.inventory == _exp_0 then
         Inventory:draw()

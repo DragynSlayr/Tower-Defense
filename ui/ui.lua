@@ -57,12 +57,12 @@ do
         v:update(dt)
       end
     end,
-    draw = function(self, excluded)
-      if excluded == nil then
-        excluded = { }
+    draw = function(self, included)
+      if included == nil then
+        included = { }
       end
       for k, v in pairs(self.screens[self.current_screen]) do
-        if #excluded == 0 or not (tableContains(excluded, v.__class)) then
+        if #included == 0 or (tableContains(included, v.__class)) then
           v:draw()
         end
       end
