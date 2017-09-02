@@ -34,7 +34,8 @@ do
       elseif self.charged then
         self.timer = 0
         self.charged = false
-        return self:effect(self.player)
+        self:effect(self.player)
+        self.used = true
       else
         return print("On Cooldown: " .. math.floor((self.charge_time - self.timer)))
       end
@@ -79,14 +80,6 @@ do
             end
           end
         end
-        local radius = self.player:getHitBox().radius
-        local x = self.player.position.x - radius
-        local y = self.player.position.y + radius + (5 * Scale.height)
-        love.graphics.setColor(0, 0, 0, 255)
-        love.graphics.rectangle("fill", x, y, radius * 2, 10 * Scale.height)
-        local ratio = (self.effect_time - self.effect_timer) / self.effect_time
-        love.graphics.setColor(0, 255, 255, 200)
-        love.graphics.rectangle("fill", x + (1 * Scale.width), y + (1 * Scale.height), ((radius * 2) - (2 * Scale.width)) * ratio, 8 * Scale.height)
         love.graphics.setShader()
         return love.graphics.pop()
       end
@@ -107,14 +100,12 @@ do
       local sprite = Sprite("item/deadeyeActive.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
-        self.used = true
         player.movement_blocked = true
         self.damage = 0
       end
       _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Dead Eye"
       self.description = "Take aim and fire"
-      self.used = false
       self.effect_time = 6
       self.effect_timer = 0
       self.damage = 0

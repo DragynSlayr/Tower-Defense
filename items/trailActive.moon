@@ -10,24 +10,14 @@ export class TrailActive extends ActiveItem
       trail.particle_type = ParticleTypes.enemy_poison
       @old_trail = player.trail
       player.trail = trail
-      @used = true
     super x, y, sprite, cd, effect
     @name = "Fire Trail"
     @description = "A trail of fire follows the player"
-    @used = false
     @effect_time = ({7.5, 7.75, 8, 8.25, 8.5})[@rarity]
     @effect_timer = 0
+    @onEnd = () -> @player.trail = @old_trail
 
   getStats: =>
     stats = super!
     table.insert stats, "Trail Time: " .. @effect_time .. "s"
     return stats
-
-  update2: (dt) =>
-    super dt
-    if @used
-      @effect_timer += dt
-      if @effect_timer >= @effect_time
-        @effect_timer = 0
-        @used = false
-        @player.trail = @old_trail

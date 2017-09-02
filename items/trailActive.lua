@@ -6,17 +6,6 @@ do
       local stats = _class_0.__parent.__base.getStats(self)
       table.insert(stats, "Trail Time: " .. self.effect_time .. "s")
       return stats
-    end,
-    update2 = function(self, dt)
-      _class_0.__parent.__base.update2(self, dt)
-      if self.used then
-        self.effect_timer = self.effect_timer + dt
-        if self.effect_timer >= self.effect_time then
-          self.effect_timer = 0
-          self.used = false
-          self.player.trail = self.old_trail
-        end
-      end
     end
   }
   _base_0.__index = _base_0
@@ -40,12 +29,10 @@ do
         trail.particle_type = ParticleTypes.enemy_poison
         self.old_trail = player.trail
         player.trail = trail
-        self.used = true
       end
       _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Fire Trail"
       self.description = "A trail of fire follows the player"
-      self.used = false
       self.effect_time = ({
         7.5,
         7.75,
@@ -54,6 +41,9 @@ do
         8.5
       })[self.rarity]
       self.effect_timer = 0
+      self.onEnd = function()
+        self.player.trail = self.old_trail
+      end
     end,
     __base = _base_0,
     __name = "TrailActive",

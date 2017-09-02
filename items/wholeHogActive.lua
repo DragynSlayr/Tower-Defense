@@ -6,17 +6,6 @@ do
       local stats = _class_0.__parent.__base.getStats(self)
       table.insert(stats, "Duration: " .. self.effect_time .. "s")
       return stats
-    end,
-    update2 = function(self, dt)
-      _class_0.__parent.__base.update2(self, dt)
-      if self.used then
-        self.effect_timer = self.effect_timer + dt
-        if self.effect_timer >= self.effect_time then
-          self.effect_timer = 0
-          self.used = false
-          self.player.knocking_back = false
-        end
-      end
     end
   }
   _base_0.__index = _base_0
@@ -35,12 +24,10 @@ do
       local effect
       effect = function(self, player)
         self.player.knocking_back = true
-        self.used = true
       end
       _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Whole Hog"
       self.description = "Player bullets do knockback"
-      self.used = false
       self.effect_time = ({
         10,
         11,
@@ -49,6 +36,9 @@ do
         14
       })[self.rarity]
       self.effect_timer = 0
+      self.onEnd = function()
+        self.player.knocking_back = false
+      end
     end,
     __base = _base_0,
     __name = "WholeHogActive",

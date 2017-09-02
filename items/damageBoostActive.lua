@@ -10,13 +10,7 @@ do
     update2 = function(self, dt)
       _class_0.__parent.__base.update2(self, dt)
       if self.used then
-        self.effect_sprite:update(dt)
-        self.effect_timer = self.effect_timer + dt
-        if self.effect_timer >= self.effect_time then
-          self.effect_timer = 0
-          self.used = false
-          self.player.damage = Stats.player[3]
-        end
+        return self.effect_sprite:update(dt)
       end
     end,
     draw2 = function(self)
@@ -46,12 +40,10 @@ do
       local effect
       effect = function(self, player)
         self.player.damage = self.player.damage * 2
-        self.used = true
       end
       _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Damage Boost"
       self.description = "Gives a temporary boost to damage"
-      self.used = false
       self.effect_time = ({
         3,
         4,
@@ -61,6 +53,9 @@ do
       })[self.rarity]
       self.effect_timer = 0
       self.effect_sprite = Sprite("effect/damageBoost.tga", 32, 32, 0.5, 2.25)
+      self.onEnd = function()
+        self.player.damage = Stats.player[3]
+      end
     end,
     __base = _base_0,
     __name = "DamageBoostActive",

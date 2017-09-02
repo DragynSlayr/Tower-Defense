@@ -4,13 +4,11 @@ export class DeadEyeActive extends ActiveItem
     cd = ({15, 14, 13, 12, 11})[@rarity]
     sprite = Sprite "item/deadeyeActive.tga", 32, 32, 1, 1.75
     effect = (player) =>
-      @used = true
       player.movement_blocked = true
       @damage = 0
     super x, y, sprite, cd, effect
     @name = "Dead Eye"
     @description = "Take aim and fire"
-    @used = false
     @effect_time = 6
     @effect_timer = 0
     @damage = 0
@@ -45,6 +43,7 @@ export class DeadEyeActive extends ActiveItem
       @timer = 0
       @charged = false
       @effect @player
+      @used = true
     else
       print "On Cooldown: " .. math.floor (@charge_time - @timer)
 
@@ -78,18 +77,6 @@ export class DeadEyeActive extends ActiveItem
           for k, v in pairs Driver.objects[filter]
             if v.health + v.armor <= @damage
               @effect_sprite\draw v.position.x, v.position.y
-
-      radius = @player\getHitBox!.radius
-      x = @player.position.x - radius
-      y = @player.position.y + radius + (5 * Scale.height)
-
-      love.graphics.setColor 0, 0, 0, 255
-      love.graphics.rectangle "fill", x, y, radius * 2, 10 * Scale.height
-
-      ratio = (@effect_time - @effect_timer) / @effect_time
-
-      love.graphics.setColor 0, 255, 255, 200
-      love.graphics.rectangle "fill", x + (1 * Scale.width), y + (1 * Scale.height), ((radius * 2) - (2 * Scale.width)) * ratio, 8 * Scale.height
 
       love.graphics.setShader!
       love.graphics.pop!
