@@ -11,9 +11,8 @@ do
       if self.charged then
         self.timer = 0
         self.charged = false
-        return self:effect(self.player)
-      else
-        return print("On Cooldown: " .. math.floor((self.charge_time - self.timer)))
+        self:effect(self.player)
+        self.used = true
       end
     end,
     draw2 = function(self)
@@ -34,10 +33,25 @@ do
         local message = math.ceil((self.charge_time - self.timer))
         love.graphics.printf(message, x + (60 * Scale.width * 0.5), y - (font:getHeight() / 2), 60 * Scale.width, "center")
       end
+      if self.used and self.effect_time and self.effect_timer then
+        love.graphics.setShader(Driver.shader)
+        local radius = self.player:getHitBox().radius
+        x = self.player.position.x - radius
+        y = self.player.position.y + radius + (5 * Scale.height)
+        love.graphics.setColor(0, 0, 0, 255)
+        love.graphics.rectangle("fill", x, y, radius * 2, 10 * Scale.height)
+        local ratio = (self.effect_time - self.effect_timer) / self.effect_time
+        love.graphics.setColor(0, 255, 255, 200)
+        love.graphics.rectangle("fill", x + (1 * Scale.width), y + (1 * Scale.height), ((radius * 2) - (2 * Scale.width)) * ratio, 8 * Scale.height)
+        love.graphics.setShader()
+      end
       return love.graphics.pop()
     end,
     update2 = function(self, dt)
       _class_0.__parent.__base.update2(self, dt)
+      if self.charged then
+        self.sprite:update(dt)
+      end
       if not self.charged and self.timer >= self.charge_time then
         self.timer = 0
         self.charged = true
@@ -46,7 +60,16 @@ do
       if not self.charged then
         amount = 1 - (self.timer / self.charge_time)
       end
-      return self.sprite.shader:send("amount", amount)
+      self.sprite.shader:send("amount", amount)
+      if self.used then
+        self.sprite.current_frame = clamp((math.floor(self.sprite.frames / 2)) + 1, 1, self.sprite.frames)
+        self.effect_timer = self.effect_timer + dt
+        if self.effect_timer >= self.effect_time then
+          self.effect_timer = 0
+          self.used = false
+          return self:onEnd()
+        end
+      end
     end
   }
   _base_0.__index = _base_0
@@ -61,7 +84,11 @@ do
       self.charged = true
       self.charge_time = charge_time
       self.effect = effect
-      return self.sprite:setShader(love.graphics.newShader("shaders/active_item_shader.fs"))
+      self.sprite:setShader(love.graphics.newShader("shaders/active_item_shader.fs"))
+      self.used = false
+      self.effect_time = 0
+      self.effect_timer = 0
+      self.onEnd = function() end
     end,
     __base = _base_0,
     __name = "ActiveItem",
