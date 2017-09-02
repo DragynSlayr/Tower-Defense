@@ -9,3 +9,4 @@ export class PoisonFieldActive extends ActiveItem
     super x, y, sprite, cd, effect
     @name = "Poison Field"
     @description = "Place a poison field"
+    @effect_time = 7.5

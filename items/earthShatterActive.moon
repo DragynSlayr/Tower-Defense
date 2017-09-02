@@ -25,6 +25,7 @@ export class EarthShatterActive extends ActiveItem
     super x, y, sprite, cd, effect
     @name = "Earth Shatter"
     @description = "Slow enemies"
+    @effect_time = 6
 
   createShatter: (x, y, angle) =>
     shatter = FrostField x, y

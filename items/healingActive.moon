@@ -9,3 +9,4 @@ export class HealingFieldActive extends ActiveItem
     super x, y, sprite, cd, effect
     @name = "Healing Field"
     @description = "Place a healing field"
+    @effect_time = 6.5

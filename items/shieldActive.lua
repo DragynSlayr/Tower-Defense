@@ -22,6 +22,7 @@ do
       _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Shield"
       self.description = "Gives a temporary shield"
+      self.effect_time = 7
     end,
     __base = _base_0,
     __name = "ShieldActive",

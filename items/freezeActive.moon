@@ -9,3 +9,4 @@ export class FreezeFieldActive extends ActiveItem
     super x, y, sprite, cd, effect
     @name = "Frozen Field"
     @description = "Place a freezing field"
+    @effect_time = 7.5

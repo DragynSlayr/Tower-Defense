@@ -9,3 +9,4 @@ export class BlackHoleActive extends ActiveItem
     super x, y, sprite, cd, effect
     @name = "Singularity"
     @description = "Places a black hole that sucks in enemies"
+    @effect_time = 7.5

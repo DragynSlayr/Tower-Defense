@@ -23,6 +23,7 @@ do
       _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Bomb"
       self.description = "Places a powerful bomb"
+      self.effect_time = 3
     end,
     __base = _base_0,
     __name = "BombActive",

@@ -9,3 +9,4 @@ export class BombActive extends ActiveItem
     super x, y, sprite, cd, effect
     @name = "Bomb"
     @description = "Places a powerful bomb"
+    @effect_time = 3

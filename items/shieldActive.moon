@@ -8,3 +8,4 @@ export class ShieldActive extends ActiveItem
     super x, y, sprite, cd, effect
     @name = "Shield"
     @description = "Gives a temporary shield"
+    @effect_time = 7

@@ -23,6 +23,7 @@ do
       _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Healing Field"
       self.description = "Place a healing field"
+      self.effect_time = 6.5
     end,
     __base = _base_0,
     __name = "HealingFieldActive",

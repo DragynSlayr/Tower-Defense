@@ -29,6 +29,7 @@ export class DragonStrikeActive extends ActiveItem
     super x, y, sprite, cd, effect
     @name = "Dragon Strike"
     @description = "Summon a dragon"
+    @effect_time = 6
 
   createDragon: (x, y, r = -1, f = false) =>
     dragon = PoisonField x, y

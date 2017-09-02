@@ -52,6 +52,7 @@ do
       _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Earth Shatter"
       self.description = "Slow enemies"
+      self.effect_time = 6
     end,
     __base = _base_0,
     __name = "EarthShatterActive",
