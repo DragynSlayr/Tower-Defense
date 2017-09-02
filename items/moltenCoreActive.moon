@@ -4,7 +4,6 @@ export class MoltenCoreActive extends ActiveItem
     cd = ({30, 27, 24, 21, 18})[@rarity]
     sprite = Sprite "item/moltenCoreActive.tga", 32, 32, 1, 1.75
     effect = (player) =>
-      @used = true
       for k, t in pairs player.turret
         t.buffed = true
         t.damage *= 2
@@ -13,10 +12,16 @@ export class MoltenCoreActive extends ActiveItem
     super x, y, sprite, cd, effect
     @name = "Molten Core"
     @description = "Boosts turret damage and health"
-    @used = false
     @effect_time = ({10, 11, 12, 13, 14})[@rarity]
     @effect_timer = 0
     @effect_sprite = Sprite "effect/damageBoost.tga", 32, 32, 0.5, 1
+    @onEnd = () ->
+      for k, t in pairs @player.turret
+        if t.buffed
+          t.buffed = nil
+          t.damage /= 2
+          t.health /= 2
+          t.max_health /= 2
 
   getStats: =>
     stats = super!
@@ -27,16 +32,6 @@ export class MoltenCoreActive extends ActiveItem
     super dt
     if @used
       @effect_sprite\update dt
-      @effect_timer += dt
-      if @effect_timer >= @effect_time
-        @effect_timer = 0
-        @used = false
-        for k, t in pairs @player.turret
-          if t.buffed
-            t.buffed = nil
-            t.damage /= 2
-            t.health /= 2
-            t.max_health /= 2
 
   draw2: =>
     super!

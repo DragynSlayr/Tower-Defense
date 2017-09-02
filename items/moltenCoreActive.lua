@@ -10,20 +10,7 @@ do
     update2 = function(self, dt)
       _class_0.__parent.__base.update2(self, dt)
       if self.used then
-        self.effect_sprite:update(dt)
-        self.effect_timer = self.effect_timer + dt
-        if self.effect_timer >= self.effect_time then
-          self.effect_timer = 0
-          self.used = false
-          for k, t in pairs(self.player.turret) do
-            if t.buffed then
-              t.buffed = nil
-              t.damage = t.damage / 2
-              t.health = t.health / 2
-              t.max_health = t.max_health / 2
-            end
-          end
-        end
+        return self.effect_sprite:update(dt)
       end
     end,
     draw2 = function(self)
@@ -56,7 +43,6 @@ do
       local sprite = Sprite("item/moltenCoreActive.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
-        self.used = true
         for k, t in pairs(player.turret) do
           t.buffed = true
           t.damage = t.damage * 2
@@ -67,7 +53,6 @@ do
       _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Molten Core"
       self.description = "Boosts turret damage and health"
-      self.used = false
       self.effect_time = ({
         10,
         11,
@@ -77,6 +62,16 @@ do
       })[self.rarity]
       self.effect_timer = 0
       self.effect_sprite = Sprite("effect/damageBoost.tga", 32, 32, 0.5, 1)
+      self.onEnd = function()
+        for k, t in pairs(self.player.turret) do
+          if t.buffed then
+            t.buffed = nil
+            t.damage = t.damage / 2
+            t.health = t.health / 2
+            t.max_health = t.max_health / 2
+          end
+        end
+      end
     end,
     __base = _base_0,
     __name = "MoltenCoreActive",
