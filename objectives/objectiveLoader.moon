@@ -17,6 +17,7 @@ require "objectives.attackMode"
 require "objectives.defendMode"
 require "objectives.darkMode"
 require "objectives.captureMode"
+require "objectives.testMode"
 require "objectives.bossMode"
 
 --+-----------------+--
@@ -27,6 +28,7 @@ require "objectives.attackWave"
 require "objectives.defendWave"
 require "objectives.darkWave"
 require "objectives.captureWave"
+require "objectives.testWave"
 require "objectives.bossWave"
 
 --+------------------------------+--

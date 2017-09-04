@@ -9,6 +9,7 @@ export class ObjectivesHandler
       DefendMode @,
       DarkMode @,
       CaptureMode @
+      --TestMode @
     }
     @boss_mode = BossMode @
     @num_modes = #@modes

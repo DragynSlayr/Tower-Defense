@@ -35,6 +35,7 @@ ModeTypes.elimination = "Elimination Mode"
 ModeTypes.attack      = "Attack Mode"
 ModeTypes.defend      = "Defend Mode"
 ModeTypes.capture     = "Capture Mode"
+ModeTypes.test        = "Test Mode"
 ModeTypes.boss        = "Boss Mode"
 
 export GoalTypes = {}
