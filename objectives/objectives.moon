@@ -116,8 +116,6 @@ export class ObjectivesHandler
         DefendGoal x, y
       when GoalTypes.find
         FindGoal x, y
-      when GoalTypes.tesseract
-        TesseractGoal x, y
       when EntityTypes.player
         Player x, y
       when BossTypes.vyder

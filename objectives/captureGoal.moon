@@ -9,6 +9,11 @@ export class CaptureGoal extends GameObject
     @capture_amount = @health / 2
     @draw_health = false
     @unlocked = false
+    @tesseract = nil
+    @timer = 0
+    @attack_delay = 1 / 60
+    @damage = (20 / 3) * @attack_delay
+    @solid = false
 
   onCollide: (entity) =>
     if @unlocked
@@ -25,8 +30,21 @@ export class CaptureGoal extends GameObject
   update: (dt) =>
     super dt
     @capture_amount = clamp @capture_amount, 0, @max_health
+    if @tesseract and @unlocked
+      @timer += dt
+      if @timer >= @attack_delay
+        @timer = 0
+        @tesseract\onCollide @
 
   draw: =>
+    if @tesseract and @unlocked
+      ratio = @capture_amount / @max_health
+      blue = math.floor (ratio * 255)
+      red = 255 - blue
+      love.graphics.setColor red, 127, blue, blue
+      love.graphics.setLineWidth ratio * 20
+      love.graphics.line @position.x, @position.y + (@sprite.scaled_height * 0.33), @tesseract.position.x, @tesseract.position.y
+
     super!
     love.graphics.push "all"
     love.graphics.setShader Driver.shader

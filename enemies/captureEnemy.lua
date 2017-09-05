@@ -25,11 +25,11 @@ do
       self.enemyType = EnemyTypes.capture
       self.score_value = 100
       self.corner_target = false
-      self.health = 12 + (12.8 * Objectives:getLevel())
+      self.health = 24 + (12.8 * Objectives:getLevel())
       self.max_health = self.health
-      self.max_speed = (250 + (10.8 * Objectives:getLevel())) * Scale.diag
+      self.max_speed = (300 + (10.8 * Objectives:getLevel())) * Scale.diag
       self.speed_multiplier = self.max_speed
-      self.damage = 1
+      self.damage = 10 / 3
       local sound = Sound("capture_enemy_death.ogg", 0.75, false, 1.25, true)
       self.death_sound = MusicPlayer:add(sound)
     end,

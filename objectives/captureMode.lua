@@ -7,6 +7,7 @@ do
       for k, p in pairs(self.point_positions) do
         local goal = CaptureGoal(p.x, p.y)
         goal.num = k
+        goal.tesseract = tess
         Driver:addObject(goal, EntityTypes.goal)
       end
       return _class_0.__parent.__base.start(self)

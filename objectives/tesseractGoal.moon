@@ -7,9 +7,10 @@ export class TesseractGoal extends GameObject
     super x, y, sprite
     @id = EntityTypes.goal
     @goal_type = GoalTypes.tesseract
-    @health = 100 + (33 * Objectives\getLevel!)
+    @health = 100
     @max_health = @health
     @reduction = 0
+    @solid = false
 
   onCollide: (entity) =>
     start_damage = entity.damage

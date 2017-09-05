@@ -18,6 +18,7 @@ export class CaptureMode extends Mode
     for k, p in pairs @point_positions
       goal = CaptureGoal p.x, p.y
       goal.num = k
+      goal.tesseract = tess
       Driver\addObject goal, EntityTypes.goal
     super!
 

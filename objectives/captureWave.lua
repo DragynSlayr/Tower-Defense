@@ -3,10 +3,16 @@ do
   local _parent_0 = Wave
   local _base_0 = {
     start = function(self)
-      Objectives:spawn(GoalTypes.tesseract)
+      local tess = TesseractGoal(Screen_Size.half_width, Screen_Size.height * 0.75)
       if Driver.objects[EntityTypes.goal] then
+        local num = math.random(1, #Driver.objects[EntityTypes.goal])
         for k, g in pairs(Driver.objects[EntityTypes.goal]) do
+          if k == num then
+            self.trail.position = g.position
+          end
           g.unlocked = true
+          g.tesseract = tess
+          g.capture_amount = g.capture_amount / 2
         end
       end
       for i = 1, self.spawn_num do
@@ -15,10 +21,16 @@ do
       for i = 1, self.turret_spawn_num do
         Objectives:spawn(EnemyTypes.turret)
       end
+      return Driver:addObject(tess, EntityTypes.goal)
     end,
     entityKilled = function(self, entity)
       if entity.id == EntityTypes.goal and entity.goal_type == GoalTypes.tesseract then
         self.goal_complete = true
+        if Driver.objects[EntityTypes.goal] then
+          for k, g in pairs(Driver.objects[EntityTypes.goal]) do
+            g.tesseract = nil
+          end
+        end
       elseif entity.id == EntityTypes.enemy and entity.enemyType == EnemyTypes.turret then
         return Objectives:spawn(EnemyTypes.turret)
       end
@@ -28,11 +40,19 @@ do
       if not self.waiting then
         self.parent.time_remaining = self.parent.time_remaining - dt
         self.elapsed = self.elapsed + dt
+        self.timer = self.timer + dt
+        self.trail:update(dt)
         if self.elapsed >= self.spawn_time then
           self.elapsed = 0
           for i = 1, self.spawn_num do
             Objectives:spawn(EnemyTypes.capture)
           end
+        end
+        if self.timer >= self.movement_delay then
+          self.timer = 0
+          local num = math.random(1, #Driver.objects[EntityTypes.goal] - 1)
+          self.trail.position = Driver.objects[EntityTypes.goal][num].position
+          self.movement_delay = math.random(3, 8)
         end
       end
       if self.parent.time_remaining <= 0 then
@@ -70,6 +90,26 @@ do
       self.spawn_num = 3
       self.turret_spawn_num = 3
       self.goal_complete = false
+      local sprite = Sprite("particle/poison.tga", 64, 64, 1, 1)
+      sprite.draw = function(self) end
+      self.trail = ParticleEmitter(0, 0, 1 / 4)
+      self.trail.sprite = sprite
+      self.trail.particle_type = ParticleTypes.poison
+      self.trail:setSizeRange({
+        1,
+        1
+      })
+      self.trail:setSpeedRange({
+        100,
+        175
+      })
+      self.trail:setLifeTimeRange({
+        0.25,
+        0.75
+      })
+      self.trail.solid = false
+      self.timer = 0
+      self.movement_delay = math.random(3, 8)
     end,
     __base = _base_0,
     __name = "CaptureWave",

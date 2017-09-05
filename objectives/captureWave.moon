@@ -9,19 +9,42 @@ export class CaptureWave extends Wave
     @turret_spawn_num = 3
     @goal_complete = false
 
+    sprite = Sprite "particle/poison.tga", 64, 64, 1, 1
+    sprite.draw = () => return
+    @trail = ParticleEmitter 0, 0, 1 / 4
+    @trail.sprite = sprite
+    @trail.particle_type = ParticleTypes.poison
+    @trail\setSizeRange {1, 1}
+    @trail\setSpeedRange {100, 175}
+    @trail\setLifeTimeRange {0.25, 0.75}
+    @trail.solid = false
+
+    @timer = 0
+    @movement_delay = math.random 3, 8
+
   start: =>
-    Objectives\spawn GoalTypes.tesseract
+    tess = TesseractGoal Screen_Size.half_width, Screen_Size.height * 0.75
     if Driver.objects[EntityTypes.goal]
+      num = math.random 1, #Driver.objects[EntityTypes.goal]
       for k, g in pairs Driver.objects[EntityTypes.goal]
+        if k == num
+          @trail.position = g.position
         g.unlocked = true
+        g.tesseract = tess
+        g.capture_amount /= 2
+
     for i = 1, @spawn_num
       Objectives\spawn EnemyTypes.capture
     for i = 1, @turret_spawn_num
       Objectives\spawn EnemyTypes.turret
+    Driver\addObject tess, EntityTypes.goal
 
   entityKilled: (entity) =>
     if entity.id == EntityTypes.goal and entity.goal_type == GoalTypes.tesseract
       @goal_complete = true
+      if Driver.objects[EntityTypes.goal]
+        for k, g in pairs Driver.objects[EntityTypes.goal]
+          g.tesseract = nil
     elseif entity.id == EntityTypes.enemy and entity.enemyType == EnemyTypes.turret
       Objectives\spawn EnemyTypes.turret
 
@@ -30,10 +53,17 @@ export class CaptureWave extends Wave
     if not @waiting
       @parent.time_remaining -= dt
       @elapsed += dt
+      @timer += dt
+      @trail\update dt
       if @elapsed >= @spawn_time
         @elapsed = 0
         for i = 1, @spawn_num
           Objectives\spawn EnemyTypes.capture
+      if @timer >= @movement_delay
+        @timer = 0
+        num = math.random 1, #Driver.objects[EntityTypes.goal] - 1
+        @trail.position = Driver.objects[EntityTypes.goal][num].position
+        @movement_delay = math.random 3, 8
     if @parent.time_remaining <= 0
       Driver.game_over!
     if @goal_complete

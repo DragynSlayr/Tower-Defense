@@ -215,14 +215,12 @@ do
             player.radius = player.radius + (self.attack_range + self.range_boost)
             if enemy:contains(player) then
               local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
+              if self.knocking_back then
+                bullet.sprite = self.knock_back_sprite
+                bullet.knockback = true
+              end
               Driver:addObject(bullet, EntityTypes.bullet)
               attacked = true
-              if self.knocking_back then
-                bullet = PlayerBullet(self.position.x, self.position.y, v, 0)
-                bullet.sprite = Sprite("projectile/knockback.tga", 26, 20, 1, 0.75)
-                bullet.knockback = true
-                Driver:addObject(bullet, EntityTypes.bullet)
-              end
             end
           end
         end
@@ -233,20 +231,18 @@ do
             player.radius = player.radius + (self.attack_range + self.range_boost)
             if enemy:contains(player) then
               local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
+              if self.knocking_back then
+                bullet.sprite = self.knock_back_sprite
+                bullet.knockback = true
+              end
               Driver:addObject(bullet, EntityTypes.bullet)
               attacked = true
-              if self.knocking_back then
-                bullet = PlayerBullet(self.position.x, self.position.y, v, 0)
-                bullet.sprite = Sprite("projectile/knockback.tga", 26, 20, 1, 0.75)
-                bullet.knockback = true
-                Driver:addObject(bullet, EntityTypes.bullet)
-              end
             end
           end
         end
         if Driver.objects[EntityTypes.goal] then
           for k, v in pairs(Driver.objects[EntityTypes.goal]) do
-            if v.goal_type == GoalTypes.attack or v.goal_type == GoalTypes.tesseract then
+            if v.goal_type == GoalTypes.attack then
               local goal = v:getHitBox()
               local player = self:getHitBox()
               player.radius = player.radius + (self.attack_range + self.range_boost)
@@ -457,6 +453,7 @@ do
       self.equipped_items = { }
       self:setArmor(0, self.max_health)
       self.knocking_back = false
+      self.knock_back_sprite = Sprite("projectile/knockback.tga", 26, 20, 1, 0.75)
       self.movement_blocked = false
       self.lock_sprite = Sprite("effect/lock.tga", 32, 32, 1, 1.75)
       local sound = Sound("turret_repair.ogg", 0.50, false, 0.33, true)

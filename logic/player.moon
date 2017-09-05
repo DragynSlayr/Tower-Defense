@@ -59,6 +59,7 @@ export class Player extends GameObject
     @setArmor 0, @max_health
 
     @knocking_back = false
+    @knock_back_sprite = Sprite "projectile/knockback.tga", 26, 20, 1, 0.75
 
     @movement_blocked = false
     @lock_sprite = Sprite "effect/lock.tga", 32, 32, 1, 1.75
@@ -233,13 +234,11 @@ export class Player extends GameObject
           player.radius += @attack_range + @range_boost
           if enemy\contains player
             bullet = PlayerBullet @position.x, @position.y, v, @damage
+            if @knocking_back
+              bullet.sprite = @knock_back_sprite
+              bullet.knockback = true
             Driver\addObject bullet, EntityTypes.bullet
             attacked = true
-            if @knocking_back
-              bullet = PlayerBullet @position.x, @position.y, v, 0
-              bullet.sprite = Sprite "projectile/knockback.tga", 26, 20, 1, 0.75
-              bullet.knockback = true
-              Driver\addObject bullet, EntityTypes.bullet
       if Driver.objects[EntityTypes.boss]
         for k, v in pairs Driver.objects[EntityTypes.boss]
           enemy = v\getHitBox!
@@ -247,16 +246,14 @@ export class Player extends GameObject
           player.radius += @attack_range + @range_boost
           if enemy\contains player
             bullet = PlayerBullet @position.x, @position.y, v, @damage
+            if @knocking_back
+              bullet.sprite = @knock_back_sprite
+              bullet.knockback = true
             Driver\addObject bullet, EntityTypes.bullet
             attacked = true
-            if @knocking_back
-              bullet = PlayerBullet @position.x, @position.y, v, 0
-              bullet.sprite = Sprite "projectile/knockback.tga", 26, 20, 1, 0.75
-              bullet.knockback = true
-              Driver\addObject bullet, EntityTypes.bullet
       if Driver.objects[EntityTypes.goal]
         for k, v in pairs Driver.objects[EntityTypes.goal]
-          if v.goal_type == GoalTypes.attack or v.goal_type == GoalTypes.tesseract
+          if v.goal_type == GoalTypes.attack
             goal = v\getHitBox!
             player = @getHitBox!
             player.radius += @attack_range + @range_boost

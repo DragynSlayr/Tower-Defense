@@ -122,8 +122,6 @@ do
         enemy = DefendGoal(x, y)
       elseif GoalTypes.find == _exp_0 then
         enemy = FindGoal(x, y)
-      elseif GoalTypes.tesseract == _exp_0 then
-        enemy = TesseractGoal(x, y)
       elseif EntityTypes.player == _exp_0 then
         enemy = Player(x, y)
       elseif BossTypes.vyder == _exp_0 then

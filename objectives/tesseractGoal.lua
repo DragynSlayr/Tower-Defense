@@ -31,9 +31,10 @@ do
       _class_0.__parent.__init(self, x, y, sprite)
       self.id = EntityTypes.goal
       self.goal_type = GoalTypes.tesseract
-      self.health = 100 + (33 * Objectives:getLevel())
+      self.health = 100
       self.max_health = self.health
       self.reduction = 0
+      self.solid = false
     end,
     __base = _base_0,
     __name = "TesseractGoal",

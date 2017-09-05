@@ -63,20 +63,6 @@ do
               end
             end
           end
-          if Driver.objects[EntityTypes.goal] then
-            for k, e in pairs(Driver.objects[EntityTypes.goal]) do
-              if e.goal_type == GoalTypes.tesseract then
-                local enemy = e:getHitBox()
-                local turret = self:getAttackHitBox()
-                turret.radius = turret.radius + self.range
-                if enemy:contains(turret) then
-                  local bullet = Bullet(self.position.x, self.position.y - self.sprite.scaled_height / 2 + 10, e, self.damage)
-                  Driver:addObject(bullet, EntityTypes.bullet)
-                  attacked = true
-                end
-              end
-            end
-          end
         else
           if self.target and self.target.alive then
             local enemy = self.target:getHitBox()
@@ -127,19 +113,6 @@ do
           if dist:getLength() < closest_distance then
             closest_distance = dist:getLength()
             closest = v
-          end
-        end
-      end
-      if Driver.objects[EntityTypes.goal] then
-        for k, v in pairs(Driver.objects[EntityTypes.goal]) do
-          if v.goal_type == GoalTypes.tesseract then
-            local turret = v:getHitBox()
-            local enemy = self:getAttackHitBox()
-            local dist = Vector(enemy.center.x - turret.center.x, enemy.center.y - turret.center.y)
-            if dist:getLength() < closest_distance then
-              closest_distance = dist:getLength()
-              closest = v
-            end
           end
         end
       end

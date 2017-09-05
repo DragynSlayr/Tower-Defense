@@ -7,11 +7,11 @@ export class CaptureEnemy extends Enemy
     --@solid = false
     @corner_target = false
 
-    @health = 12 + (12.8 * Objectives\getLevel!)
+    @health = 24 + (12.8 * Objectives\getLevel!)
     @max_health = @health
-    @max_speed = (250 + (10.8 * Objectives\getLevel!)) * Scale.diag
+    @max_speed = (300 + (10.8 * Objectives\getLevel!)) * Scale.diag
     @speed_multiplier = @max_speed
-    @damage = 1
+    @damage = 10 / 3
 
     sound = Sound "capture_enemy_death.ogg", 0.75, false, 1.25, true
     @death_sound = MusicPlayer\add sound

@@ -20,8 +20,23 @@ do
     update = function(self, dt)
       _class_0.__parent.__base.update(self, dt)
       self.capture_amount = clamp(self.capture_amount, 0, self.max_health)
+      if self.tesseract and self.unlocked then
+        self.timer = self.timer + dt
+        if self.timer >= self.attack_delay then
+          self.timer = 0
+          return self.tesseract:onCollide(self)
+        end
+      end
     end,
     draw = function(self)
+      if self.tesseract and self.unlocked then
+        local ratio = self.capture_amount / self.max_health
+        local blue = math.floor((ratio * 255))
+        local red = 255 - blue
+        love.graphics.setColor(red, 127, blue, blue)
+        love.graphics.setLineWidth(ratio * 20)
+        love.graphics.line(self.position.x, self.position.y + (self.sprite.scaled_height * 0.33), self.tesseract.position.x, self.tesseract.position.y)
+      end
       _class_0.__parent.__base.draw(self)
       love.graphics.push("all")
       love.graphics.setShader(Driver.shader)
@@ -50,6 +65,11 @@ do
       self.capture_amount = self.health / 2
       self.draw_health = false
       self.unlocked = false
+      self.tesseract = nil
+      self.timer = 0
+      self.attack_delay = 1 / 60
+      self.damage = (20 / 3) * self.attack_delay
+      self.solid = false
     end,
     __base = _base_0,
     __name = "CaptureGoal",
