@@ -56,6 +56,7 @@ EnemyPoisonParticle
 EnemyTypes
 EntityTypes
 ExtraLifePassive
+FakeFindGoal
 FindGoal
 FreezeFieldActive
 FrostField
@@ -133,6 +134,8 @@ Stats
 Stats_Dynamic
 StrongEnemy
 TesseractGoal
+TestMode
+TestWave
 Text
 TextBox
 Tooltip
@@ -189,6 +192,7 @@ armored
 arrow
 atan2
 attack
+attack_delay
 attack_range
 attack_speed
 attack_timer
@@ -204,6 +208,7 @@ basic
 basicChance
 block_shader
 blocked
+blue
 bomb
 boost
 boost_multiplier
@@ -330,7 +335,7 @@ elements
 elimination
 else
 elseif
-em
+emitter
 emitting
 empty
 enabled
@@ -348,13 +353,13 @@ equippedPassive
 equipped_items
 error
 event
-excluded
 exists
 exit_button
 export
 extends
 f
 factor
+fake_find
 false
 field
 files
@@ -442,6 +447,8 @@ head
 heal_delay
 healing_amount
 health
+heart_max_time
+heart_timer
 height
 height_scale
 high_scores
@@ -465,6 +472,7 @@ image
 in
 in_x
 in_y
+included
 index
 insert
 inventory
@@ -492,6 +500,7 @@ keys_pushed
 kill
 killEnemies
 killed
+knock_back_sprite
 knockback
 knocking_back
 last_health
@@ -507,6 +516,7 @@ letter
 level
 level_count
 life_time
+life_time_range
 line
 lines
 lines_index
@@ -521,6 +531,7 @@ loadstring
 lock_sprite
 log
 love
+lower
 lstrip
 m
 main_menu
@@ -559,6 +570,8 @@ mouse
 mousepressed
 mousereleased
 movement_blocked
+movement_delay
+movement_speed
 moving_particles
 msg
 multiply
@@ -596,6 +609,7 @@ off_time
 old_color
 old_trail
 onCollide
+onEnd
 on_time
 open_box
 open_button
@@ -658,6 +672,7 @@ readKey
 ready
 recoverSaved
 rectangle
+red
 reduction
 remove
 removeChars
@@ -668,6 +683,7 @@ repeating
 require
 resetText
 reset_chars
+respawnHearts
 respawnPlayers
 restart
 restart_button
@@ -713,6 +729,7 @@ setDefaultFilter
 setFont
 setIdentity
 setItem
+setLifeTimeRange
 setLineWidth
 setLooping
 setPitch
@@ -722,8 +739,11 @@ setRotationSpeed
 setScale
 setShader
 setShear
+setSizeRange
 setSpeedOverride
+setSpeedRange
 setSprite
+setVelocity
 setVolume
 set_colors
 set_item
@@ -743,6 +763,7 @@ show_turret
 shuffle
 sin_angle
 size
+size_range
 skill_points
 slag_timer
 slagged
@@ -757,6 +778,7 @@ sound
 sounds
 space
 spawn
+spawnHeart
 spawnRandomEnemy
 spawn_count
 spawn_num
@@ -811,7 +833,9 @@ target_position
 targets
 temp
 temp_damage
+tess
 tesseract
+test
 text
 textFunc
 text_box
@@ -869,6 +893,7 @@ v
 v2
 value
 vec
+velocity
 vyder
 waiting
 wall
