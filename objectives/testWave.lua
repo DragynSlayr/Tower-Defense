@@ -2,15 +2,28 @@ do
   local _class_0
   local _parent_0 = Wave
   local _base_0 = {
-    start = function(self) end,
+    start = function(self)
+      self.emitter = ParticleEmitter(Screen_Size.width * 0.75, Screen_Size.height * 0.5, 0)
+      self.emitter:setLifeTimeRange({
+        0.1,
+        0.4
+      })
+      return self.emitter:setSizeRange({
+        0.1,
+        1.0
+      })
+    end,
     entityKilled = function(self, entity) end,
     update = function(self, dt)
       _class_0.__parent.__base.update(self, dt)
       if not self.waiting then
-        return 
+        return self.emitter:update(dt)
       end
     end,
     draw = function(self)
+      if self.emitter then
+        self.emitter:draw()
+      end
       return _class_0.__parent.__base.draw(self)
     end
   }
@@ -18,7 +31,8 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, parent)
-      return _class_0.__parent.__init(self, parent)
+      _class_0.__parent.__init(self, parent)
+      self.emitter = nil
     end,
     __base = _base_0,
     __name = "TestWave",
