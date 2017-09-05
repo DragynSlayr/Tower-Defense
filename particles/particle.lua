@@ -11,6 +11,10 @@ do
       self.sprite.should_shade = self.block_shader
     end,
     update = function(self, dt)
+      if not self:isOnScreen(Screen_Size.border) then
+        self.health = 0
+        return 
+      end
       if self.speed:getLength() > 0 then
         self.position:add(self.speed:multiply(dt))
       end
