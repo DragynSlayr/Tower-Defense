@@ -173,8 +173,8 @@ do
       local circle = self:getHitBox()
       local x, y = circle.center:getComponents()
       local radius = circle.radius
-      local xOn = x - radius >= bounds[1] and x + radius <= bounds[3]
-      local yOn = y - radius >= bounds[2] and y + radius <= bounds[4]
+      local xOn = x - radius >= bounds[1] and x + radius <= bounds[3] - bounds[1]
+      local yOn = y - radius >= bounds[2] and y + radius <= bounds[4] - bounds[2]
       return xOn and yOn
     end
   }

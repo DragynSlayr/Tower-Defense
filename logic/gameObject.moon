@@ -177,6 +177,6 @@ export class GameObject
     circle = @getHitBox!
     x, y = circle.center\getComponents!
     radius = circle.radius
-    xOn = x - radius >= bounds[1] and x + radius <= bounds[3]
-    yOn = y - radius >= bounds[2] and y + radius <= bounds[4]
+    xOn = x - radius >= bounds[1] and x + radius <= bounds[3] - bounds[1]
+    yOn = y - radius >= bounds[2] and y + radius <= bounds[4] - bounds[2]
     return xOn and yOn
