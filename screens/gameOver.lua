@@ -9,6 +9,7 @@ do
       local height = 50 * Scale.height
       local submit_box = TextBox(x, y, width, height)
       submit_box.action = { }
+      submit_box.active = false
       submit_box.font = Renderer:newFont(25)
       submit_box.text_color = {
         255,

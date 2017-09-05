@@ -10,6 +10,7 @@ export class GameOverScreen extends Screen
     height = 50 * Scale.height
     submit_box = TextBox x, y, width, height
     submit_box.action = {}
+    submit_box.active = false
     submit_box.font = Renderer\newFont 25
     submit_box.text_color = {255, 255, 255, 255}
     @add submit_box
