@@ -8,6 +8,18 @@ do
     stop = function(self)
       self.emitting = false
     end,
+    setSizeRange = function(self, range)
+      self.size_range = range
+    end,
+    setLifeTimeRange = function(self, range)
+      self.life_time_range = range
+    end,
+    setSpeedRange = function(self, range)
+      self.speed_range = range
+    end,
+    setVelocity = function(self, velocity)
+      self.velocity = velocity
+    end,
     update = function(self, dt)
       if self.parent then
         if self.parent.alive then
@@ -19,19 +31,26 @@ do
       self.elapsed = self.elapsed + dt
       if self.emitting and self.elapsed >= self.delay then
         self.elapsed = 0
+        local life_time = map(math.random(), 0, 1, self.life_time_range[1], self.life_time_range[2])
+        local scale = map(math.random(), 0, 1, self.size_range[1], self.size_range[2])
+        local sprite = self.sprite:getCopy()
+        sprite:scaleUniformly(scale)
         local particle
         local _exp_0 = self.particle_type
         if ParticleTypes.normal == _exp_0 then
-          particle = Particle(self.position.x, self.position.y, self.sprite, 200, 50, self.life_time)
+          particle = Particle(self.position.x, self.position.y, sprite, 200, 50, life_time)
         elseif ParticleTypes.poison == _exp_0 then
-          particle = PoisonParticle(self.position.x, self.position.y, self.sprite, 200, 50, self.life_time)
+          particle = PoisonParticle(self.position.x, self.position.y, sprite, 200, 50, life_time)
         elseif ParticleTypes.enemy_poison == _exp_0 then
-          particle = EnemyPoisonParticle(self.position.x, self.position.y, self.sprite, 255, 0, self.life_time)
+          particle = EnemyPoisonParticle(self.position.x, self.position.y, sprite, 255, 0, life_time)
         end
         if self.moving_particles then
           local x, y = getRandomUnitStart()
           particle.speed = Vector(x, y, true)
-          particle.speed = particle.speed:multiply(250 * Scale.diag)
+          local speed = map(math.random(), 0, 1, self.speed_range[1], self.speed_range[2])
+          particle.speed = particle.speed:multiply(speed * Scale.diag)
+        else
+          particle.speed = self.velocity
         end
         particle:setShader(self.shader, true)
         return Driver:addObject(particle, EntityTypes.particle)
@@ -42,6 +61,15 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y, delay, life_time, parent)
+      if delay == nil then
+        delay = 1
+      end
+      if life_time == nil then
+        life_time = 1
+      end
+      if parent == nil then
+        parent = nil
+      end
       local sprite = Sprite("particle/particle.tga", 32, 32, 1, 0.5)
       sprite:setColor({
         0,
@@ -59,6 +87,19 @@ do
       self.shader = nil
       self.particle_type = ParticleTypes.normal
       self.moving_particles = true
+      self.life_time_range = {
+        self.life_time,
+        self.life_time
+      }
+      self.size_range = {
+        1,
+        1
+      }
+      self.speed_range = {
+        250,
+        250
+      }
+      self.velocity = Vector(0, 0)
     end,
     __base = _base_0,
     __name = "ParticleEmitter",
