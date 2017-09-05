@@ -3,22 +3,44 @@ do
   local _parent_0 = Wave
   local _base_0 = {
     start = function(self)
-      for i = 1, self.target do
-        local goal = self.parent.parent:spawn(GoalTypes.find)
-        if false then
-          local delay = love.math.random(2, 4)
-          local life_time = math.random()
-          local em = ParticleEmitter(0, 0, delay, life_time, goal)
-          em.shader = love.graphics.newShader("shaders/normal.fs")
-          em.sprite = Sprite("particle/orb.tga", 32, 32, 1, 0.5)
-          Driver:addObject(em, EntityTypes.particle)
-        end
-      end
       if Driver.objects[EntityTypes.player] then
         for k, p in pairs(Driver.objects[EntityTypes.player]) do
+          self.health = map(p.health, 0, p.max_health, 0, self.max_health)
           p.attack_range = Base_Stats.player[2]
         end
       end
+      return self:respawnHearts()
+    end,
+    respawnHearts = function(self)
+      Driver:clearObjects(EntityTypes.goal)
+      for i = 1, 3 do
+        self:spawnHeart(i > 1)
+      end
+    end,
+    spawnHeart = function(self, isFake)
+      if isFake == nil then
+        isFake = false
+      end
+      local goal = Objectives:spawn(GoalTypes.find)
+      if isFake then
+        local temp = FakeFindGoal(goal.position.x, goal.position.y)
+        Driver:removeObject(goal, false)
+        Driver:addObject(temp, EntityTypes.goal)
+        goal = temp
+      end
+      goal.trail = ParticleEmitter(goal.position.x, goal.position.y, 1 / 60)
+      goal.trail.position = Vector(Screen_Size.half_width, Screen_Size.half_height)
+      goal.trail.shader = love.graphics.newShader("shaders/normal.fs")
+      goal.trail.sprite = Sprite("particle/orb.tga", 32, 32, 1, 0.5)
+      goal.trail.moving_particles = false
+      goal.trail:setLifeTimeRange({
+        0.25,
+        0.75
+      })
+      return goal.trail:setSizeRange({
+        0.1,
+        1.0
+      })
     end,
     entityKilled = function(self, entity)
       if entity.id == EntityTypes.goal then
@@ -26,6 +48,7 @@ do
         ScoreTracker:addScore(500)
         self.health = self.health + 6
         self.health = clamp(self.health, 0, self.max_health)
+        self.heart_timer = self.heart_max_time
       end
     end,
     update = function(self, dt)
@@ -46,10 +69,18 @@ do
             v.health = clamp(v.health, 0, v.max_health)
           end
         end
-      end
-      if self.killed >= self.target then
-        Driver:killEnemies()
-        self.complete = true
+        if self.killed >= self.target then
+          Driver:killEnemies()
+          Driver:clearObjects(EntityTypes.goal)
+          self.complete = true
+          self.heart_timer = 0
+          return 
+        end
+        self.heart_timer = self.heart_timer + dt
+        if self.heart_timer >= self.heart_max_time then
+          self.heart_timer = 0
+          return self:respawnHearts()
+        end
       end
     end,
     draw = function(self)
@@ -68,19 +99,17 @@ do
     __init = function(self, parent)
       _class_0.__parent.__init(self, parent)
       self.killed = 0
-      self.target = 4 - self.parent.wave_count
-      self.parent.parent.shader = love.graphics.newShader("shaders/distance.fs")
-      self.parent.parent.shader:send("screen_size", Screen_Size.size)
-      self.parent.parent.shader:send("size", 10 - (0.5 * Upgrade.player_stats[2]))
+      self.target = 3
+      Objectives.shader = love.graphics.newShader("shaders/distance.fs")
+      Objectives.shader:send("screen_size", Screen_Size.size)
+      Objectives.shader:send("size", 10 - (0.5 * Upgrade.player_stats[2]))
       local a = math.log(Stats.player[1])
       local b = math.log(Base_Stats.player[1])
       self.max_health = 25 * (a / b)
       self.health = self.max_health
-      if Driver.objects[EntityTypes.player] then
-        for k, p in pairs(Driver.objects[EntityTypes.player]) do
-          self.health = map(p.health, 0, p.max_health, 0, self.max_health)
-        end
-      end
+      self.heart_timer = 0
+      local lower = clamp(((-4 / 30) * Objectives:getLevel()) + 5, 1, 5)
+      self.heart_max_time = map(math.random(), 0, 1, lower, lower + 1)
     end,
     __base = _base_0,
     __name = "DarkWave",

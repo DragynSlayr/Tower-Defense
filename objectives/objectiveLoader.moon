@@ -6,6 +6,7 @@ require "objectives.defendGoal"
 require "objectives.findGoal"
 require "objectives.captureGoal"
 require "objectives.tesseractGoal"
+require "objectives.fakeFindGoal"
 require "objectives.mode"
 require "objectives.wave"
 

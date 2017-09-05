@@ -4,11 +4,15 @@ do
   local _base_0 = {
     update = function(self, dt)
       _class_0.__parent.__base.update(self, dt)
-      if self.elapsed >= self.max_time then
-        self.elapsed = 0
-        local goal = Objectives:spawn(GoalTypes.find)
-        Driver:removeObject(goal, false)
-        self.position = goal.position
+      if self.trail then
+        local x = self.position.x - self.trail.position.x
+        local y = self.position.y - self.trail.position.y
+        local speed = Vector(x, y, true)
+        speed = speed:multiply((dt * self.movement_speed))
+        self.trail.position:add(speed)
+        self.trail:setVelocity(self.velocity:multiply(0.4))
+        self.velocity:rotate(self.angle)
+        return self.trail:update(dt)
       end
     end,
     onCollide = function(self, object)
@@ -26,8 +30,10 @@ do
       self.id = EntityTypes.goal
       self.goal_type = GoalTypes.find
       self.draw_health = false
-      self.max_time = ((-4 / 30) * Objectives:getLevel()) + 5
-      self.max_time = clamp(self.max_time, 1, 5)
+      self.trail = nil
+      self.movement_speed = 250
+      self.velocity = Vector(getRandomUnitStart())
+      self.angle = 2 * math.pi * (1 / 30)
     end,
     __base = _base_0,
     __name = "FindGoal",

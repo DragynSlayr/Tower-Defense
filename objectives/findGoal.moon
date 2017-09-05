@@ -5,16 +5,24 @@ export class FindGoal extends GameObject
     @id = EntityTypes.goal
     @goal_type = GoalTypes.find
     @draw_health = false
-    @max_time = ((-4 / 30) * Objectives\getLevel!) + 5--5
-    @max_time = clamp @max_time, 1, 5
+
+    @trail = nil
+    @movement_speed = 250
+    @velocity = Vector getRandomUnitStart!
+    @angle = 2 * math.pi * (1 / 30)
 
   update: (dt) =>
     super dt
-    if @elapsed >= @max_time
-      @elapsed = 0
-      goal = Objectives\spawn GoalTypes.find
-      Driver\removeObject goal, false
-      @position = goal.position
+
+    if @trail
+      x = @position.x - @trail.position.x
+      y = @position.y - @trail.position.y
+      speed = Vector x, y, true
+      speed = speed\multiply (dt * @movement_speed)
+      @trail.position\add speed
+      @trail\setVelocity @velocity\multiply 0.4
+      @velocity\rotate @angle
+      @trail\update dt
 
   onCollide: (object) =>
     if object.id == EntityTypes.player

@@ -43,6 +43,7 @@ export GoalTypes = {}
 GoalTypes.attack    = "Attack"
 GoalTypes.defend    = "Defend"
 GoalTypes.find      = "Find"
+GoalTypes.fake_find = "Fake Find"
 GoalTypes.capture   = "Capture"
 GoalTypes.tesseract = "Tesseract"
 
