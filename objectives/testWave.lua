@@ -3,26 +3,39 @@ do
   local _parent_0 = Wave
   local _base_0 = {
     start = function(self)
-      self.emitter = ParticleEmitter(Screen_Size.width * 0.75, Screen_Size.height * 0.5, 0)
-      self.emitter:setLifeTimeRange({
-        0.1,
-        0.4
-      })
-      return self.emitter:setSizeRange({
-        0.1,
-        1.0
-      })
+      for i = 1, 1 do
+        local emitter = ParticleEmitter(Screen_Size.width * 0.25, Screen_Size.height * 0.5, 0.2)
+        emitter:setLifeTimeRange({
+          2,
+          5
+        })
+        emitter:setSizeRange({
+          1,
+          1
+        })
+        emitter:setSpeedRange({
+          -20,
+          20
+        })
+        Driver:addObject(emitter, EntityTypes.particle)
+      end
+      local image = love.graphics.newImage("assets/sprites/particle/particle.tga")
+      self.system = love.graphics.newParticleSystem(image, 50)
+      self.system:setParticleLifetime(2, 5)
+      self.system:setEmissionRate(5)
+      self.system:setLinearAcceleration(-20, -20, 20, 20)
+      return self.system:setColors(255, 255, 255, 255, 255, 255, 255, 0)
     end,
     entityKilled = function(self, entity) end,
     update = function(self, dt)
       _class_0.__parent.__base.update(self, dt)
       if not self.waiting then
-        return self.emitter:update(dt)
+        return self.system:update(dt)
       end
     end,
     draw = function(self)
-      if self.emitter then
-        self.emitter:draw()
+      if self.system then
+        love.graphics.draw(self.system, Screen_Size.width * 0.75, Screen_Size.height * 0.5)
       end
       return _class_0.__parent.__base.draw(self)
     end
@@ -32,7 +45,7 @@ do
   _class_0 = setmetatable({
     __init = function(self, parent)
       _class_0.__parent.__init(self, parent)
-      self.emitter = nil
+      self.system = nil
     end,
     __base = _base_0,
     __name = "TestWave",
