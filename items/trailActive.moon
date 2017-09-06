@@ -14,7 +14,6 @@ export class TrailActive extends ActiveItem
     @name = "Fire Trail"
     @description = "A trail of fire follows the player"
     @effect_time = ({7.5, 7.75, 8, 8.25, 8.5})[@rarity]
-    @effect_timer = 0
     @onEnd = () -> @player.trail = @old_trail
 
   getStats: =>

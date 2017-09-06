@@ -60,7 +60,6 @@ do
         13,
         14
       })[self.rarity]
-      self.effect_timer = 0
       self.effect_sprite = Sprite("effect/damageBoost.tga", 32, 32, 0.5, 1)
       self.onEnd = function()
         for k, t in pairs(self.player.turret) do

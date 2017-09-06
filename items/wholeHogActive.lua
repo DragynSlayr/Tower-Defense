@@ -35,7 +35,6 @@ do
         13,
         14
       })[self.rarity]
-      self.effect_timer = 0
       self.onEnd = function()
         self.player.knocking_back = false
       end

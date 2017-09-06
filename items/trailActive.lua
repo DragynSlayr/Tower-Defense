@@ -40,7 +40,6 @@ do
         8.25,
         8.5
       })[self.rarity]
-      self.effect_timer = 0
       self.onEnd = function()
         self.player.trail = self.old_trail
       end

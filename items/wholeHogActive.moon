@@ -9,7 +9,6 @@ export class WholeHogActive extends ActiveItem
     @name = "Whole Hog"
     @description = "Player bullets do knockback"
     @effect_time = ({10, 11, 12, 13, 14})[@rarity]
-    @effect_timer = 0
     @onEnd = () -> @player.knocking_back = false
 
   getStats: =>

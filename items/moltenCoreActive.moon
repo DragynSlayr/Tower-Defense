@@ -13,7 +13,6 @@ export class MoltenCoreActive extends ActiveItem
     @name = "Molten Core"
     @description = "Boosts turret damage and health"
     @effect_time = ({10, 11, 12, 13, 14})[@rarity]
-    @effect_timer = 0
     @effect_sprite = Sprite "effect/damageBoost.tga", 32, 32, 0.5, 1
     @onEnd = () ->
       for k, t in pairs @player.turret

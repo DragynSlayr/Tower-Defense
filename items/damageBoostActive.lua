@@ -51,7 +51,6 @@ do
         6,
         7
       })[self.rarity]
-      self.effect_timer = 0
       self.effect_sprite = Sprite("effect/damageBoost.tga", 32, 32, 0.5, 2.25)
       self.onEnd = function()
         self.player.damage = Stats.player[3]

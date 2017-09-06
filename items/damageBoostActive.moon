@@ -9,7 +9,6 @@ export class DamageBoostActive extends ActiveItem
     @name = "Damage Boost"
     @description = "Gives a temporary boost to damage"
     @effect_time = ({3, 4, 5, 6, 7})[@rarity]
-    @effect_timer = 0
     @effect_sprite = Sprite "effect/damageBoost.tga", 32, 32, 0.5, 2.25
     @onEnd = () -> @player.damage = Stats.player[3]
 
