@@ -9,8 +9,7 @@ export class CaptureWave extends Wave
     @turret_spawn_num = 3
     @goal_complete = false
 
-    sprite = Sprite "particle/poison.tga", 64, 64, 1, 1
-    sprite.draw = () => return
+    sprite = Sprite "particle/poison.tga", 64, 64, 1, 0.25
     @trail = ParticleEmitter 0, 0, 1 / 4
     @trail.sprite = sprite
     @trail.particle_type = ParticleTypes.poison
@@ -18,6 +17,8 @@ export class CaptureWave extends Wave
     @trail\setSpeedRange {100, 175}
     @trail\setLifeTimeRange {0.25, 0.75}
     @trail.solid = false
+
+    Driver\addObject @trail, EntityTypes.particle
 
     @timer = 0
     @movement_delay = math.random 3, 8
@@ -39,6 +40,10 @@ export class CaptureWave extends Wave
       Objectives\spawn EnemyTypes.turret
     Driver\addObject tess, EntityTypes.goal
 
+  finish: =>
+    super!
+    Driver\removeObject @trail, false
+
   entityKilled: (entity) =>
     if entity.id == EntityTypes.goal and entity.goal_type == GoalTypes.tesseract
       @goal_complete = true
@@ -54,7 +59,6 @@ export class CaptureWave extends Wave
       @parent.time_remaining -= dt
       @elapsed += dt
       @timer += dt
-      @trail\update dt
       if @elapsed >= @spawn_time
         @elapsed = 0
         for i = 1, @spawn_num

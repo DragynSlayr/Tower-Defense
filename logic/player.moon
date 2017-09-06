@@ -17,11 +17,6 @@ export class Player extends GameObject
     @attack_timer = 0
     @lives = 1
 
-    sprite_copy = sprite\getCopy!
-    sprite_copy\setColor {50, 50, 50, 255}
-    --@trail = ParticleTrail x, y, sprite_copy, @
-    @trail = nil
-
     @id = EntityTypes.player
     @draw_health = false
 
@@ -199,7 +194,6 @@ export class Player extends GameObject
       @speed\add boost
       super dt
       @speed = start
-    --@trail\update dt
     @lock_sprite\update dt
     for k, i in pairs @equipped_items
       i\update dt

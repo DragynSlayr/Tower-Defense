@@ -2,7 +2,11 @@ do
   local _class_0
   local _parent_0 = FindGoal
   local _base_0 = {
-    draw = function(self) end,
+    draw = function(self)
+      if self.trail then
+        return self.trail:draw()
+      end
+    end,
     onCollide = function(self, object) end
   }
   _base_0.__index = _base_0

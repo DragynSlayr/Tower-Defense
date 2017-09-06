@@ -18,8 +18,6 @@ export class GameObject
     @contact_damage = false
     @item_drop_chance = 0.00
 
-    @trail = nil
-
     @speed_override = false
     @speed_add = Vector 0, 0
     @speed_override_ratio = 0
@@ -103,8 +101,6 @@ export class GameObject
         @shield_timer = 0
         @shielded = false
     @sprite\update dt
-    if @trail
-      @trail\update dt
     @health = clamp @health, 0, @max_health
     @armor = clamp @armor, 0, @max_armor
     @armored = @armor > 0

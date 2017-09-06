@@ -9,6 +9,8 @@ export class BossWave extends Wave
 
   start: =>
     @boss = Objectives\spawn @boss
+    if @boss.trail
+      Driver\addObject @boss.trail, EntityTypes.particle
 
   draw: =>
     @parent.message1 = "\t" .. "BOSS BATTLE!!"

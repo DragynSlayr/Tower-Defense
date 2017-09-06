@@ -19,7 +19,7 @@ export class Particle extends GameObject
     @sprite.should_shade = @block_shader
 
   update: (dt) =>
-    if not @isOnScreen Screen_Size.border
+    if not @isOnScreen!
       @health = 0
       return
     if @speed\getLength! > 0

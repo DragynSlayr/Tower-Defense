@@ -8,8 +8,8 @@ export class TrailPassive extends PassiveItem
       trail = ParticleTrail player.position.x, player.position.y, sprite, player
       trail.life_time = @life_time
       trail.particle_type = ParticleTypes.enemy_poison
-      @old_trail = player.trail
-      player.trail = trail
+      @trail = trail
+      Driver\addObject @trail, EntityTypes.particle
     super x, y, sprite, nil, effect
     @name = "Poison Trail"
     @description = "A trail of poison follows the player"
@@ -21,4 +21,4 @@ export class TrailPassive extends PassiveItem
 
   unequip: (player) =>
     super player
-    player.trail = @old_trail
+    Driver\removeObject @trail, false

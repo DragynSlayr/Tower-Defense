@@ -27,8 +27,8 @@ do
         local trail = ParticleTrail(player.position.x, player.position.y, sprite, player)
         trail.life_time = self.effect_time
         trail.particle_type = ParticleTypes.enemy_poison
-        self.old_trail = player.trail
-        player.trail = trail
+        self.trail = trail
+        return Driver:addObject(self.trail, EntityTypes.particle)
       end
       _class_0.__parent.__init(self, x, y, sprite, cd, effect)
       self.name = "Fire Trail"
@@ -41,7 +41,7 @@ do
         8.5
       })[self.rarity]
       self.onEnd = function()
-        self.player.trail = self.old_trail
+        return Driver:removeObject(self.trail, false)
       end
     end,
     __base = _base_0,

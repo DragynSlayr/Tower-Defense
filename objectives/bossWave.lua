@@ -9,6 +9,9 @@ do
     end,
     start = function(self)
       self.boss = Objectives:spawn(self.boss)
+      if self.boss.trail then
+        return Driver:addObject(self.boss.trail, EntityTypes.particle)
+      end
     end,
     draw = function(self)
       self.parent.message1 = "\t" .. "BOSS BATTLE!!"

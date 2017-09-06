@@ -414,14 +414,6 @@ do
       self.hit = false
       self.attack_timer = 0
       self.lives = 1
-      local sprite_copy = sprite:getCopy()
-      sprite_copy:setColor({
-        50,
-        50,
-        50,
-        255
-      })
-      self.trail = nil
       self.id = EntityTypes.player
       self.draw_health = false
       self.font = Renderer:newFont(20)

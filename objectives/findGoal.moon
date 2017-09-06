@@ -11,6 +11,8 @@ export class FindGoal extends GameObject
     @velocity = Vector getRandomUnitStart!
     @angle = 2 * math.pi * (1 / 30)
 
+    @item_drop_chance = 0.2
+
   update: (dt) =>
     super dt
 
@@ -23,6 +25,11 @@ export class FindGoal extends GameObject
       @trail\setVelocity @velocity\multiply 0.4
       @velocity\rotate @angle
       @trail\update dt
+
+  draw: =>
+    if @trail
+      @trail\draw!
+    super!
 
   onCollide: (object) =>
     if object.id == EntityTypes.player

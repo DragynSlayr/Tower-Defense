@@ -5,7 +5,8 @@ export class FakeFindGoal extends FindGoal
     @solid = false
 
   draw: =>
-    return
+    if @trail
+      @trail\draw!
 
   onCollide: (object) =>
     return

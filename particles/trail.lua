@@ -9,6 +9,12 @@ do
         self.position = self.parent.position
       end
       self.sprite.rotation = self.parent.sprite.rotation
+      for k, v in pairs(self.objects) do
+        v:update(dt)
+        if v.health <= 0 then
+          table.remove(self.objects, k)
+        end
+      end
       local change = Vector(self.last_position.x - self.position.x, self.last_position.y - self.position.y)
       if change:getLength() >= self.average_size then
         self.last_position = Vector(self.parent.position:getComponents())
@@ -21,7 +27,12 @@ do
         elseif ParticleTypes.enemy_poison == _exp_0 then
           particle = EnemyPoisonParticle(self.position.x, self.position.y, self.sprite, 255, 0, self.life_time)
         end
-        return Driver:addObject(particle, EntityTypes.particle)
+        return table.insert(self.objects, particle)
+      end
+    end,
+    draw = function(self)
+      for k, v in pairs(self.objects) do
+        v:draw()
       end
     end
   }
@@ -30,7 +41,9 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y, sprite, parent)
       _class_0.__parent.__init(self, x, y, sprite:getCopy())
+      self.objects = { }
       self.parent = parent
+      self.solid = false
       self.last_position = Vector(self.parent.position:getComponents())
       self.position = self.last_position
       self.life_time = 1

@@ -66,9 +66,6 @@ do
         end
       end
       self.sprite:update(dt)
-      if self.trail then
-        self.trail:update(dt)
-      end
       self.health = clamp(self.health, 0, self.max_health)
       self.armor = clamp(self.armor, 0, self.max_armor)
       self.armored = self.armor > 0
@@ -211,7 +208,6 @@ do
       self.solid = true
       self.contact_damage = false
       self.item_drop_chance = 0.00
-      self.trail = nil
       self.speed_override = false
       self.speed_add = Vector(0, 0)
       self.speed_override_ratio = 0

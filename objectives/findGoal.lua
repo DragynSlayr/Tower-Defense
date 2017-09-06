@@ -15,6 +15,12 @@ do
         return self.trail:update(dt)
       end
     end,
+    draw = function(self)
+      if self.trail then
+        self.trail:draw()
+      end
+      return _class_0.__parent.__base.draw(self)
+    end,
     onCollide = function(self, object)
       if object.id == EntityTypes.player then
         self.health = 0
@@ -34,6 +40,7 @@ do
       self.movement_speed = 250
       self.velocity = Vector(getRandomUnitStart())
       self.angle = 2 * math.pi * (1 / 30)
+      self.item_drop_chance = 0.2
     end,
     __base = _base_0,
     __name = "FindGoal",

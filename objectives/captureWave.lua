@@ -23,6 +23,10 @@ do
       end
       return Driver:addObject(tess, EntityTypes.goal)
     end,
+    finish = function(self)
+      _class_0.__parent.__base.finish(self)
+      return Driver:removeObject(self.trail, false)
+    end,
     entityKilled = function(self, entity)
       if entity.id == EntityTypes.goal and entity.goal_type == GoalTypes.tesseract then
         self.goal_complete = true
@@ -41,7 +45,6 @@ do
         self.parent.time_remaining = self.parent.time_remaining - dt
         self.elapsed = self.elapsed + dt
         self.timer = self.timer + dt
-        self.trail:update(dt)
         if self.elapsed >= self.spawn_time then
           self.elapsed = 0
           for i = 1, self.spawn_num do
@@ -90,8 +93,7 @@ do
       self.spawn_num = 3
       self.turret_spawn_num = 3
       self.goal_complete = false
-      local sprite = Sprite("particle/poison.tga", 64, 64, 1, 1)
-      sprite.draw = function(self) end
+      local sprite = Sprite("particle/poison.tga", 64, 64, 1, 0.25)
       self.trail = ParticleEmitter(0, 0, 1 / 4)
       self.trail.sprite = sprite
       self.trail.particle_type = ParticleTypes.poison
@@ -108,6 +110,7 @@ do
         0.75
       })
       self.trail.solid = false
+      Driver:addObject(self.trail, EntityTypes.particle)
       self.timer = 0
       self.movement_delay = math.random(3, 8)
     end,

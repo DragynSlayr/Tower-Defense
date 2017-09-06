@@ -8,13 +8,13 @@ export class TrailActive extends ActiveItem
       trail = ParticleTrail player.position.x, player.position.y, sprite, player
       trail.life_time = @effect_time
       trail.particle_type = ParticleTypes.enemy_poison
-      @old_trail = player.trail
-      player.trail = trail
+      @trail = trail
+      Driver\addObject @trail, EntityTypes.particle
     super x, y, sprite, cd, effect
     @name = "Fire Trail"
     @description = "A trail of fire follows the player"
     @effect_time = ({7.5, 7.75, 8, 8.25, 8.5})[@rarity]
-    @onEnd = () -> @player.trail = @old_trail
+    @onEnd = () -> Driver\removeObject @trail, false
 
   getStats: =>
     stats = super!

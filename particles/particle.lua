@@ -11,7 +11,7 @@ do
       self.sprite.should_shade = self.block_shader
     end,
     update = function(self, dt)
-      if not self:isOnScreen(Screen_Size.border) then
+      if not self:isOnScreen() then
         self.health = 0
         return 
       end
