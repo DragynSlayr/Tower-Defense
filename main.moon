@@ -34,4 +34,4 @@ love.draw = () ->
 love.load = () ->
   queue = require "logic.classLoader"
   elements = #queue
-  export VERSION = "V.21"
+  export VERSION = "V.22"
