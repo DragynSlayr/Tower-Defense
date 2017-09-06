@@ -12,6 +12,8 @@ export class TesseractGoal extends GameObject
     @reduction = 0
     @solid = false
 
+    @item_drop_chance = 0.1
+
   onCollide: (entity) =>
     start_damage = entity.damage
     entity.damage *= @reduction

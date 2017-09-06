@@ -35,6 +35,7 @@ do
       self.max_health = self.health
       self.reduction = 0
       self.solid = false
+      self.item_drop_chance = 0.1
     end,
     __base = _base_0,
     __name = "TesseractGoal",

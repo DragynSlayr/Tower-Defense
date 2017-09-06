@@ -20,6 +20,7 @@ do
       self.goal_type = GoalTypes.attack
       self.health = 100 + (33 * Objectives:getLevel())
       self.max_health = self.health
+      self.item_drop_chance = 0.2
     end,
     __base = _base_0,
     __name = "AttackGoal",

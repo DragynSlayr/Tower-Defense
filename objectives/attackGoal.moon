@@ -9,3 +9,4 @@ export class AttackGoal extends GameObject
     @goal_type = GoalTypes.attack
     @health = 100 + (33 * Objectives\getLevel!)
     @max_health = @health
+    @item_drop_chance = 0.2
