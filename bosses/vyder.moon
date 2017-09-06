@@ -39,6 +39,10 @@ export class BossVyder extends Boss
 
     @action_sprite\setScale x_scale, y_scale
 
+  kill: =>
+    super!
+    Driver\removeObject @trail, false
+
   getHitBox: =>
     -- Get the radius of this Sprite as the minimum of height and width
     radius = math.min @sprite.scaled_height / 2, @sprite.scaled_width / 2

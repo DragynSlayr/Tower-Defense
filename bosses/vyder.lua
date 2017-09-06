@@ -2,6 +2,10 @@ do
   local _class_0
   local _parent_0 = Boss
   local _base_0 = {
+    kill = function(self)
+      _class_0.__parent.__base.kill(self)
+      return Driver:removeObject(self.trail, false)
+    end,
     getHitBox = function(self)
       local radius = math.min(self.sprite.scaled_height / 2, self.sprite.scaled_width / 2)
       radius = radius * 0.75
