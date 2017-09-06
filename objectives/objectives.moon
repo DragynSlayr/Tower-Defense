@@ -54,6 +54,7 @@ export class ObjectivesHandler
       if @elapsed >= @delay and @ready
         @ready = false
         @elapsed = 0
+        Driver\clearAll!
         Driver.game_state = Game_State.upgrading
         UI\set_screen Screen_State.upgrade
     if start_difficulty ~= @difficulty

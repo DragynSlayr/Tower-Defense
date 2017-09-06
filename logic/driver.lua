@@ -47,6 +47,18 @@ do
         end
       end
     end,
+    clearAll = function(self, excluded)
+      if excluded == nil then
+        excluded = {
+          EntityTypes.player
+        }
+      end
+      for k, v in pairs(Driver.objects) do
+        if not tableContains(excluded, k) then
+          Driver:clearObjects(k)
+        end
+      end
+    end,
     killEnemies = function(self)
       Driver:clearObjects(EntityTypes.enemy)
       return Driver:clearObjects(EntityTypes.bullet)

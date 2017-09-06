@@ -28,6 +28,7 @@ do
         if self.elapsed >= self.delay and self.ready then
           self.ready = false
           self.elapsed = 0
+          Driver:clearAll()
           Driver.game_state = Game_State.upgrading
           UI:set_screen(Screen_State.upgrade)
         end

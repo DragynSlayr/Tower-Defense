@@ -75,6 +75,11 @@ export class Driver
         for k, o in pairs objects
           Driver\removeObject o, false
 
+    clearAll: (excluded = {EntityTypes.player}) =>
+      for k, v in pairs Driver.objects
+        if not tableContains excluded, k
+          Driver\clearObjects k
+
     killEnemies: =>
       Driver\clearObjects EntityTypes.enemy
       Driver\clearObjects EntityTypes.bullet
