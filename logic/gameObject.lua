@@ -87,7 +87,11 @@ do
         self.speed:add(speed)
         self.speed = self.speed:multiply(0.5)
       end
-      self.position:add(self.speed:multiply(dt))
+      if self.movement_disabled then
+        self.movement_disabled_sprite:update(dt)
+      else
+        self.position:add(self.speed:multiply(dt))
+      end
       self.speed = Vector(start_speed:getComponents())
       local radius = self:getHitBox().radius
       if self.id ~= EntityTypes.wall then
@@ -140,6 +144,9 @@ do
       end
       self.sprite:draw(self.position.x, self.position.y)
       self.sprite.color[2] = old_color
+      if self.movement_disabled then
+        self.movement_disabled_sprite:draw(self.position.x, self.position.y)
+      end
       if DEBUGGING then
         self:getHitBox():draw()
       end
@@ -220,6 +227,11 @@ do
       self.slag_timer = 0
       self.max_slag_time = 2
       self.knockback = false
+      self.movement_disabled = false
+      self.movement_disabled_sprite = Sprite("effect/emp.tga", 32, 32, 1, 1)
+      x_scale = self.sprite.scaled_width / 32
+      y_scale = self.sprite.scaled_height / 32
+      return self.movement_disabled_sprite:setScale(x_scale * 1.5, y_scale * 1.5)
     end,
     __base = _base_0,
     __name = "GameObject"

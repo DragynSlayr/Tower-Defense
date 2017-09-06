@@ -41,6 +41,12 @@ export class GameObject
 
     @knockback = false
 
+    @movement_disabled = false
+    @movement_disabled_sprite = Sprite "effect/emp.tga", 32, 32, 1, 1
+    x_scale = @sprite.scaled_width / 32
+    y_scale = @sprite.scaled_height / 32
+    @movement_disabled_sprite\setScale x_scale * 1.5, y_scale * 1.5
+
   setSpeedOverride: (new_speed, ratio) =>
     x, y = new_speed\getComponents!
     @speed_add = Vector x, y, true
@@ -114,7 +120,10 @@ export class GameObject
       speed = @speed_add\multiply @speed\getLength! * @speed_override_ratio
       @speed\add speed
       @speed = @speed\multiply 0.5
-    @position\add @speed\multiply dt
+    if @movement_disabled
+      @movement_disabled_sprite\update dt
+    else
+      @position\add @speed\multiply dt
     @speed = Vector start_speed\getComponents!
     radius = @getHitBox!.radius
     if @id ~= EntityTypes.wall
@@ -152,6 +161,8 @@ export class GameObject
         @sprite.color[2] = 0
     @sprite\draw @position.x, @position.y
     @sprite.color[2] = old_color
+    if @movement_disabled
+      @movement_disabled_sprite\draw @position.x, @position.y
     -- Draw bounds if debugging
     if DEBUGGING
       @getHitBox!\draw!
