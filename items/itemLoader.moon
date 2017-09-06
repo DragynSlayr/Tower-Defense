@@ -14,6 +14,7 @@ require "items.activeItem"
 --+------------------------+--
 --| Depends on active item |--
 --+------------------------+--
+require "items.empActive"
 require "items.bombActive"
 require "items.dashActive"
 require "items.trailActive"

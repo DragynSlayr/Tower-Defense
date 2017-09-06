@@ -1,6 +1,7 @@
 export class ItemPoolHandler
   new: =>
     @items = {
+      EMPActive,
       BombActive,
       DashActive,
       TrailActive,

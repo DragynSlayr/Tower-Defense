@@ -20,6 +20,7 @@ do
   _class_0 = setmetatable({
     __init = function(self)
       self.items = {
+        EMPActive,
         BombActive,
         DashActive,
         TrailActive,
