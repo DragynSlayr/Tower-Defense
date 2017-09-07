@@ -6,7 +6,7 @@ export class CaptureGoal extends GameObject
     @goal_type = GoalTypes.capture
     @health = 10
     @max_health = @health
-    @capture_amount = @health / 2
+    @capture_amount = @health
     @draw_health = false
     @unlocked = false
     @tesseract = nil

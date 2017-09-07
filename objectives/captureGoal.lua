@@ -62,7 +62,7 @@ do
       self.goal_type = GoalTypes.capture
       self.health = 10
       self.max_health = self.health
-      self.capture_amount = self.health / 2
+      self.capture_amount = self.health
       self.draw_health = false
       self.unlocked = false
       self.tesseract = nil
