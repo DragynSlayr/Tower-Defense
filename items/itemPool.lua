@@ -27,6 +27,7 @@ do
         TrailActive,
         ShieldActive,
         DeadEyeActive,
+        MissileActive,
         WholeHogActive,
         BlackHoleActive,
         MoltenCoreActive,

@@ -8,6 +8,7 @@ export class ItemPoolHandler
       TrailActive,
       ShieldActive,
       DeadEyeActive,
+      MissileActive,
       WholeHogActive,
       BlackHoleActive,
       MoltenCoreActive,
