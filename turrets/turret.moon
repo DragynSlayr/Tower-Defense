@@ -38,9 +38,6 @@ export class Turret extends GameObject
     if not @alive return
     @sprite.shader\send "health", @health / @max_health
     @sprite.should_shade = Objectives.mode.mode_type ~= ModeTypes.dark
---    if Driver.objects[EntityTypes.player]
---      if #Driver.objects[EntityTypes.player] ~= 0
---        @speed = Driver.objects[EntityTypes.player][#Driver.objects[EntityTypes.player]].speed\multiply -1
     super dt
     if Upgrade.turret_special[2]
       if @health <= (@max_health / 2) and @shield_available
@@ -59,25 +56,17 @@ export class Turret extends GameObject
     @attack_timer += dt
     if @attack_timer >= @attack_speed
       if Upgrade.turret_special[3]
-        if Driver.objects[EntityTypes.enemy]
-          for k, e in pairs Driver.objects[EntityTypes.enemy]
-            enemy = e\getHitBox!
-            turret = @getAttackHitBox!
-            turret.radius += @range
-            if enemy\contains turret
-              bullet = Bullet @position.x, @position.y - @sprite.scaled_height / 2 + 10, e, @damage
-              Driver\addObject bullet, EntityTypes.bullet
-              attacked = true
-        --if Driver.objects[EntityTypes.goal]
-          --for k, e in pairs Driver.objects[EntityTypes.goal]
-            --if e.goal_type == GoalTypes.tesseract
-              --enemy = e\getHitBox!
-              --turret = @getAttackHitBox!
-              --turret.radius += @range
-              --if enemy\contains turret
-                --bullet = Bullet @position.x, @position.y - @sprite.scaled_height / 2 + 10, e, @damage
-                --Driver\addObject bullet, EntityTypes.bullet
-                --attacked = true
+        filters = {EntityTypes.enemy, EntityTypes.boss}
+        for k2, filter in pairs filters
+          if Driver.objects[filter]
+            for k, e in pairs Driver.objects[filter]
+              enemy = e\getHitBox!
+              turret = @getAttackHitBox!
+              turret.radius += @range
+              if enemy\contains turret
+                bullet = Bullet @position.x, @position.y - @sprite.scaled_height / 2 + 10, e, @damage
+                Driver\addObject bullet, EntityTypes.bullet
+                attacked = true
       else
         if @target and @target.alive
           enemy = @target\getHitBox!

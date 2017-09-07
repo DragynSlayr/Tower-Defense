@@ -51,15 +51,21 @@ do
       self.attack_timer = self.attack_timer + dt
       if self.attack_timer >= self.attack_speed then
         if Upgrade.turret_special[3] then
-          if Driver.objects[EntityTypes.enemy] then
-            for k, e in pairs(Driver.objects[EntityTypes.enemy]) do
-              local enemy = e:getHitBox()
-              local turret = self:getAttackHitBox()
-              turret.radius = turret.radius + self.range
-              if enemy:contains(turret) then
-                local bullet = Bullet(self.position.x, self.position.y - self.sprite.scaled_height / 2 + 10, e, self.damage)
-                Driver:addObject(bullet, EntityTypes.bullet)
-                attacked = true
+          local filters = {
+            EntityTypes.enemy,
+            EntityTypes.boss
+          }
+          for k2, filter in pairs(filters) do
+            if Driver.objects[filter] then
+              for k, e in pairs(Driver.objects[filter]) do
+                local enemy = e:getHitBox()
+                local turret = self:getAttackHitBox()
+                turret.radius = turret.radius + self.range
+                if enemy:contains(turret) then
+                  local bullet = Bullet(self.position.x, self.position.y - self.sprite.scaled_height / 2 + 10, e, self.damage)
+                  Driver:addObject(bullet, EntityTypes.bullet)
+                  attacked = true
+                end
               end
             end
           end
