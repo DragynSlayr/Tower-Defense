@@ -23,6 +23,7 @@ do
         EMPActive,
         BombActive,
         DashActive,
+        CloneActive,
         TrailActive,
         ShieldActive,
         DeadEyeActive,

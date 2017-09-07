@@ -341,36 +341,38 @@ do
         love.graphics.pop()
       end
       _class_0.__parent.__base.draw(self)
-      if self.movement_blocked then
+      if self.movement_blocked and self.draw_lock then
         self.lock_sprite:draw(self.position.x, self.position.y)
       end
-      love.graphics.setColor(0, 0, 0, 255)
-      love.graphics.setFont(self.font)
-      local message = "Turret Cooldown"
-      love.graphics.printf(message, 9 * Scale.width, Screen_Size.height - (47 * Scale.height) - self.font:getHeight() / 2, 205 * Scale.width, "center")
-      local x_start = (9 * Scale.width)
-      local remaining = clamp(self.elapsed, 0, self.turret_cooldown)
-      love.graphics.setColor(0, 0, 0, 255)
-      love.graphics.rectangle("fill", x_start + Scale.width, love.graphics.getHeight() - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height)
-      love.graphics.setColor(0, 0, 255, 255)
-      local ratio = remaining / self.turret_cooldown
-      if self.charged then
-        ratio = 1
-      end
-      love.graphics.rectangle("fill", x_start + (4 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height)
-      message = self.turret_count .. "/" .. self.max_turrets
-      Renderer:drawHUDMessage(message, (x_start + 205) * Scale.width, Screen_Size.height - (30 * Scale.height), self.font)
-      love.graphics.setColor(0, 0, 0, 255)
-      love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (200 * Scale.width), love.graphics.getHeight() - (30 * Scale.height), 400 * Scale.width, 20 * Scale.height)
-      love.graphics.setColor(255, 0, 0, 255)
-      ratio = self.health / self.max_health
-      love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
-      if self.armored then
-        love.graphics.setColor(0, 127, 255, 255)
-        ratio = self.armor / self.max_armor
+      if self.show_stats then
+        love.graphics.setColor(0, 0, 0, 255)
+        love.graphics.setFont(self.font)
+        local message = "Turret Cooldown"
+        love.graphics.printf(message, 9 * Scale.width, Screen_Size.height - (47 * Scale.height) - self.font:getHeight() / 2, 205 * Scale.width, "center")
+        local x_start = (9 * Scale.width)
+        local remaining = clamp(self.elapsed, 0, self.turret_cooldown)
+        love.graphics.setColor(0, 0, 0, 255)
+        love.graphics.rectangle("fill", x_start + Scale.width, love.graphics.getHeight() - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height)
+        love.graphics.setColor(0, 0, 255, 255)
+        local ratio = remaining / self.turret_cooldown
+        if self.charged then
+          ratio = 1
+        end
+        love.graphics.rectangle("fill", x_start + (4 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height)
+        message = self.turret_count .. "/" .. self.max_turrets
+        Renderer:drawHUDMessage(message, (x_start + 205) * Scale.width, Screen_Size.height - (30 * Scale.height), self.font)
+        love.graphics.setColor(0, 0, 0, 255)
+        love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (200 * Scale.width), love.graphics.getHeight() - (30 * Scale.height), 400 * Scale.width, 20 * Scale.height)
+        love.graphics.setColor(255, 0, 0, 255)
+        ratio = self.health / self.max_health
         love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
+        if self.armored then
+          love.graphics.setColor(0, 127, 255, 255)
+          ratio = self.armor / self.max_armor
+          love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
+        end
+        Renderer:drawAlignedMessage("Player Health", Screen_Size.height - (47 * Scale.height), nil, self.font)
       end
-      Renderer:drawAlignedMessage("Player Health", Screen_Size.height - (47 * Scale.height), nil, self.font)
       if SHOW_RANGE then
         love.graphics.setColor(0, 255, 255, 255)
         for k, bullet_position in pairs(self.globes) do
@@ -448,10 +450,12 @@ do
       self.knock_back_sprite = Sprite("projectile/knockback.tga", 26, 20, 1, 0.75)
       self.movement_blocked = false
       self.lock_sprite = Sprite("effect/lock.tga", 32, 32, 1, 1.75)
+      self.draw_lock = true
       local sound = Sound("turret_repair.ogg", 0.50, false, 0.33, true)
       self.repair_sound = MusicPlayer:add(sound)
       sound = Sound("turret_place.ogg", 0.75, false, 0.5, true)
       self.place_sound = MusicPlayer:add(sound)
+      self.show_stats = true
     end,
     __base = _base_0,
     __name = "Player",

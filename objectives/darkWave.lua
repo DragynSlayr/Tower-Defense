@@ -58,6 +58,7 @@ do
             v.position.x,
             v.position.y
           })
+          break
         end
       end
       _class_0.__parent.__base.update(self, dt)

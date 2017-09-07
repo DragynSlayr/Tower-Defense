@@ -54,6 +54,7 @@ export class DarkWave extends Wave
     if Driver.objects[EntityTypes.player]
       for k, v in pairs Driver.objects[EntityTypes.player]
         @parent.parent.shader\send "player_pos", {v.position.x, v.position.y}
+        break
 
     super dt
     if not @waiting

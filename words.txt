@@ -27,6 +27,7 @@ CaptureGoal
 CaptureMode
 CaptureWave
 Circle
+CloneActive
 Color
 DEBUGGING
 DEBUG_MENU
@@ -48,6 +49,7 @@ DefendWave
 DoubleShotPassive
 DragonStrikeActive
 Driver
+EMPActive
 EarthShatterActive
 EliminationMode
 EliminationWave
@@ -248,7 +250,9 @@ circ
 circle
 clamp
 class
+clearAll
 clearObjects
+clone
 close
 closest_distance
 coin
@@ -324,6 +328,7 @@ drawFaded
 drawHUDMessage
 drawStatusMessage
 draw_health
+draw_lock
 dt
 e
 effect
@@ -546,6 +551,7 @@ max_delay
 max_health
 max_height
 max_missile_time
+max_particles
 max_saved
 max_shield_time
 max_skill
@@ -571,6 +577,8 @@ mousepressed
 mousereleased
 movement_blocked
 movement_delay
+movement_disabled
+movement_disabled_sprite
 movement_speed
 moving_particles
 msg
@@ -581,6 +589,7 @@ names
 new
 newFont
 newImage
+newParticleSystem
 newQuad
 newScreenshot
 newShader
@@ -607,7 +616,6 @@ objective_text
 objects
 off_time
 old_color
-old_trail
 onCollide
 onEnd
 on_time
@@ -651,6 +659,7 @@ position
 print
 printf
 probability
+properties
 props
 push
 queue
@@ -681,6 +690,7 @@ repair_range
 repair_sound
 repeating
 require
+resetProperties
 resetText
 reset_chars
 respawnHearts
@@ -725,13 +735,17 @@ server_port
 setArmor
 setCenter
 setColor
+setColors
 setDefaultFilter
+setEmissionRate
 setFont
 setIdentity
 setItem
 setLifeTimeRange
 setLineWidth
+setLinearAcceleration
 setLooping
+setParticleLifetime
 setPitch
 setRadius
 setRotation
@@ -759,6 +773,7 @@ shield_timer
 shielded
 shift
 should_shade
+show_stats
 show_turret
 shuffle
 sin_angle
@@ -823,6 +838,7 @@ sum
 super
 swap
 switch
+system
 t
 t3
 table

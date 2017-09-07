@@ -58,12 +58,15 @@ export class Player extends GameObject
 
     @movement_blocked = false
     @lock_sprite = Sprite "effect/lock.tga", 32, 32, 1, 1.75
+    @draw_lock = true
 
     sound = Sound "turret_repair.ogg", 0.50, false, 0.33, true
     @repair_sound = MusicPlayer\add sound
 
     sound = Sound "turret_place.ogg", 0.75, false, 0.5, true
     @place_sound = MusicPlayer\add sound
+
+    @show_stats = true
 
   getStats: =>
     stats = {}
@@ -313,39 +316,40 @@ export class Player extends GameObject
       love.graphics.circle "fill", @position.x, @position.y, @speed_range, 360
       love.graphics.pop!
     super!
-    if @movement_blocked
+    if @movement_blocked and @draw_lock
       @lock_sprite\draw @position.x, @position.y
 
-    love.graphics.setColor 0, 0, 0, 255
-    love.graphics.setFont @font
-    message = "Turret Cooldown"
-    love.graphics.printf message, 9 * Scale.width, Screen_Size.height - (47 * Scale.height) - @font\getHeight! / 2, 205 * Scale.width, "center"
+    if @show_stats
+      love.graphics.setColor 0, 0, 0, 255
+      love.graphics.setFont @font
+      message = "Turret Cooldown"
+      love.graphics.printf message, 9 * Scale.width, Screen_Size.height - (47 * Scale.height) - @font\getHeight! / 2, 205 * Scale.width, "center"
 
-    x_start = (9 * Scale.width)
+      x_start = (9 * Scale.width)
 
-    remaining = clamp @elapsed, 0, @turret_cooldown--@turret_timer, 0, @turret_max
-    love.graphics.setColor 0, 0, 0, 255
-    love.graphics.rectangle "fill", x_start + Scale.width, love.graphics.getHeight! - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height
-    love.graphics.setColor 0, 0, 255, 255
-    ratio = remaining / @turret_cooldown--@turret_max
-    if @charged
-      ratio = 1
-    love.graphics.rectangle "fill", x_start + (4 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height
+      remaining = clamp @elapsed, 0, @turret_cooldown--@turret_timer, 0, @turret_max
+      love.graphics.setColor 0, 0, 0, 255
+      love.graphics.rectangle "fill", x_start + Scale.width, love.graphics.getHeight! - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height
+      love.graphics.setColor 0, 0, 255, 255
+      ratio = remaining / @turret_cooldown--@turret_max
+      if @charged
+        ratio = 1
+      love.graphics.rectangle "fill", x_start + (4 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height
 
-    message = @turret_count .. "/" .. @max_turrets
-    Renderer\drawHUDMessage message, (x_start + 205) * Scale.width, Screen_Size.height - (30 * Scale.height), @font
+      message = @turret_count .. "/" .. @max_turrets
+      Renderer\drawHUDMessage message, (x_start + 205) * Scale.width, Screen_Size.height - (30 * Scale.height), @font
 
-    love.graphics.setColor 0, 0, 0, 255
-    love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (200 * Scale.width), love.graphics.getHeight! - (30 * Scale.height), 400 * Scale.width, 20 * Scale.height
-    love.graphics.setColor 255, 0, 0, 255
-    ratio = @health / @max_health
-    love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (197 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
-    if @armored
-      love.graphics.setColor 0, 127, 255, 255
-      ratio = @armor / @max_armor
+      love.graphics.setColor 0, 0, 0, 255
+      love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (200 * Scale.width), love.graphics.getHeight! - (30 * Scale.height), 400 * Scale.width, 20 * Scale.height
+      love.graphics.setColor 255, 0, 0, 255
+      ratio = @health / @max_health
       love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (197 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
+      if @armored
+        love.graphics.setColor 0, 127, 255, 255
+        ratio = @armor / @max_armor
+        love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (197 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
 
-    Renderer\drawAlignedMessage "Player Health", Screen_Size.height - (47 * Scale.height), nil, @font
+      Renderer\drawAlignedMessage "Player Health", Screen_Size.height - (47 * Scale.height), nil, @font
 
     if SHOW_RANGE
       love.graphics.setColor 0, 255, 255, 255
