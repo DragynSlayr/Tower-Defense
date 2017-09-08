@@ -9,7 +9,7 @@ export class DamageReflectPassive extends PassiveItem
         difference = @last_health - health
         @last_health = health
         if math.random! >= ((100 - @chance) / 100)
-          filters = {EntityTypes.enemy, EntityTypes.player}
+          filters = {EntityTypes.enemy, EntityTypes.boss}
           for k2, typeof in pairs filters
             if Driver.objects[typeof]
               for k, e in pairs Driver.objects[typeof]

@@ -34,7 +34,7 @@ do
           if math.random() >= ((100 - self.chance) / 100) then
             local filters = {
               EntityTypes.enemy,
-              EntityTypes.player
+              EntityTypes.boss
             }
             for k2, typeof in pairs(filters) do
               if Driver.objects[typeof] then
