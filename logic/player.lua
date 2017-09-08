@@ -74,60 +74,62 @@ do
           end
         end
       end
-      if key == "q" then
-        for k, v in pairs(self.equipped_items) do
-          v:use()
-        end
-      elseif key == "e" then
-        if self.num_turrets ~= self.max_turrets then
-          if self.can_place then
-            self.show_turret = not self.show_turret
+      if not self.is_clone then
+        if key == "q" then
+          for k, v in pairs(self.equipped_items) do
+            v:use()
           end
-        else
-          if Upgrade.turret_special[4] then
+        elseif key == "e" then
+          if self.num_turrets ~= self.max_turrets then
+            if self.can_place then
+              self.show_turret = not self.show_turret
+            end
+          else
+            if Upgrade.turret_special[4] then
+              for k, v in pairs(self.turret) do
+                local turret = v:getAttackHitBox()
+                local player = self:getHitBox()
+                player.radius = player.radius + self.repair_range
+                if turret:contains(player) then
+                  self.num_turrets = self.num_turrets - 1
+                  self.turret[k] = nil
+                  Driver:removeObject(v, false)
+                end
+              end
+            end
+          end
+        elseif key == "space" then
+          if self.show_turret then
+            local turret = BasicTurret(self.position.x, self.position.y, self.turret_cooldown)
+            if self.num_turrets < self.max_turrets then
+              Driver:addObject(turret, EntityTypes.turret)
+              MusicPlayer:play(self.place_sound)
+              self.num_turrets = self.num_turrets + 1
+              self.turret[#self.turret + 1] = turret
+              self.show_turret = false
+              self.turret_count = self.turret_count - 1
+              if self.turret_count == 0 then
+                self.can_place = false
+              end
+              self.charged = false
+            end
+          elseif self.turret then
             for k, v in pairs(self.turret) do
               local turret = v:getAttackHitBox()
               local player = self:getHitBox()
               player.radius = player.radius + self.repair_range
               if turret:contains(player) then
-                self.num_turrets = self.num_turrets - 1
-                self.turret[k] = nil
-                Driver:removeObject(v, false)
+                if v.health < v.max_health then
+                  MusicPlayer:play(self.repair_sound)
+                end
+                v.health = v.health + 1
+                v.health = clamp(v.health, 0, v.max_health)
               end
             end
           end
+        elseif key == "z" then
+          SHOW_RANGE = not SHOW_RANGE
         end
-      elseif key == "space" then
-        if self.show_turret then
-          local turret = BasicTurret(self.position.x, self.position.y, self.turret_cooldown)
-          if self.num_turrets < self.max_turrets then
-            Driver:addObject(turret, EntityTypes.turret)
-            MusicPlayer:play(self.place_sound)
-            self.num_turrets = self.num_turrets + 1
-            self.turret[#self.turret + 1] = turret
-            self.show_turret = false
-            self.turret_count = self.turret_count - 1
-            if self.turret_count == 0 then
-              self.can_place = false
-            end
-            self.charged = false
-          end
-        elseif self.turret then
-          for k, v in pairs(self.turret) do
-            local turret = v:getAttackHitBox()
-            local player = self:getHitBox()
-            player.radius = player.radius + self.repair_range
-            if turret:contains(player) then
-              if v.health < v.max_health then
-                MusicPlayer:play(self.repair_sound)
-              end
-              v.health = v.health + 1
-              v.health = clamp(v.health, 0, v.max_health)
-            end
-          end
-        end
-      elseif key == "z" then
-        SHOW_RANGE = not SHOW_RANGE
       end
     end,
     keyreleased = function(self, key)
@@ -292,7 +294,7 @@ do
           end
         end
       end
-      self.speed_boost = math.min(self.speed_boost, self.max_speed * 2)
+      self.speed_boost = math.min(self.speed_boost, self.max_speed)
       if self.show_turret then
         local turret = BasicTurret(self.position.x, self.position.y)
         Renderer:enqueue((function()
@@ -456,6 +458,7 @@ do
       sound = Sound("turret_place.ogg", 0.75, false, 0.5, true)
       self.place_sound = MusicPlayer:add(sound)
       self.show_stats = true
+      self.is_clone = false
     end,
     __base = _base_0,
     __name = "Player",

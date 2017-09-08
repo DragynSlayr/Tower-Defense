@@ -7,6 +7,7 @@ export class CloneActive extends ActiveItem
     effect = (player) =>
       @clone = Player player.position.x, player.position.y
       @clone.movement_blocked = true
+      @clone.is_clone = true
       @clone.draw_lock = false
       @clone.draw_health = true
       @clone.show_stats = false
