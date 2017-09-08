@@ -32,7 +32,7 @@ do
           local difference = self.last_health - health
           self.last_health = health
           if math.random() >= ((100 - self.chance) / 100) then
-            player.health = player.health + (player.max_health * 0.10)
+            player.health = player.health + difference
           end
         end
       end

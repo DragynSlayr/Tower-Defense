@@ -9,7 +9,7 @@ export class DamageAbsorbPassive extends PassiveItem
         difference = @last_health - health
         @last_health = health
         if math.random! >= ((100 - @chance) / 100)
-          player.health += player.max_health * 0.10
+          player.health += difference
     super x, y, sprite, 0, effect
     @name = "Damage Absorb"
     @description = "Has a chance to absorb incoming damage"
