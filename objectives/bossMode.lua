@@ -7,6 +7,10 @@ do
       local boss = pick(self.bosses)
       self.wave = BossWave(self, boss)
     end,
+    finish = function(self)
+      _class_0.__parent.__base.finish(self)
+      Objectives.bosses_beaten = Objectives.bosses_beaten + 1
+    end,
     update = function(self, dt)
       if not self.complete then
         if not self.started then
@@ -14,7 +18,7 @@ do
         end
         if not self.wave.complete then
           self.wave:update(dt)
-          local level = self.parent:getLevel() + 1
+          local level = Objectives:getLevel() + 1
           self.message2 = "Level " .. level
           if self.wave.complete then
             return self.wave:finish()
@@ -34,12 +38,9 @@ do
       _class_0.__parent.__init(self, parent)
       self.objective_text = "Eliminate the boss"
       self.mode_type = ModeTypes.boss
-      self.bosses = { }
-      local i = 1
-      for k, v in pairs(BossTypes) do
-        self.bosses[i] = v
-        i = i + 1
-      end
+      self.bosses = {
+        BossVyder
+      }
     end,
     __base = _base_0,
     __name = "BossMode",

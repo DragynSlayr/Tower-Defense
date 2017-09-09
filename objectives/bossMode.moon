@@ -3,16 +3,18 @@ export class BossMode extends Mode
     super parent
     @objective_text = "Eliminate the boss"
     @mode_type = ModeTypes.boss
-    @bosses = {}
-    i = 1
-    for k, v in pairs BossTypes
-      @bosses[i] = v
-      i += 1
+    @bosses = {
+      BossVyder
+    }
 
   nextWave: =>
     super!
     boss = pick @bosses
     @wave = BossWave @, boss
+
+  finish: =>
+    super!
+    Objectives.bosses_beaten += 1
 
   update: (dt) =>
     if not @complete
@@ -20,7 +22,7 @@ export class BossMode extends Mode
         @start!
       if not @wave.complete
         @wave\update dt
-        level = @parent\getLevel! + 1
+        level = Objectives\getLevel! + 1
         @message2 = "Level " .. level
         if @wave.complete
           @wave\finish!

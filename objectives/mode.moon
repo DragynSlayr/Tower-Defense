@@ -49,7 +49,7 @@ export class Mode
         @start!
       if not @wave.complete
         @wave\update dt
-        level = @parent\getLevel! + 1
+        level = Objectives\getLevel! + 1
         @message2 = "Level " .. level .. "\tWave " .. @wave_count .. "/3"
         if @wave.complete
           @wave\finish!

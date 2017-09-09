@@ -44,7 +44,7 @@ do
         end
         if not self.wave.complete then
           self.wave:update(dt)
-          local level = self.parent:getLevel() + 1
+          local level = Objectives:getLevel() + 1
           self.message2 = "Level " .. level .. "\tWave " .. self.wave_count .. "/3"
           if self.wave.complete then
             return self.wave:finish()
