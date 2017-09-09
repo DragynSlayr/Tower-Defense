@@ -58,6 +58,9 @@ do
       level = level - 1
       return level
     end,
+    getScaling = function(self)
+      return self.bosses_beaten
+    end,
     getRandomEnemy = function(self, basicChance, playerChance, turretChance, strongChance, spawnerChance)
       if basicChance == nil then
         basicChance = self.basicChance
@@ -76,58 +79,28 @@ do
       end
       local num = math.random()
       if num <= basicChance then
-        return EnemyTypes.basic, 1
+        return (BasicEnemy), 1
       elseif num <= basicChance + playerChance then
-        return EnemyTypes.player, 1
+        return (PlayerEnemy), 1
       elseif num <= basicChance + playerChance + turretChance then
-        return EnemyTypes.turret, 1
+        return (TurretEnemy), 1
       elseif num <= basicChance + playerChance + turretChance + strongChance then
-        return EnemyTypes.strong, 1
+        return (StrongEnemy), 1
       else
-        return EnemyTypes.spawner, 5
+        return (SpawnerEnemy), 5
       end
     end,
-    spawn = function(self, typeof, i, x, y)
+    spawn = function(self, typeof, layer, i, x, y)
       if i == nil then
         i = 0
       end
       if x == nil then
-        x = nil
+        x = (math.random(love.graphics.getWidth()))
       end
       if y == nil then
-        y = nil
+        y = (math.random(love.graphics.getHeight()))
       end
-      if not x then
-        x = math.random(love.graphics.getWidth())
-      end
-      if not y then
-        y = math.random(love.graphics.getHeight())
-      end
-      local enemy
-      local _exp_0 = typeof
-      if EnemyTypes.player == _exp_0 then
-        enemy = PlayerEnemy(x, y)
-      elseif EnemyTypes.turret == _exp_0 then
-        enemy = TurretEnemy(x, y)
-      elseif EnemyTypes.spawner == _exp_0 then
-        enemy = SpawnerEnemy(x, y)
-      elseif EnemyTypes.strong == _exp_0 then
-        enemy = StrongEnemy(x, y)
-      elseif EnemyTypes.basic == _exp_0 then
-        enemy = BasicEnemy(x, y)
-      elseif EnemyTypes.capture == _exp_0 then
-        enemy = CaptureEnemy(x, y)
-      elseif GoalTypes.attack == _exp_0 then
-        enemy = AttackGoal(x, y)
-      elseif GoalTypes.defend == _exp_0 then
-        enemy = DefendGoal(x, y)
-      elseif GoalTypes.find == _exp_0 then
-        enemy = FindGoal(x, y)
-      elseif EntityTypes.player == _exp_0 then
-        enemy = Player(x, y)
-      elseif BossTypes.vyder == _exp_0 then
-        enemy = BossVyder(x, y)
-      end
+      local enemy = typeof(x, y)
       local touching = false
       for k, v in pairs(Driver.objects) do
         for k2, o in pairs(v) do
@@ -140,21 +113,10 @@ do
         end
       end
       if touching or not enemy:isOnScreen(Screen_Size.border) then
-        return self:spawn(typeof, i + 1)
-      elseif typeof == EntityTypes.player then
-        Driver:addObject(enemy, EntityTypes.player)
-        return enemy
+        return self:spawn(typeof, layer, i + 1)
       else
-        if tableContains(GoalTypes, typeof) then
-          Driver:addObject(enemy, EntityTypes.goal)
-          return enemy
-        elseif tableContains(BossTypes, typeof) then
-          Driver:addObject(enemy, EntityTypes.boss)
-          return enemy
-        else
-          Driver:addObject(enemy, EntityTypes.enemy)
-          return enemy
-        end
+        Driver:addObject(enemy, layer)
+        return enemy
       end
     end
   }
@@ -168,7 +130,6 @@ do
         AttackMode(self),
         EliminationMode(self),
         DefendMode(self),
-        DarkMode(self),
         CaptureMode(self)
       }
       self.boss_mode = BossMode(self)
@@ -183,6 +144,7 @@ do
       self.spawnerChance = 0.05
       self.shader = nil
       self.ready = false
+      self.bosses_beaten = 0
     end,
     __base = _base_0,
     __name = "ObjectivesHandler"

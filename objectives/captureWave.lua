@@ -16,10 +16,10 @@ do
         end
       end
       for i = 1, self.spawn_num do
-        Objectives:spawn(EnemyTypes.capture)
+        Objectives:spawn((CaptureEnemy), EntityTypes.enemy)
       end
       for i = 1, self.turret_spawn_num do
-        Objectives:spawn(EnemyTypes.turret)
+        Objectives:spawn((TurretEnemy), EntityTypes.enemy)
       end
       return Driver:addObject(tess, EntityTypes.goal)
     end,
@@ -36,7 +36,7 @@ do
           end
         end
       elseif entity.id == EntityTypes.enemy and entity.enemyType == EnemyTypes.turret then
-        return Objectives:spawn(EnemyTypes.turret)
+        return Objectives:spawn((TurretEnemy), EntityTypes.enemy)
       end
     end,
     update = function(self, dt)
@@ -48,7 +48,7 @@ do
         if self.elapsed >= self.spawn_time then
           self.elapsed = 0
           for i = 1, self.spawn_num do
-            Objectives:spawn(EnemyTypes.capture)
+            Objectives:spawn((CaptureEnemy), EntityTypes.enemy)
           end
         end
         if self.timer >= self.movement_delay then

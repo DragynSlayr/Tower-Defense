@@ -12,7 +12,7 @@ export class DarkWave extends Wave
     @health = @max_health
 
     @heart_timer = 0
-    lower = clamp ((-4 / 30) * Objectives\getLevel!) + 5, 1, 5
+    lower = clamp ((-4 / 30) * Objectives\getScaling!) + 5, 1, 5
     @heart_max_time = map math.random!, 0, 1, lower, lower + 1
 
   start: =>
@@ -28,7 +28,7 @@ export class DarkWave extends Wave
       @spawnHeart i > 1
 
   spawnHeart: (isFake = false) =>
-    goal = Objectives\spawn GoalTypes.find
+    goal = Objectives\spawn (FindGoal), EntityTypes.goal
     if isFake
       temp = FakeFindGoal goal.position.x, goal.position.y
       Driver\removeObject goal, false
@@ -53,7 +53,7 @@ export class DarkWave extends Wave
   update: (dt) =>
     if Driver.objects[EntityTypes.player]
       for k, v in pairs Driver.objects[EntityTypes.player]
-        @parent.parent.shader\send "player_pos", {v.position.x, v.position.y}
+        Objectives.shader\send "player_pos", {v.position.x, v.position.y}
         break
 
     super dt

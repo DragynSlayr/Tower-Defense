@@ -7,7 +7,7 @@ export class ObjectivesHandler
       AttackMode @,
       EliminationMode @,
       DefendMode @,
-      DarkMode @,
+      --DarkMode @,
       CaptureMode @
       --TestMode @
     }
@@ -23,6 +23,7 @@ export class ObjectivesHandler
     @spawnerChance = 0.05
     @shader = nil
     @ready = false
+    @bosses_beaten = 0
 
   nextMode: =>
     @counter += 1
@@ -80,47 +81,24 @@ export class ObjectivesHandler
     level -= 1
     return level
 
+  getScaling: =>
+    return @bosses_beaten
+
   getRandomEnemy: (basicChance = @basicChance, playerChance = @playerChance, turretChance = @turretChance, strongChance = @strongChance, spawnerChance = @spawnerChance) =>
     num = math.random!
     if num <= basicChance
-      return EnemyTypes.basic, 1
+      return (BasicEnemy), 1
     elseif num <= basicChance + playerChance
-      return EnemyTypes.player, 1
+      return (PlayerEnemy), 1
     elseif num <= basicChance + playerChance + turretChance
-      return EnemyTypes.turret, 1
+      return (TurretEnemy), 1
     elseif num <= basicChance + playerChance + turretChance + strongChance
-      return EnemyTypes.strong, 1
+      return (StrongEnemy), 1
     else
-      return EnemyTypes.spawner, 5
+      return (SpawnerEnemy), 5
 
-  spawn: (typeof, i = 0, x = nil, y = nil) =>
-    if not x
-      x = math.random love.graphics.getWidth!
-    if not y
-      y = math.random love.graphics.getHeight!
-    enemy = switch typeof
-      when EnemyTypes.player
-        PlayerEnemy x, y
-      when EnemyTypes.turret
-        TurretEnemy x, y
-      when EnemyTypes.spawner
-        SpawnerEnemy x, y
-      when EnemyTypes.strong
-        StrongEnemy x, y
-      when EnemyTypes.basic
-        BasicEnemy x, y
-      when EnemyTypes.capture
-        CaptureEnemy x, y
-      when GoalTypes.attack
-        AttackGoal x, y
-      when GoalTypes.defend
-        DefendGoal x, y
-      when GoalTypes.find
-        FindGoal x, y
-      when EntityTypes.player
-        Player x, y
-      when BossTypes.vyder
-        BossVyder x, y
+  spawn: (typeof, layer, i = 0, x = (math.random love.graphics.getWidth!), y = (math.random love.graphics.getHeight!)) =>
+    enemy = typeof x, y
     touching = false
     for k, v in pairs Driver.objects
       for k2, o in pairs v
@@ -130,17 +108,7 @@ export class ObjectivesHandler
           touching = true
           break
     if touching or not enemy\isOnScreen Screen_Size.border
-      @spawn typeof, i + 1
-    elseif typeof == EntityTypes.player
-      Driver\addObject enemy, EntityTypes.player
-      return enemy
+      @spawn typeof, layer, i + 1
     else
-      if tableContains GoalTypes, typeof
-        Driver\addObject enemy, EntityTypes.goal
-        return enemy
-      elseif tableContains BossTypes, typeof
-        Driver\addObject enemy, EntityTypes.boss
-        return enemy
-      else
-        Driver\addObject enemy, EntityTypes.enemy
-        return enemy
+      Driver\addObject enemy, layer
+      return enemy

@@ -5,10 +5,13 @@ do
     entityKilled = function(self, entity)
       if entity == self.boss then
         self.complete = true
+        if self.boss.trail then
+          return Driver:removeObject(self.boss.trail, false)
+        end
       end
     end,
     start = function(self)
-      self.boss = Objectives:spawn(self.boss)
+      self.boss = Objectives:spawn((self.boss), EntityTypes.boss)
       if self.boss.trail then
         return Driver:addObject(self.boss.trail, EntityTypes.particle)
       end

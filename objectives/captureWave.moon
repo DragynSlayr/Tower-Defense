@@ -35,9 +35,9 @@ export class CaptureWave extends Wave
         g.capture_amount /= 2
 
     for i = 1, @spawn_num
-      Objectives\spawn EnemyTypes.capture
+      Objectives\spawn (CaptureEnemy), EntityTypes.enemy
     for i = 1, @turret_spawn_num
-      Objectives\spawn EnemyTypes.turret
+      Objectives\spawn (TurretEnemy), EntityTypes.enemy
     Driver\addObject tess, EntityTypes.goal
 
   finish: =>
@@ -51,7 +51,7 @@ export class CaptureWave extends Wave
         for k, g in pairs Driver.objects[EntityTypes.goal]
           g.tesseract = nil
     elseif entity.id == EntityTypes.enemy and entity.enemyType == EnemyTypes.turret
-      Objectives\spawn EnemyTypes.turret
+      Objectives\spawn (TurretEnemy), EntityTypes.enemy
 
   update: (dt) =>
     super dt
@@ -62,7 +62,7 @@ export class CaptureWave extends Wave
       if @elapsed >= @spawn_time
         @elapsed = 0
         for i = 1, @spawn_num
-          Objectives\spawn EnemyTypes.capture
+          Objectives\spawn (CaptureEnemy), EntityTypes.enemy
       if @timer >= @movement_delay
         @timer = 0
         num = math.random 1, #Driver.objects[EntityTypes.goal] - 1

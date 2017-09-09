@@ -243,7 +243,7 @@ do
       GameOver = GameOverScreen()
       ScreenCreator()
       Map = MapCreator()
-      Objectives:spawn(EntityTypes.player, 0, love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
+      Objectives:spawn((Player), EntityTypes.player, 0, love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
       return Objectives:nextMode()
     end,
     load = function(arg)

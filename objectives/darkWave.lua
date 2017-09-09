@@ -21,7 +21,7 @@ do
       if isFake == nil then
         isFake = false
       end
-      local goal = Objectives:spawn(GoalTypes.find)
+      local goal = Objectives:spawn((FindGoal), EntityTypes.goal)
       if isFake then
         local temp = FakeFindGoal(goal.position.x, goal.position.y)
         Driver:removeObject(goal, false)
@@ -54,7 +54,7 @@ do
     update = function(self, dt)
       if Driver.objects[EntityTypes.player] then
         for k, v in pairs(Driver.objects[EntityTypes.player]) do
-          self.parent.parent.shader:send("player_pos", {
+          Objectives.shader:send("player_pos", {
             v.position.x,
             v.position.y
           })
@@ -109,7 +109,7 @@ do
       self.max_health = 25 * (a / b)
       self.health = self.max_health
       self.heart_timer = 0
-      local lower = clamp(((-4 / 30) * Objectives:getLevel()) + 5, 1, 5)
+      local lower = clamp(((-4 / 30) * Objectives:getScaling()) + 5, 1, 5)
       self.heart_max_time = map(math.random(), 0, 1, lower, lower + 1)
     end,
     __base = _base_0,

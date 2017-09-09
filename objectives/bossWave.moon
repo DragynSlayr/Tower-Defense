@@ -6,9 +6,11 @@ export class BossWave extends Wave
   entityKilled: (entity) =>
     if entity == @boss
       @complete = true
+      if @boss.trail
+        Driver\removeObject @boss.trail, false
 
   start: =>
-    @boss = Objectives\spawn @boss
+    @boss = Objectives\spawn (@boss), EntityTypes.boss
     if @boss.trail
       Driver\addObject @boss.trail, EntityTypes.particle
 

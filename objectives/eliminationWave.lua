@@ -8,7 +8,7 @@ do
         self.to_spawn = self.to_spawn + entity.value
         while self.to_spawn >= 1 and #self.queue ~= 0 do
           local enemy = self.queue[1]
-          self.parent.parent:spawn(enemy)
+          Objectives:spawn((enemy), EntityTypes.enemy)
           table.remove(self.queue, 1)
           self.to_spawn = self.to_spawn - 1
         end
@@ -18,7 +18,7 @@ do
       local num = math.min(4, #self.queue)
       for i = 1, num do
         local enemy = self.queue[1]
-        self.parent.parent:spawn(enemy)
+        Objectives:spawn((enemy), EntityTypes.enemy)
         table.remove(self.queue, 1)
       end
     end,
@@ -49,7 +49,7 @@ do
       self.queue = { }
       self.to_spawn = 0
       for i = 1, num do
-        local enemy, value = self.parent.parent:getRandomEnemy()
+        local enemy, value = Objectives:getRandomEnemy()
         self.target = self.target + value
         self.queue[#self.queue + 1] = enemy
       end

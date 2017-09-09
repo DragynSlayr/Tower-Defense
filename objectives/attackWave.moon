@@ -7,16 +7,17 @@ export class AttackWave extends Wave
     @max_time = (3 / @spawn_count) + 1
 
   spawnRandomEnemy: =>
-    spawnerChance = @parent.parent.spawnerChance / 4
-    basicChance = @parent.parent.basicChance + spawnerChance
-    playerChance = @parent.parent.playerChance + spawnerChance
-    turretChance = @parent.parent.turretChance + spawnerChance
-    strongChance = @parent.parent.strongChance + spawnerChance
-    @parent.parent\spawn @parent.parent\getRandomEnemy basicChance, playerChance, turretChance, strongChance, 0
+    spawnerChance = Objectives.spawnerChance / 4
+    basicChance   = Objectives.basicChance + spawnerChance
+    playerChance  = Objectives.playerChance + spawnerChance
+    turretChance  = Objectives.turretChance + spawnerChance
+    strongChance  = Objectives.strongChance + spawnerChance
+    Objectives\spawn (Objectives\getRandomEnemy basicChance, playerChance, turretChance, strongChance, 0), EntityTypes.enemy
 
   start: =>
+    print @target
     for i = 1, @target
-      goal = @parent.parent\spawn GoalTypes.attack
+      goal = Objectives\spawn (AttackGoal), EntityTypes.goal
       --em = ParticleEmitter 0, 0, 0.1, 0.5, goal
       --Driver\addObject em, EntityTypes.particle
 

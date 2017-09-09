@@ -3,16 +3,17 @@ do
   local _parent_0 = Wave
   local _base_0 = {
     spawnRandomEnemy = function(self)
-      local spawnerChance = self.parent.parent.spawnerChance / 4
-      local basicChance = self.parent.parent.basicChance + spawnerChance
-      local playerChance = self.parent.parent.playerChance + spawnerChance
-      local turretChance = self.parent.parent.turretChance + spawnerChance
-      local strongChance = self.parent.parent.strongChance + spawnerChance
-      return self.parent.parent:spawn(self.parent.parent:getRandomEnemy(basicChance, playerChance, turretChance, strongChance, 0))
+      local spawnerChance = Objectives.spawnerChance / 4
+      local basicChance = Objectives.basicChance + spawnerChance
+      local playerChance = Objectives.playerChance + spawnerChance
+      local turretChance = Objectives.turretChance + spawnerChance
+      local strongChance = Objectives.strongChance + spawnerChance
+      return Objectives:spawn((Objectives:getRandomEnemy(basicChance, playerChance, turretChance, strongChance, 0)), EntityTypes.enemy)
     end,
     start = function(self)
+      print(self.target)
       for i = 1, self.target do
-        local goal = self.parent.parent:spawn(GoalTypes.attack)
+        local goal = Objectives:spawn((AttackGoal), EntityTypes.goal)
       end
     end,
     entityKilled = function(self, entity)

@@ -6,15 +6,15 @@ export class DefendWave extends Wave
     @max_time = 2
 
   spawnRandomEnemy: =>
-    spawnerChance = @parent.parent.spawnerChance / 4
-    basicChance = @parent.parent.basicChance + spawnerChance
-    playerChance = @parent.parent.playerChance + spawnerChance
-    turretChance = @parent.parent.turretChance + spawnerChance
-    strongChance = @parent.parent.strongChance + spawnerChance
-    @parent.parent\spawn @parent.parent\getRandomEnemy basicChance, playerChance, turretChance, strongChance, 0
+    spawnerChance = Objectives.spawnerChance / 4
+    basicChance   = Objectives.basicChance + spawnerChance
+    playerChance  = Objectives.playerChance + spawnerChance
+    turretChance  = Objectives.turretChance + spawnerChance
+    strongChance  = Objectives.strongChance + spawnerChance
+    Objectives\spawn (Objectives\getRandomEnemy basicChance, playerChance, turretChance, strongChance, 0), EntityTypes.enemy
 
   start: =>
-    @parent.parent\spawn GoalTypes.defend
+    Objectives\spawn (DefendGoal), EntityTypes.goal
 
   entityKilled: (entity) =>
     if entity.id == EntityTypes.goal

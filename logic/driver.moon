@@ -265,7 +265,7 @@ export class Driver
       --Map\loadMap 1
 
       -- Create a player
-      Objectives\spawn EntityTypes.player, 0, love.graphics.getWidth! / 2, love.graphics.getHeight! / 2
+      Objectives\spawn (Player), EntityTypes.player, 0, love.graphics.getWidth! / 2, love.graphics.getHeight! / 2
 
       -- Start game
       Objectives\nextMode!
