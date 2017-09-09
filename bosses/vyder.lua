@@ -2,10 +2,6 @@ do
   local _class_0
   local _parent_0 = Boss
   local _base_0 = {
-    kill = function(self)
-      _class_0.__parent.__base.kill(self)
-      return Driver:removeObject(self.trail, false)
-    end,
     getHitBox = function(self)
       local radius = math.min(self.sprite.scaled_height / 2, self.sprite.scaled_width / 2)
       radius = radius * 0.75
@@ -14,6 +10,7 @@ do
     update = function(self, dt)
       self.speed_multiplier = clamp(self.speed_multiplier + 1, 0, self.max_speed)
       self.ai_time = self.ai_time + dt
+      print(self.ai_phase)
       local _exp_0 = self.ai_phase
       if 1 == _exp_0 then
         self.speed = Vector(self.target_position.x - self.position.x, self.target_position.y - self.position.y)
@@ -52,30 +49,39 @@ do
         end
       elseif 4 == _exp_0 then
         self.speed = Vector(0, 0)
-        self.sprite = self.action_sprite
+        self.old_trail_delay = self.trail.delay
+        self.trail.delay = 0.1
         self.ai_time = 0
         self.ai_phase = self.ai_phase + 1
       elseif 5 == _exp_0 then
-        _class_0.__parent.__base.update(self, dt)
-        if Driver.objects[EntityTypes.player] then
-          for k, v in pairs(Driver.objects[EntityTypes.player]) do
-            local player = v:getHitBox()
-            local boss = self:getHitBox()
-            boss.radius = boss.radius + self.attack_range
-            if player:contains(boss) then
-              v:onCollide(self)
-            end
-          end
+        if self.ai_time >= self.fast_poison_time then
+          self.ai_time = 0
+          self.ai_phase = self.ai_phase + 1
+          self.trail.delay = self.old_trail_delay
+          self.old_trail_delay = nil
+          self.old_sprite = self.sprite
+          self.sprite = self.cooldown_sprite
+          self.trail:stop()
+          self.target_position = Driver:getRandomPosition()
         end
-        if Driver.objects[EntityTypes.turret] then
-          for k, v in pairs(Driver.objects[EntityTypes.turret]) do
-            local turret = v:getAttackHitBox()
-            local boss = self:getHitBox()
-            boss.radius = boss.radius + self.attack_range
-            if turret:contains(boss) then
-              v:onCollide(self)
-            end
-          end
+      elseif 6 == _exp_0 then
+        _class_0.__parent.__base.update(self, dt)
+        self.speed = Vector(self.target_position.x - self.position.x, self.target_position.y - self.position.y)
+        local dist = self.speed:getLength()
+        self.speed:toUnitVector()
+        self.speed = self.speed:multiply(self.speed_multiplier)
+        _class_0.__parent.__base.update(self, dt)
+        self.chase_time = self.chase_time + dt
+        if dist <= self:getHitBox().radius or self.chase_time >= 3 then
+          self.chase_time = 0
+          self.target_position = Driver:getRandomPosition()
+        end
+        if self.ai_time >= self.cooldown_time then
+          self.ai_time = 0
+          self.ai_phase = 1
+          self.sprite = self.old_sprite
+          self.old_sprite = nil
+          return self.trail:start()
         end
       end
     end,
@@ -99,35 +105,25 @@ do
       sprite:setScale(0.25, 0.25)
       _class_0.__parent.__init(self, x, y, sprite)
       self.bossType = BossTypes.vyder
-      local level = ((Objectives:getLevel() + 1) / (#Objectives.modes + 1)) - 1
-      self.health = 1000 + (1000 * level)
+      local level = Objectives:getScaling()
+      self.health = 2000 + (3000 * level)
       self.max_health = self.health
-      self.max_speed = 200 + (100 * level)
+      self.max_speed = math.min(600, 300 + (100 * level))
       self.speed_multiplier = self.max_speed
+      self.damage = 0
       self.boost_multiplier = 3
       self.chase_time = 0
-      self.damage = (5 / 60) + ((10 / 60) * level)
       self.attack_range = 100 * Scale.diag
-      self.contact_damage = true
-      sprite = Sprite("particle/poison.tga", 64, 64, 1, 1.75)
-      self.trail = ParticleEmitter(self.position.x, self.position.y, 0.2, 3, self)
-      self.trail.sprite = sprite
+      self.trail = ParticleEmitter(self.position.x, self.position.y, 0.5, 12, self)
+      self.trail.sprite = Sprite("particle/poison.tga", 64, 64, 1, 1.75)
       self.trail.particle_type = ParticleTypes.poison
-      self.trail.moving_particles = false
       self.ai_phase = 1
       self.ai_time = 0
       self.target_position = Driver:getRandomPosition()
-      local splitted = split(self.normal_sprite.name, ".")
-      local name = splitted[1] .. "Action." .. splitted[2]
-      local height, width, _, scale = self.normal_sprite:getProperties()
-      self.action_sprite = ActionSprite(name, height, width, 0.5, 1, self, function(self)
-        self.parent.ai_phase = 1
-        self.parent.ai_time = 0
-        self.parent.target_position = Driver:getRandomPosition()
-      end)
-      local x_scale = self.normal_sprite.scaled_width / (self.normal_sprite.width * Scale.width)
-      local y_scale = self.normal_sprite.scaled_height / (self.normal_sprite.height * Scale.height)
-      return self.action_sprite:setScale(x_scale, y_scale)
+      self.cooldown_sprite = Sprite("boss/fox_bat/fox_batAction.tga", 729, 960, 1, 1)
+      self.cooldown_sprite:setScale(0.25, 0.25)
+      self.cooldown_time = 6
+      self.fast_poison_time = 5
     end,
     __base = _base_0,
     __name = "BossVyder",

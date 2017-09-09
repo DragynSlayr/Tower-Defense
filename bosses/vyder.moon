@@ -4,44 +4,31 @@ export class BossVyder extends Boss
     sprite\setScale 0.25, 0.25
     super x, y, sprite
     @bossType = BossTypes.vyder
-    level = ((Objectives\getLevel! + 1) / (#Objectives.modes + 1)) - 1
-    @health = 1000 + (1000 * level)
+
+    level = Objectives\getScaling!
+    @health = 2000 + (3000 * level)
     @max_health = @health
-    @max_speed = 200 + (100 * level)
+    @max_speed = math.min 600, 300 + (100 * level)
     @speed_multiplier = @max_speed
+    @damage = 0--(5 / 60) + ((10 / 60) * level)
+
     @boost_multiplier = 3
     @chase_time = 0
-    @damage = (5 / 60) + ((10 / 60) * level)
     @attack_range = 100 * Scale.diag
-    @contact_damage = true
 
-    sprite = Sprite "particle/poison.tga", 64, 64, 1, 1.75
-    @trail = ParticleEmitter @position.x, @position.y, 0.2, 3, @
-    @trail.sprite = sprite
+    @trail = ParticleEmitter @position.x, @position.y, 0.5, 12, @
+    @trail.sprite = Sprite "particle/poison.tga", 64, 64, 1, 1.75
     @trail.particle_type = ParticleTypes.poison
-    @trail.moving_particles = false
 
     @ai_phase = 1
     @ai_time = 0
     @target_position = Driver\getRandomPosition!
 
-    splitted = split @normal_sprite.name, "."
-    name = splitted[1] .. "Action." .. splitted[2]
-    height, width, _, scale = @normal_sprite\getProperties!
+    @cooldown_sprite = Sprite "boss/fox_bat/fox_batAction.tga", 729, 960, 1, 1
+    @cooldown_sprite\setScale 0.25, 0.25
+    @cooldown_time = 6
 
-    @action_sprite = ActionSprite name, height, width, 0.5, 1, @, () =>
-      @parent.ai_phase = 1
-      @parent.ai_time = 0
-      @parent.target_position = Driver\getRandomPosition!
-
-    x_scale = @normal_sprite.scaled_width / (@normal_sprite.width * Scale.width)
-    y_scale = @normal_sprite.scaled_height / (@normal_sprite.height * Scale.height)
-
-    @action_sprite\setScale x_scale, y_scale
-
-  kill: =>
-    super!
-    Driver\removeObject @trail, false
+    @fast_poison_time = 5
 
   getHitBox: =>
     -- Get the radius of this Sprite as the minimum of height and width
@@ -54,6 +41,7 @@ export class BossVyder extends Boss
   update: (dt) =>
     @speed_multiplier = clamp @speed_multiplier + 1, 0, @max_speed
     @ai_time += dt
+    print @ai_phase
     switch @ai_phase
       when 1
         @speed = Vector @target_position.x - @position.x, @target_position.y - @position.y
@@ -90,25 +78,37 @@ export class BossVyder extends Boss
           @ai_phase += 1
       when 4
         @speed = Vector 0, 0
-        @sprite = @action_sprite
+        @old_trail_delay = @trail.delay
+        @trail.delay = 0.1
         @ai_time = 0
         @ai_phase += 1
       when 5
+        if @ai_time >= @fast_poison_time
+          @ai_time = 0
+          @ai_phase += 1
+          @trail.delay = @old_trail_delay
+          @old_trail_delay = nil
+          @old_sprite = @sprite
+          @sprite = @cooldown_sprite
+          @trail\stop!
+          @target_position = Driver\getRandomPosition!
+      when 6
         super dt
-        if Driver.objects[EntityTypes.player]
-          for k, v in pairs Driver.objects[EntityTypes.player]
-            player = v\getHitBox!
-            boss = @getHitBox!
-            boss.radius += @attack_range
-            if player\contains boss
-              v\onCollide @
-        if Driver.objects[EntityTypes.turret]
-          for k, v in pairs Driver.objects[EntityTypes.turret]
-            turret = v\getAttackHitBox!
-            boss = @getHitBox!
-            boss.radius += @attack_range
-            if turret\contains boss
-              v\onCollide @
+        @speed = Vector @target_position.x - @position.x, @target_position.y - @position.y
+        dist = @speed\getLength!
+        @speed\toUnitVector!
+        @speed = @speed\multiply @speed_multiplier
+        super dt
+        @chase_time += dt
+        if dist <= @getHitBox!.radius or @chase_time >= 3
+          @chase_time = 0
+          @target_position = Driver\getRandomPosition!
+        if @ai_time >= @cooldown_time
+          @ai_time = 0
+          @ai_phase = 1
+          @sprite = @old_sprite
+          @old_sprite = nil
+          @trail\start!
 
   draw: =>
     if DEBUGGING

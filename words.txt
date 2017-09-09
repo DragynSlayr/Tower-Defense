@@ -88,6 +88,7 @@ LinkedList
 Map
 MapCreator
 Missile
+MissileActive
 Mode
 ModeTypes
 MoltenCoreActive
@@ -219,6 +220,7 @@ boss
 bossType
 boss_mode
 bosses
+bosses_beaten
 bounds
 box
 box_color
@@ -268,6 +270,8 @@ contains
 contents
 continue_button
 cooldown
+cooldown_sprite
+cooldown_time
 copy
 copyTable
 corner_target
@@ -366,6 +370,7 @@ f
 factor
 fake_find
 false
+fast_poison_time
 field
 files
 filesystem
@@ -427,6 +432,7 @@ getRandomEnemy
 getRandomPosition
 getRandomRarity
 getRandomUnitStart
+getScaling
 getStats
 getText
 getTopScores
@@ -488,6 +494,7 @@ isDown
 isHovering
 isOnScreen
 isPlaying
+is_clone
 is_on
 is_word
 item
@@ -607,6 +614,7 @@ normal
 normal_sprite
 not
 num
+num_missiles
 num_modes
 num_turrets
 o
@@ -616,6 +624,8 @@ objective_text
 objects
 off_time
 old_color
+old_sprite
+old_trail_delay
 onCollide
 onEnd
 on_time
