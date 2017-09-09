@@ -54,7 +54,7 @@ do
       self.id = EntityTypes.bullet
       self.draw_health = false
       self.solid = false
-      self.speed_multiplier = 1000
+      self.speed_multiplier = 500
       local sprite_copy = sprite:getCopy()
       self.trail = nil
       self.death_sound = 0

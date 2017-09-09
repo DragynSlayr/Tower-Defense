@@ -7,6 +7,6 @@ export class AttackGoal extends GameObject
     super x, y, sprite
     @id = EntityTypes.goal
     @goal_type = GoalTypes.attack
-    @health = 100 + (33 * Objectives\getLevel!)
+    @health = math.min 690, 50 + (107 * Objectives\getScaling!)
     @max_health = @health
     @item_drop_chance = 0.2

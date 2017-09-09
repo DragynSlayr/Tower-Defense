@@ -7,7 +7,7 @@ export class HomingProjectile extends GameObject
     @id = EntityTypes.bullet
     @draw_health = false
     @solid = false
-    @speed_multiplier = 1000
+    @speed_multiplier = 500
 
     sprite_copy = sprite\getCopy!
     --sprite_copy\setColor {50, 50, 50, 255}

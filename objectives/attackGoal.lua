@@ -18,7 +18,7 @@ do
       _class_0.__parent.__init(self, x, y, sprite)
       self.id = EntityTypes.goal
       self.goal_type = GoalTypes.attack
-      self.health = 100 + (33 * Objectives:getLevel())
+      self.health = math.min(690, 50 + (107 * Objectives:getScaling()))
       self.max_health = self.health
       self.item_drop_chance = 0.2
     end,
