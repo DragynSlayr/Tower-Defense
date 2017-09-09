@@ -7,8 +7,9 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y, sprite)
       _class_0.__parent.__init(self, x, y, sprite)
-      self.bossType = nil
       self.item_drop_chance = 0.75
+      self.bossType = nil
+      self.contact_damage = true
     end,
     __base = _base_0,
     __name = "Boss",
