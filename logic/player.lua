@@ -209,36 +209,29 @@ do
       self.speed_boost = 0
       self.attack_timer = self.attack_timer + dt
       local attacked = false
-      if self.attack_timer >= self.attack_speed then
-        if Driver.objects[EntityTypes.enemy] then
-          for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
-            local enemy = v:getHitBox()
-            local player = self:getHitBox()
-            player.radius = player.radius + (self.attack_range + self.range_boost)
-            if enemy:contains(player) then
-              local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
-              if self.knocking_back then
-                bullet.sprite = self.knock_back_sprite
-                bullet.knockback = true
+      if self.attack_timer >= self.attack_speed / (Upgrade.player_stats[5] + 1) then
+        local filters = {
+          EntityTypes.enemy,
+          EntityTypes.boss
+        }
+        for k2, filter in pairs(filters) do
+          if Driver.objects[filter] then
+            for k, v in pairs(Driver.objects[filter]) do
+              local enemy = v:getHitBox()
+              local player = self:getHitBox()
+              player.radius = player.radius + (self.attack_range + self.range_boost)
+              if enemy:contains(player) then
+                if Upgrade.player_special[4] then
+                  self.speed_boost = self.speed_boost + (self.max_speed / 4)
+                end
+                local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
+                if self.knocking_back then
+                  bullet.sprite = self.knock_back_sprite
+                  bullet.knockback = true
+                end
+                Driver:addObject(bullet, EntityTypes.bullet)
+                attacked = true
               end
-              Driver:addObject(bullet, EntityTypes.bullet)
-              attacked = true
-            end
-          end
-        end
-        if Driver.objects[EntityTypes.boss] then
-          for k, v in pairs(Driver.objects[EntityTypes.boss]) do
-            local enemy = v:getHitBox()
-            local player = self:getHitBox()
-            player.radius = player.radius + (self.attack_range + self.range_boost)
-            if enemy:contains(player) then
-              local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
-              if self.knocking_back then
-                bullet.sprite = self.knock_back_sprite
-                bullet.knockback = true
-              end
-              Driver:addObject(bullet, EntityTypes.bullet)
-              attacked = true
             end
           end
         end
@@ -270,6 +263,7 @@ do
       if attacked then
         self.attack_timer = 0
       end
+      self.speed_boost = math.min(self.speed_boost, self.max_speed)
       if Driver.objects[EntityTypes.goal] then
         for k, v in pairs(Driver.objects[EntityTypes.goal]) do
           if v.goal_type == GoalTypes.capture then
@@ -282,19 +276,6 @@ do
           end
         end
       end
-      if Driver.objects[EntityTypes.enemy] then
-        for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
-          local enemy = v:getHitBox()
-          local player = self:getHitBox()
-          player.radius = player.radius + (self.attack_range + self.range_boost)
-          if enemy:contains(player) then
-            if Upgrade.player_special[4] then
-              self.speed_boost = self.speed_boost + (self.max_speed / 4)
-            end
-          end
-        end
-      end
-      self.speed_boost = math.min(self.speed_boost, self.max_speed)
       if self.show_turret then
         local turret = BasicTurret(self.position.x, self.position.y)
         Renderer:enqueue((function()
@@ -411,7 +392,7 @@ do
       self.damage = Stats.player[3]
       self.max_speed = Stats.player[4]
       self.turret_cooldown = Stats.turret[4]
-      self.attack_speed = Stats.player[5]
+      self.attack_speed = Base_Stats.player[5]
       self.health = self.max_health
       self.repair_range = 30 * Scale.diag
       self.keys_pushed = 0

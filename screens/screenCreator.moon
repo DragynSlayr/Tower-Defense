@@ -210,7 +210,7 @@ export class ScreenCreator
     UI\add title
 
     names = {"Player", "Turret"}
-    stats = {{"Health", "Range", "Damage", "Speed", "Attack Delay", "Special"}, {"Health", "Range", "Damage", "Cooldown", "Attack Delay", "Special"}}
+    stats = {{"Health", "Range", "Damage", "Speed", "Rate of Fire", "Special"}, {"Health", "Range", "Damage", "Cooldown", "Attack Delay", "Special"}}
     num_stats = 6
     trees = {Upgrade_Trees.player_stats, Upgrade_Trees.turret_stats, Upgrade_Trees.player_special, Upgrade_Trees.turret_special}
     specials = {{"Life Steal", "Range Boost", "Missile", "Speed Boost"}, {"Extra Turret", "Shield", "Multiple Targets", "Pickup"}}
@@ -251,9 +251,15 @@ export class ScreenCreator
               modifier = 0
               if level > 0
                 modifier = Upgrade.amount[i][j][level]
+
+              amount = 0
               amount = Upgrade.amount[i][j][level + 1] - modifier
-              amount /= current_stats[j]
+              if i == 1 and j == 5
+                amount /= stats_table[j] + 1
+              else
+                amount /= current_stats[j]
               amount *= 100
+
               message = "  " .. names[i] .. "  " .. stats[i][j] .. "  by  " .. (string.format "%d", math.floor math.abs amount) .. "%"
               if amount < 0
                 message = "Decrease" .. message

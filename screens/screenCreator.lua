@@ -197,7 +197,7 @@ do
           "Range",
           "Damage",
           "Speed",
-          "Attack Delay",
+          "Rate of Fire",
           "Special"
         },
         {
@@ -281,8 +281,13 @@ do
                 if level > 0 then
                   modifier = Upgrade.amount[i][j][level]
                 end
-                local amount = Upgrade.amount[i][j][level + 1] - modifier
-                amount = amount / current_stats[j]
+                local amount = 0
+                amount = Upgrade.amount[i][j][level + 1] - modifier
+                if i == 1 and j == 5 then
+                  amount = amount / (stats_table[j] + 1)
+                else
+                  amount = amount / current_stats[j]
+                end
                 amount = amount * 100
                 local message = "  " .. names[i] .. "  " .. stats[i][j] .. "  by  " .. (string.format("%d", math.floor(math.abs(amount)))) .. "%"
                 if amount < 0 then
