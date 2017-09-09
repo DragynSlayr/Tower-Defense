@@ -7,9 +7,9 @@ export class CaptureEnemy extends Enemy
     --@solid = false
     @corner_target = false
 
-    @health = 24 + (12.8 * Objectives\getLevel!)
+    @health = math.min 346, 5 + (57 * Objectives\getScaling!)
     @max_health = @health
-    @max_speed = (300 + (10.8 * Objectives\getLevel!)) * Scale.diag
+    @max_speed = math.min 650 * Scale.diag, (300 + (58.5 * Objectives\getScaling!)) * Scale.diag
     @speed_multiplier = @max_speed
     @damage = 10 / 3
 

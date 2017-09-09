@@ -1,17 +1,16 @@
 export class SpawnerEnemy extends Enemy
   new: (x, y) =>
     sprite = Sprite "enemy/dart.tga", 17, 17, 1, 2
-    attack_speed = 0.65 - (0.01 * Objectives\getLevel!)
-    attack_speed = math.max 0.4, attack_speed
+    attack_speed = math.max 0.4, 0.65 - (0.01 * Objectives\getScaling!)
     super x, y, sprite, 1, attack_speed
     @enemyType = EnemyTypes.spawner
     @score_value = 50
 
-    @health = 12 + (13.2 * Objectives\getLevel!)
+    @health = math.min 400, 12 + (66 * Objectives\getScaling!)
     @max_health = @health
-    @max_speed = (150 + (10 * Objectives\getLevel!)) * Scale.diag
+    @max_speed = math.min 450 * Scale.diag, (150 + (50 * Objectives\getScaling!)) * Scale.diag
     @speed_multiplier = @max_speed
-    @damage = 1 + (0.13 * Objectives\getLevel!)
+    @damage = math.min 28, 1 + (4.45 * Objectives\getScaling!)
 
     sound = Sound "spawner_enemy_death.ogg", 0.75, false, 1.25, true
     @death_sound = MusicPlayer\add sound

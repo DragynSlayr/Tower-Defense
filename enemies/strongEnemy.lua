@@ -11,16 +11,15 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("enemy/bullet.tga", 26, 20, 1, 2)
-      local attack_speed = 0.8 - (0.01 * Objectives:getLevel())
-      attack_speed = math.max(0.5, attack_speed)
+      local attack_speed = math.max(0.5, 0.8 - (0.01 * Objectives:getScaling()))
       _class_0.__parent.__init(self, x, y, sprite, 1, attack_speed)
       self.enemyType = EnemyTypes.strong
       self.score_value = 200
-      self.health = 18 + (19.2 * Objectives:getLevel())
+      self.health = math.min(700, 18 + (113.5 * Objectives:getScaling()))
       self.max_health = self.health
-      self.max_speed = (100 + (3 * Objectives:getLevel())) * Scale.diag
+      self.max_speed = math.min(325 * Scale.diag, (100 + (37.5 * Objectives:getScaling())) * Scale.diag)
       self.speed_multiplier = self.max_speed
-      self.damage = 1.5 + (1.5 * Objectives:getLevel())
+      self.damage = math.min(61, 1.5 + (10 * Objectives:getScaling()))
       local sound = Sound("strong_enemy_death.ogg", 0.25, false, 0.13, true)
       self.death_sound = MusicPlayer:add(sound)
     end,

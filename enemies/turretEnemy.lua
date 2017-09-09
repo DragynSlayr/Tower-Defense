@@ -58,16 +58,15 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("enemy/circle.tga", 26, 26, 1, 1.75)
-      local attack_speed = 0.75 - (0.01 * Objectives:getLevel())
-      attack_speed = math.max(0.5, attack_speed)
+      local attack_speed = math.max(0.5, 0.75 - (0.01 * Objectives:getScaling()))
       _class_0.__parent.__init(self, x, y, sprite, 1, attack_speed)
       self.enemyType = EnemyTypes.turret
       self.score_value = 150
-      self.health = 15 + (16 * Objectives:getLevel())
+      self.health = math.min(577, 15 + (93.75 * Objectives:getScaling()))
       self.max_health = self.health
-      self.max_speed = (200 + (5 * Objectives:getLevel())) * Scale.diag
+      self.max_speed = math.min(360 * Scale.diag, (200 + (26.5 * Objectives:getScaling())) * Scale.diag)
       self.speed_multiplier = self.max_speed
-      self.damage = 2 + (0.8 * Objectives:getLevel())
+      self.damage = math.min(46, 2 + (7.35 * Objectives:getScaling()))
       local sound = Sound("turret_enemy_death.ogg", 0.75, false, 0.75, true)
       self.death_sound = MusicPlayer:add(sound)
     end,

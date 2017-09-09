@@ -1,17 +1,16 @@
 export class TurretEnemy extends Enemy
   new: (x, y) =>
     sprite = Sprite "enemy/circle.tga", 26, 26, 1, 1.75
-    attack_speed = 0.75 - (0.01 * Objectives\getLevel!)
-    attack_speed = math.max 0.5, attack_speed
+    attack_speed = math.max 0.5, 0.75 - (0.01 * Objectives\getScaling!)
     super x, y, sprite, 1, attack_speed
     @enemyType = EnemyTypes.turret
     @score_value = 150
 
-    @health = 15 + (16 * Objectives\getLevel!)
+    @health = math.min 577, 15 + (93.75 * Objectives\getScaling!)
     @max_health = @health
-    @max_speed = (200 + (5 * Objectives\getLevel!)) * Scale.diag
+    @max_speed = math.min 360 * Scale.diag, (200 + (26.5 * Objectives\getScaling!)) * Scale.diag
     @speed_multiplier = @max_speed
-    @damage = 2 + (0.8 * Objectives\getLevel!)
+    @damage = math.min 46, 2 + (7.35 * Objectives\getScaling!)
 
     sound = Sound "turret_enemy_death.ogg", 0.75, false, 0.75, true
     @death_sound = MusicPlayer\add sound

@@ -30,16 +30,15 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("enemy/dart.tga", 17, 17, 1, 2)
-      local attack_speed = 0.65 - (0.01 * Objectives:getLevel())
-      attack_speed = math.max(0.4, attack_speed)
+      local attack_speed = math.max(0.4, 0.65 - (0.01 * Objectives:getScaling()))
       _class_0.__parent.__init(self, x, y, sprite, 1, attack_speed)
       self.enemyType = EnemyTypes.spawner
       self.score_value = 50
-      self.health = 12 + (13.2 * Objectives:getLevel())
+      self.health = math.min(400, 12 + (66 * Objectives:getScaling()))
       self.max_health = self.health
-      self.max_speed = (150 + (10 * Objectives:getLevel())) * Scale.diag
+      self.max_speed = math.min(450 * Scale.diag, (150 + (50 * Objectives:getScaling())) * Scale.diag)
       self.speed_multiplier = self.max_speed
-      self.damage = 1 + (0.13 * Objectives:getLevel())
+      self.damage = math.min(28, 1 + (4.45 * Objectives:getScaling()))
       local sound = Sound("spawner_enemy_death.ogg", 0.75, false, 1.25, true)
       self.death_sound = MusicPlayer:add(sound)
     end,
