@@ -140,12 +140,6 @@ Item_Rarity[5] = {255, 182, 24, 255} -- Orange
 
 export Item_Rarity_Text = {}
 
---Item_Rarity_Text[1] = {100, 100, 100, 200} -- Grey
---Item_Rarity_Text[2] = {0, 255, 0, 255}     -- Green
---Item_Rarity_Text[3] = {0, 0, 255, 255}     -- Blue
---Item_Rarity_Text[4] = {255, 0, 255, 255}   -- Purple
---Item_Rarity_Text[5] = {255, 255, 0, 255}   -- Orange
-
 for k, v in pairs Item_Rarity
   Item_Rarity_Text[k] = {}
   for k2, v2 in pairs v
