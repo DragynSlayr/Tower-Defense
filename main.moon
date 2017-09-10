@@ -16,6 +16,7 @@ love.update = (dt) ->
       max_size = Screen_Size.width * (1 - (#queue / elements))
     else
       queue = nil
+      export ResoureLoader = ResoureCacher!
       export Driver = Driver!
       Driver.load!
 
@@ -34,4 +35,4 @@ love.draw = () ->
 love.load = () ->
   queue = require "logic.classLoader"
   elements = #queue
-  export VERSION = "V.25"
+  export VERSION = "V.26"

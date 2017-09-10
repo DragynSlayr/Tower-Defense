@@ -14,6 +14,7 @@ love.update = function(dt)
       max_size = Screen_Size.width * (1 - (#queue / elements))
     else
       queue = nil
+      ResoureLoader = ResoureCacher()
       Driver = Driver()
       return Driver.load()
     end
@@ -34,5 +35,5 @@ end
 love.load = function()
   queue = require("logic.classLoader")
   elements = #queue
-  VERSION = "V.25"
+  VERSION = "V.26"
 end
