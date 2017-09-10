@@ -3,40 +3,31 @@ do
   local _parent_0 = Wave
   local _base_0 = {
     start = function(self)
-      for i = 1, 1 do
-        local emitter = ParticleEmitter(Screen_Size.width * 0.25, Screen_Size.height * 0.5, 0.2)
+      for i = 1, 64 do
+        local p = Driver:getRandomPosition()
+        local x = (0.95 * p.x) + (0.05 * Screen_Size.half_width)
+        local y = (0.95 * p.y) + (0.05 * Screen_Size.half_height)
+        local emitter = ParticleEmitter(x, y, math.random() / 2)
         emitter:setLifeTimeRange({
-          2,
-          5
+          7.5,
+          17.5
         })
         emitter:setSizeRange({
-          1,
-          1
+          0.2,
+          5
         })
         emitter:setSpeedRange({
-          -20,
-          20
+          100,
+          350
         })
         Driver:addObject(emitter, EntityTypes.particle)
       end
-      local image = love.graphics.newImage("assets/sprites/particle/particle.tga")
-      self.system = love.graphics.newParticleSystem(image, 50)
-      self.system:setParticleLifetime(2, 5)
-      self.system:setEmissionRate(5)
-      self.system:setLinearAcceleration(-20, -20, 20, 20)
-      return self.system:setColors(255, 255, 255, 255, 255, 255, 255, 0)
     end,
     entityKilled = function(self, entity) end,
     update = function(self, dt)
-      _class_0.__parent.__base.update(self, dt)
-      if not self.waiting then
-        return self.system:update(dt)
-      end
+      return _class_0.__parent.__base.update(self, dt)
     end,
     draw = function(self)
-      if self.system then
-        love.graphics.draw(self.system, Screen_Size.width * 0.75, Screen_Size.height * 0.5)
-      end
       return _class_0.__parent.__base.draw(self)
     end
   }
@@ -44,8 +35,7 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, parent)
-      _class_0.__parent.__init(self, parent)
-      self.system = nil
+      return _class_0.__parent.__init(self, parent)
     end,
     __base = _base_0,
     __name = "TestWave",
