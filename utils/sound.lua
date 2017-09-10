@@ -49,9 +49,9 @@ do
         static = false
       end
       if static then
-        self.audio = love.audio.newSource(PATH_PREFIX .. "assets/sounds/" .. name, "static")
+        self.audio = ResoureLoader:loadSound(PATH_PREFIX .. "assets/sounds/" .. name, true)
       else
-        self.audio = love.audio.newSource(PATH_PREFIX .. "assets/sounds/" .. name)
+        self.audio = ResoureLoader:loadSound(PATH_PREFIX .. "assets/sounds/" .. name)
       end
       self.name = name
       self.audio:setLooping(looping)

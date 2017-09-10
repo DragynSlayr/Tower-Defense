@@ -35,3 +35,4 @@ require "utils.sprite"
 --| Depends on sprite |--
 --+-------------------+--
 require "utils.actionSprite"
+require "utils.resourceCacher"

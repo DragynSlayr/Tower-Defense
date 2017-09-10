@@ -9,9 +9,9 @@ export class Sound
   new: (name, volume = 1.0, looping = true, pitch = 1.0, static = false) =>
     -- Load Sound
     if static
-      @audio = love.audio.newSource PATH_PREFIX .. "assets/sounds/" .. name, "static"
+      @audio = ResoureLoader\loadSound PATH_PREFIX .. "assets/sounds/" .. name, true
     else
-      @audio = love.audio.newSource PATH_PREFIX .. "assets/sounds/" .. name
+      @audio = ResoureLoader\loadSound PATH_PREFIX .. "assets/sounds/" .. name
 
     @name = name
 

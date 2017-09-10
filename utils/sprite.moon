@@ -10,13 +10,8 @@ export class Sprite
     @name = name
     @props = {height, width, delay, scale}
 
-    -- Define flags for rendering
-    flags = {}
-    flags["linear"] = false
-    flags["mipmaps"] = true
-
     -- Load the image
-    @image = love.graphics.newImage(PATH_PREFIX .. "assets/sprites/" .. name, flags)
+    @image = ResoureLoader\loadImage PATH_PREFIX .. "assets/sprites/" .. name
 
     -- Get number of frames
     @frames = @image\getWidth! / width
