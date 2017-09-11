@@ -4,12 +4,12 @@ export class ObjectivesHandler
     @elapsed = 0
     @delay = 3
     @modes = {
-      AttackMode @,
-      EliminationMode @,
-      DefendMode @,
+      --AttackMode @,
+      --EliminationMode @,
+      --DefendMode @,
       --DarkMode @,
-      CaptureMode @
-      --TestMode @
+      --CaptureMode @
+      TestMode @
     }
     @boss_mode = BossMode @
     @num_modes = #@modes

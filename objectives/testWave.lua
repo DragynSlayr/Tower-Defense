@@ -22,12 +22,49 @@ do
         })
         Driver:addObject(emitter, EntityTypes.particle)
       end
+      for i = 1, self.max_count do
+        Objectives:spawn((Objectives:getRandomEnemy()), EntityTypes.enemy)
+      end
     end,
-    entityKilled = function(self, entity) end,
+    entityKilled = function(self, entity)
+      if entity.enemyType then
+        while self.count < self.max_count do
+          Objectives:spawn((Objectives:getRandomEnemy()), EntityTypes.enemy)
+          self.count = self.count + 1
+        end
+      end
+    end,
     update = function(self, dt)
-      return _class_0.__parent.__base.update(self, dt)
+      _class_0.__parent.__base.update(self, dt)
+      local filters = {
+        EntityTypes.player,
+        EntityTypes.turret
+      }
+      for k2, filter in pairs(filters) do
+        if Driver.objects[filter] then
+          for k, v in pairs(Driver.objects[filter]) do
+            v.health = v.health + (10 * dt)
+          end
+        end
+      end
+      local sum = 0
+      if Driver.objects[EntityTypes.particle] then
+        for k, v in pairs(Driver.objects[EntityTypes.particle]) do
+          sum = sum + #v.objects
+        end
+      end
+      self.parent.message1 = "\tParticles: " .. sum
     end,
     draw = function(self)
+      self.count = 0
+      local total = 0
+      for k, v in pairs(Driver.objects) do
+        if k == EntityTypes.enemy then
+          self.count = #v
+        end
+        total = total + #v
+      end
+      self.parent.message2 = "Objects: " .. total
       return _class_0.__parent.__base.draw(self)
     end
   }
@@ -35,7 +72,9 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, parent)
-      return _class_0.__parent.__init(self, parent)
+      _class_0.__parent.__init(self, parent)
+      self.count = 0
+      self.max_count = 25
     end,
     __base = _base_0,
     __name = "TestWave",

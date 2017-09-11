@@ -10,8 +10,8 @@ export class UpgradeScreen extends Screen
     @turret_stats = {0, 0, 0, 0, 0}
     @upgrade_cost = {1, 1, 2, 2, 3, 3}
 
-    @player_special = {false, false, false, false}
-    @turret_special = {false, false, false, false}
+    @player_special = {true, true, true, true}
+    @turret_special = {true, true, true, true}
 
     @amount       = {}
     @amount[1]    = {}
