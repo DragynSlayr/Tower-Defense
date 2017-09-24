@@ -10,7 +10,6 @@ do
     update = function(self, dt)
       self.speed_multiplier = clamp(self.speed_multiplier + 1, 0, self.max_speed)
       self.ai_time = self.ai_time + dt
-      print(self.ai_phase)
       local _exp_0 = self.ai_phase
       if 1 == _exp_0 then
         self.speed = Vector(self.target_position.x - self.position.x, self.target_position.y - self.position.y)

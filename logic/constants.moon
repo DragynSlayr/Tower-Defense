@@ -79,6 +79,7 @@ ItemFrameTypes.default         = "Default"
 export BossTypes = {}
 
 BossTypes.vyder = "Vyder"
+BossTypes.test  = "Test Boss"
 
 export Scaling = {}
 

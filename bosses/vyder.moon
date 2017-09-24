@@ -41,7 +41,6 @@ export class BossVyder extends Boss
   update: (dt) =>
     @speed_multiplier = clamp @speed_multiplier + 1, 0, @max_speed
     @ai_time += dt
-    print @ai_phase
     switch @ai_phase
       when 1
         @speed = Vector @target_position.x - @position.x, @target_position.y - @position.y

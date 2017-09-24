@@ -4,7 +4,8 @@ export class BossMode extends Mode
     @objective_text = "Eliminate the boss"
     @mode_type = ModeTypes.boss
     @bosses = {
-      BossVyder
+      --BossVyder
+      BossTest
     }
 
   nextWave: =>

@@ -39,7 +39,7 @@ do
       self.objective_text = "Eliminate the boss"
       self.mode_type = ModeTypes.boss
       self.bosses = {
-        BossVyder
+        BossTest
       }
     end,
     __base = _base_0,

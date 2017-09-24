@@ -6,14 +6,21 @@ do
       if entity == self.boss then
         self.complete = true
         if self.boss.trail then
-          return Driver:removeObject(self.boss.trail, false)
+          Driver:removeObject(self.boss.trail, false)
+        end
+        if self.boss.shader then
+          Objectives.shader = self.old_shader
         end
       end
     end,
     start = function(self)
       self.boss = Objectives:spawn((self.boss), EntityTypes.boss)
       if self.boss.trail then
-        return Driver:addObject(self.boss.trail, EntityTypes.particle)
+        Driver:addObject(self.boss.trail, EntityTypes.particle)
+      end
+      if self.boss.shader then
+        self.old_shader = Objectives.shader
+        Objectives.shader = self.boss.shader
       end
     end,
     draw = function(self)

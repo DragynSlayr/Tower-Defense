@@ -1,2 +1,3 @@
 require("bosses.boss")
-return require("bosses.vyder")
+require("bosses.vyder")
+return require("bosses.test")

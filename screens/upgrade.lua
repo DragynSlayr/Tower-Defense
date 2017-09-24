@@ -102,16 +102,16 @@ do
         3
       }
       self.player_special = {
-        true,
-        true,
-        true,
-        true
+        false,
+        false,
+        false,
+        false
       }
       self.turret_special = {
-        true,
-        true,
-        true,
-        true
+        false,
+        false,
+        false,
+        false
       }
       self.amount = { }
       self.amount[1] = { }

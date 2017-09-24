@@ -126,9 +126,7 @@ do
       self.mode = nil
       self.elapsed = 0
       self.delay = 3
-      self.modes = {
-        TestMode(self)
-      }
+      self.modes = { }
       self.boss_mode = BossMode(self)
       self.num_modes = #self.modes
       shuffle(self.modes)

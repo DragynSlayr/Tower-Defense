@@ -62,6 +62,7 @@ ItemFrameTypes.transfer = "Transfer"
 ItemFrameTypes.default = "Default"
 BossTypes = { }
 BossTypes.vyder = "Vyder"
+BossTypes.test = "Test Boss"
 Scaling = { }
 Scaling.health = 5
 Scaling.damage = 0.5
