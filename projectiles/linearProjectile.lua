@@ -27,25 +27,38 @@ do
             local bullet = self:getHitBox()
             bullet.radius = bullet.radius + self.attack_range
             if target:contains(bullet) then
-              self.target:onCollide(self)
+              v:onCollide(self)
               MusicPlayer:play(self.death_sound)
               self:kill()
             end
           end
         end
       end
+    end,
+    draw = function(self)
+      _class_0.__parent.__base.draw(self)
+      if DEBUGGING then
+        love.graphics.push("all")
+        love.graphics.setShader()
+        love.graphics.setColor(0, 127, 127, 200)
+        love.graphics.circle("fill", self.target.position.x, self.target.position.y, 20, 360)
+        return love.graphics.pop()
+      end
     end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y, speed, sprite)
+    __init = function(self, x, y, speed, dist, sprite)
+      if dist == nil then
+        dist = Screen_Size.width
+      end
       local target_pos = Vector(speed:getComponents())
-      target_pos = target_pos:multiply(Screen_Size.width)
+      target_pos = target_pos:multiply(dist)
       target_pos:add((Vector(x, y)))
       _class_0.__parent.__init(self, x, y, (GameObject(target_pos.x, target_pos.y, sprite)), sprite)
       self.speed_multiplier = 100
-      self.damage = 1
+      self.damage = 1 / 10
     end,
     __base = _base_0,
     __name = "LinearProjectile",
