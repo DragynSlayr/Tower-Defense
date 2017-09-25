@@ -55,8 +55,8 @@ do
             particle = EnemyPoisonParticle(self.position.x, self.position.y, sprite, 255, 0, life_time)
           end
           if self.moving_particles then
-            local x, y = getRandomUnitStart()
-            particle.speed = Vector(x, y, true)
+            local v = getRandomUnitStart()
+            particle.speed = Vector(v.x, v.y, true)
             local speed = map(math.random(), 0, 1, self.speed_range[1], self.speed_range[2])
             particle.speed = particle.speed:multiply(speed * Scale.diag)
           else
