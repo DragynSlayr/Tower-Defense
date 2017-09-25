@@ -8,9 +8,7 @@ do
         if self.boss.trail then
           Driver:removeObject(self.boss.trail, false)
         end
-        if self.boss.shader then
-          Objectives.shader = self.old_shader
-        end
+        Objectives.shader = nil
       end
     end,
     start = function(self)
@@ -19,7 +17,6 @@ do
         Driver:addObject(self.boss.trail, EntityTypes.particle)
       end
       if self.boss.shader then
-        self.old_shader = Objectives.shader
         Objectives.shader = self.boss.shader
       end
     end,
