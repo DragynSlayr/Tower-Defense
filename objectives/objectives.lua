@@ -126,7 +126,12 @@ do
       self.mode = nil
       self.elapsed = 0
       self.delay = 3
-      self.modes = { }
+      self.modes = {
+        AttackMode(self),
+        EliminationMode(self),
+        DefendMode(self),
+        CaptureMode(self)
+      }
       self.boss_mode = BossMode(self)
       self.num_modes = #self.modes
       shuffle(self.modes)
