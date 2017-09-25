@@ -12,21 +12,10 @@ export randomSign = () ->
 -- Get a random point on a circle
 -- radius: The radius of the circle
 export getRandomUnitStart = (radius = love.graphics.getHeight! / 3) ->
-  -- Create a Point
-  point = Point 0, 1
-
-  -- Find a random rotation
-  rand_num = ((math.random 0, 361) / 360) * (2 * math.pi)
-
-  -- Rotate the point
-  point\rotate rand_num
-
-  -- Expand Point
-  point.x *= radius
-  point.y *= radius
-
-  -- Return Point coordinates
-  return point\getComponents!
+  vec = Vector 1, 0
+  num = ((math.random 0, 361) / 360) * 2 * math.pi
+  vec\rotate num
+  return vec\multiply radius
 
 -- Clamps a number between two values
 -- x: The number to clamp

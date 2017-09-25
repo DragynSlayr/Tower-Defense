@@ -13,12 +13,10 @@ getRandomUnitStart = function(radius)
   if radius == nil then
     radius = love.graphics.getHeight() / 3
   end
-  local point = Point(0, 1)
-  local rand_num = ((math.random(0, 361)) / 360) * (2 * math.pi)
-  point:rotate(rand_num)
-  point.x = point.x * radius
-  point.y = point.y * radius
-  return point:getComponents()
+  local vec = Vector(1, 0)
+  local num = ((math.random(0, 361)) / 360) * 2 * math.pi
+  vec:rotate(num)
+  return vec:multiply(radius)
 end
 clamp = function(x, min, max)
   if x <= min then
