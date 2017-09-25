@@ -37,7 +37,7 @@ export class Turret extends GameObject
   update: (dt) =>
     if not @alive return
     @sprite.shader\send "health", @health / @max_health
-    @sprite.should_shade = Objectives.mode.mode_type ~= ModeTypes.dark
+    @sprite.should_shade = Objectives.shader == nil
     super dt
     if Upgrade.turret_special[2]
       if @health <= (@max_health / 2) and @shield_available

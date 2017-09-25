@@ -23,7 +23,7 @@ do
         return 
       end
       self.sprite.shader:send("health", self.health / self.max_health)
-      self.sprite.should_shade = Objectives.mode.mode_type ~= ModeTypes.dark
+      self.sprite.should_shade = Objectives.shader == nil
       _class_0.__parent.__base.update(self, dt)
       if Upgrade.turret_special[2] then
         if self.health <= (self.max_health / 2) and self.shield_available then
