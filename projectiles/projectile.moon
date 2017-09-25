@@ -8,6 +8,7 @@ export class HomingProjectile extends GameObject
     @draw_health = false
     @solid = false
     @speed_multiplier = 500
+    @block_rotation = true
 
     sprite_copy = sprite\getCopy!
     --sprite_copy\setColor {50, 50, 50, 255}
@@ -31,8 +32,9 @@ export class HomingProjectile extends GameObject
 
     @position\add @speed\multiply dt
 
-    vec = Vector 0, 0
-    @sprite.rotation = @speed\getAngleBetween vec
+    if @block_rotation
+      vec = Vector 0, 0
+      @sprite.rotation = @speed\getAngleBetween vec
 
     target = @target\getHitBox!
     bullet = @getHitBox!

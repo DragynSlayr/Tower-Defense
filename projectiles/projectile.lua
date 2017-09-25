@@ -17,8 +17,10 @@ do
       self.speed:toUnitVector()
       self.speed = self.speed:multiply(self.speed_multiplier)
       self.position:add(self.speed:multiply(dt))
-      local vec = Vector(0, 0)
-      self.sprite.rotation = self.speed:getAngleBetween(vec)
+      if self.block_rotation then
+        local vec = Vector(0, 0)
+        self.sprite.rotation = self.speed:getAngleBetween(vec)
+      end
       local target = self.target:getHitBox()
       local bullet = self:getHitBox()
       bullet.radius = bullet.radius + self.attack_range
@@ -55,6 +57,7 @@ do
       self.draw_health = false
       self.solid = false
       self.speed_multiplier = 500
+      self.block_rotation = true
       local sprite_copy = sprite:getCopy()
       self.trail = nil
       self.death_sound = 0
