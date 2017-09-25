@@ -15,7 +15,8 @@ do
       local visible = self:isVisible()
       self.solid = visible
       self.draw_health = visible
-      self.sprite.shader:send("alpha", ((math.sin(self.fade_speed * self.ai_time)) + 1) / 2)
+      self.alpha = ((math.sin(self.fade_speed * self.ai_time)) + 1) / 2
+      self.sprite.shader:send("elapsed", ((math.sin(self.fade_speed * self.ai_time)) + 1) / 2)
       self.shader:send("player_pos", {
         self.target.position.x,
         self.target.position.y
@@ -26,7 +27,7 @@ do
         self.speed:toUnitVector()
         self.speed = self.speed:multiply(self.speed_multiplier)
         _class_0.__parent.__base.update(self, dt)
-        if self.ai_time >= (math.random(7, 12)) then
+        if self.ai_time >= 6 then
           self.ai_time = 0
           self.ai_phase = self.ai_phase + 1
           self.speed = Vector(0, 0)
@@ -67,14 +68,21 @@ do
           for k, speed in pairs(speeds) do
             local copy = self.sprite:getCopy()
             copy:scaleUniformly(0.3)
-            local b = LinearProjectile(self.position.x, self.position.y, (Vector(speed[1], speed[2])), copy)
+            local b = SplitShot(self.position.x, self.position.y, (Vector(speed[1], speed[2])), 300 * Scale.diag, copy)
             b.sprite:setShader(love.graphics.newShader("shaders/normal.fs"))
+            b.sprite:setColor({
+              255,
+              0,
+              0,
+              127
+            })
+            b.sprite:setRotationSpeed(math.pi * 1.5)
             Driver:addObject(b, EntityTypes.bullet)
           end
         end
       elseif 2 == _exp_0 then
         _class_0.__parent.__base.update(self, dt)
-        if self.ai_time >= (math.random(3, 6)) then
+        if self.ai_time >= 7 then
           self.ai_time = 0
           self.ai_phase = 1
           local temp = Objectives:spawn((BossTest), EntityTypes.boss)
@@ -82,6 +90,12 @@ do
           return Driver:removeObject(temp, false)
         end
       end
+    end,
+    draw = function(self)
+      local color = self.sprite.color
+      color[4] = math.ceil((self.alpha * 255))
+      self.sprite:setColor(color)
+      return _class_0.__parent.__base.draw(self)
     end
   }
   _base_0.__index = _base_0
@@ -91,12 +105,12 @@ do
       local sprite = Sprite("objective/portal.tga", 56, 56, 1, 1.8)
       _class_0.__parent.__init(self, x, y, sprite)
       self.bossType = BossTypes.test
-      self.health = 2000
+      self.health = 1000
       self.max_health = self.health
       self.max_speed = 225
       self.speed_multiplier = self.max_speed
       self.damage = 0.02
-      self.sprite:setShader(love.graphics.newShader("shaders/fader.fs"))
+      self.sprite:setShader(love.graphics.newShader("shaders/pulse.fs"))
       self.sprite:setRotationSpeed(-math.pi / 2)
       self.shader = love.graphics.newShader("shaders/distance.fs")
       self.shader:send("screen_size", {
@@ -117,6 +131,7 @@ do
       self.ai_time = 0
       self.threshold = 0.1
       self.fade_speed = 1.5
+      self.alpha = 0
     end,
     __base = _base_0,
     __name = "BossTest",
