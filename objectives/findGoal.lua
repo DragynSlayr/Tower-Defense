@@ -38,7 +38,7 @@ do
       self.draw_health = false
       self.trail = nil
       self.movement_speed = 250
-      self.velocity = Vector(getRandomUnitStart())
+      self.velocity = getRandomUnitStart()
       self.angle = 2 * math.pi * (1 / 30)
       self.item_drop_chance = 0.2
     end,

@@ -8,7 +8,7 @@ export class FindGoal extends GameObject
 
     @trail = nil
     @movement_speed = 250
-    @velocity = Vector getRandomUnitStart!
+    @velocity = getRandomUnitStart!
     @angle = 2 * math.pi * (1 / 30)
 
     @item_drop_chance = 0.2
