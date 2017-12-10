@@ -11,6 +11,7 @@ export class GameObject
     @id = nil
     @draw_health = true
     @score_value = 0
+    @exp_given = 10
     @shielded = false
     @shield_timer = 0
     @max_shield_time = 7

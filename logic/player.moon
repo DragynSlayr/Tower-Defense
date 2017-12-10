@@ -69,6 +69,18 @@ export class Player extends GameObject
     @show_stats = true
     @is_clone = false
 
+    @level = 1
+    @exp = 0
+
+  calcExp: (level) =>
+    return (6 * level * level) + 673
+
+  calcLevel: (exp) =>
+    if exp > 673
+      return math.floor (math.sqrt ((exp - 673) / 6))
+    else
+      return 1
+
   getStats: =>
     stats = {}
     stats[1] = @max_health
@@ -340,16 +352,19 @@ export class Player extends GameObject
       Renderer\drawHUDMessage message, (x_start + 205) * Scale.width, Screen_Size.height - (30 * Scale.height), @font
 
       love.graphics.setColor 0, 0, 0, 255
-      love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (200 * Scale.width), love.graphics.getHeight! - (30 * Scale.height), 400 * Scale.width, 20 * Scale.height
+      love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (200 * Scale.width), love.graphics.getHeight! - (45 * Scale.height), 400 * Scale.width, 20 * Scale.height
       love.graphics.setColor 255, 0, 0, 255
       ratio = @health / @max_health
-      love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (197 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
+      love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (197 * Scale.width), love.graphics.getHeight! - (42 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
       if @armored
         love.graphics.setColor 0, 127, 255, 255
         ratio = @armor / @max_armor
-        love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (197 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
+        love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (197 * Scale.width), love.graphics.getHeight! - (42 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
 
-      Renderer\drawAlignedMessage "Player Health", Screen_Size.height - (47 * Scale.height), nil, @font
+      Renderer\drawAlignedMessage "Player Health", Screen_Size.height - (57 * Scale.height), nil, @font
+
+      level_info = "Level: " .. @level .. "\tExp: " .. @exp .. "/" .. (@calcExp (@level + 1))
+      Renderer\drawAlignedMessage level_info, Screen_Size.height - (12 * Scale.height), nil, @font
 
     if SHOW_RANGE
       love.graphics.setColor 0, 255, 255, 255

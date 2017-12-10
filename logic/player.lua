@@ -2,6 +2,16 @@ do
   local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
+    calcExp = function(self, level)
+      return (6 * level * level) + 673
+    end,
+    calcLevel = function(self, exp)
+      if exp > 673 then
+        return math.floor((math.sqrt(((exp - 673) / 6))))
+      else
+        return 1
+      end
+    end,
     getStats = function(self)
       local stats = { }
       stats[1] = self.max_health
@@ -345,16 +355,18 @@ do
         message = self.turret_count .. "/" .. self.max_turrets
         Renderer:drawHUDMessage(message, (x_start + 205) * Scale.width, Screen_Size.height - (30 * Scale.height), self.font)
         love.graphics.setColor(0, 0, 0, 255)
-        love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (200 * Scale.width), love.graphics.getHeight() - (30 * Scale.height), 400 * Scale.width, 20 * Scale.height)
+        love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (200 * Scale.width), love.graphics.getHeight() - (45 * Scale.height), 400 * Scale.width, 20 * Scale.height)
         love.graphics.setColor(255, 0, 0, 255)
         ratio = self.health / self.max_health
-        love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
+        love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (42 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
         if self.armored then
           love.graphics.setColor(0, 127, 255, 255)
           ratio = self.armor / self.max_armor
-          love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (27 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
+          love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (42 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
         end
-        Renderer:drawAlignedMessage("Player Health", Screen_Size.height - (47 * Scale.height), nil, self.font)
+        Renderer:drawAlignedMessage("Player Health", Screen_Size.height - (57 * Scale.height), nil, self.font)
+        local level_info = "Level: " .. self.level .. "\tExp: " .. self.exp .. "/" .. (self:calcExp((self.level + 1)))
+        Renderer:drawAlignedMessage(level_info, Screen_Size.height - (12 * Scale.height), nil, self.font)
       end
       if SHOW_RANGE then
         love.graphics.setColor(0, 255, 255, 255)
@@ -440,6 +452,8 @@ do
       self.place_sound = MusicPlayer:add(sound)
       self.show_stats = true
       self.is_clone = false
+      self.level = 1
+      self.exp = 0
     end,
     __base = _base_0,
     __name = "Player",

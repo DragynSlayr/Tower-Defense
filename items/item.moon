@@ -14,7 +14,7 @@ export class Item extends GameObject
     @name = "No name"
     @description = "No description"
     if not @rarity
-      @rarity = 1
+      @rarity = 5
 
   getRandomRarity: =>
     blackChance  = 50

@@ -159,7 +159,7 @@ export class Score
       score_change = math.floor score_change / 10000
       score_change += 1
       @score_threshold += 10000
-      Upgrade\add_point score_change
+      --Upgrade\addPoint score_change
     if Driver.game_state == Game_State.game_over
       @elapsed += dt
       if @elapsed > @update_delay

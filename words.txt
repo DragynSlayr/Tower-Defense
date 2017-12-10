@@ -17,6 +17,7 @@ BombActive
 BombPassive
 Boss
 BossMode
+BossTest
 BossTypes
 BossVyder
 BossWave
@@ -84,6 +85,8 @@ ItemPoolHandler
 ItemTypes
 Item_Rarity
 Item_Rarity_Text
+Jitter
+LinearProjectile
 LinkedList
 Map
 MapCreator
@@ -117,6 +120,8 @@ PoisonParticle
 RangeBoostPassive
 Rectangle
 Renderer
+ResoureCacher
+ResoureLoader
 SHOW_RANGE
 Scale
 Scaling
@@ -131,6 +136,7 @@ ShieldActive
 Sound
 SpawnerEnemy
 SpeedBoostPassive
+SplitShot
 Sprite
 Stack
 Stats
@@ -173,11 +179,11 @@ active_text
 add
 addChild
 addObject
+addPoint
 addScore
+addSkill
 addText
 addWords
-add_point
-add_skill
 ai_phase
 ai_time
 alignment
@@ -209,6 +215,7 @@ back_sprite
 background
 basic
 basicChance
+block_rotation
 block_shader
 blocked
 blue
@@ -231,6 +238,8 @@ bullet_position
 buttons
 byte
 c
+calcExp
+calcLevel
 can_place
 capture
 capture_amount
@@ -240,6 +249,8 @@ ceil
 center
 chance
 change
+change_time
+change_timer
 char
 char_index
 charge_time
@@ -311,6 +322,7 @@ default_item
 defend
 delay
 delay_timer
+depth
 description
 dg
 diag
@@ -334,6 +346,7 @@ drawStatusMessage
 draw_health
 draw_lock
 dt
+dynamic
 e
 effect
 effect_sprite
@@ -364,10 +377,13 @@ error
 event
 exists
 exit_button
+exp
+exp_given
 export
 extends
 f
 factor
+fade_speed
 fake_find
 false
 fast_poison_time
@@ -381,6 +397,7 @@ findNearestTarget
 findTarget
 finish
 fire
+flags
 floor
 focus
 font
@@ -480,6 +497,7 @@ idle_color
 idle_sprite
 if
 image
+images
 in
 in_x
 in_y
@@ -494,6 +512,7 @@ isDown
 isHovering
 isOnScreen
 isPlaying
+isVisible
 is_clone
 is_on
 is_word
@@ -520,6 +539,7 @@ last_position
 last_pressed
 last_released
 last_text
+layer
 layers
 len
 length
@@ -527,6 +547,7 @@ lengthof
 letter
 level
 level_count
+level_info
 life_time
 life_time_range
 line
@@ -536,8 +557,10 @@ lives
 ljust
 load
 loadBaseStats
+loadImage
 loadMap
 loadScores
+loadSound
 loading
 loadstring
 lock_sprite
@@ -554,7 +577,9 @@ master
 math
 max
 max_armor
+max_count
 max_delay
+max_depth
 max_health
 max_height
 max_missile_time
@@ -596,7 +621,6 @@ names
 new
 newFont
 newImage
-newParticleSystem
 newQuad
 newScreenshot
 newShader
@@ -643,6 +667,7 @@ particle
 particle_type
 passive
 passive_text
+path
 pause
 pause_menu
 paused
@@ -678,7 +703,6 @@ quitGame
 quit_button
 r
 radius
-rand_num
 random
 randomSign
 randomseed
@@ -745,17 +769,13 @@ server_port
 setArmor
 setCenter
 setColor
-setColors
 setDefaultFilter
-setEmissionRate
 setFont
 setIdentity
 setItem
 setLifeTimeRange
 setLineWidth
-setLinearAcceleration
 setLooping
-setParticleLifetime
 setPitch
 setRadius
 setRotation
@@ -828,10 +848,12 @@ sqrt
 start
 start_button
 start_damage
+start_level
 start_x
 start_y
 started
 state_stack
+static
 stats
 stats_table
 status_font
@@ -848,7 +870,6 @@ sum
 super
 swap
 switch
-system
 t
 t3
 table
@@ -867,6 +888,7 @@ textFunc
 text_box
 text_color
 textinput
+threshold
 time
 time_remaining
 timer
@@ -879,6 +901,7 @@ to_traverse
 toggle
 tooltips
 tostring
+total
 touching
 trail
 transfer

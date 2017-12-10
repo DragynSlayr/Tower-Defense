@@ -202,6 +202,7 @@ do
       self.id = nil
       self.draw_health = true
       self.score_value = 0
+      self.exp_given = 10
       self.shielded = false
       self.shield_timer = 0
       self.max_shield_time = 7

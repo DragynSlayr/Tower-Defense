@@ -82,7 +82,7 @@ do
       self.name = "No name"
       self.description = "No description"
       if not self.rarity then
-        self.rarity = 1
+        self.rarity = 5
       end
     end,
     __base = _base_0,

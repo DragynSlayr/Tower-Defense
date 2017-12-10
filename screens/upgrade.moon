@@ -35,10 +35,10 @@ export class UpgradeScreen extends Screen
     for k = 1, #@amount[1][4]
       @amount[1][4][k] *= Scale.diag
 
-  add_point: (num) =>
+  addPoint: (num) =>
     @skill_points += num
 
-  add_skill: (tree, idx) =>
+  addSkill: (tree, idx) =>
     success = false
     switch tree
       when Upgrade_Trees.player_stats

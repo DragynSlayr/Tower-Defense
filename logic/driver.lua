@@ -4,7 +4,6 @@ do
     addObject = function(self, object, id)
       if self.objects[id] then
         self.objects[id][#self.objects[id] + 1] = object
-        return Renderer:add(object, EntityTypes.layers[id])
       else
         self.objects[id] = { }
         return self:addObject(object, id)
@@ -19,8 +18,13 @@ do
         if not found then
           for k2, o in pairs(v) do
             if object == o then
-              Renderer:removeObject(object)
               if player_kill then
+                for k, player in pairs(Driver.objects[EntityTypes.player]) do
+                  player.exp = player.exp + o.exp_given
+                  local start_level = player.level
+                  player.level = player:calcLevel(player.exp)
+                  Upgrade:addPoint((player.level - start_level))
+                end
                 if math.random() <= o.item_drop_chance then
                   local box = ItemBoxPickUp(o.position.x, o.position.y)
                   Driver:addObject(box, EntityTypes.item)
@@ -70,6 +74,8 @@ do
           for k, i in pairs(p.equipped_items) do
             i:pickup(p2)
           end
+          p2.exp = p.exp
+          p2.level = p.level
           Driver:removeObject(p, false)
           Driver:addObject(p2, EntityTypes.player)
         end
@@ -268,7 +274,7 @@ do
             for k2, o in pairs(v) do
               o:update(dt)
               if o.health <= 0 or not o.alive then
-                Driver:removeObject(o)
+                Driver:removeObject(o, (o.exp_given > 0))
               end
             end
           end

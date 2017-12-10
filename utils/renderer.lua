@@ -4,36 +4,16 @@ do
     newFont = function(self, size)
       return love.graphics.newFont(PATH_PREFIX .. "assets/fonts/opsb.ttf", size * Scale.height)
     end,
-    add = function(self, object, layer)
-      if self.layers[layer] then
-        self.layers[layer][#self.layers[layer] + 1] = object
-      else
-        self.layers[layer] = { }
-        return self:add(object, layer)
-      end
-    end,
-    removeObject = function(self, object)
-      local found = false
-      for k, layer in pairs(self.layers) do
-        if not found then
-          for i, o in pairs(layer) do
-            if object == o then
-              table.remove(self.layers[k], i)
-              found = true
-              break
-            end
-          end
-        end
-      end
-    end,
     enqueue = function(self, func)
       self.queue[#self.queue + 1] = func
     end,
     drawAll = function(self)
       love.graphics.push("all")
-      for k, layer in pairs(self.layers) do
+      for k, layer in pairs(Driver.objects) do
         for i, object in pairs(layer) do
-          object:draw()
+          if object.draw then
+            object:draw()
+          end
         end
       end
       for k, func in pairs(self.queue) do
@@ -90,15 +70,11 @@ do
   _class_0 = setmetatable({
     __init = function(self)
       self.queue = { }
-      self.layers = { }
       self.giant_font = love.graphics.newFont(PATH_PREFIX .. "assets/fonts/opsb.ttf", 250 * Scale.height)
       self.title_font = love.graphics.newFont(PATH_PREFIX .. "assets/fonts/opsb.ttf", 70 * Scale.height)
       self.status_font = love.graphics.newFont(PATH_PREFIX .. "assets/fonts/opsb.ttf", 50 * Scale.height)
       self.hud_font = love.graphics.newFont(PATH_PREFIX .. "assets/fonts/opsb.ttf", 30 * Scale.height)
       self.small_font = love.graphics.newFont(PATH_PREFIX .. "assets/fonts/opsb.ttf", 20 * Scale.height)
-      for i = 1, 10 do
-        self.layers[i] = { }
-      end
     end,
     __base = _base_0,
     __name = "ObjectRenderer"

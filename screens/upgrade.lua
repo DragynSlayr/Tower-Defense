@@ -2,10 +2,10 @@ do
   local _class_0
   local _parent_0 = Screen
   local _base_0 = {
-    add_point = function(self, num)
+    addPoint = function(self, num)
       self.skill_points = self.skill_points + num
     end,
-    add_skill = function(self, tree, idx)
+    addSkill = function(self, tree, idx)
       local success = false
       local _exp_0 = tree
       if Upgrade_Trees.player_stats == _exp_0 then

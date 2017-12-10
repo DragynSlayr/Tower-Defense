@@ -45,7 +45,6 @@ export class Driver
     addObject: (object, id) =>
       if @objects[id]
         @objects[id][#@objects[id] + 1] = object
-        Renderer\add object, EntityTypes.layers[id]
       else
         @objects[id] = {}
         @addObject(object, id)
@@ -56,8 +55,13 @@ export class Driver
         if not found
           for k2, o in pairs v
             if object == o
-              Renderer\removeObject object
               if player_kill
+                for k, player in pairs Driver.objects[EntityTypes.player]
+                  player.exp += o.exp_given
+                  start_level = player.level
+                  player.level = player\calcLevel player.exp
+                  Upgrade\addPoint (player.level - start_level)
+
                 if math.random! <= o.item_drop_chance
                   box = ItemBoxPickUp o.position.x, o.position.y
                   Driver\addObject box, EntityTypes.item
@@ -90,6 +94,8 @@ export class Driver
           p2 = Player p.position.x, p.position.y
           for k, i in pairs p.equipped_items
             i\pickup p2
+          p2.exp = p.exp
+          p2.level = p.level
           Driver\removeObject p, false
           Driver\addObject p2, EntityTypes.player
 
@@ -292,7 +298,7 @@ export class Driver
               for k2, o in pairs v
                 o\update dt
                 if o.health <= 0 or not o.alive
-                  Driver\removeObject o
+                  Driver\removeObject o, (o.exp_given > 0)
             Objectives\update dt
         UI\update dt
         ScoreTracker\update dt

@@ -194,7 +194,6 @@ do
         score_change = math.floor(score_change / 10000)
         score_change = score_change + 1
         self.score_threshold = self.score_threshold + 10000
-        Upgrade:add_point(score_change)
       end
       if Driver.game_state == Game_State.game_over then
         self.elapsed = self.elapsed + dt

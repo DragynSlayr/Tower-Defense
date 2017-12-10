@@ -37,10 +37,10 @@ export class Mode
         p.attack_range = Stats.player[2]
         if p.hit
           hit = true
-    if not hit
-      Upgrade\add_point 3
-    else
-      Upgrade\add_point 2
+--    if not hit
+--      Upgrade\addPoint 3
+--    else
+--      Upgrade\addPoint 2
     @parent.shader = nil
 
   update: (dt) =>

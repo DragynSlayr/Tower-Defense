@@ -273,7 +273,7 @@ export class ScreenCreator
             return Upgrade.upgrade_cost[@index]
           )
           b = TooltipButton (0.5 * Screen_Size.width) + (340 * Scale.width), y, 50, 50, "+", (() ->
-            result = Upgrade\add_skill trees[i], j
+            result = Upgrade\addSkill trees[i], j
             if result
               if ttb.index < #Upgrade.upgrade_cost
                 ttb.index += 1
@@ -294,7 +294,7 @@ export class ScreenCreator
               return descriptions[i][k]
             ), font
             b = TooltipButton x, y, width + 10, 30, specials[i][k], (() =>
-              result = Upgrade\add_skill trees[2 + i], k
+              result = Upgrade\addSkill trees[2 + i], k
               @active = not result
             ), font, {tt}
             x += b.width + (10 * Scale.width)

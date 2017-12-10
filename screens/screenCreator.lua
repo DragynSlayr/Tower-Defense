@@ -305,7 +305,7 @@ do
               return Upgrade.upgrade_cost[self.index]
             end))
             local b = TooltipButton((0.5 * Screen_Size.width) + (340 * Scale.width), y, 50, 50, "+", (function()
-              local result = Upgrade:add_skill(trees[i], j)
+              local result = Upgrade:addSkill(trees[i], j)
               if result then
                 if ttb.index < #Upgrade.upgrade_cost then
                   ttb.index = ttb.index + 1
@@ -332,7 +332,7 @@ do
                 return descriptions[i][k]
               end), font)
               local b = TooltipButton(x, y, width + 10, 30, specials[i][k], (function(self)
-                local result = Upgrade:add_skill(trees[2 + i], k)
+                local result = Upgrade:addSkill(trees[2 + i], k)
                 self.active = not result
               end), font, {
                 tt

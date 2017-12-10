@@ -3,7 +3,6 @@ export class ObjectRenderer
   new: =>
     -- Initialize queue and layers
     @queue = {}
-    @layers = {}
 
     -- Load fonts
     @giant_font  = love.graphics.newFont PATH_PREFIX .. "assets/fonts/opsb.ttf", 250 * Scale.height
@@ -12,38 +11,8 @@ export class ObjectRenderer
     @hud_font    = love.graphics.newFont PATH_PREFIX .. "assets/fonts/opsb.ttf", 30 * Scale.height
     @small_font  = love.graphics.newFont PATH_PREFIX .. "assets/fonts/opsb.ttf", 20 * Scale.height
 
-    for i = 1, 10
-      @layers[i] = {}
-
   newFont: (size) =>
     return love.graphics.newFont PATH_PREFIX .. "assets/fonts/opsb.ttf", size * Scale.height
-
-  -- Adds an object to the layers
-  -- object: The object to add
-  -- layer: The layer to add to
-  add: (object, layer) =>
-    if @layers[layer]
-      -- Add object to layer
-      @layers[layer][#@layers[layer] + 1] = object
-    else
-      -- Create layer if it does not exist
-      @layers[layer] = {}
-      @add(object, layer)
-
-  -- Removes an object from the layers
-  -- object: The object to remove
-  removeObject: (object) =>
-    found = false
-    -- Search for the object
-    for k, layer in pairs @layers
-      if not found
-        for i, o in pairs layer
-
-          -- Remove object when found
-          if object == o
-            table.remove @layers[k], i
-            found = true
-            break
 
   -- Adds a drawing function to the queue
   -- func: The drawing function
@@ -57,9 +26,10 @@ export class ObjectRenderer
     love.graphics.push "all"
 
     -- Draw each GameObject in the layers
-    for k, layer in pairs @layers
+    for k, layer in pairs Driver.objects
       for i, object in pairs layer
-        object\draw!
+        if object.draw
+          object\draw!
 
     -- Call each function in the queue
     for k, func in pairs @queue

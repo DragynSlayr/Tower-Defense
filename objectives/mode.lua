@@ -30,11 +30,6 @@ do
           end
         end
       end
-      if not hit then
-        Upgrade:add_point(3)
-      else
-        Upgrade:add_point(2)
-      end
       self.parent.shader = nil
     end,
     update = function(self, dt)
