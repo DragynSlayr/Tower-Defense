@@ -271,7 +271,7 @@ do
             for k2, o in pairs(v) do
               o:update(dt)
               if o.health <= 0 or not o.alive then
-                Driver:removeObject(o, (o.exp_given > 0))
+                Driver:removeObject(o)
               end
             end
           end

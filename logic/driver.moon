@@ -295,7 +295,7 @@ export class Driver
               for k2, o in pairs v
                 o\update dt
                 if o.health <= 0 or not o.alive
-                  Driver\removeObject o, (o.exp_given > 0)
+                  Driver\removeObject o
             Objectives\update dt
         UI\update dt
         ScoreTracker\update dt
