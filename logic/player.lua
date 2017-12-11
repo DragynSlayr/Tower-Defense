@@ -5,13 +5,6 @@ do
     calcExp = function(self, level)
       return (6 * level * level) + 673
     end,
-    calcLevel = function(self, exp)
-      if exp > 673 then
-        return math.floor((math.sqrt(((exp - 673) / 6))))
-      else
-        return 1
-      end
-    end,
     getStats = function(self)
       local stats = { }
       stats[1] = self.max_health
@@ -316,6 +309,12 @@ do
       else
         self.range_boost = 0
       end
+      while self.exp >= self.next_exp do
+        self.exp = self.exp - self.next_exp
+        self.level = self.level + 1
+        Upgrade:addPoint(1)
+        self.next_exp = self:calcExp(self.level)
+      end
     end,
     draw = function(self)
       if not self.alive then
@@ -365,7 +364,7 @@ do
           love.graphics.rectangle("fill", (love.graphics.getWidth() / 2) - (197 * Scale.width), love.graphics.getHeight() - (42 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height)
         end
         Renderer:drawAlignedMessage("Player Health", Screen_Size.height - (57 * Scale.height), nil, self.font)
-        local level_info = "Level: " .. self.level .. "\tExp: " .. self.exp .. "/" .. (self:calcExp((self.level + 1)))
+        local level_info = "Level: " .. self.level .. "\tExp: " .. (math.floor(self.exp)) .. "/" .. (self:calcExp((self.level + 1)))
         Renderer:drawAlignedMessage(level_info, Screen_Size.height - (12 * Scale.height), nil, self.font)
       end
       if SHOW_RANGE then
@@ -396,7 +395,7 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
-      local sprite = Sprite("player/test.tga", 16, 16, 0.29, 4)
+      local sprite = Sprite("player/test.tga", 16, 16, 2, 4)
       _class_0.__parent.__init(self, x, y, sprite)
       self.sprite:setRotationSpeed(-math.pi / 2)
       self.max_health = Stats.player[1]
@@ -454,6 +453,7 @@ do
       self.is_clone = false
       self.level = 1
       self.exp = 0
+      self.next_exp = self:calcExp((self.level + 1))
     end,
     __base = _base_0,
     __name = "Player",

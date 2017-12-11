@@ -129,7 +129,7 @@ export class ScreenCreator
     title = Text Screen_Size.width / 2, (Screen_Size.height / 3), "Game Paused"
     UI\add title
 
-    sprite = Sprite "player/test.tga", 16, 16, 0.29, 50 / 16
+    sprite = Sprite "player/test.tga", 16, 16, 2, 50 / 16
     sprite\setRotationSpeed -math.pi / 2
     x = Screen_Size.width * 0.05--0.20
     y = Screen_Size.height * 0.4

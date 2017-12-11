@@ -107,7 +107,7 @@ do
       self:createHelp(nil, Screen_Size.height * 0.2)
       local title = Text(Screen_Size.width / 2, (Screen_Size.height / 3), "Game Paused")
       UI:add(title)
-      local sprite = Sprite("player/test.tga", 16, 16, 0.29, 50 / 16)
+      local sprite = Sprite("player/test.tga", 16, 16, 2, 50 / 16)
       sprite:setRotationSpeed(-math.pi / 2)
       local x = Screen_Size.width * 0.05
       local y = Screen_Size.height * 0.4

@@ -1,6 +1,6 @@
 export class Player extends GameObject
   new: (x, y) =>
-    sprite = Sprite "player/test.tga", 16, 16, 0.29, 4
+    sprite = Sprite "player/test.tga", 16, 16, 2, 4
     super x, y, sprite
     @sprite\setRotationSpeed -math.pi / 2
 
@@ -71,15 +71,16 @@ export class Player extends GameObject
 
     @level = 1
     @exp = 0
+    @next_exp = @calcExp (@level + 1)
 
   calcExp: (level) =>
     return (6 * level * level) + 673
 
-  calcLevel: (exp) =>
-    if exp > 673
-      return math.floor (math.sqrt ((exp - 673) / 6))
-    else
-      return 1
+--  calcLevel: (exp) =>
+--    if exp > 673
+--      return math.floor (math.sqrt ((exp - 673) / 6))
+--    else
+--      return 1
 
   getStats: =>
     stats = {}
@@ -315,6 +316,12 @@ export class Player extends GameObject
     else
       @range_boost = 0
 
+    while @exp >= @next_exp
+      @exp -= @next_exp
+      @level += 1
+      Upgrade\addPoint 1
+      @next_exp = @calcExp @level
+
   draw: =>
     if not @alive return
     for k, i in pairs @equipped_items
@@ -363,7 +370,7 @@ export class Player extends GameObject
 
       Renderer\drawAlignedMessage "Player Health", Screen_Size.height - (57 * Scale.height), nil, @font
 
-      level_info = "Level: " .. @level .. "\tExp: " .. @exp .. "/" .. (@calcExp (@level + 1))
+      level_info = "Level: " .. @level .. "\tExp: " .. (math.floor @exp) .. "/" .. (@calcExp (@level + 1))
       Renderer\drawAlignedMessage level_info, Screen_Size.height - (12 * Scale.height), nil, @font
 
     if SHOW_RANGE

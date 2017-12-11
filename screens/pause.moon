@@ -2,7 +2,7 @@ export class PauseScreen extends Screen
   new: =>
     super!
     @font = Renderer\newFont 20
-    @sprites = {(Sprite "player/test.tga", 16, 16, 0.29, 50 / 16), (Sprite "turret/turret.tga", 34, 16, 2, 50 / 34)}
+    @sprites = {(Sprite "player/test.tga", 16, 16, 2, 50 / 16), (Sprite "turret/turret.tga", 34, 16, 2, 50 / 34)}
     @icons = {
       (Sprite "ui/icons/health.tga", 16, 16, 1, 1),
       (Sprite "ui/icons/range.tga", 16, 16, 1, 1),

@@ -21,9 +21,6 @@ do
               if player_kill then
                 for k, player in pairs(Driver.objects[EntityTypes.player]) do
                   player.exp = player.exp + o.exp_given
-                  local start_level = player.level
-                  player.level = player:calcLevel(player.exp)
-                  Upgrade:addPoint((player.level - start_level))
                 end
                 if math.random() <= o.item_drop_chance then
                   local box = ItemBoxPickUp(o.position.x, o.position.y)

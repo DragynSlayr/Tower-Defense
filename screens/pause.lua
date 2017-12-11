@@ -55,7 +55,7 @@ do
       _class_0.__parent.__init(self)
       self.font = Renderer:newFont(20)
       self.sprites = {
-        (Sprite("player/test.tga", 16, 16, 0.29, 50 / 16)),
+        (Sprite("player/test.tga", 16, 16, 2, 50 / 16)),
         (Sprite("turret/turret.tga", 34, 16, 2, 50 / 34))
       }
       self.icons = {

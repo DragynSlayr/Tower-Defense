@@ -58,9 +58,6 @@ export class Driver
               if player_kill
                 for k, player in pairs Driver.objects[EntityTypes.player]
                   player.exp += o.exp_given
-                  start_level = player.level
-                  player.level = player\calcLevel player.exp
-                  Upgrade\addPoint (player.level - start_level)
 
                 if math.random! <= o.item_drop_chance
                   box = ItemBoxPickUp o.position.x, o.position.y

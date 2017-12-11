@@ -65,10 +65,11 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
-      local sprite = Sprite("background/blackhole.tga", 32, 32, 1, 1)
+      local sprite = Sprite("background/blackhole.tga", 32, 32, 1, 1.25)
       _class_0.__parent.__init(self, x, y, sprite)
       self.life_time = 7.5
       self.diag = (Vector(Screen_Size.border[3], Screen_Size.border[4])):getLength()
+      return self.sprite:setRotationSpeed(-math.pi / 2)
     end,
     __base = _base_0,
     __name = "BlackHole",
