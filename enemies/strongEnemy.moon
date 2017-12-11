@@ -5,6 +5,7 @@ export class StrongEnemy extends Enemy
     super x, y, sprite, 1, attack_speed
     @enemyType = EnemyTypes.strong
     @score_value = 200
+    @exp_given = @score_value + (@score_value * 0.35 * Objectives\getLevel!)
 
     @health = math.min 700, 18 + (113.5 * Objectives\getScaling!)
     @max_health = @health

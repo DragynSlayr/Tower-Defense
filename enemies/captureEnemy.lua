@@ -24,6 +24,7 @@ do
       _class_0.__parent.__init(self, x, y, sprite, 0, 0)
       self.enemyType = EnemyTypes.capture
       self.score_value = 100
+      self.exp_given = self.score_value + (self.score_value * 0.35 * Objectives:getLevel())
       self.corner_target = false
       self.health = math.min(346, 5 + (57 * Objectives:getScaling()))
       self.max_health = self.health

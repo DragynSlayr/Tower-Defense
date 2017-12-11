@@ -10,3 +10,5 @@ export class AttackGoal extends GameObject
     @health = math.min 690, 50 + (107 * Objectives\getScaling!)
     @max_health = @health
     @item_drop_chance = 0.2
+    @score_value = 100
+    @exp_given = @score_value + (@score_value * 0.25 * Objectives\getLevel!)

@@ -5,6 +5,7 @@ export class SpawnerEnemy extends Enemy
     super x, y, sprite, 1, attack_speed
     @enemyType = EnemyTypes.spawner
     @score_value = 50
+    @exp_given = @score_value + (@score_value * 0.15 * Objectives\getLevel!)
 
     @health = math.min 400, 12 + (66 * Objectives\getScaling!)
     @max_health = @health

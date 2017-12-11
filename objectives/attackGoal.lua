@@ -21,6 +21,8 @@ do
       self.health = math.min(690, 50 + (107 * Objectives:getScaling()))
       self.max_health = self.health
       self.item_drop_chance = 0.2
+      self.score_value = 100
+      self.exp_given = self.score_value + (self.score_value * 0.25 * Objectives:getLevel())
     end,
     __base = _base_0,
     __name = "AttackGoal",

@@ -105,6 +105,8 @@ do
       local sprite = Sprite("objective/portal.tga", 56, 56, 1, 1.8)
       _class_0.__parent.__init(self, x, y, sprite)
       self.bossType = BossTypes.test
+      self.score_value = 1000
+      self.exp_given = self.score_value + (self.score_value * 0.25 * Objectives:getLevel())
       self.health = 1000
       self.max_health = self.health
       self.max_speed = 225

@@ -3,6 +3,8 @@ export class BossTest extends Boss
     sprite = Sprite "objective/portal.tga", 56, 56, 1, 1.8
     super x, y, sprite
     @bossType = BossTypes.test
+    @score_value = 1000
+    @exp_given = @score_value + (@score_value * 0.25 * Objectives\getLevel!)
 
     @health = 1000
     @max_health = @health

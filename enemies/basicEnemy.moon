@@ -5,6 +5,7 @@ export class BasicEnemy extends Enemy
     super x, y, sprite, 1, attack_speed
     @enemyType = EnemyTypes.basic
     @score_value = 100
+    @exp_given = @score_value + (@score_value * 0.25 * Objectives\getLevel!)
 
     @health = math.min 519, 12 + (84.5 * Objectives\getScaling!)
     @max_health = @health

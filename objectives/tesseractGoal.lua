@@ -36,6 +36,8 @@ do
       self.reduction = 0
       self.solid = false
       self.item_drop_chance = 0.1
+      self.score_value = 75
+      self.exp_given = self.score_value + (self.score_value * 0.25 * Objectives:getLevel())
     end,
     __base = _base_0,
     __name = "TesseractGoal",

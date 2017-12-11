@@ -34,6 +34,7 @@ do
       _class_0.__parent.__init(self, x, y, sprite, 1, attack_speed)
       self.enemyType = EnemyTypes.spawner
       self.score_value = 50
+      self.exp_given = self.score_value + (self.score_value * 0.15 * Objectives:getLevel())
       self.health = math.min(400, 12 + (66 * Objectives:getScaling()))
       self.max_health = self.health
       self.max_speed = math.min(450 * Scale.diag, (150 + (50 * Objectives:getScaling())) * Scale.diag)

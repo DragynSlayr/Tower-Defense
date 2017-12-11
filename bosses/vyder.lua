@@ -104,6 +104,8 @@ do
       sprite:setScale(0.25, 0.25)
       _class_0.__parent.__init(self, x, y, sprite)
       self.bossType = BossTypes.vyder
+      self.score_value = 1000
+      self.exp_given = self.score_value + (self.score_value * 0.35 * Objectives:getLevel())
       local level = Objectives:getScaling()
       self.health = 2000 + (3000 * level)
       self.max_health = self.health

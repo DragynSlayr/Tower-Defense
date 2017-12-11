@@ -4,6 +4,8 @@ export class BossVyder extends Boss
     sprite\setScale 0.25, 0.25
     super x, y, sprite
     @bossType = BossTypes.vyder
+    @score_value = 1000
+    @exp_given = @score_value + (@score_value * 0.35 * Objectives\getLevel!)
 
     level = Objectives\getScaling!
     @health = 2000 + (3000 * level)

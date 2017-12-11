@@ -11,8 +11,9 @@ export class TesseractGoal extends GameObject
     @max_health = @health
     @reduction = 0
     @solid = false
-
     @item_drop_chance = 0.1
+    @score_value = 75
+    @exp_given = @score_value + (@score_value * 0.25 * Objectives\getLevel!)
 
   onCollide: (entity) =>
     start_damage = entity.damage

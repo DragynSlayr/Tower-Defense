@@ -4,6 +4,7 @@ export class CaptureEnemy extends Enemy
     super x, y, sprite, 0, 0
     @enemyType = EnemyTypes.capture
     @score_value = 100
+    @exp_given = @score_value + (@score_value * 0.35 * Objectives\getLevel!)
     --@solid = false
     @corner_target = false
 
