@@ -20,7 +20,7 @@ do
         22,
         21
       })[self.rarity]
-      local sprite = Sprite("player/test.tga", 16, 16, 0.29, 3.50)
+      local sprite = Sprite("player/test.tga", 16, 16, 2, 3.50)
       sprite:setRotationSpeed(-math.pi / 2)
       local effect
       effect = function(self, player)
