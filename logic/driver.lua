@@ -308,6 +308,19 @@ do
         Renderer:drawAlignedMessage(ScoreTracker.score .. "\t", 20 * Scale.height, "right", Renderer.hud_font)
         Renderer:drawAll()
         Objectives:draw()
+        if DEBUGGING then
+          local y = 100
+          for k, layer in pairs(EntityTypes.order) do
+            local message = layer .. ": "
+            if Driver.objects[layer] then
+              message = message .. #Driver.objects[layer]
+            else
+              message = message .. 0
+            end
+            Renderer:drawAlignedMessage(message, y, "left", Renderer.small_font, (Color(255, 255, 255)))
+            y = y + 25
+          end
+        end
       elseif Game_State.upgrading == _exp_0 then
         Upgrade:draw()
         UI:draw({

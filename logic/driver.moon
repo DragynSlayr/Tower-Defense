@@ -326,6 +326,17 @@ export class Driver
           Renderer\drawAlignedMessage ScoreTracker.score .. "\t", 20 * Scale.height, "right", Renderer.hud_font
           Renderer\drawAll!
           Objectives\draw!
+
+          if DEBUGGING
+            y = 100
+            for k, layer in pairs EntityTypes.order
+              message = layer .. ": "
+              if Driver.objects[layer]
+                message ..= #Driver.objects[layer]
+              else
+                message ..= 0
+              Renderer\drawAlignedMessage message, y, "left", Renderer.small_font, (Color 255, 255, 255)
+              y += 25
         when Game_State.upgrading
           Upgrade\draw!
           UI\draw {TooltipBox}
