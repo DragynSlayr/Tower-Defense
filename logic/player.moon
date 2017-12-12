@@ -135,49 +135,45 @@ export class Player extends GameObject
         if key == v
           @keys_pushed += 1
 
-    if not @is_clone
-      if key == "q"
-        for k, v in pairs @equipped_items
-          v\use!
-      elseif key == "e"
-        if @num_turrets != @max_turrets
-          if @can_place
-            @show_turret = not @show_turret
-        else
-          if Upgrade.turret_special[4]
-            for k, v in pairs @turret
-              turret = v\getAttackHitBox!
-              player = @getHitBox!
-              player.radius += @repair_range
-              if turret\contains player
-                @num_turrets -= 1
-                @turret[k] = nil
-                Driver\removeObject v, false
-      elseif key == "space"
-        if @show_turret
-          turret = BasicTurret @position.x, @position.y, @turret_cooldown
-          if @num_turrets < @max_turrets
-            Driver\addObject turret, EntityTypes.turret
-            MusicPlayer\play @place_sound
-            @num_turrets += 1
-            @turret[#@turret + 1] = turret
-            @show_turret = false
-            @turret_count -= 1
-            if @turret_count == 0
-              @can_place = false
-            @charged = false
-        elseif @turret
-          for k, v in pairs @turret
-            turret = v\getAttackHitBox!
-            player = @getHitBox!
-            player.radius += @repair_range
-            if turret\contains player
-              if v.health < v.max_health
-                MusicPlayer\play @repair_sound
-              v.health += 1
-              v.health = clamp v.health, 0, v.max_health
-      elseif key == "z"
-        export SHOW_RANGE = not SHOW_RANGE
+    if @is_clone
+      return
+
+    if key == "q"
+      for k, v in pairs @equipped_items
+        v\use!
+    elseif key == "e"
+      if @can_place
+        @show_turret = not @show_turret
+    elseif key == "space"
+      if @show_turret
+        turret = BasicTurret @position.x, @position.y, @turret_cooldown
+        Driver\addObject turret, EntityTypes.turret
+        MusicPlayer\play @place_sound
+        if @num_turrets < @max_turrets
+          @num_turrets += 1
+          @turret[#@turret + 1] = turret
+        elseif @num_turrets == @max_turrets
+          Driver\removeObject @turret[1]
+          for i = 1, @num_turrets - 1
+            @turret[i] = @turret[i + 1]
+          @turret[#@turret] = turret
+        @show_turret = false
+        @turret_count -= 1
+        if @turret_count == 0
+          @can_place = false
+        @charged = false
+      elseif @turret
+        for k, v in pairs @turret
+          turret = v\getAttackHitBox!
+          player = @getHitBox!
+          player.radius += @repair_range
+          if turret\contains player
+            if v.health < v.max_health
+              MusicPlayer\play @repair_sound
+            v.health += 1
+            v.health = clamp v.health, 0, v.max_health
+    elseif key == "z"
+      export SHOW_RANGE = not SHOW_RANGE
 
   keyreleased: (key) =>
     if not @alive return
@@ -301,15 +297,15 @@ export class Player extends GameObject
 
     boosted = false
     for k, v in pairs @turret
-      if Upgrade.player_special[2]
+      if not v.alive
+        @num_turrets -= 1
+        @turret[k] = nil
+      elseif Upgrade.player_special[2]
         turret = v\getAttackHitBox!
         player = @getHitBox!
         player.radius += v.range / 5
         if turret\contains player
           boosted = true
-      if not v.alive
-        @num_turrets -= 1
-        @turret[k] = nil
 
     if boosted
       @range_boost = @attack_range

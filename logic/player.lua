@@ -77,62 +77,54 @@ do
           end
         end
       end
-      if not self.is_clone then
-        if key == "q" then
-          for k, v in pairs(self.equipped_items) do
-            v:use()
-          end
-        elseif key == "e" then
-          if self.num_turrets ~= self.max_turrets then
-            if self.can_place then
-              self.show_turret = not self.show_turret
-            end
-          else
-            if Upgrade.turret_special[4] then
-              for k, v in pairs(self.turret) do
-                local turret = v:getAttackHitBox()
-                local player = self:getHitBox()
-                player.radius = player.radius + self.repair_range
-                if turret:contains(player) then
-                  self.num_turrets = self.num_turrets - 1
-                  self.turret[k] = nil
-                  Driver:removeObject(v, false)
-                end
-              end
-            end
-          end
-        elseif key == "space" then
-          if self.show_turret then
-            local turret = BasicTurret(self.position.x, self.position.y, self.turret_cooldown)
-            if self.num_turrets < self.max_turrets then
-              Driver:addObject(turret, EntityTypes.turret)
-              MusicPlayer:play(self.place_sound)
-              self.num_turrets = self.num_turrets + 1
-              self.turret[#self.turret + 1] = turret
-              self.show_turret = false
-              self.turret_count = self.turret_count - 1
-              if self.turret_count == 0 then
-                self.can_place = false
-              end
-              self.charged = false
-            end
-          elseif self.turret then
-            for k, v in pairs(self.turret) do
-              local turret = v:getAttackHitBox()
-              local player = self:getHitBox()
-              player.radius = player.radius + self.repair_range
-              if turret:contains(player) then
-                if v.health < v.max_health then
-                  MusicPlayer:play(self.repair_sound)
-                end
-                v.health = v.health + 1
-                v.health = clamp(v.health, 0, v.max_health)
-              end
-            end
-          end
-        elseif key == "z" then
-          SHOW_RANGE = not SHOW_RANGE
+      if self.is_clone then
+        return 
+      end
+      if key == "q" then
+        for k, v in pairs(self.equipped_items) do
+          v:use()
         end
+      elseif key == "e" then
+        if self.can_place then
+          self.show_turret = not self.show_turret
+        end
+      elseif key == "space" then
+        if self.show_turret then
+          local turret = BasicTurret(self.position.x, self.position.y, self.turret_cooldown)
+          Driver:addObject(turret, EntityTypes.turret)
+          MusicPlayer:play(self.place_sound)
+          if self.num_turrets < self.max_turrets then
+            self.num_turrets = self.num_turrets + 1
+            self.turret[#self.turret + 1] = turret
+          elseif self.num_turrets == self.max_turrets then
+            Driver:removeObject(self.turret[1])
+            for i = 1, self.num_turrets - 1 do
+              self.turret[i] = self.turret[i + 1]
+            end
+            self.turret[#self.turret] = turret
+          end
+          self.show_turret = false
+          self.turret_count = self.turret_count - 1
+          if self.turret_count == 0 then
+            self.can_place = false
+          end
+          self.charged = false
+        elseif self.turret then
+          for k, v in pairs(self.turret) do
+            local turret = v:getAttackHitBox()
+            local player = self:getHitBox()
+            player.radius = player.radius + self.repair_range
+            if turret:contains(player) then
+              if v.health < v.max_health then
+                MusicPlayer:play(self.repair_sound)
+              end
+              v.health = v.health + 1
+              v.health = clamp(v.health, 0, v.max_health)
+            end
+          end
+        end
+      elseif key == "z" then
+        SHOW_RANGE = not SHOW_RANGE
       end
     end,
     keyreleased = function(self, key)
@@ -291,17 +283,16 @@ do
       end
       local boosted = false
       for k, v in pairs(self.turret) do
-        if Upgrade.player_special[2] then
+        if not v.alive then
+          self.num_turrets = self.num_turrets - 1
+          self.turret[k] = nil
+        elseif Upgrade.player_special[2] then
           local turret = v:getAttackHitBox()
           local player = self:getHitBox()
           player.radius = player.radius + (v.range / 5)
           if turret:contains(player) then
             boosted = true
           end
-        end
-        if not v.alive then
-          self.num_turrets = self.num_turrets - 1
-          self.turret[k] = nil
         end
       end
       if boosted then
