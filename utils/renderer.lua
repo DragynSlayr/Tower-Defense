@@ -9,10 +9,12 @@ do
     end,
     drawAll = function(self)
       love.graphics.push("all")
-      for k, layer in pairs(Driver.objects) do
-        for i, object in pairs(layer) do
-          if object.draw then
-            object:draw()
+      for k, layer in pairs(EntityTypes.order) do
+        if Driver.objects[layer] then
+          for i, object in pairs(Driver.objects[layer]) do
+            if object.draw then
+              object:draw()
+            end
           end
         end
       end

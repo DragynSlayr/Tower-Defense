@@ -26,10 +26,11 @@ export class ObjectRenderer
     love.graphics.push "all"
 
     -- Draw each GameObject in the layers
-    for k, layer in pairs Driver.objects
-      for i, object in pairs layer
-        if object.draw
-          object\draw!
+    for k, layer in pairs EntityTypes.order
+      if Driver.objects[layer]
+        for i, object in pairs Driver.objects[layer]
+          if object.draw
+            object\draw!
 
     -- Call each function in the queue
     for k, func in pairs @queue

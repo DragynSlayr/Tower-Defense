@@ -15,18 +15,33 @@ EntityTypes.boss       = "Boss"
 
 EntityTypes.layers = {}
 
-EntityTypes.layers[EntityTypes.player]     = 8
-EntityTypes.layers[EntityTypes.turret]     = 5
-EntityTypes.layers[EntityTypes.enemy]      = 7
+EntityTypes.layers[EntityTypes.wall]       = 1
+EntityTypes.layers[EntityTypes.background] = 2
+EntityTypes.layers[EntityTypes.particle]   = 3
+EntityTypes.layers[EntityTypes.bullet]     = 4
+EntityTypes.layers[EntityTypes.coin]       = 5
 EntityTypes.layers[EntityTypes.item]       = 5
 EntityTypes.layers[EntityTypes.health]     = 5
-EntityTypes.layers[EntityTypes.coin]       = 5
-EntityTypes.layers[EntityTypes.bullet]     = 4
+EntityTypes.layers[EntityTypes.turret]     = 5
 EntityTypes.layers[EntityTypes.goal]       = 6
-EntityTypes.layers[EntityTypes.background] = 2
-EntityTypes.layers[EntityTypes.wall]       = 1
-EntityTypes.layers[EntityTypes.particle]   = 3
 EntityTypes.layers[EntityTypes.boss]       = 7
+EntityTypes.layers[EntityTypes.enemy]      = 7
+EntityTypes.layers[EntityTypes.player]     = 8
+
+EntityTypes.order = {
+  EntityTypes.wall,
+  EntityTypes.background,
+  EntityTypes.particle,
+  EntityTypes.bullet,
+  EntityTypes.coin,
+  EntityTypes.item,
+  EntityTypes.health,
+  EntityTypes.turret,
+  EntityTypes.goal,
+  EntityTypes.boss,
+  EntityTypes.enemy,
+  EntityTypes.player
+}
 
 export ModeTypes = {}
 
