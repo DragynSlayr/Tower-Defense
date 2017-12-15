@@ -11,7 +11,6 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
-      self.rarity = self:getRandomRarity()
       local sprite = Sprite("item/extraLife.tga", 26, 26, 1, 56 / 26)
       local effect
       effect = function(self, player)

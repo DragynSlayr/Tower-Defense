@@ -6,7 +6,6 @@ do
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
     __init = function(self, x, y)
-      self.rarity = self:getRandomRarity()
       local sprite = Sprite("item/turretSlagPassive.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
