@@ -149,6 +149,17 @@ export class Player extends GameObject
         turret = BasicTurret @position.x, @position.y, @turret_cooldown
         Driver\addObject turret, EntityTypes.turret
         MusicPlayer\play @place_sound
+
+        if Upgrade.turret_special[4]
+          num_missiles = 12
+          angle = 2 * math.pi * (1 / num_missiles)
+          point = Vector @getHitBox!.radius + (20 * Scale.diag), 0
+          for i = 1, num_missiles
+            missile = TurretMissile @position.x + point.x, @position.y + point.y
+            missile.turret_position = turret.position
+            Driver\addObject missile, EntityTypes.bullet
+            point\rotate angle
+
         if @num_turrets < @max_turrets
           @num_turrets += 1
           @turret[#@turret + 1] = turret

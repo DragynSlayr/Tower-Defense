@@ -227,7 +227,7 @@ do
           "Extra Turret",
           "Shield",
           "Multiple Targets",
-          "Pickup"
+          "Burst"
         }
       }
       local num_specials = 4
@@ -239,10 +239,10 @@ do
           "Player speed increases for every enemy near them"
         },
         {
-          "Use 'E' to place another turret",
+          "Up to 2 turrets can be placed",
           "Allies receive a temporary shield when a turret gets to half health",
           "Turret can hit more than a single enemy",
-          "Use 'E' to pickup turrets after they have been placed"
+          "A barrage of bullets is fired when placed"
         }
       }
       local width = 0

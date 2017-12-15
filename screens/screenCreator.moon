@@ -213,9 +213,12 @@ export class ScreenCreator
     stats = {{"Health", "Range", "Damage", "Speed", "Rate of Fire", "Special"}, {"Health", "Range", "Damage", "Cooldown", "Attack Delay", "Special"}}
     num_stats = 6
     trees = {Upgrade_Trees.player_stats, Upgrade_Trees.turret_stats, Upgrade_Trees.player_special, Upgrade_Trees.turret_special}
-    specials = {{"Life Steal", "Range Boost", "Missile", "Speed Boost"}, {"Extra Turret", "Shield", "Multiple Targets", "Pickup"}}
+    specials = {{"Life Steal", "Range Boost", "Missile", "Speed Boost"}, {"Extra Turret", "Shield", "Multiple Targets", "Burst"}}
     num_specials = 4
-    descriptions = {{"Recover life from hit enemies", "Double player range near turret", "A homing missile spawns periodically", "Player speed increases for every enemy near them"}, {"Use 'E' to place another turret", "Allies receive a temporary shield when a turret gets to half health", "Turret can hit more than a single enemy", "Use 'E' to pickup turrets after they have been placed"}}
+    descriptions = {
+      {"Recover life from hit enemies", "Double player range near turret", "A homing missile spawns periodically", "Player speed increases for every enemy near them"},
+      {"Up to 2 turrets can be placed", "Allies receive a temporary shield when a turret gets to half health", "Turret can hit more than a single enemy", "A barrage of bullets is fired when placed"}
+    }
     width = 0
     font = Renderer\newFont 15
     font2 = Renderer\newFont 20

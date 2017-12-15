@@ -93,6 +93,17 @@ do
           local turret = BasicTurret(self.position.x, self.position.y, self.turret_cooldown)
           Driver:addObject(turret, EntityTypes.turret)
           MusicPlayer:play(self.place_sound)
+          if Upgrade.turret_special[4] then
+            local num_missiles = 12
+            local angle = 2 * math.pi * (1 / num_missiles)
+            local point = Vector(self:getHitBox().radius + (20 * Scale.diag), 0)
+            for i = 1, num_missiles do
+              local missile = TurretMissile(self.position.x + point.x, self.position.y + point.y)
+              missile.turret_position = turret.position
+              Driver:addObject(missile, EntityTypes.bullet)
+              point:rotate(angle)
+            end
+          end
           if self.num_turrets < self.max_turrets then
             self.num_turrets = self.num_turrets + 1
             self.turret[#self.turret + 1] = turret
