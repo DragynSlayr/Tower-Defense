@@ -2,15 +2,24 @@ do
   local _class_0
   local _parent_0 = HomingProjectile
   local _base_0 = {
+    setTurret = function(self, turret)
+      self.turret = turret
+      local vec = Vector(self.position.x - self.turret.position.x, self.position.y - self.turret.position.y)
+      self.sprite.rotation = vec:getAngle() + math.pi
+      self.start_rotation = self.sprite.rotation
+    end,
     update = function(self, dt)
       if self.moving then
         return _class_0.__parent.__base.update(self, dt)
       else
-        local vec = Vector(self.position.x - self.turret_position.x, self.position.y - self.turret_position.y)
-        self.sprite.rotation = vec:getAngle() + (math.pi / 2)
         self.sprite:update(dt)
         if self.elapsed < self.wait_time then
           self.elapsed = self.elapsed + dt
+          self.sprite.rotation = self.start_rotation + (self.rotation_direction * (2 * math.pi) * (self.elapsed / self.wait_time))
+          self.position:add((self.turret.position:multiply(-1)))
+          local scale = (500 * self.elapsed) + 750
+          self.position:rotate(((self.rotation_direction * 2 * math.pi) / scale))
+          return self.position:add(self.turret.position)
         else
           self.moving = true
           self.target = self:findTarget()
@@ -58,13 +67,14 @@ do
   _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("projectile/bullet_anim.tga", 32, 16, 0.5, 1.25)
-      sprite:scaleUniformly(1.25, 1.50)
+      sprite:setScale(0.95, 1.65)
       _class_0.__parent.__init(self, x, y, nil, sprite)
       self.damage = Stats.turret[3] * 15
-      self.speed_multiplier = 250
+      self.speed_multiplier = 500
       self.elapsed = 0
       self.wait_time = 2.5
       self.moving = false
+      self.rotation_direction = 1
     end,
     __base = _base_0,
     __name = "TurretMissile",

@@ -156,7 +156,9 @@ export class Player extends GameObject
           point = Vector @getHitBox!.radius + (20 * Scale.diag), 0
           for i = 1, num_missiles
             missile = TurretMissile @position.x + point.x, @position.y + point.y
-            missile.turret_position = turret.position
+            missile\setTurret turret
+            if (i % 2) == 0
+              missile.rotation_direction = -1
             Driver\addObject missile, EntityTypes.bullet
             point\rotate angle
 

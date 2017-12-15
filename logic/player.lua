@@ -99,7 +99,10 @@ do
             local point = Vector(self:getHitBox().radius + (20 * Scale.diag), 0)
             for i = 1, num_missiles do
               local missile = TurretMissile(self.position.x + point.x, self.position.y + point.y)
-              missile.turret_position = turret.position
+              missile:setTurret(turret)
+              if (i % 2) == 0 then
+                missile.rotation_direction = -1
+              end
               Driver:addObject(missile, EntityTypes.bullet)
               point:rotate(angle)
             end
