@@ -155,6 +155,7 @@ TrailPassive
 Trie
 Turret
 TurretEnemy
+TurretMissile
 TurretSlagPassive
 UI
 UIElement
@@ -239,7 +240,6 @@ buttons
 byte
 c
 calcExp
-calcLevel
 can_place
 capture
 capture_amount
@@ -612,6 +612,7 @@ movement_delay
 movement_disabled
 movement_disabled_sprite
 movement_speed
+moving
 moving_particles
 msg
 multiply
@@ -631,6 +632,7 @@ new_node
 next
 nextMode
 nextWave
+next_exp
 nil
 node
 none
@@ -658,6 +660,7 @@ open_button
 open_frame
 opened_item_frame
 or
+order
 os
 p
 p2
@@ -848,7 +851,6 @@ sqrt
 start
 start_button
 start_damage
-start_level
 start_x
 start_y
 started
@@ -919,6 +921,7 @@ turretChance
 turret_cooldown
 turret_count
 turret_icons
+turret_position
 turret_spawn_num
 turret_special
 turret_stats
@@ -944,6 +947,7 @@ value
 vec
 velocity
 vyder
+wait_time
 waiting
 wall
 wave
