@@ -46,7 +46,7 @@ export class HomingProjectile extends GameObject
 
   draw: =>
     if @speed\getLength! > 0
-      if @target and @target.health > 0 and @alive
+      if @target and @target.alive and @alive
         if DEBUGGING
           love.graphics.push "all"
           love.graphics.setColor 255, 0, 255, 127

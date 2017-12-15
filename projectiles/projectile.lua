@@ -32,7 +32,7 @@ do
     end,
     draw = function(self)
       if self.speed:getLength() > 0 then
-        if self.target and self.target.health > 0 and self.alive then
+        if self.target and self.target.alive and self.alive then
           if DEBUGGING then
             love.graphics.push("all")
             love.graphics.setColor(255, 0, 255, 127)
