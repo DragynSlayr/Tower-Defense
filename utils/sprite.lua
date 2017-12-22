@@ -24,6 +24,10 @@ do
     getProperties = function(self)
       return self.props[1], self.props[2], self.props[3], self.props[4]
     end,
+    setCurve = function(self, curve)
+      self.curve = curve
+      self.hasCurve = true
+    end,
     setColor = function(self, color)
       self.color = color
     end,
@@ -63,6 +67,9 @@ do
     update = function(self, dt)
       self.rotation = self.rotation + (math.pi * dt * self.rotation_speed)
       self.time = self.time + dt
+      if self.hasCurve then
+        self.max_time = self.curve[self.current_frame]
+      end
       if self.time >= self.max_time then
         self.time = 0
         if self.current_frame == self.frames then

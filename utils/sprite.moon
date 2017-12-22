@@ -59,6 +59,10 @@ export class Sprite
   getProperties: () =>
     return @props[1], @props[2], @props[3], @props[4]
 
+  setCurve: (curve) =>
+    @curve = curve
+    @hasCurve = true
+
   -- Set the color of the Sprite
   -- color: The color of the Sprite
   setColor: (color) =>
@@ -121,6 +125,9 @@ export class Sprite
 
     -- Increment time
     @time += dt
+
+    if @hasCurve
+      @max_time = @curve[@current_frame]
 
     -- Check if new frame should be loaded
     if @time >= @max_time
