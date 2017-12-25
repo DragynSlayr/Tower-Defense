@@ -25,9 +25,7 @@ do
       local effect
       effect = function(self, player)
         self.clone = Player(player.position.x, player.position.y)
-        self.clone.movement_blocked = true
         self.clone.is_clone = true
-        self.clone.draw_lock = false
         self.clone.draw_health = true
         self.clone.show_stats = false
         self.clone.attack_speed = self.effect_time + 1

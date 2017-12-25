@@ -6,9 +6,7 @@ export class CloneActive extends ActiveItem
     sprite\setRotationSpeed -math.pi / 2
     effect = (player) =>
       @clone = Player player.position.x, player.position.y
-      @clone.movement_blocked = true
       @clone.is_clone = true
-      @clone.draw_lock = false
       @clone.draw_health = true
       @clone.show_stats = false
       @clone.attack_speed = @effect_time + 1
