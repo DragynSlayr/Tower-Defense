@@ -73,6 +73,9 @@ export class Player extends GameObject
     @exp = 0
     @next_exp = @calcExp (@level + 1)
 
+    @can_shoot = true
+    @bullet_speed = @max_speed * 1.25
+
   calcExp: (level) =>
     return (6 * level * level) + 673
 
@@ -119,7 +122,7 @@ export class Player extends GameObject
     @armor = clamp @armor, 0, @max_armor
 
   keypressed: (key) =>
-    if not @alive return
+    if not @alive or @is_clone return
 
     if not @movement_blocked
       @last_pressed = key
@@ -134,9 +137,6 @@ export class Player extends GameObject
       for k, v in pairs {"w", "a", "s", "d"}
         if key == v
           @keys_pushed += 1
-
-    if @is_clone
-      return
 
     if key == "q"
       for k, v in pairs @equipped_items
@@ -254,24 +254,25 @@ export class Player extends GameObject
     @speed_boost = 0
     @attack_timer += dt
     attacked = false
+    filters = {EntityTypes.enemy, EntityTypes.boss}
     if @attack_timer >= @attack_speed / (Upgrade.player_stats[5] + 1)
-      filters = {EntityTypes.enemy, EntityTypes.boss}
-      for k2, filter in pairs filters
-        if Driver.objects[filter]
-          for k, v in pairs Driver.objects[filter]
-            enemy = v\getHitBox!
-            player = @getHitBox!
-            player.radius += @attack_range + @range_boost
-            if enemy\contains player
-              if Upgrade.player_special[4]
-                @speed_boost += @max_speed / 4
-
-              bullet = PlayerBullet @position.x, @position.y, v, @damage
-              if @knocking_back
-                bullet.sprite = @knock_back_sprite
-                bullet.knockback = true
-              Driver\addObject bullet, EntityTypes.bullet
-              attacked = true
+      bullet_speed = Vector 0, 0
+      if love.keyboard.isDown "left"
+        bullet_speed\add (Vector -@bullet_speed, 0)
+      if love.keyboard.isDown "right"
+        bullet_speed\add (Vector @bullet_speed, 0)
+      if love.keyboard.isDown "up"
+        bullet_speed\add (Vector 0, -@bullet_speed)
+      if love.keyboard.isDown "down"
+        bullet_speed\add (Vector 0, @bullet_speed)
+      if bullet_speed\getLength! > 0
+        bullet = FilteredBullet @position.x, @position.y, @damage, bullet_speed, filters
+        if @knocking_back
+          bullet.sprite = @knock_back_sprite
+          bullet.knockback = true
+        if @can_shoot
+          Driver\addObject bullet, EntityTypes.bullet
+          attacked = true
 
       if Driver.objects[EntityTypes.goal]
         for k, v in pairs Driver.objects[EntityTypes.goal]
@@ -293,6 +294,16 @@ export class Player extends GameObject
 
     if attacked
       @attack_timer = 0
+
+    for k2, filter in pairs filters
+      if Driver.objects[filter]
+        for k, v in pairs Driver.objects[filter]
+          enemy = v\getHitBox!
+          player = @getHitBox!
+          player.radius += @attack_range + @range_boost
+          if enemy\contains player
+            if Upgrade.player_special[4]
+              @speed_boost += @max_speed / 4
     @speed_boost = math.min @speed_boost, @max_speed
 
     if Driver.objects[EntityTypes.goal]

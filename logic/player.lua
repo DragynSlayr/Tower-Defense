@@ -52,7 +52,7 @@ do
       self.armor = clamp(self.armor, 0, self.max_armor)
     end,
     keypressed = function(self, key)
-      if not self.alive then
+      if not self.alive or self.is_clone then
         return 
       end
       if not self.movement_blocked then
@@ -76,9 +76,6 @@ do
             self.keys_pushed = self.keys_pushed + 1
           end
         end
-      end
-      if self.is_clone then
-        return 
       end
       if key == "q" then
         for k, v in pairs(self.equipped_items) do
@@ -218,30 +215,33 @@ do
       self.speed_boost = 0
       self.attack_timer = self.attack_timer + dt
       local attacked = false
+      local filters = {
+        EntityTypes.enemy,
+        EntityTypes.boss
+      }
       if self.attack_timer >= self.attack_speed / (Upgrade.player_stats[5] + 1) then
-        local filters = {
-          EntityTypes.enemy,
-          EntityTypes.boss
-        }
-        for k2, filter in pairs(filters) do
-          if Driver.objects[filter] then
-            for k, v in pairs(Driver.objects[filter]) do
-              local enemy = v:getHitBox()
-              local player = self:getHitBox()
-              player.radius = player.radius + (self.attack_range + self.range_boost)
-              if enemy:contains(player) then
-                if Upgrade.player_special[4] then
-                  self.speed_boost = self.speed_boost + (self.max_speed / 4)
-                end
-                local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
-                if self.knocking_back then
-                  bullet.sprite = self.knock_back_sprite
-                  bullet.knockback = true
-                end
-                Driver:addObject(bullet, EntityTypes.bullet)
-                attacked = true
-              end
-            end
+        local bullet_speed = Vector(0, 0)
+        if love.keyboard.isDown("left") then
+          bullet_speed:add((Vector(-self.bullet_speed, 0)))
+        end
+        if love.keyboard.isDown("right") then
+          bullet_speed:add((Vector(self.bullet_speed, 0)))
+        end
+        if love.keyboard.isDown("up") then
+          bullet_speed:add((Vector(0, -self.bullet_speed)))
+        end
+        if love.keyboard.isDown("down") then
+          bullet_speed:add((Vector(0, self.bullet_speed)))
+        end
+        if bullet_speed:getLength() > 0 then
+          local bullet = FilteredBullet(self.position.x, self.position.y, self.damage, bullet_speed, filters)
+          if self.knocking_back then
+            bullet.sprite = self.knock_back_sprite
+            bullet.knockback = true
+          end
+          if self.can_shoot then
+            Driver:addObject(bullet, EntityTypes.bullet)
+            attacked = true
           end
         end
         if Driver.objects[EntityTypes.goal] then
@@ -271,6 +271,20 @@ do
       end
       if attacked then
         self.attack_timer = 0
+      end
+      for k2, filter in pairs(filters) do
+        if Driver.objects[filter] then
+          for k, v in pairs(Driver.objects[filter]) do
+            local enemy = v:getHitBox()
+            local player = self:getHitBox()
+            player.radius = player.radius + (self.attack_range + self.range_boost)
+            if enemy:contains(player) then
+              if Upgrade.player_special[4] then
+                self.speed_boost = self.speed_boost + (self.max_speed / 4)
+              end
+            end
+          end
+        end
       end
       self.speed_boost = math.min(self.speed_boost, self.max_speed)
       if Driver.objects[EntityTypes.goal] then
@@ -459,6 +473,8 @@ do
       self.level = 1
       self.exp = 0
       self.next_exp = self:calcExp((self.level + 1))
+      self.can_shoot = true
+      self.bullet_speed = self.max_speed * 1.25
     end,
     __base = _base_0,
     __name = "Player",
