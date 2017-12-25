@@ -35,7 +35,7 @@ export class AttackWave extends Wave
         @spawn_count += 1
         @max_time = (3 / @spawn_count) + 1
         @spawnRandomEnemy!
-    if @killed >= @target and Driver\isClear!
+    if @killed >= @target and (Driver\isClear true, false)
       --Driver\killEnemies!
       @complete = true
 
