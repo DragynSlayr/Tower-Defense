@@ -96,16 +96,18 @@ export class Driver
           Driver\removeObject p, false
           Driver\addObject p2, EntityTypes.player
 
-    isClear: =>
+    isClear: (count_enemies = true, count_bullets = true) =>
       sum = 0
-      if Driver.objects[EntityTypes.enemy]
-        for k, v in pairs Driver.objects[EntityTypes.enemy]
-          if v.alive
-            sum += 1
-      if Driver.objects[EntityTypes.bullet]
-        for k, b in pairs Driver.objects[EntityTypes.bullet]
-          if b.alive
-            sum += 1
+      if count_enemies
+        if Driver.objects[EntityTypes.enemy]
+          for k, v in pairs Driver.objects[EntityTypes.enemy]
+            if v.alive
+              sum += 1
+      if count_bullets
+        if Driver.objects[EntityTypes.bullet]
+          for k, b in pairs Driver.objects[EntityTypes.bullet]
+            if b.alive
+              sum += 1
       return sum == 0
 
     getRandomPosition: =>
@@ -119,9 +121,10 @@ export class Driver
       love.event.quit 0
 
     keypressed: (key, scancode, isrepeat) ->
-      if key == "escape"
-        Driver.quitGame!
-      elseif key == "printscreen"
+      --if key == "escape"
+        --Driver.quitGame!
+      --else
+      if key == "printscreen"
         screenshot = love.graphics.newScreenshot true
         screenshot\encode "png", "screenshots/" .. os.time! .. ".png"
 
@@ -135,7 +138,7 @@ export class Driver
         if key == "`"
           if DEBUG_MENU_ENABLED
             export DEBUG_MENU = true
-        elseif key == "p"
+        elseif key == "p" or key == "escape"
           if Driver.game_state ~= Game_State.game_over
             if Driver.game_state == Game_State.paused
               Driver.unpause!

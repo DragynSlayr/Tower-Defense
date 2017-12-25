@@ -78,19 +78,29 @@ do
         end
       end
     end,
-    isClear = function(self)
+    isClear = function(self, count_enemies, count_bullets)
+      if count_enemies == nil then
+        count_enemies = true
+      end
+      if count_bullets == nil then
+        count_bullets = true
+      end
       local sum = 0
-      if Driver.objects[EntityTypes.enemy] then
-        for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
-          if v.alive then
-            sum = sum + 1
+      if count_enemies then
+        if Driver.objects[EntityTypes.enemy] then
+          for k, v in pairs(Driver.objects[EntityTypes.enemy]) do
+            if v.alive then
+              sum = sum + 1
+            end
           end
         end
       end
-      if Driver.objects[EntityTypes.bullet] then
-        for k, b in pairs(Driver.objects[EntityTypes.bullet]) do
-          if b.alive then
-            sum = sum + 1
+      if count_bullets then
+        if Driver.objects[EntityTypes.bullet] then
+          for k, b in pairs(Driver.objects[EntityTypes.bullet]) do
+            if b.alive then
+              sum = sum + 1
+            end
           end
         end
       end
@@ -107,9 +117,7 @@ do
       return love.event.quit(0)
     end,
     keypressed = function(key, scancode, isrepeat)
-      if key == "escape" then
-        Driver.quitGame()
-      elseif key == "printscreen" then
+      if key == "printscreen" then
         local screenshot = love.graphics.newScreenshot(true)
         screenshot:encode("png", "screenshots/" .. os.time() .. ".png")
       end
@@ -126,7 +134,7 @@ do
           if DEBUG_MENU_ENABLED then
             DEBUG_MENU = true
           end
-        elseif key == "p" then
+        elseif key == "p" or key == "escape" then
           if Driver.game_state ~= Game_State.game_over then
             if Driver.game_state == Game_State.paused then
               return Driver.unpause()
