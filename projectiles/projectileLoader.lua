@@ -1,4 +1,5 @@
 require("projectiles.projectile")
+require("projectiles.filteredBullet")
 require("projectiles.bullet")
 require("projectiles.playerBullet")
 require("projectiles.missile")
