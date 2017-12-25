@@ -60,6 +60,7 @@ EnemyTypes
 EntityTypes
 ExtraLifePassive
 FakeFindGoal
+FilteredBullet
 FindGoal
 FreezeFieldActive
 FrostField
@@ -236,11 +237,13 @@ boxes
 buffed
 bullet
 bullet_position
+bullet_speed
 buttons
 byte
 c
 calcExp
 can_place
+can_shoot
 capture
 capture_amount
 captured
@@ -308,6 +311,7 @@ current_node
 current_screen
 current_stats
 cursor
+curve
 d
 damage
 damage_multiplier
@@ -468,6 +472,7 @@ h
 half_height
 half_width
 hasChild
+hasCurve
 hasNode
 hasWord
 has_shader
@@ -746,6 +751,7 @@ rjust
 root
 rotate
 rotation
+rotation_direction
 rotation_speed
 rstrip
 runText
@@ -772,6 +778,7 @@ server_port
 setArmor
 setCenter
 setColor
+setCurve
 setDefaultFilter
 setFont
 setIdentity
@@ -790,6 +797,7 @@ setSizeRange
 setSpeedOverride
 setSpeedRange
 setSprite
+setTurret
 setVelocity
 setVolume
 set_colors
@@ -851,6 +859,7 @@ sqrt
 start
 start_button
 start_damage
+start_rotation
 start_x
 start_y
 started
@@ -921,7 +930,6 @@ turretChance
 turret_cooldown
 turret_count
 turret_icons
-turret_position
 turret_spawn_num
 turret_special
 turret_stats
