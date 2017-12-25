@@ -133,7 +133,7 @@ Base_Stats.player = {}
 -- "Health", "Range", "Damage", "Speed", "Attack Delay"
 Base_Stats.player[1] = 25
 Base_Stats.player[2] = 75 * Scale.diag
-Base_Stats.player[3] = 0.5
+Base_Stats.player[3] = 1.25
 Base_Stats.player[4] = 275 * Scale.diag
 Base_Stats.player[5] = 1 / 10--1 / 75
 
