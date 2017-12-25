@@ -15,7 +15,7 @@ do
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y)
+    __init = function(self)
       self.rarity = self:getRandomRarity()
       local cd = ({
         20,
@@ -29,10 +29,11 @@ do
       effect = function(self, player)
         if player.speed:getLength() == 0 then
           for i = 0, 300, 60 do
-            x = 138 * Scale.width
+            local x = 138 * Scale.width
             local v = Vector(x, 0)
             v:rotate((i / 180) * math.pi)
             v:add(player.position)
+            local y
             x, y = v:getComponents()
             local angle = (i / 180) * math.pi
             self:createShatter(x, y, angle + (math.pi / 2))
@@ -40,16 +41,17 @@ do
         else
           local angle = player.speed:getAngle()
           for i = 1, 6 do
-            x = (i - 1) * (96 * Scale.width)
+            local x = (i - 1) * (96 * Scale.width)
             local v = Vector(x, 0)
             v:rotate(angle)
             v:add(player.position)
+            local y
             x, y = v:getComponents()
             self:createShatter(x, y, angle + (math.pi / 2))
           end
         end
       end
-      _class_0.__parent.__init(self, x, y, sprite, cd, effect)
+      _class_0.__parent.__init(self, sprite, cd, effect)
       self.name = "Earth Shatter"
       self.description = "Slow enemies"
       self.effect_time = 6

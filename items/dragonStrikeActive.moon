@@ -1,5 +1,5 @@
 export class DragonStrikeActive extends ActiveItem
-  new: (x, y) =>
+  new: =>
     @rarity = @getRandomRarity!
     cd = ({18, 16, 14, 12, 10})[@rarity]
     sprite = Sprite "item/dragonStrikeActive.tga", 32, 32, 1, 1.75
@@ -26,7 +26,7 @@ export class DragonStrikeActive extends ActiveItem
           v\rotate angle
           v\add player.position
           @createDragon v\getComponents!
-    super x, y, sprite, cd, effect
+    super sprite, cd, effect
     @name = "Dragon Strike"
     @description = "Summon a dragon"
     @effect_time = 6

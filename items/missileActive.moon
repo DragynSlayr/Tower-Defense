@@ -1,5 +1,5 @@
 export class MissileActive extends ActiveItem
-  new: (x, y) =>
+  new: =>
     @rarity = @getRandomRarity!
     cd = ({15, 14, 13, 12, 11})[@rarity]
     sprite = Sprite "projectile/missile.tga", 32, 16, 1, 1.75
@@ -10,7 +10,7 @@ export class MissileActive extends ActiveItem
         missile = Missile player.position.x + point.x, player.position.y + point.y
         Driver\addObject missile, EntityTypes.bullet
         point\rotate angle
-    super x, y, sprite, cd, effect
+    super sprite, cd, effect
     @name = "Missile Barrage"
     @description = "Launch a number of missiles"
     @num_missiles = ({2, 3, 4, 5, 6})[@rarity]

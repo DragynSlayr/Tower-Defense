@@ -31,7 +31,7 @@ do
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y)
+    __init = function(self)
       self.rarity = self:getRandomRarity()
       local cd = ({
         30,
@@ -50,7 +50,7 @@ do
           t.max_health = t.max_health * 2
         end
       end
-      _class_0.__parent.__init(self, x, y, sprite, cd, effect)
+      _class_0.__parent.__init(self, sprite, cd, effect)
       self.name = "Molten Core"
       self.description = "Boosts turret damage and health"
       self.effect_time = ({

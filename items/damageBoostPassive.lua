@@ -10,7 +10,7 @@ do
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y)
+    __init = function(self)
       self.rarity = self:getRandomRarity()
       self.amount = ({
         1.2,
@@ -24,7 +24,7 @@ do
       effect = function(self, player)
         player.damage = player.damage * self.amount
       end
-      _class_0.__parent.__init(self, x, y, sprite, nil, effect)
+      _class_0.__parent.__init(self, sprite, nil, effect)
       self.name = "Damage Up"
       self.description = "Raises player damage by " .. ((self.amount - 1) * 100) .. "%"
     end,

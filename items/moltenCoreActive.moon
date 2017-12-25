@@ -1,5 +1,5 @@
 export class MoltenCoreActive extends ActiveItem
-  new: (x, y) =>
+  new: =>
     @rarity = @getRandomRarity!
     cd = ({30, 27, 24, 21, 18})[@rarity]
     sprite = Sprite "item/moltenCoreActive.tga", 32, 32, 1, 1.75
@@ -9,7 +9,7 @@ export class MoltenCoreActive extends ActiveItem
         t.damage *= 2
         t.health *= 2
         t.max_health *= 2
-    super x, y, sprite, cd, effect
+    super sprite, cd, effect
     @name = "Molten Core"
     @description = "Boosts turret damage and health"
     @effect_time = ({10, 11, 12, 13, 14})[@rarity]

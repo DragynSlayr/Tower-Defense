@@ -5,9 +5,10 @@ do
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y)
+    __init = function(self)
+      self.rarity = 1
       local sprite = Sprite("item/box.tga", 32, 32, 1, 1.75)
-      _class_0.__parent.__init(self, x, y, sprite)
+      _class_0.__parent.__init(self, sprite)
       self.name = "Item Box"
       self.description = "Open to get a random item"
     end,

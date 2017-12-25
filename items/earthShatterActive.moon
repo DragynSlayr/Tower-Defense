@@ -1,5 +1,5 @@
 export class EarthShatterActive extends ActiveItem
-  new: (x, y) =>
+  new: =>
     @rarity = @getRandomRarity!
     cd = ({20, 18, 16, 14, 12})[@rarity]
     sprite = Sprite "item/earthShatterActive.tga", 32, 32, 1, 1.75
@@ -22,7 +22,7 @@ export class EarthShatterActive extends ActiveItem
           v\add player.position
           x, y = v\getComponents!
           @createShatter x, y, angle + (math.pi / 2)
-    super x, y, sprite, cd, effect
+    super sprite, cd, effect
     @name = "Earth Shatter"
     @description = "Slow enemies"
     @effect_time = 6

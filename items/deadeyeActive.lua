@@ -88,7 +88,7 @@ do
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y)
+    __init = function(self)
       self.rarity = self:getRandomRarity()
       local cd = ({
         15,
@@ -103,7 +103,7 @@ do
         player.movement_blocked = true
         self.damage = 0
       end
-      _class_0.__parent.__init(self, x, y, sprite, cd, effect)
+      _class_0.__parent.__init(self, sprite, cd, effect)
       self.name = "Dead Eye"
       self.description = "Take aim and fire"
       self.effect_time = 6

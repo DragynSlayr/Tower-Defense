@@ -1,5 +1,5 @@
 export class CloneActive extends ActiveItem
-  new: (x, y) =>
+  new: =>
     @rarity = @getRandomRarity!
     cd = ({25, 24, 23, 22, 21})[@rarity]
     sprite = Sprite "player/test.tga", 16, 16, 2, 3.50
@@ -17,7 +17,7 @@ export class CloneActive extends ActiveItem
       @clone.kill = () =>
         return
       Driver\addObject @clone, EntityTypes.player
-    super x, y, sprite, cd, effect
+    super sprite, cd, effect
     @name = "Shadow Clone"
     @description = "Create a clone of yourself"
     @effect_time = ({7, 8, 9, 10, 11})[@rarity]

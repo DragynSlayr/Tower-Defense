@@ -1,7 +1,7 @@
 export class Item extends GameObject
   @probability = 1
-  new: (x, y, sprite) =>
-    super x, y, sprite
+  new: (sprite) =>
+    super 0, 0, sprite
     @item_type = nil
     @collectable = true
     @draw_health = false

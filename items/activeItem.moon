@@ -1,6 +1,6 @@
 export class ActiveItem extends Item
-  new: (x, y, sprite, charge_time = 0, effect) =>
-    super x, y, sprite
+  new: (sprite, charge_time = 0, effect) =>
+    super sprite
     @item_type = ItemTypes.active
     @charged = true
     @charge_time = charge_time

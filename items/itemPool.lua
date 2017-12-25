@@ -13,7 +13,7 @@ do
     end,
     getItem = function(self)
       local item = pick(self.items)
-      return item(0, 0)
+      return item()
     end
   }
   _base_0.__index = _base_0

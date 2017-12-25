@@ -1,5 +1,5 @@
 export class DamageReflectPassive extends PassiveItem
-  new: (x, y) =>
+  new: =>
     @rarity = @getRandomRarity!
     @chance = ({50, 55, 60, 65, 70})[@rarity]
     sprite = Sprite "item/damageReflectPassive.tga", 32, 32, 1, 1.75
@@ -21,7 +21,7 @@ export class DamageReflectPassive extends PassiveItem
                   player.damage = difference
                   e\onCollide player
                   player.damage = temp_damage
-    super x, y, sprite, 0, effect
+    super sprite, 0, effect
     @name = "Damage Reflect"
     @description = "Has a chance to reflect damage taken"
 

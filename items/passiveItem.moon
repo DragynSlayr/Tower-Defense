@@ -1,6 +1,6 @@
 export class PassiveItem extends Item
-  new: (x, y, sprite, delay = -1, effect) =>
-    super x, y, sprite
+  new: (sprite, delay = -1, effect) =>
+    super sprite
     @item_type = ItemTypes.passive
     @effect = effect
     @delay = delay

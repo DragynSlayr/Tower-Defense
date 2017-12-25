@@ -15,7 +15,7 @@ do
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y)
+    __init = function(self)
       self.rarity = self:getRandomRarity()
       self.life_time = ({
         1.5,
@@ -34,7 +34,7 @@ do
         self.trail = trail
         return Driver:addObject(self.trail, EntityTypes.particle)
       end
-      _class_0.__parent.__init(self, x, y, sprite, nil, effect)
+      _class_0.__parent.__init(self, sprite, nil, effect)
       self.name = "Poison Trail"
       self.description = "A trail of poison follows the player"
     end,

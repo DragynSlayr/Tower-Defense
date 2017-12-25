@@ -1,12 +1,12 @@
 export class DeadEyeActive extends ActiveItem
-  new: (x, y) =>
+  new: =>
     @rarity = @getRandomRarity!
     cd = ({15, 14, 13, 12, 11})[@rarity]
     sprite = Sprite "item/deadeyeActive.tga", 32, 32, 1, 1.75
     effect = (player) =>
       player.movement_blocked = true
       @damage = 0
-    super x, y, sprite, cd, effect
+    super sprite, cd, effect
     @name = "Dead Eye"
     @description = "Take aim and fire"
     @effect_time = 6

@@ -45,4 +45,4 @@ export class ItemPoolHandler
 
   getItem: =>
     item = pick @items
-    return item 0, 0
+    return item!

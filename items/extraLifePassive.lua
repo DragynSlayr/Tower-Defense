@@ -10,13 +10,13 @@ do
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y)
+    __init = function(self)
       local sprite = Sprite("item/extraLife.tga", 26, 26, 1, 56 / 26)
       local effect
       effect = function(self, player)
         player.lives = player.lives + 1
       end
-      _class_0.__parent.__init(self, x, y, sprite, nil, effect)
+      _class_0.__parent.__init(self, sprite, nil, effect)
       self.name = "Heart"
       self.description = "Gives an extra life"
     end,

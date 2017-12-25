@@ -1,5 +1,5 @@
 export class TurretSlagPassive extends PassiveItem
-  new: (x, y) =>
+  new: =>
     sprite = Sprite "item/turretSlagPassive.tga", 32, 32, 1, 1.75
     effect = (player) =>
       for k, t in pairs player.turret
@@ -8,6 +8,6 @@ export class TurretSlagPassive extends PassiveItem
           bullet.sprite = Sprite "projectile/slag.tga", 32, 32, 1, 0.75
           bullet.slagging = true
           Driver\addObject bullet, EntityTypes.bullet
-    super x, y, sprite, 1, effect
+    super sprite, 1, effect
     @name = "Slag Shot"
     @description = "Turret shoots slagging shots"

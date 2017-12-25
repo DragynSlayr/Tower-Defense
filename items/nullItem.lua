@@ -3,7 +3,7 @@ do
   local _parent_0 = Item
   local _base_0 = {
     getCopy = function(self)
-      local item = NullItem(self.position.x, self.position.y)
+      local item = NullItem()
       item.name = self.name
       item.description = self.description
       item.sprite = Sprite("item/empty.tga", 32, 32, 1, 1.75)
@@ -13,9 +13,10 @@ do
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y)
+    __init = function(self)
+      self.rarity = 1
       local sprite = Sprite("item/empty.tga", 32, 32, 1, 1.75)
-      _class_0.__parent.__init(self, x, y, sprite)
+      _class_0.__parent.__init(self, sprite)
       self.name = "Empty"
       self.description = "No item in this slot"
     end,

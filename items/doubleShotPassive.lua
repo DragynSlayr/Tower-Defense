@@ -15,7 +15,7 @@ do
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y)
+    __init = function(self)
       self.rarity = self:getRandomRarity()
       self.damage_multiplier = ({
         0.5,
@@ -46,7 +46,7 @@ do
           end
         end
       end
-      _class_0.__parent.__init(self, x, y, sprite, 0, effect)
+      _class_0.__parent.__init(self, sprite, 0, effect)
       self.name = "Double Shot"
       self.description = "Shoot an extra bullet"
     end,

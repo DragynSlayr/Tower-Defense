@@ -75,11 +75,11 @@ do
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self, x, y, sprite, charge_time, effect)
+    __init = function(self, sprite, charge_time, effect)
       if charge_time == nil then
         charge_time = 0
       end
-      _class_0.__parent.__init(self, x, y, sprite)
+      _class_0.__parent.__init(self, sprite)
       self.item_type = ItemTypes.active
       self.charged = true
       self.charge_time = charge_time

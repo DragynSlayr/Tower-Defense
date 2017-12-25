@@ -1,5 +1,5 @@
 export class DoubleShotPassive extends PassiveItem
-  new: (x, y) =>
+  new: =>
     @rarity = @getRandomRarity!
     @damage_multiplier = ({0.5, 0.6, 0.7, 0.8, 0.9})[@rarity]
     sprite = Sprite "item/doubleShotPassive.tga", 32, 32, 1, 1.75
@@ -15,7 +15,7 @@ export class DoubleShotPassive extends PassiveItem
               bullet = PlayerBullet player.position.x, player.position.y, v, player.damage * @damage_multiplier
               bullet.sprite = Sprite "projectile/doubleShot.tga", 26, 20, 1, 0.5
               Driver\addObject bullet, EntityTypes.bullet
-    super x, y, sprite, 0, effect
+    super sprite, 0, effect
     @name = "Double Shot"
     @description = "Shoot an extra bullet"
 
