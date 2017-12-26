@@ -15,8 +15,24 @@ do
       end
       self.sprite:update(dt)
       self.sprite.rotation = self.speed:getAngle() + (math.pi / 2)
-      self.position:add(self.speed:multiply(dt))
+      local delta = self.speed:multiply(dt)
+      self.position:add(delta)
+      self.dist_travelled = self.dist_travelled + delta:getLength()
+      if self.dist_travelled >= self.max_dist then
+        local sprite = Sprite("particle/blip.tga", 16, 16, 1, 0.5)
+        sprite:setColor({
+          50,
+          100,
+          100,
+          0
+        })
+        local particle = Particle(self.position.x, self.position.y, sprite, 127, 15, 0.5)
+        Driver:addObject(particle, EntityTypes.particle)
+        self.health = 0
+        return 
+      end
       if #self.filter == 0 then
+        self.health = 0
         return 
       end
       for k, filter in pairs(self.filter) do
@@ -75,6 +91,8 @@ do
       self.id = EntityTypes.bullet
       self.draw_health = false
       self.solid = false
+      self.max_dist = 2 * (math.max(Screen_Size.width, Screen_Size.height))
+      self.dist_travelled = 0
       self.trail = nil
       local sound = Sound("player_bullet.ogg", 0.025, false, 1.125, true)
       self.death_sound = MusicPlayer:add(sound)

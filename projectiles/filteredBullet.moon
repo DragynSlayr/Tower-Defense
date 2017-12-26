@@ -10,6 +10,9 @@ export class FilteredBullet extends GameObject
     @draw_health = false
     @solid = false
 
+    @max_dist = 2 * (math.max Screen_Size.width, Screen_Size.height)
+    @dist_travelled = 0
+
     @trail = nil
 
     sound = Sound "player_bullet.ogg", 0.025, false, 1.125, true
@@ -28,9 +31,20 @@ export class FilteredBullet extends GameObject
     @sprite\update dt
     @sprite.rotation = @speed\getAngle! + (math.pi / 2)
 
-    @position\add @speed\multiply dt
+    delta = @speed\multiply dt
+    @position\add delta
+    @dist_travelled += delta\getLength!
+
+    if @dist_travelled >= @max_dist
+      sprite = Sprite "particle/blip.tga", 16, 16, 1, 0.5
+      sprite\setColor {50, 100, 100, 0}
+      particle = Particle @position.x, @position.y, sprite, 127, 15, 0.5
+      Driver\addObject particle, EntityTypes.particle
+      @health = 0
+      return
 
     if #@filter == 0
+      @health = 0
       return
 
     for k, filter in pairs @filter
