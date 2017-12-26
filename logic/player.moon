@@ -251,10 +251,32 @@ export class Player extends GameObject
       @elapsed = 0
       @charged = true
 
+    boosted = false
+    for k, v in pairs @turret
+      if not v.alive
+        @num_turrets -= 1
+        @turret[k] = nil
+      elseif Upgrade.player_special[2]
+        turret = v\getAttackHitBox!
+        player = @getHitBox!
+        player.radius += v.range / 5
+        if turret\contains player
+          boosted = true
+
+    if boosted
+      @range_boost = @attack_range
+    else
+      @range_boost = 0
+
     @speed_boost = 0
     @attack_timer += dt
     attacked = false
     filters = {EntityTypes.enemy, EntityTypes.boss}
+    if Driver.objects[EntityTypes.goal]
+      for k, v in pairs Driver.objects[EntityTypes.goal]
+        if v.goal_type == GoalTypes.attack
+          table.insert filters, EntityTypes.goal
+          break
     if @attack_timer >= @attack_speed / (Upgrade.player_stats[5] + 1)
       bullet_speed = Vector 0, 0
       if love.keyboard.isDown "left"
@@ -267,30 +289,13 @@ export class Player extends GameObject
         bullet_speed\add (Vector 0, @bullet_speed)
       if bullet_speed\getLength! > 0
         bullet = FilteredBullet @position.x, @position.y, @damage, bullet_speed, filters
+        bullet.max_dist = @getHitBox!.radius + (2 * (@attack_range + @range_boost))
         if @knocking_back
           bullet.sprite = @knock_back_sprite
           bullet.knockback = true
         if @can_shoot
           Driver\addObject bullet, EntityTypes.bullet
           attacked = true
-
-      if Driver.objects[EntityTypes.goal]
-        for k, v in pairs Driver.objects[EntityTypes.goal]
-          if v.goal_type == GoalTypes.attack
-            goal = v\getHitBox!
-            player = @getHitBox!
-            player.radius += @attack_range + @range_boost
-            if goal\contains player
-              bullet = PlayerBullet @position.x, @position.y, v, @damage
-              Driver\addObject bullet, EntityTypes.bullet
-              attacked = true
-          else if v.goal_type == GoalTypes.find
-            goal = v\getHitBox!
-            player = @getHitBox!
-            player.radius *= 1.25
-            if goal\contains player
-              v\onCollide @
-              attacked = true
 
     if attacked
       @attack_timer = 0
@@ -318,23 +323,6 @@ export class Player extends GameObject
     if @show_turret
       turret = BasicTurret @position.x, @position.y
       Renderer\enqueue turret\drawFaded
-
-    boosted = false
-    for k, v in pairs @turret
-      if not v.alive
-        @num_turrets -= 1
-        @turret[k] = nil
-      elseif Upgrade.player_special[2]
-        turret = v\getAttackHitBox!
-        player = @getHitBox!
-        player.radius += v.range / 5
-        if turret\contains player
-          boosted = true
-
-    if boosted
-      @range_boost = @attack_range
-    else
-      @range_boost = 0
 
     while @exp >= @next_exp
       @exp -= @next_exp

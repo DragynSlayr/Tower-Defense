@@ -212,6 +212,25 @@ do
         self.elapsed = 0
         self.charged = true
       end
+      local boosted = false
+      for k, v in pairs(self.turret) do
+        if not v.alive then
+          self.num_turrets = self.num_turrets - 1
+          self.turret[k] = nil
+        elseif Upgrade.player_special[2] then
+          local turret = v:getAttackHitBox()
+          local player = self:getHitBox()
+          player.radius = player.radius + (v.range / 5)
+          if turret:contains(player) then
+            boosted = true
+          end
+        end
+      end
+      if boosted then
+        self.range_boost = self.attack_range
+      else
+        self.range_boost = 0
+      end
       self.speed_boost = 0
       self.attack_timer = self.attack_timer + dt
       local attacked = false
@@ -219,6 +238,14 @@ do
         EntityTypes.enemy,
         EntityTypes.boss
       }
+      if Driver.objects[EntityTypes.goal] then
+        for k, v in pairs(Driver.objects[EntityTypes.goal]) do
+          if v.goal_type == GoalTypes.attack then
+            table.insert(filters, EntityTypes.goal)
+            break
+          end
+        end
+      end
       if self.attack_timer >= self.attack_speed / (Upgrade.player_stats[5] + 1) then
         local bullet_speed = Vector(0, 0)
         if love.keyboard.isDown("left") then
@@ -235,6 +262,7 @@ do
         end
         if bullet_speed:getLength() > 0 then
           local bullet = FilteredBullet(self.position.x, self.position.y, self.damage, bullet_speed, filters)
+          bullet.max_dist = self:getHitBox().radius + (2 * (self.attack_range + self.range_boost))
           if self.knocking_back then
             bullet.sprite = self.knock_back_sprite
             bullet.knockback = true
@@ -242,30 +270,6 @@ do
           if self.can_shoot then
             Driver:addObject(bullet, EntityTypes.bullet)
             attacked = true
-          end
-        end
-        if Driver.objects[EntityTypes.goal] then
-          for k, v in pairs(Driver.objects[EntityTypes.goal]) do
-            if v.goal_type == GoalTypes.attack then
-              local goal = v:getHitBox()
-              local player = self:getHitBox()
-              player.radius = player.radius + (self.attack_range + self.range_boost)
-              if goal:contains(player) then
-                local bullet = PlayerBullet(self.position.x, self.position.y, v, self.damage)
-                Driver:addObject(bullet, EntityTypes.bullet)
-                attacked = true
-              end
-            else
-              if v.goal_type == GoalTypes.find then
-                local goal = v:getHitBox()
-                local player = self:getHitBox()
-                player.radius = player.radius * 1.25
-                if goal:contains(player) then
-                  v:onCollide(self)
-                  attacked = true
-                end
-              end
-            end
           end
         end
       end
@@ -308,25 +312,6 @@ do
             return _fn_0(_base_1, ...)
           end
         end)())
-      end
-      local boosted = false
-      for k, v in pairs(self.turret) do
-        if not v.alive then
-          self.num_turrets = self.num_turrets - 1
-          self.turret[k] = nil
-        elseif Upgrade.player_special[2] then
-          local turret = v:getAttackHitBox()
-          local player = self:getHitBox()
-          player.radius = player.radius + (v.range / 5)
-          if turret:contains(player) then
-            boosted = true
-          end
-        end
-      end
-      if boosted then
-        self.range_boost = self.attack_range
-      else
-        self.range_boost = 0
       end
       while self.exp >= self.next_exp do
         self.exp = self.exp - self.next_exp
