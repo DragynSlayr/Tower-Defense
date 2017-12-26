@@ -337,6 +337,7 @@ directories
 directory
 disconnect
 dist
+dist_travelled
 dist_vec
 do
 dragon
@@ -359,7 +360,6 @@ effect_timer
 elapsed
 elements
 elimination
-else
 elseif
 emitter
 emitting
@@ -585,6 +585,7 @@ max_armor
 max_count
 max_delay
 max_depth
+max_dist
 max_health
 max_height
 max_missile_time
