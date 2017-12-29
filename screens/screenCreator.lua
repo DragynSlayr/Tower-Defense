@@ -1,6 +1,32 @@
 do
   local _class_0
   local _base_0 = {
+    createControlsMenu = function(self)
+      UI:set_screen(Screen_State.controls)
+      self:createHelp(nil, Screen_Size.height * 0.5)
+      local apply_button = Button(Screen_Size.width / 2, Screen_Size.height - (98 * Scale.height), 250, 60, "Apply", function() end)
+      UI:add(apply_button)
+      local back_button = Button(Screen_Size.width / 2, Screen_Size.height - (34 * Scale.height), 250, 60, "Back", function()
+        Driver.game_state = Game_State.settings
+        return UI:set_screen(Screen_State.settings)
+      end)
+      return UI:add(back_button)
+    end,
+    createSettingsMenu = function(self)
+      UI:set_screen(Screen_State.settings)
+      local controls_button = Button(Screen_Size.width / 2, Screen_Size.height - (162 * Scale.height), 250, 60, "Controls", function()
+        Driver.game_state = Game_State.controls
+        return UI:set_screen(Screen_State.controls)
+      end)
+      UI:add(controls_button)
+      local apply_button = Button(Screen_Size.width / 2, Screen_Size.height - (98 * Scale.height), 250, 60, "Apply", function() end)
+      UI:add(apply_button)
+      local back_button = Button(Screen_Size.width / 2, Screen_Size.height - (34 * Scale.height), 250, 60, "Back", function()
+        Driver.game_state = Game_State.none
+        return UI:set_screen(Screen_State.main_menu)
+      end)
+      return UI:add(back_button)
+    end,
     createHelp = function(self, start_x, start_y)
       if start_x == nil then
         start_x = 100 * Scale.width
@@ -89,7 +115,6 @@ do
     end,
     createMainMenu = function(self)
       UI:set_screen(Screen_State.main_menu)
-      self:createHelp()
       local title = Text(Screen_Size.width / 2, (Screen_Size.height / 4), "Tower Defense")
       UI:add(title)
       local start_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) - (32 * Scale.height), 250, 60, "Start", function()
@@ -97,7 +122,12 @@ do
         return UI:set_screen(Screen_State.none)
       end)
       UI:add(start_button)
-      local exit_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + (32 * Scale.height), 250, 60, "Exit", function()
+      local settings_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + (32 * Scale.height), 250, 60, "Settings", function()
+        Driver.game_state = Game_State.settings
+        return UI:set_screen(Screen_State.settings)
+      end)
+      UI:add(settings_button)
+      local exit_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + (96 * Scale.height), 250, 60, "Exit", function()
         return Driver.quitGame()
       end)
       return UI:add(exit_button)
@@ -132,12 +162,12 @@ do
         return Driver.unpause()
       end)
       UI:add(resume_button)
-      local restart_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + (38 * Scale.height), 250, 60, "Restart", function()
+      local restart_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + (32 * Scale.height), 250, 60, "Restart", function()
         ScoreTracker:saveScores()
         return Driver.restart()
       end)
       UI:add(restart_button)
-      local quit_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + (108 * Scale.height), 250, 60, "Quit", function()
+      local quit_button = Button(Screen_Size.width / 2, (Screen_Size.height / 2) + (96 * Scale.height), 250, 60, "Quit", function()
         return Driver.quitGame()
       end)
       UI:add(quit_button)
@@ -430,6 +460,8 @@ do
   _base_0.__index = _base_0
   _class_0 = setmetatable({
     __init = function(self)
+      self:createControlsMenu()
+      self:createSettingsMenu()
       self:createPauseMenu()
       self:createGameOverMenu()
       self:createUpgradeMenu()

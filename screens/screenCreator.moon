@@ -1,10 +1,45 @@
 export class ScreenCreator
   new: =>
+    @createControlsMenu!
+    @createSettingsMenu!
     @createPauseMenu!
     @createGameOverMenu!
     @createUpgradeMenu!
     @createInventoryMenu!
     @createMainMenu!
+
+  createControlsMenu: =>
+    UI\set_screen Screen_State.controls
+
+    @createHelp nil, Screen_Size.height * 0.5
+
+    apply_button = Button Screen_Size.width / 2, Screen_Size.height - (98 * Scale.height), 250, 60, "Apply", () ->
+      --Driver.game_state = Game_State.none
+      --UI\set_screen Screen_State.main_menu
+    UI\add apply_button
+
+    back_button = Button Screen_Size.width / 2, Screen_Size.height - (34 * Scale.height), 250, 60, "Back", () ->
+      Driver.game_state = Game_State.settings
+      UI\set_screen Screen_State.settings
+    UI\add back_button
+
+  createSettingsMenu: =>
+    UI\set_screen Screen_State.settings
+
+    controls_button = Button Screen_Size.width / 2, Screen_Size.height - (162 * Scale.height), 250, 60, "Controls", () ->
+      Driver.game_state = Game_State.controls
+      UI\set_screen Screen_State.controls
+    UI\add controls_button
+
+    apply_button = Button Screen_Size.width / 2, Screen_Size.height - (98 * Scale.height), 250, 60, "Apply", () ->
+      --Driver.game_state = Game_State.none
+      --UI\set_screen Screen_State.main_menu
+    UI\add apply_button
+
+    back_button = Button Screen_Size.width / 2, Screen_Size.height - (34 * Scale.height), 250, 60, "Back", () ->
+      Driver.game_state = Game_State.none
+      UI\set_screen Screen_State.main_menu
+    UI\add back_button
 
   createHelp: (start_x = 100 * Scale.width, start_y = Screen_Size.height * 0.4) =>
     keys = {}
@@ -107,7 +142,7 @@ export class ScreenCreator
   createMainMenu: =>
     UI\set_screen Screen_State.main_menu
 
-    @createHelp!
+    --@createHelp!
 
     title = Text Screen_Size.width / 2, (Screen_Size.height / 4), "Tower Defense"
     UI\add title
@@ -117,7 +152,12 @@ export class ScreenCreator
       UI\set_screen Screen_State.none
     UI\add start_button
 
-    exit_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (32 * Scale.height), 250, 60, "Exit", () ->
+    settings_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (32 * Scale.height), 250, 60, "Settings", () ->
+      Driver.game_state = Game_State.settings
+      UI\set_screen Screen_State.settings
+    UI\add settings_button
+
+    exit_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (96 * Scale.height), 250, 60, "Exit", () ->
       Driver.quitGame!
     UI\add exit_button
 
@@ -156,12 +196,12 @@ export class ScreenCreator
       Driver.unpause!
     UI\add resume_button
 
-    restart_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (38 * Scale.height), 250, 60, "Restart", () ->
+    restart_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (32 * Scale.height), 250, 60, "Restart", () ->
       ScoreTracker\saveScores!
       Driver.restart!
     UI\add restart_button
 
-    quit_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (108 * Scale.height), 250, 60, "Quit", () ->
+    quit_button = Button Screen_Size.width / 2, (Screen_Size.height / 2) + (96 * Scale.height), 250, 60, "Quit", () ->
       Driver.quitGame!
     UI\add quit_button
 

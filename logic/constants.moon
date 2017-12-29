@@ -171,6 +171,8 @@ Screen_State.scores     = "Scores"
 Screen_State.loading    = "Loading"
 Screen_State.none       = "None"
 Screen_State.inventory  = "Inventory"
+Screen_State.settings   = "Settings"
+Screen_State.controls   = "Controls"
 
 export Game_State = {}
 
@@ -181,3 +183,5 @@ Game_State.playing   = "Playing"
 Game_State.upgrading = "Upgrading"
 Game_State.none      = "None"
 Game_State.inventory = "Inventory"
+Game_State.settings  = "Settings"
+Game_State.controls  = "Controls"
