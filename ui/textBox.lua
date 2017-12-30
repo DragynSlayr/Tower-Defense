@@ -59,12 +59,13 @@ do
           end
           local current_line = self:getLine(self.lines_index)
           current_line = current_line .. text
-          local width = self.font:getWidth(current_line)
+          local width = (self.font:getWidth(current_line)) * Scale.width
           if width + (30 * Scale.width) < self.width then
             self.char_index = self.char_index + 1
-            return table.insert(self.lines[self.lines_index], self.char_index, text)
+            table.insert(self.lines[self.lines_index], self.char_index, text)
           end
         end
+        return print((self.font:getWidth((self:getLine(self.lines_index, (self.char_index + 1))))))
       end
     end,
     keypressed = function(self, key, scancode, isrepeat)
@@ -172,18 +173,14 @@ do
       love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
       local text = self:getText()
       love.graphics.setColor(self.text_color[1], self.text_color[2], self.text_color[3], self.text_color[4])
-      love.graphics.setFont(self.font)
-      local height = self.font:getHeight()
-      local width = self.font:getWidth(text)
+      local height = self.font:getHeight() * Scale.height
+      love.graphics.setFont((love.graphics.newFont(height)))
       love.graphics.printf(text, self.x + (10 * Scale.width), self.y + (height / 2), self.width, "left")
       if self.active then
         love.graphics.setColor(self.text_color[1], self.text_color[2], self.text_color[3], self.cursor.alpha)
-        width = 0
-        if self.lines[self.lines_index] then
-          width = self.font:getWidth(self:getLine(self.lines_index, (self.char_index + 1)))
-        end
-        love.graphics.rectangle("fill", self.x + (10 * Scale.width) + width, self.y + (height / 2) + ((self.lines_index - 1) * height), 10 * Scale.width, height)
-        self.cursor.position = Point(self.x + (10 * Scale.width) + width, self.y + (height / 2) + ((self.lines_index - 1) * height))
+        local width = self.font:getWidth((self:getLine(self.lines_index, (self.char_index + 1))))
+        self.cursor.position = Point(self.x + ((10 + width) * Scale.width), self.y + (height / 2) + ((self.lines_index - 1) * height))
+        love.graphics.rectangle("fill", self.cursor.position.x, self.cursor.position.y, 10 * Scale.width, height)
       end
       return love.graphics.pop()
     end

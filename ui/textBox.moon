@@ -100,10 +100,11 @@ export class TextBox extends UIElement
           @lines[@lines_index] = {}
         current_line = @getLine @lines_index
         current_line ..= text
-        width = @font\getWidth current_line
+        width = (@font\getWidth current_line) * Scale.width
         if width + (30 * Scale.width) < @width
           @char_index += 1
           table.insert @lines[@lines_index], @char_index, text
+      print (@font\getWidth (@getLine @lines_index, (@char_index + 1)))
 
   keypressed: (key, scancode, isrepeat) =>
     if @active
@@ -192,17 +193,15 @@ export class TextBox extends UIElement
     text = @getText!
 
     love.graphics.setColor @text_color[1], @text_color[2], @text_color[3], @text_color[4]
-    love.graphics.setFont @font
-    height = @font\getHeight!
-    width = @font\getWidth text
+    height = @font\getHeight! * Scale.height
+    --width = (@font\getWidth text) * Scale.width
+    love.graphics.setFont (love.graphics.newFont height)
     love.graphics.printf text, @x + (10 * Scale.width), @y + (height / 2), @width, "left"
 
     if @active
       love.graphics.setColor @text_color[1], @text_color[2], @text_color[3], @cursor.alpha
-      width = 0
-      if @lines[@lines_index]
-        width = @font\getWidth @getLine @lines_index, (@char_index + 1)
-      love.graphics.rectangle "fill", @x + (10 * Scale.width) + width, @y + (height / 2) + ((@lines_index - 1) * height), 10 * Scale.width, height
-      @cursor.position = Point @x + (10 * Scale.width) + width, @y + (height / 2) + ((@lines_index - 1) * height)
+      width = @font\getWidth (@getLine @lines_index, (@char_index + 1))
+      @cursor.position = Point @x + ((10 + width) * Scale.width), @y + (height / 2) + ((@lines_index - 1) * height)
+      love.graphics.rectangle "fill", @cursor.position.x, @cursor.position.y, 10 * Scale.width, height
 
     love.graphics.pop!
