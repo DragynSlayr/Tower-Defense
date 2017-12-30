@@ -27,6 +27,7 @@ CaptureEnemy
 CaptureGoal
 CaptureMode
 CaptureWave
+CheckBox
 Circle
 CloneActive
 Color
@@ -169,6 +170,7 @@ Vector
 Wall
 Wave
 WholeHogActive
+_
 __class
 __name
 __tostring
@@ -198,6 +200,7 @@ and
 angle
 applyDamage
 applyPull
+apply_button
 armor
 armored
 arrow
@@ -261,6 +264,8 @@ charged
 chase_time
 check_button
 check_sprite
+checked
+checked_sprite
 children
 circ
 circle
@@ -283,6 +288,8 @@ contact_damage
 contains
 contents
 continue_button
+controls
+controls_button
 cooldown
 cooldown_sprite
 cooldown_time
@@ -293,6 +300,7 @@ corners
 cos_angle
 count
 counter
+createControlsMenu
 createDirectory
 createDragon
 createGameOverMenu
@@ -301,9 +309,11 @@ createInventoryMenu
 createMainMenu
 createMenu
 createPauseMenu
+createSettingsMenu
 createShatter
 createUpgradeMenu
 current
+current_flags
 current_frame
 current_item
 current_line
@@ -415,6 +425,8 @@ frame3
 frameType
 frames
 frost_delay
+fs_cb
+fullscreen
 g
 game_over
 game_state
@@ -437,6 +449,7 @@ getDimensions
 getDirectoryItems
 getDistanceBetween
 getFPS
+getFullscreen
 getHeight
 getHitBox
 getItem
@@ -444,6 +457,7 @@ getLength
 getLevel
 getLine
 getLooping
+getMode
 getNode
 getPitch
 getPosition
@@ -483,6 +497,7 @@ health
 heart_max_time
 heart_timer
 height
+height_box
 height_scale
 high_scores
 hit
@@ -633,8 +648,10 @@ newScreenshot
 newShader
 newSource
 newVec
+new_height
 new_item
 new_node
+new_width
 next
 nextMode
 nextWave
@@ -733,6 +750,7 @@ repair_range
 repair_sound
 repeating
 require
+res_changed
 resetProperties
 resetText
 reset_chars
@@ -787,6 +805,7 @@ setItem
 setLifeTimeRange
 setLineWidth
 setLooping
+setMode
 setPitch
 setRadius
 setRotation
@@ -807,6 +826,8 @@ set_message
 set_screen
 setpeername
 settimeout
+settings
+settings_button
 shader
 shatter
 shield_available
@@ -955,6 +976,8 @@ v2
 value
 vec
 velocity
+vs_cb
+vsync
 vyder
 wait_time
 waiting
@@ -964,7 +987,9 @@ wave_count
 when
 while
 width
+width_box
 width_scale
+window
 word
 words
 write
