@@ -143,6 +143,7 @@ do
             end
           end
         else
+          UI:keypressed(key, scancode, isrepeat)
           local _exp_0 = Driver.game_state
           if Game_State.playing == _exp_0 then
             if Objectives.mode.complete and key == "space" then
@@ -162,6 +163,7 @@ do
       if DEBUG_MENU then
         return Debugger:keyreleased(key)
       else
+        UI:keyreleased(key)
         local _exp_0 = Driver.game_state
         if Game_State.playing == _exp_0 then
           for k, v in pairs(Driver.objects[EntityTypes.player]) do

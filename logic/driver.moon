@@ -145,6 +145,7 @@ export class Driver
             else
               Driver.pause!
         else
+          UI\keypressed key, scancode, isrepeat
           switch Driver.game_state
             when Game_State.playing
               if Objectives.mode.complete and key == "space"
@@ -159,6 +160,7 @@ export class Driver
       if DEBUG_MENU
         Debugger\keyreleased key
       else
+        UI\keyreleased key
         switch Driver.game_state
           when Game_State.playing
             for k, v in pairs Driver.objects[EntityTypes.player]
