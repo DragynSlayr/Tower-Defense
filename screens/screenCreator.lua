@@ -14,12 +14,90 @@ do
     end,
     createSettingsMenu = function(self)
       UI:set_screen(Screen_State.settings)
+      local _, current_flags
+      _, _, current_flags = love.window.getMode()
       local controls_button = Button(Screen_Size.width / 2, Screen_Size.height - (162 * Scale.height), 250, 60, "Controls", function()
         Driver.game_state = Game_State.controls
         return UI:set_screen(Screen_State.controls)
       end)
       UI:add(controls_button)
-      local apply_button = Button(Screen_Size.width / 2, Screen_Size.height - (98 * Scale.height), 250, 60, "Apply", function() end)
+      UI:add((Text(Screen_Size.width * 0.45, Screen_Size.height * 0.2, "Fullscreen", Renderer.small_font)))
+      local fs_cb = CheckBox(Screen_Size.width * 0.55, Screen_Size.height * 0.2, 50, nil)
+      fs_cb.checked = love.window.getFullscreen()
+      UI:add(fs_cb)
+      UI:add((Text(Screen_Size.width * 0.45, Screen_Size.height * 0.255, "Resolution", Renderer.small_font)))
+      UI:add((Text(Screen_Size.width * 0.55, Screen_Size.height * 0.255, "X", Renderer.small_font)))
+      local width_box = TextBox(Screen_Size.width * 0.495, Screen_Size.height * 0.23, 75 * Scale.width, 40 * Scale.height)
+      width_box.action = { }
+      width_box.active = false
+      width_box.text_color = {
+        255,
+        255,
+        255,
+        255
+      }
+      width_box:addText((tostring(Screen_Size.width)))
+      UI:add(width_box)
+      local height_box = TextBox(Screen_Size.width * 0.56, Screen_Size.height * 0.23, 75 * Scale.width, 40 * Scale.height)
+      height_box.action = { }
+      height_box.active = false
+      height_box.text_color = {
+        255,
+        255,
+        255,
+        255
+      }
+      height_box:addText((tostring(Screen_Size.height)))
+      UI:add(height_box)
+      UI:add((Text(Screen_Size.width * 0.45, Screen_Size.height * 0.31, "Vertical Sync", Renderer.small_font)))
+      local vs_cb = CheckBox(Screen_Size.width * 0.55, Screen_Size.height * 0.31, 50, nil)
+      vs_cb.checked = current_flags.vsync
+      UI:add(vs_cb)
+      local apply_button = Button(Screen_Size.width / 2, Screen_Size.height - (98 * Scale.height), 250, 60, "Apply", function()
+        local new_width
+        if tonumber(width_box:getText()) then
+          new_width = tonumber(width_box:getText())
+        else
+          new_width = Screen_Size.width
+        end
+        local new_height
+        if tonumber(height_box:getText()) then
+          new_height = tonumber(height_box:getText())
+        else
+          new_height = Screen_Size.height
+        end
+        local res_changed = new_width ~= Screen_Size.width or new_height ~= Screen_Size.height
+        local flags = { }
+        flags.fullscreen = fs_cb.checked and not res_changed
+        flags.vsync = vs_cb.checked
+        love.window.setMode(new_width, new_height, flags)
+        Screen_Size = { }
+        Screen_Size.width = love.graphics.getWidth()
+        Screen_Size.height = love.graphics.getHeight()
+        Screen_Size.half_width = Screen_Size.width / 2
+        Screen_Size.half_height = Screen_Size.height / 2
+        Screen_Size.bounds = {
+          0,
+          0,
+          Screen_Size.width,
+          Screen_Size.height
+        }
+        Screen_Size.size = {
+          Screen_Size.width,
+          Screen_Size.height
+        }
+        Scale = { }
+        Scale.width = Screen_Size.width / 1600
+        Scale.height = Screen_Size.height / 900
+        Scale.diag = math.sqrt((Screen_Size.width * Screen_Size.width) + (Screen_Size.height * Screen_Size.height)) / math.sqrt((1600 * 1600) + (900 * 900))
+        Screen_Size.border = {
+          0,
+          70 * Scale.height,
+          Screen_Size.width,
+          Screen_Size.height - (140 * Scale.height)
+        }
+        return Driver:restart()
+      end)
       UI:add(apply_button)
       local back_button = Button(Screen_Size.width / 2, Screen_Size.height - (34 * Scale.height), 250, 60, "Back", function()
         Driver.game_state = Game_State.none
