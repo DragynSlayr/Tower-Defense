@@ -3,7 +3,6 @@ do
   local _base_0 = {
     createControlsMenu = function(self)
       UI:set_screen(Screen_State.controls)
-      self:createHelp(nil, Screen_Size.height * 0.5)
       local apply_button = Button(Screen_Size.width / 2, Screen_Size.height - (98 * Scale.height), 250, 60, "Apply", function() end)
       UI:add(apply_button)
       local back_button = Button(Screen_Size.width / 2, Screen_Size.height - (34 * Scale.height), 250, 60, "Back", function()
@@ -53,6 +52,10 @@ do
       local vs_cb = CheckBox(Screen_Size.width * 0.55, Screen_Size.height * 0.31, 50, nil)
       vs_cb.checked = current_flags.vsync
       UI:add(vs_cb)
+      UI:add((Text(Screen_Size.width * 0.45, Screen_Size.height * 0.365, "Show FPS", Renderer.small_font)))
+      local fps_cb = CheckBox(Screen_Size.width * 0.55, Screen_Size.height * 0.365, 50, nil)
+      fps_cb.checked = SHOW_FPS
+      UI:add(fps_cb)
       local apply_button = Button(Screen_Size.width / 2, Screen_Size.height - (98 * Scale.height), 250, 60, "Apply", function()
         local new_width
         if tonumber(width_box:getText()) then
@@ -71,6 +74,24 @@ do
         flags.fullscreen = fs_cb.checked and not res_changed
         flags.vsync = vs_cb.checked
         love.window.setMode(new_width, new_height, flags)
+        SHOW_FPS = fps_cb.checked
+        if fs_cb.checked and not res_changed then
+          writeKey("FULLSCREEN", "1")
+        else
+          writeKey("FULLSCREEN", "0")
+        end
+        writeKey("WIDTH", (tostring(new_width)))
+        writeKey("HEIGHT", (tostring(new_height)))
+        if vs_cb.checked then
+          writeKey("VSYNC", "1")
+        else
+          writeKey("VSYNC", "0")
+        end
+        if fps_cb.checked then
+          writeKey("SHOW_FPS", "1")
+        else
+          writeKey("SHOW_FPS", "0")
+        end
         Screen_Size = { }
         Screen_Size.width = love.graphics.getWidth()
         Screen_Size.height = love.graphics.getHeight()

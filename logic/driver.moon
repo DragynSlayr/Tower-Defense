@@ -14,10 +14,17 @@ export class Driver
       love.filesystem.createDirectory "screenshots"
 
       if not love.filesystem.exists "SETTINGS"
-        love.filesystem.write "SETTINGS", "MODS_ENABLED 0"
+        defaults = "MODS_ENABLED 0\n"
+        defaults ..= "FILES_DUMPED 0\n"
+        defaults ..= "FULLSCREEN 1\n"
+        defaults ..= "WIDTH " .. love.graphics.getWidth! .. "\n"
+        defaults ..= "HEIGHT " .. love.graphics.getHeight! .. "\n"
+        defaults ..= "VSYNC 0\n"
+        defaults ..= "SHOW_FPS 0\n"
+        love.filesystem.write "SETTINGS", defaults
 
-      MODS_ENABLED = readKey "MODS_ENABLED"
-      FILES_DUMPED = readKey "FILES_DUMPED"
+      MODS_ENABLED = (readKey "MODS_ENABLED") == "1"
+      FILES_DUMPED = (readKey "FILES_DUMPED") == "1"
 
       if MODS_ENABLED and not FILES_DUMPED
         print "DUMPING FILES"
@@ -41,6 +48,15 @@ export class Driver
         export PATH_PREFIX = "mods/"
       else
         export PATH_PREFIX = ""
+
+      export SHOW_FPS = (readKey "SHOW_FPS") == "1"
+
+      flags = {}
+      flags.fullscreen = (readKey "FULLSCREEN") == "1"
+      flags.vsync = (readKey "VSYNC") == "1"
+      width = tonumber (readKey "WIDTH")
+      height = tonumber (readKey "HEIGHT")
+      love.window.setMode width, height, flags
 
     addObject: (object, id) =>
       if @objects[id]
@@ -354,7 +370,8 @@ export class Driver
       love.graphics.setColor 0, 0, 0, 127
       love.graphics.setFont Renderer.small_font
       love.graphics.printf VERSION .. "\t", 0, Screen_Size.height - (25 * Scale.height), Screen_Size.width, "right"
-      love.graphics.printf love.timer.getFPS! .. " FPS\t", 0, Screen_Size.height - (50 * Scale.height), Screen_Size.width, "right"
+      if SHOW_FPS
+        love.graphics.printf love.timer.getFPS! .. " FPS\t", 0, Screen_Size.height - (50 * Scale.height), Screen_Size.width, "right"
       love.graphics.pop!
 
       if DEBUG_MENU

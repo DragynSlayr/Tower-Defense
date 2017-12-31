@@ -346,7 +346,9 @@ do
       love.graphics.setColor(0, 0, 0, 127)
       love.graphics.setFont(Renderer.small_font)
       love.graphics.printf(VERSION .. "\t", 0, Screen_Size.height - (25 * Scale.height), Screen_Size.width, "right")
-      love.graphics.printf(love.timer.getFPS() .. " FPS\t", 0, Screen_Size.height - (50 * Scale.height), Screen_Size.width, "right")
+      if SHOW_FPS then
+        love.graphics.printf(love.timer.getFPS() .. " FPS\t", 0, Screen_Size.height - (50 * Scale.height), Screen_Size.width, "right")
+      end
       love.graphics.pop()
       if DEBUG_MENU then
         Debugger:draw()
@@ -369,10 +371,17 @@ do
       love.filesystem.setIdentity("Tower Defense")
       love.filesystem.createDirectory("screenshots")
       if not love.filesystem.exists("SETTINGS") then
-        love.filesystem.write("SETTINGS", "MODS_ENABLED 0")
+        local defaults = "MODS_ENABLED 0\n"
+        defaults = defaults .. "FILES_DUMPED 0\n"
+        defaults = defaults .. "FULLSCREEN 1\n"
+        defaults = defaults .. ("WIDTH " .. love.graphics.getWidth() .. "\n")
+        defaults = defaults .. ("HEIGHT " .. love.graphics.getHeight() .. "\n")
+        defaults = defaults .. "VSYNC 0\n"
+        defaults = defaults .. "SHOW_FPS 0\n"
+        love.filesystem.write("SETTINGS", defaults)
       end
-      local MODS_ENABLED = readKey("MODS_ENABLED")
-      local FILES_DUMPED = readKey("FILES_DUMPED")
+      local MODS_ENABLED = (readKey("MODS_ENABLED")) == "1"
+      local FILES_DUMPED = (readKey("FILES_DUMPED")) == "1"
       if MODS_ENABLED and not FILES_DUMPED then
         print("DUMPING FILES")
         local dirs = getAllDirectories("assets")
@@ -395,6 +404,13 @@ do
       else
         PATH_PREFIX = ""
       end
+      SHOW_FPS = (readKey("SHOW_FPS")) == "1"
+      local flags = { }
+      flags.fullscreen = (readKey("FULLSCREEN")) == "1"
+      flags.vsync = (readKey("VSYNC")) == "1"
+      local width = tonumber((readKey("WIDTH")))
+      local height = tonumber((readKey("HEIGHT")))
+      return love.window.setMode(width, height, flags)
     end,
     __base = _base_0,
     __name = "Driver"
