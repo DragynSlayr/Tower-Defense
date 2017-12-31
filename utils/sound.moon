@@ -7,11 +7,16 @@ export class Sound
   -- pitch: The initial pitch of the Sound
   -- static: Whether the Sound should change or not
   new: (name, volume = 1.0, looping = true, pitch = 1.0, static = false) =>
+
+    path = "assets/sounds/" .. name
+    if love.filesystem.exists (PATH_PREFIX .. path)
+      path = PATH_PREFIX .. path
+
     -- Load Sound
     if static
-      @audio = ResoureLoader\loadSound PATH_PREFIX .. "assets/sounds/" .. name, true
+      @audio = ResoureLoader\loadSound path, true
     else
-      @audio = ResoureLoader\loadSound PATH_PREFIX .. "assets/sounds/" .. name
+      @audio = ResoureLoader\loadSound path
 
     @name = name
 

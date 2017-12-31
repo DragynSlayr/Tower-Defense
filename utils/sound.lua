@@ -48,10 +48,14 @@ do
       if static == nil then
         static = false
       end
+      local path = "assets/sounds/" .. name
+      if love.filesystem.exists((PATH_PREFIX .. path)) then
+        path = PATH_PREFIX .. path
+      end
       if static then
-        self.audio = ResoureLoader:loadSound(PATH_PREFIX .. "assets/sounds/" .. name, true)
+        self.audio = ResoureLoader:loadSound(path, true)
       else
-        self.audio = ResoureLoader:loadSound(PATH_PREFIX .. "assets/sounds/" .. name)
+        self.audio = ResoureLoader:loadSound(path)
       end
       self.name = name
       self.audio:setLooping(looping)

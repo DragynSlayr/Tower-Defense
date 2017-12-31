@@ -10,8 +10,12 @@ export class Sprite
     @name = name
     @props = {height, width, delay, scale}
 
+    path = "assets/sprites/" .. name
+    if love.filesystem.exists (PATH_PREFIX .. path)
+      path = PATH_PREFIX .. path
+
     -- Load the image
-    @image = ResoureLoader\loadImage PATH_PREFIX .. "assets/sprites/" .. name
+    @image = ResoureLoader\loadImage path
 
     -- Get number of frames
     @frames = @image\getWidth! / width

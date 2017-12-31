@@ -115,7 +115,11 @@ do
         delay,
         scale
       }
-      self.image = ResoureLoader:loadImage(PATH_PREFIX .. "assets/sprites/" .. name)
+      local path = "assets/sprites/" .. name
+      if love.filesystem.exists((PATH_PREFIX .. path)) then
+        path = PATH_PREFIX .. path
+      end
+      self.image = ResoureLoader:loadImage(path)
       self.frames = self.image:getWidth() / width
       self.height, self.width = height, width
       self.x_scale, self.y_scale = scale * Scale.width, scale * Scale.height
