@@ -279,10 +279,10 @@ readKey = function(key)
     local splitted = split(v, " ")
     local read_key, value = splitted[1], splitted[2]
     if read_key == key then
-      return value == "1"
+      return value
     end
   end
-  return false
+  return nil
 end
 writeKey = function(key, value)
   local contents, size = love.filesystem.read("SETTINGS")

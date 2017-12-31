@@ -244,8 +244,8 @@ export readKey = (key) ->
     splitted = split v, " "
     read_key, value = splitted[1], splitted[2]
     if read_key == key
-      return value == "1"
-  return false
+      return value
+  return nil
 
 export writeKey = (key, value) ->
   contents, size = love.filesystem.read "SETTINGS"
