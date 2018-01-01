@@ -16,7 +16,8 @@ require "ui.itemFrame"
 --+---------------------+--
 --| Depends on elements |--
 --+---------------------+--
-require "ui.checkbox"
+require "ui.comboBox"
+require "ui.checkBox"
 require "ui.tooltip"
 require "ui.tooltipButton"
 require "ui.tooltipBox"
