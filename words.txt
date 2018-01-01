@@ -31,6 +31,7 @@ CheckBox
 Circle
 CloneActive
 Color
+ComboBox
 DEBUGGING
 DEBUG_MENU
 DEBUG_MENU_ENABLED
@@ -123,7 +124,7 @@ RangeBoostPassive
 Rectangle
 Renderer
 ResoureCacher
-ResoureLoader
+SHOW_FPS
 SHOW_RANGE
 Scale
 Scaling
@@ -245,6 +246,7 @@ buttons
 byte
 c
 calcExp
+calcScreen
 can_place
 can_shoot
 capture
@@ -259,6 +261,7 @@ change_time
 change_timer
 char
 char_index
+character_limit
 charge_time
 charged
 chase_time
@@ -315,11 +318,14 @@ createUpgradeMenu
 current
 current_flags
 current_frame
+current_height
 current_item
 current_line
 current_node
+current_res
 current_screen
 current_stats
+current_width
 cursor
 curve
 d
@@ -333,6 +339,7 @@ death_sound
 decode
 default
 default_item
+defaults
 defend
 delay
 delay_timer
@@ -418,6 +425,7 @@ font
 for
 format
 found
+fps_cb
 frame
 frame1
 frame2
@@ -489,6 +497,7 @@ hasChild
 hasCurve
 hasNode
 hasWord
+has_character_limit
 has_shader
 head
 heal_delay
@@ -497,7 +506,6 @@ health
 heart_max_time
 heart_timer
 height
-height_box
 height_scale
 high_scores
 hit
@@ -523,6 +531,7 @@ in_x
 in_y
 included
 index
+indexOf
 insert
 inventory
 inventory_button
@@ -651,6 +660,7 @@ newVec
 new_height
 new_item
 new_node
+new_res
 new_width
 next
 nextMode
@@ -677,11 +687,16 @@ old_sprite
 old_trail_delay
 onCollide
 onEnd
+onSelect
 on_time
+open
 open_box
 open_button
 open_frame
 opened_item_frame
+option
+option_height
+options
 or
 order
 os
@@ -750,10 +765,12 @@ repair_range
 repair_sound
 repeating
 require
+res_cb
 res_changed
 resetProperties
 resetText
 reset_chars
+resolutions
 respawnHearts
 respawnPlayers
 restart
@@ -987,7 +1004,6 @@ wave_count
 when
 while
 width
-width_box
 width_scale
 window
 word
