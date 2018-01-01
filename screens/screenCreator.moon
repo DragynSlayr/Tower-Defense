@@ -33,31 +33,10 @@ export class ScreenCreator
       UI\set_screen Screen_State.controls
     UI\add controls_button
 
-    UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * 0.2, "Fullscreen", Renderer.small_font)
-    fs_cb = CheckBox Screen_Size.width * 0.55, Screen_Size.height * 0.2, 50, nil
+    UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * 0.255, "Fullscreen", Renderer.small_font)
+    fs_cb = CheckBox Screen_Size.width * 0.55, Screen_Size.height * 0.255, 50, nil
     fs_cb.checked = love.window.getFullscreen!
     UI\add fs_cb
-
-    UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * 0.255, "Resolution", Renderer.small_font)
-    UI\add (Text Screen_Size.width * 0.55, Screen_Size.height * 0.255, "X", Renderer.small_font)
-
-    width_box = TextBox Screen_Size.width * 0.495, Screen_Size.height * 0.23, 75 * Scale.width, 40 * Scale.height
-    width_box.action = {}
-    width_box.active = false
-    width_box.text_color = {255, 255, 255, 255}
-    width_box.has_character_limit = true
-    width_box.character_limit = 4
-    width_box\addText (tostring Screen_Size.width)
-    UI\add width_box
-
-    height_box = TextBox Screen_Size.width * 0.56, Screen_Size.height * 0.23, 75 * Scale.width, 40 * Scale.height
-    height_box.action = {}
-    height_box.active = false
-    height_box.text_color = {255, 255, 255, 255}
-    height_box.has_character_limit = true
-    height_box.character_limit = 4
-    height_box\addText (tostring Screen_Size.height)
-    UI\add height_box
 
     UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * 0.31, "Vertical Sync", Renderer.small_font)
     vs_cb = CheckBox Screen_Size.width * 0.55, Screen_Size.height * 0.31, 50, nil
@@ -69,16 +48,28 @@ export class ScreenCreator
     fps_cb.checked = SHOW_FPS
     UI\add fps_cb
 
-    apply_button = Button Screen_Size.width / 2, Screen_Size.height - (98 * Scale.height), 250, 60, "Apply", () ->
-      new_width = if tonumber width_box\getText!
-        tonumber width_box\getText!
-      else
-        Screen_Size.width
+    UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * 0.41, "Resolution", Renderer.small_font)
+    resolutions = {
+      "1920 x 1080",
+      "1600 x 900",
+      "1366 x 768",
+      "1280 x 1024",
+      "1024 x 768",
+      "800 x 600"
+    }
+    current_res = Screen_Size.width .. " x " .. Screen_Size.height
+    if not (tableContains resolutions, current_res)
+      table.insert resolutions, current_res
+      table.sort resolutions, (a, b) ->
+        return (tonumber (split a, " ")[1]) > (tonumber (split b, " ")[1])
+    res_cb = ComboBox Screen_Size.width * 0.55, Screen_Size.height * 0.41, 125, 35, resolutions, Renderer.small_font
+    res_cb.text = current_res
+    UI\add res_cb
 
-      new_height = if tonumber height_box\getText!
-        tonumber height_box\getText!
-      else
-        Screen_Size.height
+    apply_button = Button Screen_Size.width / 2, Screen_Size.height - (98 * Scale.height), 250, 60, "Apply", () ->
+      new_res = split res_cb.text, " "
+      new_width = tonumber new_res[1]
+      new_height = tonumber new_res[3]
 
       res_changed = new_width != Screen_Size.width or new_height != Screen_Size.height
 
@@ -86,7 +77,22 @@ export class ScreenCreator
       flags.fullscreen = fs_cb.checked and not res_changed
       flags.vsync = vs_cb.checked
 
-      love.window.setMode new_width, new_height, flags
+      current_width, current_height, current_flags = love.window.getMode!
+
+      num_diff = 0
+      if flags.fullscreen != current_flags.fullscreen
+        num_diff += 1
+      if flags.vsync != current_flags.vsync
+        num_diff += 1
+      if new_width != current_width
+        num_diff += 1
+      if new_height != current_height
+        num_diff += 1
+
+      if num_diff > 0
+        love.window.setMode new_width, new_height, flags
+
+      calcScreen!
 
       export SHOW_FPS = fps_cb.checked
 
@@ -107,19 +113,6 @@ export class ScreenCreator
         writeKey "SHOW_FPS", "1"
       else
         writeKey "SHOW_FPS", "0"
-
-      export Screen_Size = {}
-      Screen_Size.width       = love.graphics.getWidth!
-      Screen_Size.height      = love.graphics.getHeight!
-      Screen_Size.half_width  = Screen_Size.width / 2
-      Screen_Size.half_height = Screen_Size.height / 2
-      Screen_Size.bounds      = {0, 0, Screen_Size.width, Screen_Size.height}
-      Screen_Size.size        = {Screen_Size.width, Screen_Size.height}
-      export Scale = {}
-      Scale.width  = Screen_Size.width / 1600
-      Scale.height = Screen_Size.height / 900
-      Scale.diag   = math.sqrt((Screen_Size.width * Screen_Size.width) + (Screen_Size.height * Screen_Size.height)) / math.sqrt((1600 * 1600) + (900 *900))
-      Screen_Size.border = {0, 70 * Scale.height, Screen_Size.width, Screen_Size.height - (140 * Scale.height)}
 
       Driver\restart!
     UI\add apply_button

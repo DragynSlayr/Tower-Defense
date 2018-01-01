@@ -102,22 +102,26 @@ Scaling.health = 5
 Scaling.damage = 0.5
 Scaling.speed  = 5
 
-export Screen_Size = {}
 
-Screen_Size.width       = love.graphics.getWidth!
-Screen_Size.height      = love.graphics.getHeight!
-Screen_Size.half_width  = Screen_Size.width / 2
-Screen_Size.half_height = Screen_Size.height / 2
-Screen_Size.bounds      = {0, 0, Screen_Size.width, Screen_Size.height}
-Screen_Size.size        = {Screen_Size.width, Screen_Size.height}
+export calcScreen = () ->
+  export Screen_Size = {}
 
-export Scale = {}
+  Screen_Size.width       = love.graphics.getWidth!
+  Screen_Size.height      = love.graphics.getHeight!
+  Screen_Size.half_width  = Screen_Size.width / 2
+  Screen_Size.half_height = Screen_Size.height / 2
+  Screen_Size.bounds      = {0, 0, Screen_Size.width, Screen_Size.height}
+  Screen_Size.size        = {Screen_Size.width, Screen_Size.height}
 
-Scale.width  = Screen_Size.width / 1600
-Scale.height = Screen_Size.height / 900
-Scale.diag   = math.sqrt((Screen_Size.width * Screen_Size.width) + (Screen_Size.height * Screen_Size.height)) / math.sqrt((1600 * 1600) + (900 *900))
+  export Scale = {}
 
-Screen_Size.border = {0, 70 * Scale.height, Screen_Size.width, Screen_Size.height - (140 * Scale.height)}
+  Scale.width  = Screen_Size.width / 1600
+  Scale.height = Screen_Size.height / 900
+  Scale.diag   = math.sqrt((Screen_Size.width * Screen_Size.width) + (Screen_Size.height * Screen_Size.height)) / math.sqrt((1600 * 1600) + (900 *900))
+
+  Screen_Size.border = {0, 70 * Scale.height, Screen_Size.width, Screen_Size.height - (140 * Scale.height)}
+
+calcScreen!
 
 export Upgrade_Trees = {}
 

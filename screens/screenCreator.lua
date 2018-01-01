@@ -20,38 +20,10 @@ do
         return UI:set_screen(Screen_State.controls)
       end)
       UI:add(controls_button)
-      UI:add((Text(Screen_Size.width * 0.45, Screen_Size.height * 0.2, "Fullscreen", Renderer.small_font)))
-      local fs_cb = CheckBox(Screen_Size.width * 0.55, Screen_Size.height * 0.2, 50, nil)
+      UI:add((Text(Screen_Size.width * 0.45, Screen_Size.height * 0.255, "Fullscreen", Renderer.small_font)))
+      local fs_cb = CheckBox(Screen_Size.width * 0.55, Screen_Size.height * 0.255, 50, nil)
       fs_cb.checked = love.window.getFullscreen()
       UI:add(fs_cb)
-      UI:add((Text(Screen_Size.width * 0.45, Screen_Size.height * 0.255, "Resolution", Renderer.small_font)))
-      UI:add((Text(Screen_Size.width * 0.55, Screen_Size.height * 0.255, "X", Renderer.small_font)))
-      local width_box = TextBox(Screen_Size.width * 0.495, Screen_Size.height * 0.23, 75 * Scale.width, 40 * Scale.height)
-      width_box.action = { }
-      width_box.active = false
-      width_box.text_color = {
-        255,
-        255,
-        255,
-        255
-      }
-      width_box.has_character_limit = true
-      width_box.character_limit = 4
-      width_box:addText((tostring(Screen_Size.width)))
-      UI:add(width_box)
-      local height_box = TextBox(Screen_Size.width * 0.56, Screen_Size.height * 0.23, 75 * Scale.width, 40 * Scale.height)
-      height_box.action = { }
-      height_box.active = false
-      height_box.text_color = {
-        255,
-        255,
-        255,
-        255
-      }
-      height_box.has_character_limit = true
-      height_box.character_limit = 4
-      height_box:addText((tostring(Screen_Size.height)))
-      UI:add(height_box)
       UI:add((Text(Screen_Size.width * 0.45, Screen_Size.height * 0.31, "Vertical Sync", Renderer.small_font)))
       local vs_cb = CheckBox(Screen_Size.width * 0.55, Screen_Size.height * 0.31, 50, nil)
       vs_cb.checked = current_flags.vsync
@@ -60,24 +32,52 @@ do
       local fps_cb = CheckBox(Screen_Size.width * 0.55, Screen_Size.height * 0.365, 50, nil)
       fps_cb.checked = SHOW_FPS
       UI:add(fps_cb)
+      UI:add((Text(Screen_Size.width * 0.45, Screen_Size.height * 0.41, "Resolution", Renderer.small_font)))
+      local resolutions = {
+        "1920 x 1080",
+        "1600 x 900",
+        "1366 x 768",
+        "1280 x 1024",
+        "1024 x 768",
+        "800 x 600"
+      }
+      local current_res = Screen_Size.width .. " x " .. Screen_Size.height
+      if not (tableContains(resolutions, current_res)) then
+        table.insert(resolutions, current_res)
+        table.sort(resolutions, function(a, b)
+          return (tonumber((split(a, " "))[1])) > (tonumber((split(b, " "))[1]))
+        end)
+      end
+      local res_cb = ComboBox(Screen_Size.width * 0.55, Screen_Size.height * 0.41, 125, 35, resolutions, Renderer.small_font)
+      res_cb.text = current_res
+      UI:add(res_cb)
       local apply_button = Button(Screen_Size.width / 2, Screen_Size.height - (98 * Scale.height), 250, 60, "Apply", function()
-        local new_width
-        if tonumber(width_box:getText()) then
-          new_width = tonumber(width_box:getText())
-        else
-          new_width = Screen_Size.width
-        end
-        local new_height
-        if tonumber(height_box:getText()) then
-          new_height = tonumber(height_box:getText())
-        else
-          new_height = Screen_Size.height
-        end
+        local new_res = split(res_cb.text, " ")
+        local new_width = tonumber(new_res[1])
+        local new_height = tonumber(new_res[3])
         local res_changed = new_width ~= Screen_Size.width or new_height ~= Screen_Size.height
         local flags = { }
         flags.fullscreen = fs_cb.checked and not res_changed
         flags.vsync = vs_cb.checked
-        love.window.setMode(new_width, new_height, flags)
+        local current_width, current_height
+        current_width, current_height, current_flags = love.window.getMode()
+        local num_diff = 0
+        if flags.fullscreen ~= current_flags.fullscreen then
+          num_diff = num_diff + 1
+        end
+        if flags.vsync ~= current_flags.vsync then
+          num_diff = num_diff + 1
+        end
+        if new_width ~= current_width then
+          num_diff = num_diff + 1
+        end
+        if new_height ~= current_height then
+          num_diff = num_diff + 1
+        end
+        if num_diff > 0 then
+          love.window.setMode(new_width, new_height, flags)
+        end
+        calcScreen()
         SHOW_FPS = fps_cb.checked
         if fs_cb.checked and not res_changed then
           writeKey("FULLSCREEN", "1")
@@ -96,31 +96,6 @@ do
         else
           writeKey("SHOW_FPS", "0")
         end
-        Screen_Size = { }
-        Screen_Size.width = love.graphics.getWidth()
-        Screen_Size.height = love.graphics.getHeight()
-        Screen_Size.half_width = Screen_Size.width / 2
-        Screen_Size.half_height = Screen_Size.height / 2
-        Screen_Size.bounds = {
-          0,
-          0,
-          Screen_Size.width,
-          Screen_Size.height
-        }
-        Screen_Size.size = {
-          Screen_Size.width,
-          Screen_Size.height
-        }
-        Scale = { }
-        Scale.width = Screen_Size.width / 1600
-        Scale.height = Screen_Size.height / 900
-        Scale.diag = math.sqrt((Screen_Size.width * Screen_Size.width) + (Screen_Size.height * Screen_Size.height)) / math.sqrt((1600 * 1600) + (900 * 900))
-        Screen_Size.border = {
-          0,
-          70 * Scale.height,
-          Screen_Size.width,
-          Screen_Size.height - (140 * Scale.height)
-        }
         return Driver:restart()
       end)
       UI:add(apply_button)

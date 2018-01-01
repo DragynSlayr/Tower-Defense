@@ -410,7 +410,24 @@ do
       flags.vsync = (readKey("VSYNC")) == "1"
       local width = tonumber((readKey("WIDTH")))
       local height = tonumber((readKey("HEIGHT")))
-      return love.window.setMode(width, height, flags)
+      local current_width, current_height, current_flags = love.window.getMode()
+      local num_diff = 0
+      if flags.fullscreen ~= current_flags.fullscreen then
+        num_diff = num_diff + 1
+      end
+      if flags.vsync ~= current_flags.vsync then
+        num_diff = num_diff + 1
+      end
+      if width ~= current_width then
+        num_diff = num_diff + 1
+      end
+      if height ~= current_height then
+        num_diff = num_diff + 1
+      end
+      if num_diff > 0 then
+        love.window.setMode(width, height, flags)
+      end
+      return calcScreen()
     end,
     __base = _base_0,
     __name = "Driver"

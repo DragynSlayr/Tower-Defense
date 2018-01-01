@@ -56,7 +56,23 @@ export class Driver
       flags.vsync = (readKey "VSYNC") == "1"
       width = tonumber (readKey "WIDTH")
       height = tonumber (readKey "HEIGHT")
-      love.window.setMode width, height, flags
+
+      current_width, current_height, current_flags = love.window.getMode!
+
+      num_diff = 0
+      if flags.fullscreen != current_flags.fullscreen
+        num_diff += 1
+      if flags.vsync != current_flags.vsync
+        num_diff += 1
+      if width != current_width
+        num_diff += 1
+      if height != current_height
+        num_diff += 1
+
+      if num_diff > 0
+        love.window.setMode width, height, flags
+
+      calcScreen!
 
     addObject: (object, id) =>
       if @objects[id]
