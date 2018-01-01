@@ -45,7 +45,7 @@ do
       end
       local s = ""
       for k, v in pairs(self.lines[idx]) do
-        if k < idx2 then
+        if k < idx2 + 1 then
           s = s .. v
         end
       end
@@ -60,12 +60,11 @@ do
           local current_line = self:getLine(self.lines_index)
           current_line = current_line .. text
           local width = (self.font:getWidth(current_line)) * Scale.width
-          if width + (30 * Scale.width) < self.width then
+          if width + (30 * Scale.width) <= self.width or (self.has_character_limit and #current_line < self.character_limit + 1) then
             self.char_index = self.char_index + 1
-            table.insert(self.lines[self.lines_index], self.char_index, text)
+            return table.insert(self.lines[self.lines_index], self.char_index, text)
           end
         end
-        return print((self.font:getWidth((self:getLine(self.lines_index, (self.char_index + 1))))))
       end
     end,
     keypressed = function(self, key, scancode, isrepeat)
@@ -163,7 +162,7 @@ do
       local height = self.font:getHeight()
       local width = 0
       if self.lines[self.lines_index] then
-        width = self.font:getWidth(self:getLine(self.lines_index, (self.char_index + 1)))
+        width = self.font:getWidth((self:getLine(self.lines_index, self.char_index)))
       end
       self.cursor.position = Point(self.x + (10 * Scale.width) + width, self.y + (height / 2) + ((self.lines_index - 1) * height))
     end,
@@ -173,13 +172,13 @@ do
       love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
       local text = self:getText()
       love.graphics.setColor(self.text_color[1], self.text_color[2], self.text_color[3], self.text_color[4])
-      local height = self.font:getHeight() * Scale.height
-      love.graphics.setFont((love.graphics.newFont(height)))
+      local height = self.font:getHeight()
+      local width = self.font:getWidth((self:getLine(self.lines_index, self.char_index)))
+      love.graphics.setFont(self.font)
       love.graphics.printf(text, self.x + (10 * Scale.width), self.y + (height / 2), self.width, "left")
+      self.cursor.position = Point(self.x + (12 * Scale.width) + width, self.y + (height / 2) + ((self.lines_index - 1) * height))
       if self.active then
         love.graphics.setColor(self.text_color[1], self.text_color[2], self.text_color[3], self.cursor.alpha)
-        local width = self.font:getWidth((self:getLine(self.lines_index, (self.char_index + 1))))
-        self.cursor.position = Point(self.x + ((10 + width) * Scale.width), self.y + (height / 2) + ((self.lines_index - 1) * height))
         love.graphics.rectangle("fill", self.cursor.position.x, self.cursor.position.y, 10 * Scale.width, height)
       end
       return love.graphics.pop()
@@ -206,6 +205,8 @@ do
       }
       self.font = love.graphics.newFont(20)
       self.elapsed = 0
+      self.has_character_limit = false
+      self.character_limit = 0
       self.cursor = { }
       self.cursor.alpha = 255
       self.cursor.on_time = 0.33

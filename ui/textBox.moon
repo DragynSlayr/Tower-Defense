@@ -8,6 +8,9 @@ export class TextBox extends UIElement
     @font = love.graphics.newFont 20
     @elapsed = 0
 
+    @has_character_limit = false
+    @character_limit = 0
+
     @cursor = {}
     @cursor.alpha = 255
     @cursor.on_time = 0.33
@@ -89,7 +92,7 @@ export class TextBox extends UIElement
   getLine: (idx, idx2 = #@lines[idx]) =>
     s = ""
     for k, v in pairs @lines[idx]
-      if k < idx2
+      if k < idx2 + 1
         s ..= v
     return s
 
@@ -101,10 +104,9 @@ export class TextBox extends UIElement
         current_line = @getLine @lines_index
         current_line ..= text
         width = (@font\getWidth current_line) * Scale.width
-        if width + (30 * Scale.width) < @width
+        if width + (30 * Scale.width) <= @width or (@has_character_limit and #current_line < @character_limit + 1)
           @char_index += 1
           table.insert @lines[@lines_index], @char_index, text
-      print (@font\getWidth (@getLine @lines_index, (@char_index + 1)))
 
   keypressed: (key, scancode, isrepeat) =>
     if @active
@@ -181,7 +183,7 @@ export class TextBox extends UIElement
     height = @font\getHeight!
     width = 0
     if @lines[@lines_index]
-      width = @font\getWidth @getLine @lines_index, (@char_index + 1)
+      width = @font\getWidth (@getLine @lines_index, @char_index)
     @cursor.position = Point @x + (10 * Scale.width) + width, @y + (height / 2) + ((@lines_index - 1) * height)
 
   draw: =>
@@ -193,15 +195,16 @@ export class TextBox extends UIElement
     text = @getText!
 
     love.graphics.setColor @text_color[1], @text_color[2], @text_color[3], @text_color[4]
-    height = @font\getHeight! * Scale.height
+    height = @font\getHeight!-- * Scale.height
+    width = @font\getWidth (@getLine @lines_index, @char_index)
     --width = (@font\getWidth text) * Scale.width
-    love.graphics.setFont (love.graphics.newFont height)
+    love.graphics.setFont @font--(love.graphics.newFont height)
     love.graphics.printf text, @x + (10 * Scale.width), @y + (height / 2), @width, "left"
+
+    @cursor.position = Point @x + (12 * Scale.width) + width, @y + (height / 2) + ((@lines_index - 1) * height)
 
     if @active
       love.graphics.setColor @text_color[1], @text_color[2], @text_color[3], @cursor.alpha
-      width = @font\getWidth (@getLine @lines_index, (@char_index + 1))
-      @cursor.position = Point @x + ((10 + width) * Scale.width), @y + (height / 2) + ((@lines_index - 1) * height)
       love.graphics.rectangle "fill", @cursor.position.x, @cursor.position.y, 10 * Scale.width, height
 
     love.graphics.pop!
