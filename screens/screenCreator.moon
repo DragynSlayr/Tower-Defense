@@ -45,6 +45,8 @@ export class ScreenCreator
     width_box.action = {}
     width_box.active = false
     width_box.text_color = {255, 255, 255, 255}
+    width_box.has_character_limit = true
+    width_box.character_limit = 4
     width_box\addText (tostring Screen_Size.width)
     UI\add width_box
 
@@ -52,6 +54,8 @@ export class ScreenCreator
     height_box.action = {}
     height_box.active = false
     height_box.text_color = {255, 255, 255, 255}
+    height_box.has_character_limit = true
+    height_box.character_limit = 4
     height_box\addText (tostring Screen_Size.height)
     UI\add height_box
 

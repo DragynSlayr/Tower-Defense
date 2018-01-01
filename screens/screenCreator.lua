@@ -35,6 +35,8 @@ do
         255,
         255
       }
+      width_box.has_character_limit = true
+      width_box.character_limit = 4
       width_box:addText((tostring(Screen_Size.width)))
       UI:add(width_box)
       local height_box = TextBox(Screen_Size.width * 0.56, Screen_Size.height * 0.23, 75 * Scale.width, 40 * Scale.height)
@@ -46,6 +48,8 @@ do
         255,
         255
       }
+      height_box.has_character_limit = true
+      height_box.character_limit = 4
       height_box:addText((tostring(Screen_Size.height)))
       UI:add(height_box)
       UI:add((Text(Screen_Size.width * 0.45, Screen_Size.height * 0.31, "Vertical Sync", Renderer.small_font)))
