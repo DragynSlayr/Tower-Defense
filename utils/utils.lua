@@ -228,13 +228,16 @@ concatTables = function(t1, t2)
   end
   return t3
 end
-tableContains = function(t, i)
+indexOf = function(t, i)
   for k, v in pairs(t) do
     if v == i then
-      return true
+      return k
     end
   end
-  return false
+  return -1
+end
+tableContains = function(t, i)
+  return (indexOf(t, i)) >= 1
 end
 reverseTable = function(t)
   local reversed = { }

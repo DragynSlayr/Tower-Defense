@@ -204,11 +204,14 @@ export concatTables = (t1, t2) ->
     table.insert t3, v
   return t3
 
-export tableContains = (t, i) ->
+export indexOf = (t, i) ->
   for k, v in pairs t
     if v == i
-      return true
-  return false
+      return k
+  return -1
+
+export tableContains = (t, i) ->
+  return (indexOf t, i) >= 1
 
 export reverseTable = (t) ->
   reversed = {}
