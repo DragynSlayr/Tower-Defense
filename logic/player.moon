@@ -9,7 +9,7 @@ export class Player extends GameObject
     @damage          = Stats.player[3]
     @max_speed       = Stats.player[4]
     @turret_cooldown = Stats.turret[4]
-    @attack_speed    = Base_Stats.player[5]
+    @attack_speed    = Stats.player[5]
     @health = @max_health
     @repair_range = 30 * Scale.diag
     @keys_pushed = 0

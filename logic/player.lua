@@ -407,7 +407,7 @@ do
       self.damage = Stats.player[3]
       self.max_speed = Stats.player[4]
       self.turret_cooldown = Stats.turret[4]
-      self.attack_speed = Base_Stats.player[5]
+      self.attack_speed = Stats.player[5]
       self.health = self.max_health
       self.repair_range = 30 * Scale.diag
       self.keys_pushed = 0
