@@ -34,6 +34,7 @@ Color
 ComboBox
 Controls
 ControlsHandler
+CurryPassive
 DEBUGGING
 DEBUG_MENU
 DEBUG_MENU_ENABLED
@@ -155,7 +156,6 @@ SplitShot
 Sprite
 Stack
 Stats
-Stats_Dynamic
 StrongEnemy
 TOGGLE_TURRET
 TesseractGoal
