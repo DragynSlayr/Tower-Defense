@@ -134,7 +134,7 @@ do
           if DEBUG_MENU_ENABLED then
             DEBUG_MENU = true
           end
-        elseif key == "p" or key == "escape" then
+        elseif key == Controls.keys.PAUSE_GAME then
           if Driver.game_state ~= Game_State.game_over then
             if Driver.game_state == Game_State.paused then
               return Driver.unpause()
@@ -146,7 +146,7 @@ do
           UI:keypressed(key, scancode, isrepeat)
           local _exp_0 = Driver.game_state
           if Game_State.playing == _exp_0 then
-            if Objectives.mode.complete and key == "space" then
+            if Objectives.mode.complete and key == Controls.keys.USE_TURRET then
               Objectives.ready = true
             else
               for k, v in pairs(Driver.objects[EntityTypes.player]) do
@@ -171,6 +171,8 @@ do
           end
         elseif Game_State.game_over == _exp_0 then
           return GameOver:keyreleased(key)
+        elseif Game_State.controls == _exp_0 then
+          return Controls:keyreleased(key)
         end
       end
     end,
@@ -250,6 +252,7 @@ do
       Debugger = DebugMenu()
       Objectives = ObjectivesHandler()
       ItemPool = ItemPoolHandler()
+      Controls = ControlsHandler()
       Upgrade = UpgradeScreen()
       Inventory = InventoryScreen()
       Pause = PauseScreen()
@@ -276,6 +279,8 @@ do
           Upgrade:update(dt)
         elseif Game_State.inventory == _exp_0 then
           Inventory:update(dt)
+        elseif Game_State.controls == _exp_0 then
+          Controls:update(dt)
         elseif Game_State.playing == _exp_0 then
           for k, v in pairs(Driver.objects) do
             for k2, o in pairs(v) do
@@ -338,6 +343,8 @@ do
         })
       elseif Game_State.inventory == _exp_0 then
         Inventory:draw()
+      elseif Game_State.controls == _exp_0 then
+        Controls:draw()
       elseif Game_State.paused == _exp_0 then
         Pause:draw()
       elseif Game_State.game_over == _exp_0 then
@@ -378,6 +385,19 @@ do
         defaults = defaults .. ("HEIGHT " .. love.graphics.getHeight() .. "\n")
         defaults = defaults .. "VSYNC 0\n"
         defaults = defaults .. "SHOW_FPS 0\n"
+        defaults = defaults .. "MOVE_UP w\n"
+        defaults = defaults .. "MOVE_DOWN s\n"
+        defaults = defaults .. "MOVE_LEFT a\n"
+        defaults = defaults .. "MOVE_RIGHT d\n"
+        defaults = defaults .. "SHOOT_UP up\n"
+        defaults = defaults .. "SHOOT_DOWN down\n"
+        defaults = defaults .. "SHOOT_LEFT left\n"
+        defaults = defaults .. "SHOOT_RIGHT right\n"
+        defaults = defaults .. "USE_ITEM q\n"
+        defaults = defaults .. "PAUSE_GAME escape\n"
+        defaults = defaults .. "SHOW_RANGE z\n"
+        defaults = defaults .. "TOGGLE_TURRET e\n"
+        defaults = defaults .. "USE_TURRET space"
         love.filesystem.write("SETTINGS", defaults)
       end
       local MODS_ENABLED = (readKey("MODS_ENABLED")) == "1"

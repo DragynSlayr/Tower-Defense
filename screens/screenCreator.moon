@@ -11,12 +11,19 @@ export class ScreenCreator
   createControlsMenu: =>
     UI\set_screen Screen_State.controls
 
-    --@createHelp nil, Screen_Size.height * 0.5
-
-    apply_button = Button Screen_Size.width / 2, Screen_Size.height - (98 * Scale.height), 250, 60, "Apply", () ->
-      --Driver.game_state = Game_State.none
-      --UI\set_screen Screen_State.main_menu
-    UI\add apply_button
+    y = 0.1
+    for k, v in pairs Controls.key_names
+      key = split v, "_"
+      key = toTitle (key[1] .. " " .. key[2])
+      UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * y, key, Renderer.small_font)
+      b = Button Screen_Size.width * 0.55, Screen_Size.height * y, 125, 35, Controls.keys[v], nil, Renderer.small_font
+      b.action = (() ->
+        Controls.selected = k
+        Controls.button = b
+        Controls.selected_text = key
+      )
+      UI\add b
+      y += 0.055
 
     back_button = Button Screen_Size.width / 2, Screen_Size.height - (34 * Scale.height), 250, 60, "Back", () ->
       Driver.game_state = Game_State.settings

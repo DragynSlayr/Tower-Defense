@@ -79,12 +79,6 @@ export class Player extends GameObject
   calcExp: (level) =>
     return (6 * level * level) + 673
 
---  calcLevel: (exp) =>
---    if exp > 673
---      return math.floor (math.sqrt ((exp - 673) / 6))
---    else
---      return 1
-
   getStats: =>
     stats = {}
     stats[1] = @max_health
@@ -126,25 +120,25 @@ export class Player extends GameObject
 
     if not @movement_blocked
       @last_pressed = key
-      if key == "a"
+      if key == Controls.keys.MOVE_LEFT
         @speed.x -= @max_speed
-      elseif key == "d"
+      elseif key == Controls.keys.MOVE_RIGHT
         @speed.x += @max_speed
-      elseif key == "w"
+      elseif key == Controls.keys.MOVE_UP
         @speed.y -= @max_speed
-      elseif key == "s"
+      elseif key == Controls.keys.MOVE_DOWN
         @speed.y += @max_speed
-      for k, v in pairs {"w", "a", "s", "d"}
+      for k, v in pairs {Controls.keys.MOVE_LEFT, Controls.keys.MOVE_RIGHT, Controls.keys.MOVE_UP, Controls.keys.MOVE_DOWN}
         if key == v
           @keys_pushed += 1
 
-    if key == "q"
+    if key == Controls.keys.USE_ITEM
       for k, v in pairs @equipped_items
         v\use!
-    elseif key == "e"
+    elseif key == Controls.keys.TOGGLE_TURRET
       if @can_place
         @show_turret = not @show_turret
-    elseif key == "space"
+    elseif key == Controls.keys.USE_TURRET
       if @show_turret
         turret = BasicTurret @position.x, @position.y, @turret_cooldown
         Driver\addObject turret, EntityTypes.turret
@@ -185,7 +179,7 @@ export class Player extends GameObject
               MusicPlayer\play @repair_sound
             v.health += 1
             v.health = clamp v.health, 0, v.max_health
-    elseif key == "z"
+    elseif key == Controls.keys.SHOW_RANGE
       export SHOW_RANGE = not SHOW_RANGE
 
   keyreleased: (key) =>
@@ -194,15 +188,15 @@ export class Player extends GameObject
     if not @movement_blocked
       @last_released = key
       if @keys_pushed > 0
-        if key == "a"
+        if key == Controls.keys.MOVE_LEFT
           @speed.x += @max_speed
-        elseif key == "d"
+        elseif key == Controls.keys.MOVE_RIGHT
           @speed.x -= @max_speed
-        elseif key == "w"
+        elseif key == Controls.keys.MOVE_UP
           @speed.y += @max_speed
-        elseif key == "s"
+        elseif key == Controls.keys.MOVE_DOWN
           @speed.y -= @max_speed
-        for k, v in pairs {"w", "a", "s", "d"}
+        for k, v in pairs {Controls.keys.MOVE_LEFT, Controls.keys.MOVE_RIGHT, Controls.keys.MOVE_UP, Controls.keys.MOVE_DOWN}
           if key == v
             @keys_pushed -= 1
 
@@ -232,9 +226,6 @@ export class Player extends GameObject
     if @missile_timer >= @max_missile_time
       @missile_timer = 0
       if Upgrade.player_special[3]
-        --x = math.random Screen_Size.border[1], Screen_Size.border[3]
-        --y = math.random Screen_Size.border[2], Screen_Size.border[4]
-        --bomb = Bomb x, y
         missile = Missile @position.x, @position.y
         Driver\addObject missile, EntityTypes.bullet
 
@@ -279,13 +270,13 @@ export class Player extends GameObject
           break
     if @attack_timer >= @attack_speed / (Upgrade.player_stats[5] + 1)
       bullet_speed = Vector 0, 0
-      if love.keyboard.isDown "left"
+      if love.keyboard.isDown Controls.keys.SHOOT_LEFT
         bullet_speed\add (Vector -@bullet_speed, 0)
-      if love.keyboard.isDown "right"
+      if love.keyboard.isDown Controls.keys.SHOOT_RIGHT
         bullet_speed\add (Vector @bullet_speed, 0)
-      if love.keyboard.isDown "up"
+      if love.keyboard.isDown Controls.keys.SHOOT_UP
         bullet_speed\add (Vector 0, -@bullet_speed)
-      if love.keyboard.isDown "down"
+      if love.keyboard.isDown Controls.keys.SHOOT_DOWN
         bullet_speed\add (Vector 0, @bullet_speed)
       if bullet_speed\getLength! > 0
         bullet = FilteredBullet @position.x, @position.y, @damage, bullet_speed, filters

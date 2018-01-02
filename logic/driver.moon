@@ -21,6 +21,19 @@ export class Driver
         defaults ..= "HEIGHT " .. love.graphics.getHeight! .. "\n"
         defaults ..= "VSYNC 0\n"
         defaults ..= "SHOW_FPS 0\n"
+        defaults ..= "MOVE_UP w\n"
+        defaults ..= "MOVE_DOWN s\n"
+        defaults ..= "MOVE_LEFT a\n"
+        defaults ..= "MOVE_RIGHT d\n"
+        defaults ..= "SHOOT_UP up\n"
+        defaults ..= "SHOOT_DOWN down\n"
+        defaults ..= "SHOOT_LEFT left\n"
+        defaults ..= "SHOOT_RIGHT right\n"
+        defaults ..= "USE_ITEM q\n"
+        defaults ..= "PAUSE_GAME escape\n"
+        defaults ..= "SHOW_RANGE z\n"
+        defaults ..= "TOGGLE_TURRET e\n"
+        defaults ..= "USE_TURRET space"
         love.filesystem.write "SETTINGS", defaults
 
       MODS_ENABLED = (readKey "MODS_ENABLED") == "1"
@@ -153,9 +166,6 @@ export class Driver
       love.event.quit 0
 
     keypressed: (key, scancode, isrepeat) ->
-      --if key == "escape"
-        --Driver.quitGame!
-      --else
       if key == "printscreen"
         screenshot = love.graphics.newScreenshot true
         screenshot\encode "png", "screenshots/" .. os.time! .. ".png"
@@ -170,7 +180,7 @@ export class Driver
         if key == "`"
           if DEBUG_MENU_ENABLED
             export DEBUG_MENU = true
-        elseif key == "p" or key == "escape"
+        elseif key == Controls.keys.PAUSE_GAME
           if Driver.game_state ~= Game_State.game_over
             if Driver.game_state == Game_State.paused
               Driver.unpause!
@@ -180,7 +190,7 @@ export class Driver
           UI\keypressed key, scancode, isrepeat
           switch Driver.game_state
             when Game_State.playing
-              if Objectives.mode.complete and key == "space"
+              if Objectives.mode.complete and key == Controls.keys.USE_TURRET
                 Objectives.ready = true
               else
                 for k, v in pairs Driver.objects[EntityTypes.player]
@@ -199,6 +209,8 @@ export class Driver
               v\keyreleased key
           when Game_State.game_over
             GameOver\keyreleased key
+          when Game_State.controls
+            Controls\keyreleased key
 
     mousepressed: (x, y, button, isTouch) ->
       if DEBUG_MENU
@@ -286,6 +298,8 @@ export class Driver
       -- Global item pool
       export ItemPool = ItemPoolHandler!
 
+      export Controls = ControlsHandler!
+
       -- Create upgrade object
       export Upgrade = UpgradeScreen!
 
@@ -327,6 +341,8 @@ export class Driver
             Upgrade\update dt
           when Game_State.inventory
             Inventory\update dt
+          when Game_State.controls
+            Controls\update dt
           when Game_State.playing
             for k, v in pairs Driver.objects
               for k2, o in pairs v
@@ -379,6 +395,8 @@ export class Driver
           UI\draw {TooltipBox}
         when Game_State.inventory
           Inventory\draw!
+        when Game_State.controls
+          Controls\draw!
         when Game_State.paused
           Pause\draw!
         when Game_State.game_over

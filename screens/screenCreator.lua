@@ -3,8 +3,20 @@ do
   local _base_0 = {
     createControlsMenu = function(self)
       UI:set_screen(Screen_State.controls)
-      local apply_button = Button(Screen_Size.width / 2, Screen_Size.height - (98 * Scale.height), 250, 60, "Apply", function() end)
-      UI:add(apply_button)
+      local y = 0.1
+      for k, v in pairs(Controls.key_names) do
+        local key = split(v, "_")
+        key = toTitle((key[1] .. " " .. key[2]))
+        UI:add((Text(Screen_Size.width * 0.45, Screen_Size.height * y, key, Renderer.small_font)))
+        local b = Button(Screen_Size.width * 0.55, Screen_Size.height * y, 125, 35, Controls.keys[v], nil, Renderer.small_font)
+        b.action = (function()
+          Controls.selected = k
+          Controls.button = b
+          Controls.selected_text = key
+        end)
+        UI:add(b)
+        y = y + 0.055
+      end
       local back_button = Button(Screen_Size.width / 2, Screen_Size.height - (34 * Scale.height), 250, 60, "Back", function()
         Driver.game_state = Game_State.settings
         return UI:set_screen(Screen_State.settings)

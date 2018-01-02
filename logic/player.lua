@@ -57,35 +57,35 @@ do
       end
       if not self.movement_blocked then
         self.last_pressed = key
-        if key == "a" then
+        if key == Controls.keys.MOVE_LEFT then
           self.speed.x = self.speed.x - self.max_speed
-        elseif key == "d" then
+        elseif key == Controls.keys.MOVE_RIGHT then
           self.speed.x = self.speed.x + self.max_speed
-        elseif key == "w" then
+        elseif key == Controls.keys.MOVE_UP then
           self.speed.y = self.speed.y - self.max_speed
-        elseif key == "s" then
+        elseif key == Controls.keys.MOVE_DOWN then
           self.speed.y = self.speed.y + self.max_speed
         end
         for k, v in pairs({
-          "w",
-          "a",
-          "s",
-          "d"
+          Controls.keys.MOVE_LEFT,
+          Controls.keys.MOVE_RIGHT,
+          Controls.keys.MOVE_UP,
+          Controls.keys.MOVE_DOWN
         }) do
           if key == v then
             self.keys_pushed = self.keys_pushed + 1
           end
         end
       end
-      if key == "q" then
+      if key == Controls.keys.USE_ITEM then
         for k, v in pairs(self.equipped_items) do
           v:use()
         end
-      elseif key == "e" then
+      elseif key == Controls.keys.TOGGLE_TURRET then
         if self.can_place then
           self.show_turret = not self.show_turret
         end
-      elseif key == "space" then
+      elseif key == Controls.keys.USE_TURRET then
         if self.show_turret then
           local turret = BasicTurret(self.position.x, self.position.y, self.turret_cooldown)
           Driver:addObject(turret, EntityTypes.turret)
@@ -134,7 +134,7 @@ do
             end
           end
         end
-      elseif key == "z" then
+      elseif key == Controls.keys.SHOW_RANGE then
         SHOW_RANGE = not SHOW_RANGE
       end
     end,
@@ -145,20 +145,20 @@ do
       if not self.movement_blocked then
         self.last_released = key
         if self.keys_pushed > 0 then
-          if key == "a" then
+          if key == Controls.keys.MOVE_LEFT then
             self.speed.x = self.speed.x + self.max_speed
-          elseif key == "d" then
+          elseif key == Controls.keys.MOVE_RIGHT then
             self.speed.x = self.speed.x - self.max_speed
-          elseif key == "w" then
+          elseif key == Controls.keys.MOVE_UP then
             self.speed.y = self.speed.y + self.max_speed
-          elseif key == "s" then
+          elseif key == Controls.keys.MOVE_DOWN then
             self.speed.y = self.speed.y - self.max_speed
           end
           for k, v in pairs({
-            "w",
-            "a",
-            "s",
-            "d"
+            Controls.keys.MOVE_LEFT,
+            Controls.keys.MOVE_RIGHT,
+            Controls.keys.MOVE_UP,
+            Controls.keys.MOVE_DOWN
           }) do
             if key == v then
               self.keys_pushed = self.keys_pushed - 1
@@ -248,16 +248,16 @@ do
       end
       if self.attack_timer >= self.attack_speed / (Upgrade.player_stats[5] + 1) then
         local bullet_speed = Vector(0, 0)
-        if love.keyboard.isDown("left") then
+        if love.keyboard.isDown(Controls.keys.SHOOT_LEFT) then
           bullet_speed:add((Vector(-self.bullet_speed, 0)))
         end
-        if love.keyboard.isDown("right") then
+        if love.keyboard.isDown(Controls.keys.SHOOT_RIGHT) then
           bullet_speed:add((Vector(self.bullet_speed, 0)))
         end
-        if love.keyboard.isDown("up") then
+        if love.keyboard.isDown(Controls.keys.SHOOT_UP) then
           bullet_speed:add((Vector(0, -self.bullet_speed)))
         end
-        if love.keyboard.isDown("down") then
+        if love.keyboard.isDown(Controls.keys.SHOOT_DOWN) then
           bullet_speed:add((Vector(0, self.bullet_speed)))
         end
         if bullet_speed:getLength() > 0 then
