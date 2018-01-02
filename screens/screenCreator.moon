@@ -385,10 +385,11 @@ export class ScreenCreator
 
               amount = 0
               amount = Upgrade.amount[i][j][level + 1] - modifier
-              if i == 1 and j == 5
-                amount /= stats_table[j] + 1
-              else
-                amount /= current_stats[j]
+              --if i == 1 and j == 5
+              --if j == 5
+              --  amount /= stats_table[j] + 1
+              --else
+              amount /= current_stats[j]
               amount *= 100
 
               message = "  " .. names[i] .. "  " .. stats[i][j] .. "  by  " .. (string.format "%d", math.floor math.abs amount) .. "%"

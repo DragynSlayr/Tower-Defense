@@ -402,11 +402,7 @@ do
                 end
                 local amount = 0
                 amount = Upgrade.amount[i][j][level + 1] - modifier
-                if i == 1 and j == 5 then
-                  amount = amount / (stats_table[j] + 1)
-                else
-                  amount = amount / current_stats[j]
-                end
+                amount = amount / current_stats[j]
                 amount = amount * 100
                 local message = "  " .. names[i] .. "  " .. stats[i][j] .. "  by  " .. (string.format("%d", math.floor(math.abs(amount)))) .. "%"
                 if amount < 0 then
