@@ -447,7 +447,8 @@ do
       if num_diff > 0 then
         love.window.setMode(width, height, flags)
       end
-      return calcScreen()
+      calcScreen()
+      KEY_CHANGED = true
     end,
     __base = _base_0,
     __name = "Driver"

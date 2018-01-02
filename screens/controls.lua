@@ -8,6 +8,7 @@ do
           self.keys[self.key_names[self.selected]] = key
           self.button.text = key
           writeKey(self.key_names[self.selected], key)
+          KEY_CHANGED = true
         end
         self.button.selected = false
         self.button = nil

@@ -87,6 +87,8 @@ export class Driver
 
       calcScreen!
 
+      export KEY_CHANGED = true
+
     addObject: (object, id) =>
       if @objects[id]
         @objects[id][#@objects[id] + 1] = object

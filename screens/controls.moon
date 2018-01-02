@@ -28,6 +28,7 @@ export class ControlsHandler extends Screen
         @keys[@key_names[@selected]] = key
         @button.text = key
         writeKey @key_names[@selected], key
+        export KEY_CHANGED = true
       @button.selected = false
       @button = nil
       @selected_text = ""
