@@ -32,6 +32,8 @@ Circle
 CloneActive
 Color
 ComboBox
+Controls
+ControlsHandler
 DEBUGGING
 DEBUG_MENU
 DEBUG_MENU_ENABLED
@@ -91,6 +93,10 @@ Item_Rarity_Text
 Jitter
 LinearProjectile
 LinkedList
+MOVE_DOWN
+MOVE_LEFT
+MOVE_RIGHT
+MOVE_UP
 Map
 MapCreator
 Missile
@@ -106,6 +112,7 @@ ObjectRenderer
 Objectives
 ObjectivesHandler
 PATH_PREFIX
+PAUSE_GAME
 Particle
 ParticleEmitter
 ParticleTrail
@@ -124,6 +131,10 @@ RangeBoostPassive
 Rectangle
 Renderer
 ResoureCacher
+SHOOT_DOWN
+SHOOT_LEFT
+SHOOT_RIGHT
+SHOOT_UP
 SHOW_FPS
 SHOW_RANGE
 Scale
@@ -145,6 +156,7 @@ Stack
 Stats
 Stats_Dynamic
 StrongEnemy
+TOGGLE_TURRET
 TesseractGoal
 TestMode
 TestWave
@@ -163,6 +175,8 @@ TurretSlagPassive
 UI
 UIElement
 UIHandler
+USE_ITEM
+USE_TURRET
 Upgrade
 UpgradeScreen
 Upgrade_Trees
@@ -242,6 +256,7 @@ buffed
 bullet
 bullet_position
 bullet_speed
+button
 buttons
 byte
 c
@@ -552,6 +567,7 @@ items
 k
 k2
 key
+key_names
 keyboard
 keypressed
 keyreleased
@@ -808,6 +824,7 @@ scores
 screens
 screenshot
 selected
+selected_text
 send
 server_address
 server_port
@@ -945,6 +962,7 @@ timer
 title
 title_color
 title_font
+toTitle
 toUnitVector
 to_spawn
 to_traverse

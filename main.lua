@@ -35,5 +35,5 @@ end
 love.load = function()
   queue = require("logic.classLoader")
   elements = #queue
-  VERSION = "V.35"
+  VERSION = "V.36"
 end
