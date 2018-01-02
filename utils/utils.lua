@@ -155,13 +155,19 @@ removeChars = function(str, chars)
   end
   return s
 end
-toTitle = function(s)
+toTitle = function(s, sep)
+  if sep == nil then
+    sep = " "
+  end
   local title = ""
-  for k, v in pairs((split(s, " "))) do
+  for k, v in pairs((split(s, sep))) do
     v = (string.upper((string.sub(v, 1, 1)))) .. (string.sub((string.lower(v)), 2))
     title = title .. (v .. " ")
   end
   return (strip(title))
+end
+startsWith = function(s, x)
+  return ((string.sub(s, 1, #x)) == x)
 end
 tableToString = function(t, d)
   if d == nil then

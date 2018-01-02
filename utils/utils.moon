@@ -149,12 +149,15 @@ export removeChars = (str, chars = {}) ->
       s ..= c
   return s
 
-export toTitle = (s) ->
+export toTitle = (s, sep = " ") ->
   title = ""
-  for k, v in pairs (split s, " ")
+  for k, v in pairs (split s, sep)
     v = (string.upper (string.sub v, 1, 1)) .. (string.sub (string.lower v), 2)
     title ..= v .. " "
   return (strip title)
+
+export startsWith = (s, x) ->
+  return ((string.sub s, 1, #x) == x)
 
 export tableToString = (t, d = 0) ->
   if (type t) ~= "table"
