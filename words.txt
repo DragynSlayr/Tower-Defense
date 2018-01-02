@@ -91,6 +91,7 @@ ItemTypes
 Item_Rarity
 Item_Rarity_Text
 Jitter
+KEY_CHANGED
 LinearProjectile
 LinkedList
 MOVE_DOWN
@@ -466,6 +467,7 @@ getCenter
 getChild
 getCollisionDistance
 getComponents
+getControls
 getCopy
 getData
 getDimensions
@@ -653,6 +655,7 @@ moonscript
 mouse
 mousepressed
 mousereleased
+move_controls
 movement_blocked
 movement_delay
 movement_disabled
@@ -716,6 +719,7 @@ options
 or
 order
 os
+other_controls
 p
 p2
 pairs
@@ -869,6 +873,7 @@ shield_sprite
 shield_timer
 shielded
 shift
+shoot_controls
 should_shade
 show_stats
 show_turret
@@ -919,6 +924,7 @@ start_rotation
 start_x
 start_y
 started
+startsWith
 state_stack
 static
 stats
