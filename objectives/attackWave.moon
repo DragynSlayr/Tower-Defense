@@ -15,7 +15,7 @@ export class AttackWave extends Wave
     Objectives\spawn (Objectives\getRandomEnemy basicChance, playerChance, turretChance, strongChance, 0), EntityTypes.enemy
 
   start: =>
-    print @target
+    --print @target
     for i = 1, @target
       goal = Objectives\spawn (AttackGoal), EntityTypes.goal
       --em = ParticleEmitter 0, 0, 0.1, 0.5, goal

@@ -11,7 +11,6 @@ do
       return Objectives:spawn((Objectives:getRandomEnemy(basicChance, playerChance, turretChance, strongChance, 0)), EntityTypes.enemy)
     end,
     start = function(self)
-      print(self.target)
       for i = 1, self.target do
         local goal = Objectives:spawn((AttackGoal), EntityTypes.goal)
       end
