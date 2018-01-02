@@ -155,6 +155,14 @@ removeChars = function(str, chars)
   end
   return s
 end
+toTitle = function(s)
+  local title = ""
+  for k, v in pairs((split(s, " "))) do
+    v = (string.upper((string.sub(v, 1, 1)))) .. (string.sub((string.lower(v)), 2))
+    title = title .. (v .. " ")
+  end
+  return (strip(title))
+end
 tableToString = function(t, d)
   if d == nil then
     d = 0

@@ -149,6 +149,13 @@ export removeChars = (str, chars = {}) ->
       s ..= c
   return s
 
+export toTitle = (s) ->
+  title = ""
+  for k, v in pairs (split s, " ")
+    v = (string.upper (string.sub v, 1, 1)) .. (string.sub (string.lower v), 2)
+    title ..= v .. " "
+  return (strip title)
+
 export tableToString = (t, d = 0) ->
   if (type t) ~= "table"
     error "This function only works on Tables"
