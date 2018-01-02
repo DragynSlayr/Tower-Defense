@@ -14,7 +14,7 @@ export class CaptureMode extends Mode
     }
 
   start: =>
-    @time_remaining = 60
+    @time_remaining = 90
     for k, p in pairs @point_positions
       goal = CaptureGoal p.x, p.y
       goal.num = k

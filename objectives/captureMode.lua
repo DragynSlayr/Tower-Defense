@@ -3,7 +3,7 @@ do
   local _parent_0 = Mode
   local _base_0 = {
     start = function(self)
-      self.time_remaining = 60
+      self.time_remaining = 90
       for k, p in pairs(self.point_positions) do
         local goal = CaptureGoal(p.x, p.y)
         goal.num = k
