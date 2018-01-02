@@ -13,8 +13,7 @@ do
       if Driver.objects[EntityTypes.goal] then
         local goals = {
           GoalTypes.attack,
-          GoalTypes.capture,
-          GoalTypes.tesseract
+          GoalTypes.capture
         }
         for k, g in pairs(Driver.objects[EntityTypes.goal]) do
           if tableContains(goals, g.goal_type) then

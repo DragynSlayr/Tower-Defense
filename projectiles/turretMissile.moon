@@ -54,7 +54,7 @@ export class TurretMissile extends HomingProjectile
     if Driver.objects[EntityTypes.boss]
       targets = concatTables targets, Driver.objects[EntityTypes.boss]
     if Driver.objects[EntityTypes.goal]
-      goals = {GoalTypes.attack, GoalTypes.capture, GoalTypes.tesseract}
+      goals = {GoalTypes.attack, GoalTypes.capture}
       for k, g in pairs Driver.objects[EntityTypes.goal]
         if tableContains goals, g.goal_type
           table.insert targets, g
