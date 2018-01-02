@@ -224,7 +224,6 @@ do
     end,
     createPauseMenu = function(self)
       UI:set_screen(Screen_State.pause_menu)
-      self:createHelp(nil, Screen_Size.height * 0.2)
       local title = Text(Screen_Size.width / 2, (Screen_Size.height / 3), "Game Paused")
       UI:add(title)
       local sprite = Sprite("player/test.tga", 16, 16, 2, 50 / 16)

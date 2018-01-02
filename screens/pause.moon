@@ -13,6 +13,24 @@ export class PauseScreen extends Screen
     @player_icons = @icons
     @turret_icons = {@icons[1], @icons[2], @icons[3], (Sprite "ui/icons/cooldown.tga", 16, 16, 1, 1), @icons[5]}
 
+    @getControls!
+
+  getControls: =>
+    export KEY_CHANGED = false
+    @move_controls = {}
+    @shoot_controls = {}
+    @other_controls = {}
+    for k, v in pairs Controls.key_names
+      key = Controls.keys[v]
+      value = (toTitle v, "_") .. " : " .. key
+      if startsWith v, "MOVE"
+        table.insert @move_controls, value
+      elseif startsWith v, "SHOOT"
+        table.insert @shoot_controls, value
+      else
+        table.insert @other_controls, value
+    @controls = {@move_controls, @other_controls, @shoot_controls}
+
   update: (dt) =>
     typeof = ItemFrame
     frames = UI\filter typeof, Screen_State.inventory
@@ -23,6 +41,8 @@ export class PauseScreen extends Screen
         v.sprite\setScale 2.5
         v.small_sprite = v.sprite
         v.normal_sprite = v.small_sprite
+    if KEY_CHANGED
+      @getControls!
 
   draw: =>
     love.graphics.push "all"
@@ -49,4 +69,13 @@ export class PauseScreen extends Screen
         Renderer\drawHUDMessage (string.format "%.2f", stats[i]), x + (10 * Scale.width) + bounds.radius, y, @font
     Renderer\drawAlignedMessage Inventory.message1, Screen_Size.height * 0.85, "center", Renderer.hud_font
     Renderer\drawAlignedMessage Inventory.message2, Screen_Size.height * 0.89, "center", Renderer.hud_font
+    love.graphics.setFont Renderer.small_font
+    love.graphics.setColor 0, 0, 0, 255
+    for i = 1, 3
+      y = 0.04
+      if i == 2
+        y /= 2
+      for k, v in pairs @controls[i]
+        love.graphics.printf v, (Screen_Size.width / 3) * (i - 1), Screen_Size.height * y, Screen_Size.width / 3, "center"
+        y += 0.055
     love.graphics.pop!

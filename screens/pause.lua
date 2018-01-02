@@ -2,6 +2,28 @@ do
   local _class_0
   local _parent_0 = Screen
   local _base_0 = {
+    getControls = function(self)
+      KEY_CHANGED = false
+      self.move_controls = { }
+      self.shoot_controls = { }
+      self.other_controls = { }
+      for k, v in pairs(Controls.key_names) do
+        local key = Controls.keys[v]
+        local value = (toTitle(v, "_")) .. " : " .. key
+        if startsWith(v, "MOVE") then
+          table.insert(self.move_controls, value)
+        elseif startsWith(v, "SHOOT") then
+          table.insert(self.shoot_controls, value)
+        else
+          table.insert(self.other_controls, value)
+        end
+      end
+      self.controls = {
+        self.move_controls,
+        self.other_controls,
+        self.shoot_controls
+      }
+    end,
     update = function(self, dt)
       local typeof = ItemFrame
       local frames = UI:filter(typeof, Screen_State.inventory)
@@ -13,6 +35,9 @@ do
           v.small_sprite = v.sprite
           v.normal_sprite = v.small_sprite
         end
+      end
+      if KEY_CHANGED then
+        return self:getControls()
       end
     end,
     draw = function(self)
@@ -45,6 +70,18 @@ do
       end
       Renderer:drawAlignedMessage(Inventory.message1, Screen_Size.height * 0.85, "center", Renderer.hud_font)
       Renderer:drawAlignedMessage(Inventory.message2, Screen_Size.height * 0.89, "center", Renderer.hud_font)
+      love.graphics.setFont(Renderer.small_font)
+      love.graphics.setColor(0, 0, 0, 255)
+      for i = 1, 3 do
+        local y = 0.04
+        if i == 2 then
+          y = y / 2
+        end
+        for k, v in pairs(self.controls[i]) do
+          love.graphics.printf(v, (Screen_Size.width / 3) * (i - 1), Screen_Size.height * y, Screen_Size.width / 3, "center")
+          y = y + 0.055
+        end
+      end
       return love.graphics.pop()
     end
   }
@@ -73,6 +110,7 @@ do
         (Sprite("ui/icons/cooldown.tga", 16, 16, 1, 1)),
         self.icons[5]
       }
+      return self:getControls()
     end,
     __base = _base_0,
     __name = "PauseScreen",

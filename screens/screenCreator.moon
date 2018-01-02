@@ -252,7 +252,7 @@ export class ScreenCreator
   createPauseMenu: =>
     UI\set_screen Screen_State.pause_menu
 
-    @createHelp nil, Screen_Size.height * 0.2
+    --@createHelp nil, Screen_Size.height * 0.2
 
     title = Text Screen_Size.width / 2, (Screen_Size.height / 3), "Game Paused"
     UI\add title
