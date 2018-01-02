@@ -37,6 +37,7 @@ require "items.earthShatterActive"
 --+-------------------------+--
 require "items.bombPassive"
 require "items.armorPassive"
+require "items.curryPassive"
 require "items.trailPassive"
 require "items.extraLifePassive"
 require "items.doubleShotPassive"

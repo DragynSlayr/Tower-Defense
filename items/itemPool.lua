@@ -39,6 +39,7 @@ do
         HealingFieldActive,
         BombPassive,
         ArmorPassive,
+        CurryPassive,
         TrailPassive,
         ExtraLifePassive,
         DoubleShotPassive,

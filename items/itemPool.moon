@@ -20,6 +20,7 @@ export class ItemPoolHandler
       HealingFieldActive,
       BombPassive,
       ArmorPassive,
+      CurryPassive,
       TrailPassive,
       ExtraLifePassive,
       DoubleShotPassive,
