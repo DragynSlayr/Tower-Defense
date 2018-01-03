@@ -268,7 +268,7 @@ export class Player extends GameObject
         if v.goal_type == GoalTypes.attack
           table.insert filters, EntityTypes.goal
           break
-    if @attack_timer >= @attack_speed / (Upgrade.player_stats[5] + 1)
+    if @attack_timer >= @attack_speed-- / (Upgrade.player_stats[5] + 1)
       bullet_speed = Vector 0, 0
       if love.keyboard.isDown Controls.keys.SHOOT_LEFT
         bullet_speed\add (Vector -@bullet_speed, 0)

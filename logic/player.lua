@@ -246,7 +246,7 @@ do
           end
         end
       end
-      if self.attack_timer >= self.attack_speed / (Upgrade.player_stats[5] + 1) then
+      if self.attack_timer >= self.attack_speed then
         local bullet_speed = Vector(0, 0)
         if love.keyboard.isDown(Controls.keys.SHOOT_LEFT) then
           bullet_speed:add((Vector(-self.bullet_speed, 0)))
