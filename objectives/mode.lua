@@ -25,9 +25,11 @@ do
           p.can_place = true
           p.health = p.max_health
           p.attack_range = Stats.player[2]
-          if p.hit then
-            hit = true
-          end
+        end
+      end
+      if #Driver.objects[EntityTypes.player] > 1 then
+        for i = 2, #Driver.objects[EntityTypes.player] do
+          Driver.objects[EntityTypes.player][i].health = 0
         end
       end
       self.parent.shader = nil

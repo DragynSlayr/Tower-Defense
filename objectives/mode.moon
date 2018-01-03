@@ -35,12 +35,15 @@ export class Mode
         p.can_place = true
         p.health = p.max_health
         p.attack_range = Stats.player[2]
-        if p.hit
-          hit = true
+        --if p.hit
+        --  hit = true
 --    if not hit
 --      Upgrade\addPoint 3
 --    else
 --      Upgrade\addPoint 2
+    if #Driver.objects[EntityTypes.player] > 1
+      for i = 2, #Driver.objects[EntityTypes.player]
+        Driver.objects[EntityTypes.player][i].health = 0
     @parent.shader = nil
 
   update: (dt) =>
