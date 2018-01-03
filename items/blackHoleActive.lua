@@ -15,6 +15,7 @@ do
         12
       })[self.rarity]
       local sprite = Sprite("background/blackhole.tga", 32, 32, 1, 1.75)
+      sprite:setRotationSpeed(-math.pi / 2)
       local effect
       effect = function(self, player)
         local hole = BlackHole(player.position.x, player.position.y)

@@ -3,6 +3,7 @@ export class BlackHoleActive extends ActiveItem
     @rarity = @getRandomRarity!
     cd = ({20, 18, 16, 14, 12})[@rarity]
     sprite = Sprite "background/blackhole.tga", 32, 32, 1, 1.75
+    sprite\setRotationSpeed -math.pi / 2
     effect = (player) =>
       hole = BlackHole player.position.x, player.position.y
       Driver\addObject hole, EntityTypes.background
