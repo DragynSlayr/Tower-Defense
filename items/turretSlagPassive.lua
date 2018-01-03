@@ -9,12 +9,14 @@ do
       local sprite = Sprite("item/turretSlagPassive.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
-        for k, t in pairs(player.turret) do
-          if t.target then
-            local bullet = Bullet(t.position.x, t.position.y - (t.sprite.scaled_height / 2) + 10, t.target, 0)
-            bullet.sprite = Sprite("projectile/slag.tga", 32, 32, 1, 0.75)
-            bullet.slagging = true
-            Driver:addObject(bullet, EntityTypes.bullet)
+        if Driver.objects[EntityTypes.turret] then
+          for k, t in pairs(Driver.objects[EntityTypes.turret]) do
+            if t.target then
+              local bullet = Bullet(t.position.x, t.position.y - (t.sprite.scaled_height / 2) + 10, t.target, 0)
+              bullet.sprite = Sprite("projectile/slag.tga", 32, 32, 1, 0.75)
+              bullet.slagging = true
+              Driver:addObject(bullet, EntityTypes.bullet)
+            end
           end
         end
       end
