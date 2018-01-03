@@ -45,6 +45,7 @@ do
               o:onCollide(self)
               MusicPlayer:play(self.death_sound)
               self.health = 0
+              self.target_hit = true
             end
           end
         end
@@ -52,7 +53,7 @@ do
     end,
     kill = function(self)
       _class_0.__parent.__base.kill(self)
-      if Upgrade.player_special[1] then
+      if self.target_hit and Upgrade.player_special[1] then
         if Driver.objects[EntityTypes.player] then
           for k, p in pairs(Driver.objects[EntityTypes.player]) do
             p.health = p.health + (Stats.player[3] * 0.01)
@@ -91,6 +92,7 @@ do
       self.id = EntityTypes.bullet
       self.draw_health = false
       self.solid = false
+      self.target_hit = false
       self.max_dist = 2 * (math.max(Screen_Size.width, Screen_Size.height))
       self.dist_travelled = 0
       self.trail = nil

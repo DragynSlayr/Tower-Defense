@@ -9,6 +9,7 @@ export class FilteredBullet extends GameObject
     @id = EntityTypes.bullet
     @draw_health = false
     @solid = false
+    @target_hit = false
 
     @max_dist = 2 * (math.max Screen_Size.width, Screen_Size.height)
     @dist_travelled = 0
@@ -57,10 +58,11 @@ export class FilteredBullet extends GameObject
             o\onCollide @
             MusicPlayer\play @death_sound
             @health = 0
+            @target_hit = true
 
   kill: =>
     super!
-    if Upgrade.player_special[1]
+    if @target_hit and Upgrade.player_special[1]
       if Driver.objects[EntityTypes.player]
         for k, p in pairs Driver.objects[EntityTypes.player]
           p.health += Stats.player[3] * 0.01
