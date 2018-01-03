@@ -8,7 +8,7 @@ do
           self.capture_amount = self.capture_amount - entity.damage
           entity.health = 0
         else
-          if entity.__class == Missile then
+          if entity.__class == Missile or entity.__class == TurretMissile then
             self.capture_amount = self.capture_amount + 2
           else
             self.capture_amount = self.capture_amount + (2 / 60)

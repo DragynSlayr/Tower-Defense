@@ -21,7 +21,7 @@ export class CaptureGoal extends GameObject
         @capture_amount -= entity.damage
         entity.health = 0
       else
-        if entity.__class == Missile
+        if entity.__class == Missile or entity.__class == TurretMissile
           @capture_amount += 2
         else
           @capture_amount += 2 / 60
