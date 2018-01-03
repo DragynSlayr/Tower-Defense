@@ -31,19 +31,37 @@ do
           EntityTypes.enemy,
           EntityTypes.boss
         }
-        for k2, typeof in pairs(filters) do
-          if Driver.objects[typeof] then
-            for k, v in pairs(Driver.objects[typeof]) do
-              local enemy = v:getHitBox()
-              local p = player:getHitBox()
-              p.radius = p.radius + (player.attack_range + player.range_boost)
-              if p:contains(enemy) then
-                local bullet = PlayerBullet(player.position.x, player.position.y, v, player.damage * self.damage_multiplier)
-                bullet.sprite = Sprite("projectile/doubleShot.tga", 26, 20, 1, 0.5)
-                Driver:addObject(bullet, EntityTypes.bullet)
+        if not (tableContains(filters, EntityTypes.goal)) then
+          if Driver.objects[EntityTypes.goal] then
+            for k, v in pairs(Driver.objects[EntityTypes.goal]) do
+              if v.goal_type == GoalTypes.attack then
+                table.insert(filters, EntityTypes.goal)
+                break
               end
             end
           end
+        end
+        local bullet_speed = Vector(0, 0)
+        if love.keyboard.isDown(Controls.keys.SHOOT_LEFT) then
+          bullet_speed:add((Vector(-player.bullet_speed, 0)))
+        end
+        if love.keyboard.isDown(Controls.keys.SHOOT_RIGHT) then
+          bullet_speed:add((Vector(player.bullet_speed, 0)))
+        end
+        if love.keyboard.isDown(Controls.keys.SHOOT_UP) then
+          bullet_speed:add((Vector(0, -player.bullet_speed)))
+        end
+        if love.keyboard.isDown(Controls.keys.SHOOT_DOWN) then
+          bullet_speed:add((Vector(0, player.bullet_speed)))
+        end
+        if bullet_speed:getLength() > 0 then
+          local bullet = FilteredBullet(player.position.x, player.position.y, player.damage * self.damage_multiplier, bullet_speed, filters)
+          bullet.sprite = Sprite("projectile/doubleShot.tga", 26, 20, 1, 0.5)
+          bullet.max_dist = self:getHitBox().radius + (2 * (player.attack_range + player.range_boost))
+          if player.knocking_back then
+            bullet.knockback = true
+          end
+          return Driver:addObject(bullet, EntityTypes.bullet)
         end
       end
       _class_0.__parent.__init(self, sprite, 0, effect)

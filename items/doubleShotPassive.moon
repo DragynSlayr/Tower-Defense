@@ -5,16 +5,28 @@ export class DoubleShotPassive extends PassiveItem
     sprite = Sprite "item/doubleShotPassive.tga", 32, 32, 1, 1.75
     effect = (player) =>
       filters = {EntityTypes.enemy, EntityTypes.boss}
-      for k2, typeof in pairs filters
-        if Driver.objects[typeof]
-          for k, v in pairs Driver.objects[typeof]
-            enemy = v\getHitBox!
-            p = player\getHitBox!
-            p.radius += player.attack_range + player.range_boost
-            if p\contains enemy
-              bullet = PlayerBullet player.position.x, player.position.y, v, player.damage * @damage_multiplier
-              bullet.sprite = Sprite "projectile/doubleShot.tga", 26, 20, 1, 0.5
-              Driver\addObject bullet, EntityTypes.bullet
+      if not (tableContains filters, EntityTypes.goal)
+        if Driver.objects[EntityTypes.goal]
+          for k, v in pairs Driver.objects[EntityTypes.goal]
+            if v.goal_type == GoalTypes.attack
+              table.insert filters, EntityTypes.goal
+              break
+      bullet_speed = Vector 0, 0
+      if love.keyboard.isDown Controls.keys.SHOOT_LEFT
+        bullet_speed\add (Vector -player.bullet_speed, 0)
+      if love.keyboard.isDown Controls.keys.SHOOT_RIGHT
+        bullet_speed\add (Vector player.bullet_speed, 0)
+      if love.keyboard.isDown Controls.keys.SHOOT_UP
+        bullet_speed\add (Vector 0, -player.bullet_speed)
+      if love.keyboard.isDown Controls.keys.SHOOT_DOWN
+        bullet_speed\add (Vector 0, player.bullet_speed)
+      if bullet_speed\getLength! > 0
+        bullet = FilteredBullet player.position.x, player.position.y, player.damage * @damage_multiplier, bullet_speed, filters
+        bullet.sprite = Sprite "projectile/doubleShot.tga", 26, 20, 1, 0.5
+        bullet.max_dist = @getHitBox!.radius + (2 * (player.attack_range + player.range_boost))
+        if player.knocking_back
+          bullet.knockback = true
+        Driver\addObject bullet, EntityTypes.bullet
     super sprite, 0, effect
     @name = "Double Shot"
     @description = "Shoot an extra bullet"
