@@ -2,6 +2,7 @@
 --| No dependency |--
 --+---------------+--
 require "enemies.enemy"
+require "enemies.cloudEnemy"
 
 --+------------------+--
 --| Depends on enemy |--
