@@ -102,7 +102,6 @@ Scaling.health = 5
 Scaling.damage = 0.5
 Scaling.speed  = 5
 
-
 export calcScreen = () ->
   export Screen_Size = {}
 
