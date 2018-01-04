@@ -135,7 +135,7 @@ export class Driver
     respawnPlayers: =>
       if Driver.objects[EntityTypes.player]
         for k, p in pairs Driver.objects[EntityTypes.player]
-          p2 = Player p.position.x, p.position.y
+          p2 = Player Screen_Size.half_width, Screen_Size.half_height--p.position.x, p.position.y
           for k, i in pairs p.equipped_items
             i\pickup p2
           p2.exp = p.exp

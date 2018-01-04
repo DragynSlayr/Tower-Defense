@@ -67,7 +67,7 @@ do
     respawnPlayers = function(self)
       if Driver.objects[EntityTypes.player] then
         for k, p in pairs(Driver.objects[EntityTypes.player]) do
-          local p2 = Player(p.position.x, p.position.y)
+          local p2 = Player(Screen_Size.half_width, Screen_Size.half_height)
           for k, i in pairs(p.equipped_items) do
             i:pickup(p2)
           end
