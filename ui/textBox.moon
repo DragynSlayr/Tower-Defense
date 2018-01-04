@@ -91,9 +91,10 @@ export class TextBox extends UIElement
 
   getLine: (idx, idx2 = #@lines[idx]) =>
     s = ""
-    for k, v in pairs @lines[idx]
-      if k < idx2 + 1
-        s ..= v
+    if @lines[idx]
+      for k, v in pairs @lines[idx]
+        if k < idx2 + 1
+          s ..= v
     return s
 
   textinput: (text) =>

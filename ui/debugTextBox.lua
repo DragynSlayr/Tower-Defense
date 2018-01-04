@@ -9,16 +9,20 @@ do
   local _parent_0 = TextBox
   local _base_0 = {
     recoverSaved = function(self)
-      self.lines = self.saved[self.saved_index]
-      if #self.lines > 0 then
-        self.lines_index = #self.lines
+      if self.saved[self.saved_index] then
+        self.lines = self.saved[self.saved_index]
+        if #self.lines > 0 then
+          self.lines_index = #self.lines
+        else
+          self.lines_index = 1
+        end
+        if self.lines[self.lines_index] then
+          self.char_index = #self.lines[self.lines_index]
+        else
+          self.char_index = 1
+        end
       else
-        self.lines_index = 1
-      end
-      if self.lines[self.lines_index] then
-        self.char_index = #self.lines[self.lines_index]
-      else
-        self.char_index = 1
+        return self:resetText()
       end
     end,
     runText = function(self)

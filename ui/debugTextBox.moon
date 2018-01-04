@@ -33,15 +33,18 @@ export class DebugTextBox extends TextBox
         @char_index = 1
 
   recoverSaved: =>
-    @lines = @saved[@saved_index]
-    if #@lines > 0
-      @lines_index = #@lines
+    if @saved[@saved_index]
+      @lines = @saved[@saved_index]
+      if #@lines > 0
+        @lines_index = #@lines
+      else
+        @lines_index = 1
+      if @lines[@lines_index]
+        @char_index = #@lines[@lines_index]
+      else
+        @char_index = 1
     else
-      @lines_index = 1
-    if @lines[@lines_index]
-      @char_index = #@lines[@lines_index]
-    else
-      @char_index = 1
+      @resetText!
 
   runText: =>
     @saved[@saved_index] = @lines

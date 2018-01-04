@@ -44,9 +44,11 @@ do
         idx2 = #self.lines[idx]
       end
       local s = ""
-      for k, v in pairs(self.lines[idx]) do
-        if k < idx2 + 1 then
-          s = s .. v
+      if self.lines[idx] then
+        for k, v in pairs(self.lines[idx]) do
+          if k < idx2 + 1 then
+            s = s .. v
+          end
         end
       end
       return s
