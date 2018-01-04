@@ -18,7 +18,7 @@ export class CloudEnemy extends GameObject
       @health = 0
       return
 
-    @end_delay = 3
+    @end_delay = 1.5
     @wait_time = 4
     @ai_phase = 1
     @children = {}
@@ -53,7 +53,7 @@ export class CloudEnemy extends GameObject
 
         @trail.position = @position
 
-        if @elapsed >= @wait_time and (Vector dist_x, dist_y)\getLength! <= (200 * Scale.diag)
+        if @elapsed >= @wait_time and (Vector dist_x, dist_y)\getLength! <= (300 * Scale.diag)
           @ai_phase += 1
           @speed = Vector 0, 0
           @elapsed = 0

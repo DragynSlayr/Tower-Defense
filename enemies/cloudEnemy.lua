@@ -21,7 +21,7 @@ do
         self.speed:toUnitVector()
         self.speed = self.speed:multiply(self.speed_multiplier)
         self.trail.position = self.position
-        if self.elapsed >= self.wait_time and (Vector(dist_x, dist_y)):getLength() <= (200 * Scale.diag) then
+        if self.elapsed >= self.wait_time and (Vector(dist_x, dist_y)):getLength() <= (300 * Scale.diag) then
           self.ai_phase = self.ai_phase + 1
           self.speed = Vector(0, 0)
           self.elapsed = 0
@@ -68,7 +68,7 @@ do
         self.health = 0
         return 
       end
-      self.end_delay = 3
+      self.end_delay = 1.5
       self.wait_time = 4
       self.ai_phase = 1
       self.children = { }
