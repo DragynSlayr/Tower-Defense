@@ -11,16 +11,19 @@ brackets = [("[", "]"), ("{", "}"), ("(", ")"), ("\"", "\"")]
 
 to_remove = string.digits + string.punctuation + string.whitespace
 
+
 def removeChars(word, chars):
     s = ""
     for letter in word:
-        if not letter in chars:
+        if letter not in chars:
             s += letter
     return s
+
 
 to_remove = removeChars(to_remove, ".")
 to_remove = removeChars(to_remove, "_")
 to_remove = removeChars(to_remove, "\\")
+
 
 def parseDirs(arg, dirname, names):
     global files
@@ -31,7 +34,9 @@ def parseDirs(arg, dirname, names):
                 if name.split(".")[1] == "moon":
                     files.append(dirname + "\\" + name)
 
+
 os.path.walk(".", parseDirs, "")
+
 
 def readFile(name):
     global num_lines
@@ -46,15 +51,18 @@ def readFile(name):
             lines.append(line)
     return lines
 
+
 def getLeftIndex(key, letter):
     for i in range(len(key)):
         if key[i] == letter:
             return i
 
+
 def getRightIndex(key, letter):
     for i in range(len(key))[::-1]:
         if key[i] == letter:
             return i
+
 
 def removeBrackets(key, left, right):
     while left in key and right in key:
@@ -63,16 +71,21 @@ def removeBrackets(key, left, right):
         key = key[:idx1] + key[idx2 + 1:]
     return key
 
+
 def isInt(key):
     try:
-        i = int(key)
+        int(key)
         return True
-    except:
+    except ValueError:
         return False
+
 
 def addKey(key):
     global key_words
-    symbols = ["\\", "(", ")", "{", "}", "[", "]", "<", ">", "#", ".", "!", "=", "-", "+", "*", "%", "/"]
+    symbols = [
+        "\\", "(", ")", "{", "}", "[", "]", "<", ">",
+        "#", ".", "!", "=", "-", "+", "*", "%", "/"
+    ]
     for symbol in symbols:
         key = key.replace(symbol, " ")
     removable = ["!", ",", "~", "@", ":"]
@@ -81,6 +94,7 @@ def addKey(key):
             k = k.replace(r, "")
         if len(k) > 0 and not isInt(k):
             key_words[k] = 0
+
 
 for i in range(len(files)):
     file_name = files[i]
