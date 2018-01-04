@@ -30,6 +30,7 @@ CaptureWave
 CheckBox
 Circle
 CloneActive
+CloudEnemy
 Color
 ComboBox
 Controls
@@ -372,6 +373,8 @@ disconnect
 dist
 dist_travelled
 dist_vec
+dist_x
+dist_y
 do
 dragon
 draw
@@ -394,11 +397,11 @@ elapsed
 elements
 elimination
 elseif
-emitter
 emitting
 empty
 enabled
 encode
+end_delay
 enemy
 enemyType
 enemy_poison
@@ -624,7 +627,6 @@ master
 math
 max
 max_armor
-max_count
 max_delay
 max_depth
 max_dist
@@ -949,8 +951,10 @@ table
 tableContains
 tableToString
 target
+target_hit
 target_position
 targets
+te
 temp
 temp_damage
 tess
@@ -975,7 +979,6 @@ to_traverse
 toggle
 tooltips
 tostring
-total
 touching
 trail
 transfer
