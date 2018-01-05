@@ -2,10 +2,10 @@ export class ScreenCreator
   new: =>
     @createControlsMenu!
     @createSettingsMenu!
-    @createPauseMenu!
     @createGameOverMenu!
     @createUpgradeMenu!
     @createInventoryMenu!
+    @createPauseMenu!
     @createMainMenu!
 
   createControlsMenu: =>
@@ -129,108 +129,8 @@ export class ScreenCreator
       UI\set_screen Screen_State.main_menu
     UI\add back_button
 
-  createHelp: (start_x = 100 * Scale.width, start_y = Screen_Size.height * 0.4) =>
-    keys = {}
-    keys["space"] = Sprite "ui/keys/space.tga", 32, 96, 1, 1
-    for k, v in pairs {"w", "a", "s", "d", "p", "e", "z", "q"}
-      keys[v] = Sprite "ui/keys/" .. v .. ".tga", 32, 32, 1, 1
-
-    font = Renderer\newFont 20
-
-    -- A key
-    x = start_x
-    y = start_y
-    text = "Left"
-    t = Text x, y, text, font
-    UI\add t
-
-    i = Icon x + (10 * Scale.width) + ((font\getWidth text) * Scale.width), y, keys["a"]
-    UI\add i
-
-    -- S key
-    i = Icon x + (10 * Scale.width) + ((font\getWidth text) * Scale.width) + (50 * Scale.width), y, keys["s"]
-    UI\add i
-
-    x = start_x + (10 * Scale.width) + ((font\getWidth text) * Scale.width) + (50 * Scale.width)
-    y = start_y + (36 * Scale.height)
-    text = "Down"
-    t = Text x, y, text, font
-    UI\add t
-
-    -- D key
-    x = start_x + (10 * Scale.width) + ((font\getWidth "Left") * Scale.width) + (100 * Scale.width)
-    y = start_y
-    i = Icon x, y, keys["d"]
-    UI\add i
-
-    text = "Right"
-    t = Text x + ((font\getWidth text) * Scale.width), y, text, font
-    UI\add t
-
-    -- W key
-    x = start_x
-    y = start_y
-    i = Icon x + (10 * Scale.width) + ((font\getWidth "Left") * Scale.width) + (50 * Scale.width), y - (46 * Scale.height), keys["w"]
-    UI\add i
-
-    text = "Up"
-    t = Text x + (10 * Scale.width) + ((font\getWidth "Left") * Scale.width) + (50 * Scale.width), y - (82 * Scale.height), text, font
-    UI\add t
-
-    -- P key
-    x = (Screen_Size.width / 3) - (100 * Scale.width)
-    y = start_y - (46 * Scale.height)
-    i = Icon x, y, keys["p"]
-    UI\add i
-
-    text = "Pause"
-    t = Text x, y - (36 * Scale.height), text, font
-    UI\add t
-
-    -- E key
-    x = ((Screen_Size.width / 3) * 2) + (200 * Scale.width)
-    y = start_y - (46 * Scale.height)
-    i = Icon x, y, keys["e"]
-    UI\add i
-
-    text = "Toggle Turret"
-    t = Text x, y - (36 * Scale.height), text, font
-    UI\add t
-
-    -- space key
-    x = ((Screen_Size.width / 3) * 2) + (200 * Scale.width)
-    y = start_y
-    i = Icon x, y, keys["space"]
-    UI\add i
-
-    text = "Place/Repair Turret"
-    t = Text x, y + (36 * Scale.height), text, font
-    UI\add t
-
-    -- Z key
-    x = (Screen_Size.width / 3) - (100 * Scale.width)
-    y = start_y + (46 * Scale.height)
-    i = Icon x, y, keys["z"]
-    UI\add i
-
-    text = "Toggle Range"
-    t = Text x, y + (36 * Scale.height), text, font
-    UI\add t
-
-    -- Q key
-    x = (Screen_Size.width / 3) - (100 * Scale.width)
-    y = start_y
-    i = Icon x, y, keys["q"]
-    UI\add i
-
-    text = "Use Item"
-    t = Text x + (70 * Scale.width), y, text, font
-    UI\add t
-
   createMainMenu: =>
     UI\set_screen Screen_State.main_menu
-
-    --@createHelp!
 
     title = Text Screen_Size.width / 2, (Screen_Size.height / 4), "Tower Defense"
     UI\add title
@@ -251,8 +151,6 @@ export class ScreenCreator
 
   createPauseMenu: =>
     UI\set_screen Screen_State.pause_menu
-
-    --@createHelp nil, Screen_Size.height * 0.2
 
     title = Text Screen_Size.width / 2, (Screen_Size.height / 3), "Game Paused"
     UI\add title
@@ -293,25 +191,15 @@ export class ScreenCreator
       Driver.quitGame!
     UI\add quit_button
 
-    passive_text = Text Screen_Size.width * 0.25, (Screen_Size.height / 2) + (0 * Scale.height), "Passive", Renderer.hud_font
-    UI\add passive_text
+    left_button = Button Screen_Size.width * 0.45, (Screen_Size.height * 0.76), 64, 64, "", () ->
+      Pause\previousLayer!
+    left_button\setSprite (Sprite "ui/button/left_idle.tga", 32, 32, 1, 1), (Sprite "ui/button/left_click.tga", 32, 32, 1, 1)
+    UI\add left_button
 
-    active_text = Text Screen_Size.width * 0.75, (Screen_Size.height / 2) + (0 * Scale.height), "Active", Renderer.hud_font
-    UI\add active_text
-
-    x_positions = {Screen_Size.width * 0.25, Screen_Size.width * 0.75}
-    y = (Screen_Size.height / 2) + (108 * Scale.height) --+ (125 * Scale.height)
-
-    for k, x in pairs x_positions
-      frame = ItemFrame x, y
-      frame\scaleUniformly 0.75
-      UI\add frame
-      frame = ItemFrame x - (75 * Scale.width), y + (125 * Scale.height)
-      frame\scaleUniformly 0.75
-      UI\add frame
-      frame = ItemFrame x + (75 * Scale.width), y + (125 * Scale.height)
-      frame\scaleUniformly 0.75
-      UI\add frame
+    right_button = Button Screen_Size.width * 0.55, (Screen_Size.height * 0.76), 64, 64, "", () ->
+      Pause\nextLayer!
+    right_button\setSprite (Sprite "ui/button/right_idle.tga", 32, 32, 1, 1), (Sprite "ui/button/right_click.tga", 32, 32, 1, 1)
+    UI\add right_button
 
   createGameOverMenu: =>
     UI\set_screen Screen_State.game_over
@@ -457,39 +345,42 @@ export class ScreenCreator
     title = Text Screen_Size.width / 2, 25 * Scale.height, "Inventory"
     UI\add title
 
-    passive_text = Text Screen_Size.width * 0.25, Screen_Size.height * 0.15, "Passive", Renderer.hud_font
+    passive_text = Text Screen_Size.width * 0.60, Screen_Size.height * 0.15, "Passives", Renderer.hud_font
     UI\add passive_text
 
-    active_text = Text Screen_Size.width * 0.75, Screen_Size.height * 0.15, "Active", Renderer.hud_font
+    active_text = Text Screen_Size.width * 0.15, Screen_Size.height * 0.15, "Active", Renderer.hud_font
     UI\add active_text
 
-    x_positions = {Screen_Size.width * 0.25, Screen_Size.width * 0.75}
-    y = (Screen_Size.height * 0.15) + (125 * Scale.height)
+    active_item_frame = ItemFrame Screen_Size.width * 0.15, (Screen_Size.height * 0.15) + (125 * Scale.height)
+    active_item_frame.frameType = ItemFrameTypes.active
+    UI\add active_item_frame
 
-    for k, x in pairs x_positions
-      frame1 = ItemFrame x, y
-      frame2 = ItemFrame x - (100 * Scale.width), y + (175 * Scale.height)
-      frame3 = ItemFrame x + (100 * Scale.width), y + (175 * Scale.height)
-      if k == 1
-        frame1.frameType = ItemFrameTypes.equippedPassive
-        frame2.frameType = ItemFrameTypes.passive
-        frame3.frameType = ItemFrameTypes.passive
-      else
-        frame1.frameType = ItemFrameTypes.equippedActive
-        frame2.frameType = ItemFrameTypes.active
-        frame3.frameType = ItemFrameTypes.active
-      UI\add frame1
-      UI\add frame2
-      UI\add frame3
+    passive_grid = ItemGrid Screen_Size.width * 0.4, (Screen_Size.height * 0.15) + (125 * Scale.height)
+    UI\add passive_grid
 
-    default_item = ItemBox 0, 0
-    open_frame = ItemFrame 150 * Scale.width, Screen_Size.height - (150 * Scale.height), default_item
-    open_frame.usable = false
-    UI\add open_frame
+    Pause.item_grid = passive_grid
+
+    up_button = Button Screen_Size.width * 0.9, (Screen_Size.height * 0.6) - (40 * Scale.width), 64, 64, "", () ->
+      passive_grid\nextLayer!
+    up_button\setSprite (Sprite "ui/button/up_idle.tga", 32, 32, 1, 1), (Sprite "ui/button/up_click.tga", 32, 32, 1, 1)
+    UI\add up_button
+
+    down_button = Button Screen_Size.width * 0.9, (Screen_Size.height * 0.6) + (40 * Scale.width), 64, 64, "", () ->
+      passive_grid\previousLayer!
+    down_button\setSprite (Sprite "ui/button/down_idle.tga", 32, 32, 1, 1), (Sprite "ui/button/down_click.tga", 32, 32, 1, 1)
+    UI\add down_button
 
     opened_item_frame = ItemFrame 350 * Scale.width, Screen_Size.height - (150 * Scale.height)
     opened_item_frame.frameType = ItemFrameTypes.transfer
+    opened_item_frame.active_frame = active_item_frame
+    opened_item_frame.passive_grid = passive_grid
     UI\add opened_item_frame
+
+    Inventory.opened_item_frame = opened_item_frame
+
+    open_frame = ItemFrame 150 * Scale.width, Screen_Size.height - (150 * Scale.height), (ItemBox 0, 0)
+    open_frame.usable = false
+    UI\add open_frame
 
     open_button = Button 150 * Scale.width, Screen_Size.height - (32 * Scale.height), 200, 45, "Open", () ->
       Inventory\open_box!
@@ -507,13 +398,14 @@ export class ScreenCreator
       Objectives\nextMode!
     UI\add continue_button
 
-    sprite = Sprite "ui/icons/spectrum.tga", 4, 20, 1, 20
-    spectrum = Icon Screen_Size.width * 0.5, Screen_Size.height * 0.80, sprite
-    UI\add spectrum
+    text = Text Screen_Size.width * 0.43, (Screen_Size.height * 0.8) + (75 * Scale.height), "Item Rarity", (Renderer\newFont 25)
+    UI\add text
 
     sprite = Sprite "ui/icons/arrow.tga", 8, 40, 1, 10
-    arrow = Icon Screen_Size.width * 0.5, (Screen_Size.height * 0.80) + (85 * Scale.height), sprite
+    sprite\setScale 5, 6
+    arrow = Icon Screen_Size.width * 0.55, (Screen_Size.height * 0.8) + (75 * Scale.height), sprite
     UI\add arrow
 
-    text = Text Screen_Size.width * 0.5, (Screen_Size.height * 0.80) - (60 * Scale.height), "Item Rarity", (Renderer\newFont 25)
-    UI\add text
+    sprite = Sprite "ui/icons/spectrum.tga", 4, 20, 1, 20
+    spectrum = Icon Screen_Size.width * 0.5, Screen_Size.height * 0.8, sprite
+    UI\add spectrum
