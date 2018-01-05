@@ -5,26 +5,20 @@ export class InventoryScreen extends Screen
     @set_colors!
     @boxes = 0
     @item = nil
+    @opened_item_frame = nil
 
   open_box: =>
     if @boxes < 1
       @set_message "", "No boxes to open"
     else
-      frames = UI\filter ItemFrame
-      opened_item_frame = nil
-      for k, v in pairs frames
-        if v.frameType == ItemFrameTypes.transfer
-          opened_item_frame = v
-          break
-
       @set_item!
 
-      if opened_item_frame.empty
+      if @opened_item_frame.empty
         item = ItemPool\getItem!
         @boxes -= 1
-        opened_item_frame\setItem item
-        opened_item_frame.empty = item.__class == NullItem
-        opened_item_frame.usable = not opened_item_frame.empty
+        @opened_item_frame\setItem item
+        @opened_item_frame.empty = item.__class == NullItem
+        @opened_item_frame.usable = not @opened_item_frame.empty
         message = "Received " .. item.name
         if item.__class == NullItem
           message = "Received nothing"
@@ -52,25 +46,33 @@ export class InventoryScreen extends Screen
 
   draw: =>
     love.graphics.push "all"
+    love.graphics.setFont Renderer.hud_font
+    limit = Screen_Size.width * 0.30
     if @item
       stats = @item\getStats!
-      y = Screen_Size.height * 0.15
+      y = Screen_Size.height * 0.40
       for k, v in pairs stats
-        if y < Screen_Size.height
-          color = @text_color
-          if k == 1
-            color = @title_color
-          Renderer\drawAlignedMessage v, y, "center", Renderer.hud_font, color
-          y += 35 * Scale.height
+        color = @text_color
+        if k == 1
+          color = @title_color
+        love.graphics.setColor color\get!
+        love.graphics.printf v, 0, y, limit, "center"
+        multiplier = 1
+        total_width = Renderer.hud_font\getWidth v
+        if total_width > limit
+          multiplier = math.ceil (total_width / limit)
+        y += 35 * multiplier * Scale.height
     else
-      Renderer\drawAlignedMessage @message1, Screen_Size.height * 0.15, "center", Renderer.hud_font, @title_color
-      Renderer\drawAlignedMessage @message2, Screen_Size.height * 0.19, "center", Renderer.hud_font, @text_color
+      love.graphics.setColor @title_color\get!
+      love.graphics.printf @message1, 0, Screen_Size.height * 0.40, limit, "center"
+      love.graphics.setColor @text_color\get!
+      love.graphics.printf @message2, 0, Screen_Size.height * 0.44, limit, "center"
     y = Screen_Size.height * 0.15 - (20 * Scale.height)
-    x = {0.25, 0.75}
-    colors = {{0, 0, 255, 255}, {255, 0, 0, 255}}
+    x = {0.15, 0.60}
+    colors = {{255, 0, 0, 255}, {0, 0, 255, 255}}
     love.graphics.setLineWidth 5
     for k, v in pairs x
       love.graphics.setColor colors[k][1], colors[k][2], colors[k][3], colors[k][4]
-      love.graphics.rectangle "line", (v * Screen_Size.width) - (55 * Scale.width), y, 110 * Scale.width, 40 * Scale.height
+      love.graphics.rectangle "line", (v * Screen_Size.width) - ((55 + (2.5 * (k - 1))) * Scale.width), y, (110 + (5 * (k - 1))) * Scale.width, 40 * Scale.height
     Renderer\drawHUDMessage "x " .. @boxes, 175 * Scale.width, Screen_Size.height - (100 * Scale.height), Renderer.small_font
     love.graphics.pop!

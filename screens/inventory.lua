@@ -6,21 +6,13 @@ do
       if self.boxes < 1 then
         return self:set_message("", "No boxes to open")
       else
-        local frames = UI:filter(ItemFrame)
-        local opened_item_frame = nil
-        for k, v in pairs(frames) do
-          if v.frameType == ItemFrameTypes.transfer then
-            opened_item_frame = v
-            break
-          end
-        end
         self:set_item()
-        if opened_item_frame.empty then
+        if self.opened_item_frame.empty then
           local item = ItemPool:getItem()
           self.boxes = self.boxes - 1
-          opened_item_frame:setItem(item)
-          opened_item_frame.empty = item.__class == NullItem
-          opened_item_frame.usable = not opened_item_frame.empty
+          self.opened_item_frame:setItem(item)
+          self.opened_item_frame.empty = item.__class == NullItem
+          self.opened_item_frame.usable = not self.opened_item_frame.empty
           local message = "Received " .. item.name
           if item.__class == NullItem then
             message = "Received nothing"
@@ -66,46 +58,54 @@ do
     end,
     draw = function(self)
       love.graphics.push("all")
+      love.graphics.setFont(Renderer.hud_font)
+      local limit = Screen_Size.width * 0.30
       if self.item then
         local stats = self.item:getStats()
-        local y = Screen_Size.height * 0.15
+        local y = Screen_Size.height * 0.40
         for k, v in pairs(stats) do
-          if y < Screen_Size.height then
-            local color = self.text_color
-            if k == 1 then
-              color = self.title_color
-            end
-            Renderer:drawAlignedMessage(v, y, "center", Renderer.hud_font, color)
-            y = y + (35 * Scale.height)
+          local color = self.text_color
+          if k == 1 then
+            color = self.title_color
           end
+          love.graphics.setColor(color:get())
+          love.graphics.printf(v, 0, y, limit, "center")
+          local multiplier = 1
+          local total_width = Renderer.hud_font:getWidth(v)
+          if total_width > limit then
+            multiplier = math.ceil((total_width / limit))
+          end
+          y = y + (35 * multiplier * Scale.height)
         end
       else
-        Renderer:drawAlignedMessage(self.message1, Screen_Size.height * 0.15, "center", Renderer.hud_font, self.title_color)
-        Renderer:drawAlignedMessage(self.message2, Screen_Size.height * 0.19, "center", Renderer.hud_font, self.text_color)
+        love.graphics.setColor(self.title_color:get())
+        love.graphics.printf(self.message1, 0, Screen_Size.height * 0.40, limit, "center")
+        love.graphics.setColor(self.text_color:get())
+        love.graphics.printf(self.message2, 0, Screen_Size.height * 0.44, limit, "center")
       end
       local y = Screen_Size.height * 0.15 - (20 * Scale.height)
       local x = {
-        0.25,
-        0.75
+        0.15,
+        0.60
       }
       local colors = {
         {
-          0,
-          0,
           255,
+          0,
+          0,
           255
         },
         {
+          0,
+          0,
           255,
-          0,
-          0,
           255
         }
       }
       love.graphics.setLineWidth(5)
       for k, v in pairs(x) do
         love.graphics.setColor(colors[k][1], colors[k][2], colors[k][3], colors[k][4])
-        love.graphics.rectangle("line", (v * Screen_Size.width) - (55 * Scale.width), y, 110 * Scale.width, 40 * Scale.height)
+        love.graphics.rectangle("line", (v * Screen_Size.width) - ((55 + (2.5 * (k - 1))) * Scale.width), y, (110 + (5 * (k - 1))) * Scale.width, 40 * Scale.height)
       end
       Renderer:drawHUDMessage("x " .. self.boxes, 175 * Scale.width, Screen_Size.height - (100 * Scale.height), Renderer.small_font)
       return love.graphics.pop()
@@ -120,6 +120,7 @@ do
       self:set_colors()
       self.boxes = 0
       self.item = nil
+      self.opened_item_frame = nil
     end,
     __base = _base_0,
     __name = "InventoryScreen",
