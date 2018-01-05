@@ -2,6 +2,20 @@ do
   local _class_0
   local _parent_0 = Screen
   local _base_0 = {
+    nextLayer = function(self)
+      if self.current_layer < self.layer_idx then
+        self.lower_draw = self.lower_draw + 5
+        self.higher_draw = self.higher_draw + 5
+        self.current_layer = self.current_layer + 1
+      end
+    end,
+    previousLayer = function(self)
+      if self.current_layer > 0 then
+        self.lower_draw = self.lower_draw - 5
+        self.higher_draw = self.higher_draw - 5
+        self.current_layer = self.current_layer - 1
+      end
+    end,
     getControls = function(self)
       KEY_CHANGED = false
       self.move_controls = { }
@@ -37,7 +51,13 @@ do
         end
       end
       if KEY_CHANGED then
-        return self:getControls()
+        self:getControls()
+      end
+      self.layer_idx = math.floor((#self.item_grid.items / 5))
+      for k, frame in pairs(self.item_grid.items) do
+        if k >= self.lower_draw and k <= self.higher_draw then
+          frame:update(dt)
+        end
       end
     end,
     draw = function(self)
@@ -82,6 +102,21 @@ do
           y = y + 0.055
         end
       end
+      love.graphics.setFont(Renderer.hud_font)
+      love.graphics.setColor(0, 0, 0, 255)
+      love.graphics.printf((self.current_layer + 1) .. " / " .. (self.layer_idx + 1), 0, Screen_Size.height * 0.74, Screen_Size.width, "center")
+      local x = Screen_Size.width * 0.25
+      for k, frame in pairs(self.item_grid.items) do
+        if k >= self.lower_draw and k <= self.higher_draw then
+          local old_x, old_y, old_center = frame.x, frame.y, frame.center
+          frame.x = x + ((k - self.lower_draw) * 100)
+          frame.y = Screen_Size.height * 0.8
+          frame.center = Point(frame.x + (frame.width / 2), frame.y + (frame.width / 2))
+          frame:draw()
+          frame.x, frame.y, frame.center = old_x, old_y, old_center
+          x = x + 100
+        end
+      end
       return love.graphics.pop()
     end
   }
@@ -110,6 +145,11 @@ do
         (Sprite("ui/icons/cooldown.tga", 16, 16, 1, 1)),
         self.icons[5]
       }
+      self.item_grid = nil
+      self.lower_draw = 1
+      self.higher_draw = 5
+      self.layer_idx = 0
+      self.current_layer = 0
       return self:getControls()
     end,
     __base = _base_0,

@@ -13,7 +13,27 @@ export class PauseScreen extends Screen
     @player_icons = @icons
     @turret_icons = {@icons[1], @icons[2], @icons[3], (Sprite "ui/icons/cooldown.tga", 16, 16, 1, 1), @icons[5]}
 
+    @item_grid = nil
+
+    @lower_draw = 1
+    @higher_draw = 5
+
+    @layer_idx = 0
+    @current_layer = 0
+
     @getControls!
+
+  nextLayer: =>
+    if @current_layer < @layer_idx
+      @lower_draw += 5
+      @higher_draw += 5
+      @current_layer += 1
+
+  previousLayer: =>
+    if @current_layer > 0
+      @lower_draw -= 5
+      @higher_draw -= 5
+      @current_layer -= 1
 
   getControls: =>
     export KEY_CHANGED = false
@@ -43,6 +63,10 @@ export class PauseScreen extends Screen
         v.normal_sprite = v.small_sprite
     if KEY_CHANGED
       @getControls!
+    @layer_idx = math.floor (#@item_grid.items / 5)
+    for k, frame in pairs @item_grid.items
+      if k >= @lower_draw and k <= @higher_draw
+        frame\update dt
 
   draw: =>
     love.graphics.push "all"
@@ -78,4 +102,17 @@ export class PauseScreen extends Screen
       for k, v in pairs @controls[i]
         love.graphics.printf v, (Screen_Size.width / 3) * (i - 1), Screen_Size.height * y, Screen_Size.width / 3, "center"
         y += 0.055
+    love.graphics.setFont Renderer.hud_font
+    love.graphics.setColor 0, 0, 0, 255
+    love.graphics.printf (@current_layer + 1) .. " / " .. (@layer_idx + 1), 0, Screen_Size.height * 0.74, Screen_Size.width, "center"
+    x = Screen_Size.width * 0.25
+    for k, frame in pairs @item_grid.items
+      if k >= @lower_draw and k <= @higher_draw
+        old_x, old_y, old_center = frame.x, frame.y, frame.center
+        frame.x = x + ((k - @lower_draw) * 100)
+        frame.y = Screen_Size.height * 0.8
+        frame.center = Point frame.x + (frame.width / 2), frame.y + (frame.width / 2)
+        frame\draw!
+        frame.x, frame.y, frame.center = old_x, old_y, old_center
+        x += 100
     love.graphics.pop!
