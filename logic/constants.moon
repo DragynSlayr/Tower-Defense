@@ -84,12 +84,10 @@ ItemTypes.active  = "ActiveItem"
 
 export ItemFrameTypes = {}
 
-ItemFrameTypes.passive         = "PassiveFrame"
-ItemFrameTypes.active          = "ActiveFrame"
-ItemFrameTypes.equippedActive  = "EquippedActive"
-ItemFrameTypes.equippedPassive = "EquippedPassive"
-ItemFrameTypes.transfer        = "Transfer"
-ItemFrameTypes.default         = "Default"
+ItemFrameTypes.passive  = "PassiveFrame"
+ItemFrameTypes.active   = "ActiveFrame"
+ItemFrameTypes.transfer = "Transfer"
+ItemFrameTypes.default  = "Default"
 
 export BossTypes = {}
 
