@@ -1,3 +1,9 @@
+export cheat = () ->
+  Inventory.boxes = 999
+  Upgrade.skill_points = 255
+  UI\set_screen Screen_State.inventory
+  Driver.game_state = Game_State.inventory
+
 -- Seed random and dispose of some values
 math.randomseed os.time!
 for i = 1, 3 do math.random!
