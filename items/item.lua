@@ -36,14 +36,19 @@ do
       return print("Equipped " .. self.name)
     end,
     unequip = function(self, player)
+      local successful = false
       for k, i in pairs(player.equipped_items) do
         if i.name == self.name then
           table.remove(player.equipped_items, k)
-          local successful = true
+          successful = true
           break
         end
       end
-      return print("Unequipped " .. self.name)
+      if successful then
+        return print("Unequipped " .. self.name)
+      else
+        return print("Couldn't unequip " .. self.name)
+      end
     end,
     use = function(self) end,
     update2 = function(self, dt)

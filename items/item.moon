@@ -50,12 +50,16 @@ export class Item extends GameObject
     print "Equipped " .. @name
 
   unequip: (player) =>
+    successful = false
     for k, i in pairs player.equipped_items
       if i.name == @name
         table.remove player.equipped_items, k
         successful = true
         break
-    print "Unequipped " .. @name
+    if successful
+      print "Unequipped " .. @name
+    else
+      print "Couldn't unequip " .. @name
 
   use: =>
     return
