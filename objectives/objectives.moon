@@ -73,7 +73,7 @@ export class ObjectivesHandler
     else
       love.graphics.push "all"
       Renderer\drawStatusMessage "Objective Complete!", Screen_Size.half_height, Renderer.title_font, Color 255, 255, 255, 255
-      Renderer\drawStatusMessage "Press space to continue", Screen_Size.half_height + (70 * Scale.height), Renderer.title_font, Color 255, 255, 255, 255
+      Renderer\drawStatusMessage "Press " .. Controls.keys.USE_TURRET .. " to continue", Screen_Size.half_height + (70 * Scale.height), Renderer.title_font, Color 255, 255, 255, 255
       love.graphics.pop!
 
   getLevel: =>

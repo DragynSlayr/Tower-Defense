@@ -49,7 +49,7 @@ do
       else
         love.graphics.push("all")
         Renderer:drawStatusMessage("Objective Complete!", Screen_Size.half_height, Renderer.title_font, Color(255, 255, 255, 255))
-        Renderer:drawStatusMessage("Press space to continue", Screen_Size.half_height + (70 * Scale.height), Renderer.title_font, Color(255, 255, 255, 255))
+        Renderer:drawStatusMessage("Press " .. Controls.keys.USE_TURRET .. " to continue", Screen_Size.half_height + (70 * Scale.height), Renderer.title_font, Color(255, 255, 255, 255))
         return love.graphics.pop()
       end
     end,
