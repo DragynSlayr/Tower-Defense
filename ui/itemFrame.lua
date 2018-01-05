@@ -68,9 +68,9 @@ do
         love.graphics.setColor(0, 0, 0, 0)
         local _exp_0 = self.item.item_type
         if ItemTypes.active == _exp_0 then
-          love.graphics.setColor(255, 0, 0, 255)
+          love.graphics.setColor(255, 0, 0, 127)
         elseif ItemTypes.passive == _exp_0 then
-          love.graphics.setColor(0, 0, 255, 255)
+          love.graphics.setColor(0, 0, 255, 127)
         end
         love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
         local names = {
@@ -117,143 +117,32 @@ do
       self.phase = 1
       self.frameType = ItemFrameTypes.default
       local check_button = Button(self.x + (self.width * 0.5) - (50 * Scale.width), self.y + self.height - (25 * Scale.height), 50 * Scale.width, 50 * Scale.height, "", function(self)
-        if self.master.frameType == ItemFrameTypes.transfer then
-          local frames = UI:filter(ItemFrame)
-          local equipped = false
-          local slot = ""
-          if self.master.item.item_type == ItemTypes.active then
-            slot = "active"
-            for k, f in pairs(frames) do
-              if f.frameType == ItemFrameTypes.equippedActive then
-                if f.empty then
-                  f:setItem(self.master.item)
-                  f.usable = false
-                  self.master:setItem(NullItem(0, 0))
-                  self.master.phase = 1
-                  self.master.sprite = self.master.normal_sprite
-                  self.master.usable = false
-                  equipped = true
-                  if Driver.objects[EntityTypes.player] then
-                    for k, p in pairs(Driver.objects[EntityTypes.player]) do
-                      f.item:pickup(p)
-                    end
-                  end
-                  break
-                end
-              end
-            end
-            if not equipped then
-              for k, f in pairs(frames) do
-                if f.frameType == ItemFrameTypes.active then
-                  if f.empty then
-                    f:setItem(self.master.item)
-                    f.usable = true
-                    self.master:setItem(NullItem(0, 0))
-                    self.master.phase = 1
-                    self.master.sprite = self.master.normal_sprite
-                    self.master.usable = false
-                    equipped = true
-                    break
-                  end
-                end
-              end
-            end
-          else
-            for k, f in pairs(frames) do
-              if f.frameType == ItemFrameTypes.equippedPassive then
-                if f.empty then
-                  f:setItem(self.master.item)
-                  f.usable = false
-                  self.master:setItem(NullItem(0, 0))
-                  self.master.phase = 1
-                  self.master.sprite = self.master.normal_sprite
-                  self.master.usable = false
-                  equipped = true
-                  if Driver.objects[EntityTypes.player] then
-                    for k, p in pairs(Driver.objects[EntityTypes.player]) do
-                      f.item:pickup(p)
-                    end
-                  end
-                  break
-                end
-              end
-            end
-            if not equipped then
-              for k, f in pairs(frames) do
-                slot = "passive"
-                if f.frameType == ItemFrameTypes.passive then
-                  if f.empty then
-                    f:setItem(self.master.item)
-                    f.usable = true
-                    self.master:setItem(NullItem(0, 0))
-                    self.master.phase = 1
-                    self.master.sprite = self.master.normal_sprite
-                    self.master.usable = false
-                    equipped = true
-                    break
-                  end
-                end
-              end
+        if self.master.frameType ~= ItemFrameTypes.transfer then
+          error("Shouldn't be possible check ScreenCreator")
+          return 
+        end
+        if self.master.item.item_type == ItemTypes.active then
+          local frame = self.master.active_frame
+          if Driver.objects[EntityTypes.player] then
+            for k, p in pairs(Driver.objects[EntityTypes.player]) do
+              frame.item:unequip(p)
             end
           end
-          if equipped then
-            Inventory:set_item()
-            return Inventory:set_message("", "Item stored")
-          else
-            Inventory:set_item()
-            return Inventory:set_message("Item can't be stored", "No " .. slot .. " item slot available")
+          frame:setItem(self.master.item)
+          if Driver.objects[EntityTypes.player] then
+            for k, p in pairs(Driver.objects[EntityTypes.player]) do
+              frame.item:pickup(p)
+            end
           end
         else
-          local frames = UI:filter(ItemFrame)
-          local equipped = nil
-          local slot = ""
-          if self.master.item.item_type == ItemTypes.active then
-            slot = "Active"
-            for k, f in pairs(frames) do
-              if f.frameType == ItemFrameTypes.equippedActive then
-                equipped = f
-                break
-              end
-            end
-          else
-            slot = "Passive"
-            for k, f in pairs(frames) do
-              if f.frameType == ItemFrameTypes.equippedPassive then
-                equipped = f
-                break
-              end
-            end
-          end
-          if equipped.empty then
-            equipped:setItem(self.master.item)
-            equipped.usable = false
-            self.master:setItem(NullItem(0, 0))
-            self.master.phase = 1
-            self.master.sprite = self.master.normal_sprite
-            self.master.usable = false
-            if Driver.objects[EntityTypes.player] then
-              for k, p in pairs(Driver.objects[EntityTypes.player]) do
-                equipped.item:pickup(p)
-              end
-            end
-          else
-            local current_item, new_item = equipped.item, self.master.item
-            equipped:setItem(new_item)
-            equipped.usable = false
-            self.master:setItem(current_item)
-            self.master.phase = 1
-            self.master.sprite = self.master.normal_sprite
-            self.master.usable = true
-            if Driver.objects[EntityTypes.player] then
-              for k, p in pairs(Driver.objects[EntityTypes.player]) do
-                new_item:pickup(p)
-                current_item:unequip(p)
-              end
-            end
-          end
-          Inventory:set_item()
-          return Inventory:set_message("", equipped.item.name .. " equipped in " .. slot .. " slot")
+          self.master.passive_grid:addItem(self.master.item)
         end
+        self.master:setItem((NullItem(0, 0)))
+        self.master.phase = 1
+        self.master.sprite = self.master.normal_sprite
+        self.master.usable = false
+        Inventory:set_item()
+        return Inventory:set_message("", "Item equipped")
       end)
       check_button.master = self
       local check_sprite = Sprite("ui/button/check.tga", 32, 32, 1, 50 / 32)

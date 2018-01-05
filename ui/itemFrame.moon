@@ -16,112 +16,26 @@ export class ItemFrame extends UIElement
     @frameType = ItemFrameTypes.default
 
     check_button = Button @x + (@width * 0.5) - (50 * Scale.width), @y + @height - (25 * Scale.height), 50 * Scale.width, 50 * Scale.height, "", () =>
-      if @master.frameType == ItemFrameTypes.transfer
-        frames = UI\filter ItemFrame
-        equipped = false
-        slot = ""
-        if @master.item.item_type == ItemTypes.active
-          slot = "active"
-          for k, f in pairs frames
-            if f.frameType == ItemFrameTypes.equippedActive
-              if f.empty
-                f\setItem @master.item
-                f.usable = false
-                @master\setItem NullItem 0, 0
-                @master.phase = 1
-                @master.sprite = @master.normal_sprite
-                @master.usable = false
-                equipped = true
-                if Driver.objects[EntityTypes.player]
-                  for k, p in pairs Driver.objects[EntityTypes.player]
-                    f.item\pickup p
-                break
-          if not equipped
-            for k, f in pairs frames
-              if f.frameType == ItemFrameTypes.active
-                if f.empty
-                  f\setItem @master.item
-                  f.usable = true
-                  @master\setItem NullItem 0, 0
-                  @master.phase = 1
-                  @master.sprite = @master.normal_sprite
-                  @master.usable = false
-                  equipped = true
-                  break
-        else
-          for k, f in pairs frames
-            if f.frameType == ItemFrameTypes.equippedPassive
-              if f.empty
-                f\setItem @master.item
-                f.usable = false
-                @master\setItem NullItem 0, 0
-                @master.phase = 1
-                @master.sprite = @master.normal_sprite
-                @master.usable = false
-                equipped = true
-                if Driver.objects[EntityTypes.player]
-                  for k, p in pairs Driver.objects[EntityTypes.player]
-                    f.item\pickup p
-                break
-          if not equipped
-            for k, f in pairs frames
-              slot = "passive"
-              if f.frameType == ItemFrameTypes.passive
-                if f.empty
-                  f\setItem @master.item
-                  f.usable = true
-                  @master\setItem NullItem 0, 0
-                  @master.phase = 1
-                  @master.sprite = @master.normal_sprite
-                  @master.usable = false
-                  equipped = true
-                  break
-        if equipped
-          Inventory\set_item!
-          Inventory\set_message "", "Item stored"
-        else
-          Inventory\set_item!
-          Inventory\set_message "Item can't be stored", "No " .. slot .. " item slot available"
+      if @master.frameType != ItemFrameTypes.transfer
+        error "Shouldn't be possible check ScreenCreator"
+        return
+      if @master.item.item_type == ItemTypes.active
+        frame = @master.active_frame
+        if Driver.objects[EntityTypes.player]
+          for k, p in pairs Driver.objects[EntityTypes.player]
+            frame.item\unequip p
+        frame\setItem @master.item
+        if Driver.objects[EntityTypes.player]
+          for k, p in pairs Driver.objects[EntityTypes.player]
+            frame.item\pickup p
       else
-        frames = UI\filter ItemFrame
-        equipped = nil
-        slot = ""
-        if @master.item.item_type == ItemTypes.active
-          slot = "Active"
-          for k, f in pairs frames
-            if f.frameType == ItemFrameTypes.equippedActive
-              equipped = f
-              break
-        else
-          slot = "Passive"
-          for k, f in pairs frames
-            if f.frameType == ItemFrameTypes.equippedPassive
-              equipped = f
-              break
-        if equipped.empty
-          equipped\setItem @master.item
-          equipped.usable = false
-          @master\setItem NullItem 0, 0
-          @master.phase = 1
-          @master.sprite = @master.normal_sprite
-          @master.usable = false
-          if Driver.objects[EntityTypes.player]
-            for k, p in pairs Driver.objects[EntityTypes.player]
-              equipped.item\pickup p
-        else
-          current_item, new_item = equipped.item, @master.item
-          equipped\setItem new_item
-          equipped.usable = false
-          @master\setItem current_item
-          @master.phase = 1
-          @master.sprite = @master.normal_sprite
-          @master.usable = true
-          if Driver.objects[EntityTypes.player]
-            for k, p in pairs Driver.objects[EntityTypes.player]
-              new_item\pickup p
-              current_item\unequip p
-        Inventory\set_item!
-        Inventory\set_message "", equipped.item.name .. " equipped in " .. slot .. " slot"
+        @master.passive_grid\addItem @master.item
+      @master\setItem (NullItem 0, 0)
+      @master.phase = 1
+      @master.sprite = @master.normal_sprite
+      @master.usable = false
+      Inventory\set_item!
+      Inventory\set_message "", "Item equipped"
     check_button.master = @
     check_sprite = Sprite "ui/button/check.tga", 32, 32, 1, 50 / 32
     check_button\setSprite check_sprite, check_sprite
@@ -204,9 +118,9 @@ export class ItemFrame extends UIElement
       love.graphics.setColor 0, 0, 0, 0
       switch @item.item_type
         when ItemTypes.active
-          love.graphics.setColor 255, 0, 0, 255
+          love.graphics.setColor 255, 0, 0, 127
         when ItemTypes.passive
-          love.graphics.setColor 0, 0, 255, 255
+          love.graphics.setColor 0, 0, 255, 127
       love.graphics.rectangle "fill", @x, @y, @width, @height
       names = {"Item Box", "Empty"}
       if not tableContains names, @item.name
