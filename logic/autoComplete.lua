@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _base_0 = {
     addWords = function(self)
       local contents, size = love.filesystem.read("words.txt")
@@ -82,7 +81,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self)
       self:resetText()
       self.trie = Trie()

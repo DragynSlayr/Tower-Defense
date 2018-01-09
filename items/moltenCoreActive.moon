@@ -10,7 +10,7 @@ export class MoltenCoreActive extends ActiveItem
         t.health *= 2
         t.max_health *= 2
     super sprite, cd, effect
-    @name = "Molten Core"
+    @name = "Frosty the Turret"
     @description = "Boosts turret damage and health"
     @effect_time = ({10, 11, 12, 13, 14})[@rarity]
     @effect_sprite = Sprite "effect/damageBoost.tga", 32, 32, 0.5, 1

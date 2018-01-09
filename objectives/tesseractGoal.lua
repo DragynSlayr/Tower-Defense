@@ -1,15 +1,14 @@
 do
-  local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
     onCollide = function(self, entity)
       local start_damage = entity.damage
       entity.damage = entity.damage * self.reduction
-      _class_0.__parent.__base.onCollide(self, entity)
+      _parent_0.onCollide(self, entity)
       entity.damage = start_damage
     end,
     update = function(self, dt)
-      _class_0.__parent.__base.update(self, dt)
+      _parent_0.update(self, dt)
       local health = 0
       local max_health = 0
       if Driver.objects[EntityTypes.goal] then
@@ -25,10 +24,10 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("objective/tesseract.tga", 32, 32, 1, 56 / 32)
-      _class_0.__parent.__init(self, x, y, sprite)
+      _parent_0.__init(self, x, y, sprite)
       self.id = EntityTypes.goal
       self.goal_type = GoalTypes.tesseract
       self.health = 100
@@ -46,10 +45,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

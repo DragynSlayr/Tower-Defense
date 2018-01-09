@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
     getRandomRarity = function(self)
@@ -56,7 +55,7 @@ do
     end,
     update = function(self, dt)
       if self.collectable then
-        return _class_0.__parent.__base.update(self, dt)
+        return _parent_0.update(self, dt)
       else
         return self:update2(dt)
       end
@@ -64,7 +63,7 @@ do
     draw2 = function(self) end,
     draw = function(self)
       if self.collectable then
-        return _class_0.__parent.__base.draw(self)
+        return _parent_0.draw(self)
       else
         return self:draw2()
       end
@@ -72,9 +71,9 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, sprite)
-      _class_0.__parent.__init(self, 0, 0, sprite)
+      _parent_0.__init(self, 0, 0, sprite)
       self.item_type = nil
       self.collectable = true
       self.draw_health = false
@@ -97,10 +96,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

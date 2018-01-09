@@ -1,9 +1,8 @@
 local ScoreNode
 do
-  local _class_0
   local _base_0 = { }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, score, name)
       self.score = score
       self.name = name
@@ -23,7 +22,6 @@ do
   ScoreNode = _class_0
 end
 do
-  local _class_0
   local _base_0 = {
     add = function(self, score, name)
       local node = ScoreNode((tonumber(score)), (tostring(name)))
@@ -89,7 +87,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self)
       self.elements = { }
       self.size = 0
@@ -109,7 +107,6 @@ do
   ScoreArray = _class_0
 end
 do
-  local _class_0
   local _base_0 = {
     tryConnection = function(self)
       self.socket = self.s.udp()
@@ -220,7 +217,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self)
       self.s = require("socket")
       self.score = 0

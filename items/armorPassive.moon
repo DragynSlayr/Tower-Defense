@@ -6,5 +6,5 @@ export class ArmorPassive extends PassiveItem
     effect = (player) =>
       player\setArmor player.armor + (player.max_armor * 0.005), player.max_armor
     super sprite, cd, effect
-    @name = "Armor Generator"
+    @name = "ArMORE"
     @description = "Provides armor over time"

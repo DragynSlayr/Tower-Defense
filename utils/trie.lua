@@ -1,6 +1,5 @@
 local Node
 do
-  local _class_0
   local _base_0 = {
     addChild = function(self, node)
       if not self:hasChild(node.data) then
@@ -26,7 +25,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, data, is_word)
       self.data = data
       self.children = { }
@@ -46,7 +45,6 @@ do
   Node = _class_0
 end
 do
-  local _class_0
   local _base_0 = {
     add = function(self, word)
       local length = string.len(word)
@@ -153,7 +151,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self)
       self.head = Node("", false)
     end,

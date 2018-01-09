@@ -1,9 +1,8 @@
 do
-  local _class_0
   local _parent_0 = Button
   local _base_0 = {
     update = function(self, dt)
-      _class_0.__parent.__base.update(self, dt)
+      _parent_0.update(self, dt)
       for k, v in pairs(self.tooltips) do
         v.enabled = self:isHovering(love.mouse.getPosition())
       end
@@ -11,12 +10,12 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y, width, height, text, action, font, tooltips)
       if font == nil then
         font = Renderer.hud_font
       end
-      _class_0.__parent.__init(self, x, y, width, height, text, action, font)
+      _parent_0.__init(self, x, y, width, height, text, action, font)
       self.tooltips = tooltips
     end,
     __base = _base_0,
@@ -26,10 +25,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

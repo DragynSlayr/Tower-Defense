@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _base_0 = {
     generatePool = function(self)
       local items = { }
@@ -13,11 +12,11 @@ do
     end,
     getItem = function(self)
       local item = pick(self.items)
-      return item()
+      return EarthShatterActive()
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self)
       self.items = {
         EMPActive,

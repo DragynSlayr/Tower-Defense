@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _base_0 = {
     entityKilled = function(self, entity)
       return self.wave:entityKilled(entity)
@@ -69,7 +68,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, parent)
       self.parent = parent
       self.level_count = 1

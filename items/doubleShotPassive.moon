@@ -28,7 +28,7 @@ export class DoubleShotPassive extends PassiveItem
           bullet.knockback = true
         Driver\addObject bullet, EntityTypes.bullet
     super sprite, 0, effect
-    @name = "Double Shot"
+    @name = "Another One"
     @description = "Shoot an extra bullet"
 
   getStats: =>

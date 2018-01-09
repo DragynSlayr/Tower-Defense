@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _base_0 = {
     nextMode = function(self)
       self.counter = self.counter + 1
@@ -121,7 +120,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self)
       self.mode = nil
       self.elapsed = 0

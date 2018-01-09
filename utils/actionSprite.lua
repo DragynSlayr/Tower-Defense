@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _parent_0 = Sprite
   local _base_0 = {
     finish = function(self)
@@ -8,7 +7,7 @@ do
     end,
     update = function(self, dt)
       local start = self.current_frame
-      _class_0.__parent.__base.update(self, dt)
+      _parent_0.update(self, dt)
       if start > self.current_frame then
         return self:finish()
       end
@@ -16,9 +15,9 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, name, height, width, delay, scale, parent, action)
-      _class_0.__parent.__init(self, name, height, width, delay, scale)
+      _parent_0.__init(self, name, height, width, delay, scale)
       self.parent = parent
       self.action = action
     end,
@@ -29,10 +28,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

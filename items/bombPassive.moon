@@ -9,5 +9,5 @@ export class BombPassive extends PassiveItem
       bomb = Bomb x, y
       Driver\addObject bomb, EntityTypes.background
     super sprite, cd, effect
-    @name = "Bomb"
+    @name = "Tele-frag"
     @description = "A bomb randomly spawns on the screen"

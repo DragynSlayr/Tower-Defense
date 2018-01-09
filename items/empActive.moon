@@ -10,7 +10,7 @@ export class EMPActive extends ActiveItem
           for k, v in pairs Driver.objects[filter]
             v.movement_disabled = true
     super sprite, cd, effect
-    @name = "EMP"
+    @name = "Enemies Must Pause"
     @description = "Disables enemies"
     @effect_time = ({6, 7, 8, 9, 10})[@rarity]
     @onEnd = () ->

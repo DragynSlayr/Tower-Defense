@@ -16,7 +16,7 @@ export class CloneActive extends ActiveItem
         return
       Driver\addObject @clone, EntityTypes.player
     super sprite, cd, effect
-    @name = "Shadow Clone"
+    @name = "Twinsies"
     @description = "Create a clone of yourself"
     @effect_time = ({7, 8, 9, 10, 11})[@rarity]
     @onEnd = () ->

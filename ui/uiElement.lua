@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _base_0 = {
     keypressed = function(self, key, scancode, isrepeat) end,
     keyreleased = function(self, key) end,
@@ -19,7 +18,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y, text, font)
       if text == nil then
         text = ""

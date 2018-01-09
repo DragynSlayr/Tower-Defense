@@ -5,7 +5,6 @@ if pcall(loadstring([[moonscript = require "moonscript.base"]])) then
   use_moon = true
 end
 do
-  local _class_0
   local _parent_0 = TextBox
   local _base_0 = {
     recoverSaved = function(self)
@@ -49,9 +48,9 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y, width, height)
-      _class_0.__parent.__init(self, x, y, width, height)
+      _parent_0.__init(self, x, y, width, height)
       self.saved = {
         { },
         { },
@@ -97,10 +96,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

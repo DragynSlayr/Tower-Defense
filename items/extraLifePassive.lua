@@ -1,23 +1,22 @@
 do
-  local _class_0
   local _parent_0 = PassiveItem
   local _base_0 = {
     unequip = function(self, player)
-      _class_0.__parent.__base.unequip(self, player)
+      _parent_0.unequip(self, player)
       player.lives = 1
     end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self)
       local sprite = Sprite("item/extraLife.tga", 26, 26, 1, 56 / 26)
       local effect
       effect = function(self, player)
         player.lives = player.lives + 1
       end
-      _class_0.__parent.__init(self, sprite, nil, effect)
-      self.name = "Heart"
+      _parent_0.__init(self, sprite, nil, effect)
+      self.name = "Evil Dead"
       self.description = "Gives an extra life"
     end,
     __base = _base_0,
@@ -27,10 +26,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

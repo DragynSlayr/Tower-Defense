@@ -7,6 +7,6 @@ export class FreezeFieldActive extends ActiveItem
       field = FrostField player.position.x, player.position.y
       Driver\addObject field, EntityTypes.background
     super sprite, cd, effect
-    @name = "Frozen Field"
+    @name = "-273.15 Celsius"
     @description = "Place a freezing field"
     @effect_time = 7.5

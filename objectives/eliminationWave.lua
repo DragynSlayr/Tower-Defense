@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _parent_0 = Wave
   local _base_0 = {
     entityKilled = function(self, entity)
@@ -23,7 +22,7 @@ do
       end
     end,
     update = function(self, dt)
-      _class_0.__parent.__base.update(self, dt)
+      _parent_0.update(self, dt)
       if self.killed >= self.target then
         Driver:killEnemies()
         self.complete = true
@@ -36,14 +35,14 @@ do
         message = "enemy"
       end
       self.parent.message1 = "\t" .. num .. " " .. message .. " remaining!"
-      return _class_0.__parent.__base.draw(self)
+      return _parent_0.draw(self)
     end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, parent, num)
-      _class_0.__parent.__init(self, parent)
+      _parent_0.__init(self, parent)
       self.killed = 0
       self.target = 0
       self.queue = { }
@@ -61,10 +60,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

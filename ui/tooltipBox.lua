@@ -1,9 +1,8 @@
 do
-  local _class_0
   local _parent_0 = Tooltip
   local _base_0 = {
     update = function(self, dt)
-      _class_0.__parent.__base.update(self, dt)
+      _parent_0.update(self, dt)
       self.elapsed = self.elapsed + (dt * self.speed)
       local num = ((math.sin(self.elapsed)) + 1) / 2
       self.alpha = math.ceil(num * 255)
@@ -24,12 +23,12 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y, width, height, textFunc, alignment)
       if alignment == nil then
         alignment = "center"
       end
-      _class_0.__parent.__init(self, x, y, textFunc, nil, alignment)
+      _parent_0.__init(self, x, y, textFunc, nil, alignment)
       self.width = width
       self.height = height
       self.font = Renderer:newFont(self.height)
@@ -50,10 +49,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

@@ -7,7 +7,7 @@ export class DeadEyeActive extends ActiveItem
       player.movement_blocked = true
       @damage = 0
     super sprite, cd, effect
-    @name = "Dead Eye"
+    @name = "12 O'clock"
     @description = "Take aim and fire"
     @effect_time = 6
     @effect_timer = 0

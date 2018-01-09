@@ -7,6 +7,6 @@ export class BombActive extends ActiveItem
       bomb = Bomb player.position.x, player.position.y
       Driver\addObject bomb, EntityTypes.background
     super sprite, cd, effect
-    @name = "Bomb"
+    @name = "Kaboom"
     @description = "Places a powerful bomb"
     @effect_time = 3

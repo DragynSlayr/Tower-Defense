@@ -4,7 +4,7 @@ export class ExtraLifePassive extends PassiveItem
     effect = (player) =>
       player.lives += 1
     super sprite, nil, effect
-    @name = "Heart"
+    @name = "Evil Dead"
     @description = "Gives an extra life"
 
   unequip: (player) =>

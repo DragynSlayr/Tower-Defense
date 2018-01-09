@@ -27,7 +27,7 @@ export class DragonStrikeActive extends ActiveItem
           v\add player.position
           @createDragon v\getComponents!
     super sprite, cd, effect
-    @name = "Dragon Strike"
+    @name = "Long Snake"
     @description = "Summon a dragon"
     @effect_time = 6
 

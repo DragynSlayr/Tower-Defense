@@ -1,12 +1,11 @@
 do
-  local _class_0
   local _parent_0 = Enemy
   local _base_0 = {
     __tostring = function(self)
       return "T: " .. self.enemyType .. "\tH: " .. self.max_health .. "\tD: " .. self.damage .. "\tS: " .. self.max_speed
     end,
     kill = function(self)
-      _class_0.__parent.__base.kill(self)
+      _parent_0.kill(self)
       local enemy = PlayerEnemy(self.position.x - 10, self.position.y)
       enemy.solid = false
       enemy.value = 0.25
@@ -27,11 +26,11 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("enemy/dart.tga", 17, 17, 1, 2)
       local attack_speed = math.max(0.4, 0.65 - (0.01 * Objectives:getScaling()))
-      _class_0.__parent.__init(self, x, y, sprite, 1, attack_speed)
+      _parent_0.__init(self, x, y, sprite, 1, attack_speed)
       self.enemyType = EnemyTypes.spawner
       self.score_value = 50
       self.exp_given = self.score_value + (self.score_value * 0.15 * Objectives:getLevel())
@@ -50,10 +49,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

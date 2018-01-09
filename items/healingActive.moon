@@ -7,6 +7,6 @@ export class HealingFieldActive extends ActiveItem
       field = HealingField player.position.x, player.position.y
       Driver\addObject field, EntityTypes.background
     super sprite, cd, effect
-    @name = "Healing Field"
+    @name = "Good Juice"
     @description = "Place a healing field"
     @effect_time = 6.5

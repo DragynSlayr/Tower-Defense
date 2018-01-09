@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
     calcExp = function(self, level)
@@ -173,7 +172,7 @@ do
       end
       if self.keys_pushed == 0 or self.movement_blocked then
         self.speed = Vector(0, 0)
-        _class_0.__parent.__base.update(self, dt)
+        _parent_0.update(self, dt)
       else
         local start = Vector(self.speed:getComponents())
         if self.speed:getLength() > self.max_speed then
@@ -183,7 +182,7 @@ do
         local angle = self.speed:getAngle()
         boost:rotate(angle)
         self.speed:add(boost)
-        _class_0.__parent.__base.update(self, dt)
+        _parent_0.update(self, dt)
         self.speed = start
       end
       self.lock_sprite:update(dt)
@@ -336,7 +335,7 @@ do
         love.graphics.circle("fill", self.position.x, self.position.y, self.speed_range, 360)
         love.graphics.pop()
       end
-      _class_0.__parent.__base.draw(self)
+      _parent_0.draw(self)
       if self.movement_blocked and self.draw_lock then
         self.lock_sprite:draw(self.position.x, self.position.y)
       end
@@ -386,7 +385,7 @@ do
     kill = function(self)
       self.lives = self.lives - 1
       if self.lives <= 0 then
-        _class_0.__parent.__base.kill(self)
+        _parent_0.kill(self)
         return Driver.game_over()
       else
         self.health = self.max_health
@@ -397,10 +396,10 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("player/test.tga", 16, 16, 2, 4)
-      _class_0.__parent.__init(self, x, y, sprite)
+      _parent_0.__init(self, x, y, sprite)
       self.sprite:setRotationSpeed(-math.pi / 2)
       self.max_health = Stats.player[1]
       self.attack_range = Stats.player[2]
@@ -468,10 +467,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

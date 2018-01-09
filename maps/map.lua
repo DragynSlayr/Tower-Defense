@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _base_0 = {
     loadMap = function(self, num)
       local current = self.maps[num]
@@ -23,7 +22,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self)
       self.maps = { }
       for i = 1, 1 do

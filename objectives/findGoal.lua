@@ -1,9 +1,8 @@
 do
-  local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
     update = function(self, dt)
-      _class_0.__parent.__base.update(self, dt)
+      _parent_0.update(self, dt)
       if self.trail then
         local x = self.position.x - self.trail.position.x
         local y = self.position.y - self.trail.position.y
@@ -19,7 +18,7 @@ do
       if self.trail then
         self.trail:draw()
       end
-      return _class_0.__parent.__base.draw(self)
+      return _parent_0.draw(self)
     end,
     onCollide = function(self, object)
       if object.id == EntityTypes.player then
@@ -29,10 +28,10 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("objective/lockedHeart.tga", 26, 26, 1, 2)
-      _class_0.__parent.__init(self, x, y, sprite)
+      _parent_0.__init(self, x, y, sprite)
       self.id = EntityTypes.goal
       self.goal_type = GoalTypes.find
       self.draw_health = false
@@ -49,10 +48,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

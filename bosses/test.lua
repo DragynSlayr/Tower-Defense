@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _parent_0 = Boss
   local _base_0 = {
     isVisible = function(self)
@@ -7,7 +6,7 @@ do
     end,
     onCollide = function(self, object)
       if self:isVisible() then
-        return _class_0.__parent.__base.onCollide(self, object)
+        return _parent_0.onCollide(self, object)
       end
     end,
     update = function(self, dt)
@@ -26,7 +25,7 @@ do
         self.speed = Vector(self.target.position.x - self.position.x, self.target.position.y - self.position.y)
         self.speed:toUnitVector()
         self.speed = self.speed:multiply(self.speed_multiplier)
-        _class_0.__parent.__base.update(self, dt)
+        _parent_0.update(self, dt)
         if self.ai_time >= 6 then
           self.ai_time = 0
           self.ai_phase = self.ai_phase + 1
@@ -81,7 +80,7 @@ do
           end
         end
       elseif 2 == _exp_0 then
-        _class_0.__parent.__base.update(self, dt)
+        _parent_0.update(self, dt)
         if self.ai_time >= 7 then
           self.ai_time = 0
           self.ai_phase = 1
@@ -95,15 +94,15 @@ do
       local color = self.sprite.color
       color[4] = math.ceil((self.alpha * 255))
       self.sprite:setColor(color)
-      return _class_0.__parent.__base.draw(self)
+      return _parent_0.draw(self)
     end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("objective/portal.tga", 56, 56, 1, 1.8)
-      _class_0.__parent.__init(self, x, y, sprite)
+      _parent_0.__init(self, x, y, sprite)
       self.bossType = BossTypes.test
       self.score_value = 1000
       self.exp_given = self.score_value + (self.score_value * 0.25 * Objectives:getLevel())
@@ -142,10 +141,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

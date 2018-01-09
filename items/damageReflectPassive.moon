@@ -22,7 +22,7 @@ export class DamageReflectPassive extends PassiveItem
                   e\onCollide player
                   player.damage = temp_damage
     super sprite, 0, effect
-    @name = "Damage Reflect"
+    @name = "Vary Parry"
     @description = "Has a chance to reflect damage taken"
 
   getStats: =>

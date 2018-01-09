@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _base_0 = {
     addObject = function(self, object, id)
       if self.objects[id] then
@@ -22,7 +21,8 @@ do
                 for k, player in pairs(Driver.objects[EntityTypes.player]) do
                   player.exp = player.exp + o.exp_given
                 end
-                if math.random() <= o.item_drop_chance then
+                if Driver.box_counter < Driver.max_boxes and math.random() <= o.item_drop_chance then
+                  Driver.box_counter = Driver.box_counter + 1
                   local box = ItemBoxPickUp(o.position.x, o.position.y)
                   Driver:addObject(box, EntityTypes.item)
                 end
@@ -147,6 +147,7 @@ do
           local _exp_0 = Driver.game_state
           if Game_State.playing == _exp_0 then
             if Objectives.mode.complete and key == Controls.keys.USE_TURRET then
+              Driver.box_counter = 0
               Objectives.ready = true
             else
               for k, v in pairs(Driver.objects[EntityTypes.player]) do
@@ -248,6 +249,8 @@ do
       Driver.state_stack:add(Game_State.main_menu)
       Driver.elapsed = 0
       Driver.shader = nil
+      Driver.box_counter = 0
+      Driver.max_boxes = 5
       UI = UIHandler()
       Debugger = DebugMenu()
       Objectives = ObjectivesHandler()
@@ -364,7 +367,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self)
       love.keypressed = self.keypressed
       love.keyreleased = self.keyreleased

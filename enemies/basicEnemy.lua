@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _parent_0 = Enemy
   local _base_0 = {
     __tostring = function(self)
@@ -8,11 +7,11 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("enemy/tracker.tga", 32, 32, 1, 1.25)
       local attack_speed = math.max(0.5, 0.75 - (0.01 * Objectives:getScaling()))
-      _class_0.__parent.__init(self, x, y, sprite, 1, attack_speed)
+      _parent_0.__init(self, x, y, sprite, 1, attack_speed)
       self.enemyType = EnemyTypes.basic
       self.score_value = 100
       self.exp_given = self.score_value + (self.score_value * 0.25 * Objectives:getLevel())
@@ -31,10 +30,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

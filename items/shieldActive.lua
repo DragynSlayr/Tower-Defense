@@ -1,10 +1,9 @@
 do
-  local _class_0
   local _parent_0 = ActiveItem
   local _base_0 = { }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self)
       self.rarity = self:getRandomRarity()
       local cd = ({
@@ -19,7 +18,7 @@ do
       effect = function(self, player)
         player.shielded = true
       end
-      _class_0.__parent.__init(self, sprite, cd, effect)
+      _parent_0.__init(self, sprite, cd, effect)
       self.name = "Shield"
       self.description = "Gives a temporary shield"
       self.effect_time = 7
@@ -31,10 +30,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

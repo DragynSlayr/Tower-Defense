@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _base_0 = {
     loadImage = function(self, path)
       if not self.images[path] then
@@ -28,7 +27,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self)
       self.images = { }
       self.sounds = { }

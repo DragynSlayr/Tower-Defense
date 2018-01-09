@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _base_0 = {
     getCopy = function(self)
       local sprite = Sprite(self.name, self:getProperties())
@@ -97,7 +96,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, name, height, width, delay, scale)
       if width == nil then
         width = height

@@ -1,14 +1,13 @@
 do
-  local _class_0
   local _parent_0 = Mode
   local _base_0 = {
     nextWave = function(self)
-      _class_0.__parent.__base.nextWave(self)
+      _parent_0.nextWave(self)
       local boss = pick(self.bosses)
       self.wave = BossWave(self, boss)
     end,
     finish = function(self)
-      _class_0.__parent.__base.finish(self)
+      _parent_0.finish(self)
       Objectives.bosses_beaten = Objectives.bosses_beaten + 1
     end,
     update = function(self, dt)
@@ -33,9 +32,9 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, parent)
-      _class_0.__parent.__init(self, parent)
+      _parent_0.__init(self, parent)
       self.objective_text = "Eliminate the boss"
       self.mode_type = ModeTypes.boss
       self.bosses = {
@@ -50,10 +49,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

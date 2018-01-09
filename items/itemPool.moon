@@ -46,4 +46,4 @@ export class ItemPoolHandler
 
   getItem: =>
     item = pick @items
-    return item!
+    return EarthShatterActive!--item!

@@ -11,7 +11,7 @@ export class DamageAbsorbPassive extends PassiveItem
         if math.random! >= ((100 - @chance) / 100)
           player.health += difference
     super sprite, 0, effect
-    @name = "Damage Absorb"
+    @name = "Ouchie Maybe"
     @description = "Has a chance to absorb incoming damage"
 
   getStats: =>

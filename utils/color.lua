@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _base_0 = {
     get = function(self)
       return self.r, self.g, self.b, self.a
@@ -10,7 +9,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, r, g, b, a)
       if r == nil then
         r = 0

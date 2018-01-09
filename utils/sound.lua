@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _base_0 = {
     start = function(self)
       return self.audio:play()
@@ -34,7 +33,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, name, volume, looping, pitch, static)
       if volume == nil then
         volume = 1.0

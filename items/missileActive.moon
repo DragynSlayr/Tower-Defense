@@ -11,7 +11,7 @@ export class MissileActive extends ActiveItem
         Driver\addObject missile, EntityTypes.bullet
         point\rotate angle
     super sprite, cd, effect
-    @name = "Missile Barrage"
+    @name = "Missile-lanious"
     @description = "Launch a number of missiles"
     @num_missiles = ({2, 3, 4, 5, 6})[@rarity]
 

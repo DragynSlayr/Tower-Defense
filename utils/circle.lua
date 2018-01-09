@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _base_0 = {
     contains = function(self, circ)
       local _exp_0 = circ.__class.__name
@@ -45,7 +44,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y, radius)
       if x == nil then
         x = 0

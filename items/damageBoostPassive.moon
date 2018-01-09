@@ -6,7 +6,7 @@ export class DamageBoostPassive extends PassiveItem
     effect = (player) =>
       player.damage *= @amount
     super sprite, nil, effect
-    @name = "Damage Up"
+    @name = "Medium Hurt"
     @description = "Raises player damage by " .. ((@amount - 1) * 100) .. "%"
 
   unequip: (player) =>

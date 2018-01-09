@@ -1,9 +1,8 @@
 do
-  local _class_0
   local _parent_0 = BackgroundObject
   local _base_0 = {
     kill = function(self)
-      _class_0.__parent.__base.kill(self)
+      _parent_0.kill(self)
       if Driver.objects[EntityTypes.enemy] then
         for k, e in pairs(Driver.objects[EntityTypes.enemy]) do
           e.speed_override = false
@@ -16,7 +15,7 @@ do
       end
     end,
     update = function(self, dt)
-      _class_0.__parent.__base.update(self, dt)
+      _parent_0.update(self, dt)
       if Driver.objects[EntityTypes.enemy] then
         for k, e in pairs(Driver.objects[EntityTypes.enemy]) do
           self:applyPull(e, dt)
@@ -63,10 +62,10 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("background/blackhole.tga", 32, 32, 1, 1.25)
-      _class_0.__parent.__init(self, x, y, sprite)
+      _parent_0.__init(self, x, y, sprite)
       self.life_time = 7.5
       self.diag = (Vector(Screen_Size.border[3], Screen_Size.border[4])):getLength()
       return self.sprite:setRotationSpeed(-math.pi / 2)
@@ -78,10 +77,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

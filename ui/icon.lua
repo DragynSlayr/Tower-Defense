@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _parent_0 = UIElement
   local _base_0 = {
     update = function(self, dt)
@@ -11,9 +10,9 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y, sprite)
-      _class_0.__parent.__init(self, x, y)
+      _parent_0.__init(self, x, y)
       self.sprite = sprite
     end,
     __base = _base_0,
@@ -23,10 +22,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

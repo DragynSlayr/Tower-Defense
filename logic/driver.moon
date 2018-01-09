@@ -106,7 +106,8 @@ export class Driver
                 for k, player in pairs Driver.objects[EntityTypes.player]
                   player.exp += o.exp_given
 
-                if math.random! <= o.item_drop_chance
+                if Driver.box_counter < Driver.max_boxes and math.random! <= o.item_drop_chance
+                  Driver.box_counter += 1
                   box = ItemBoxPickUp o.position.x, o.position.y
                   Driver\addObject box, EntityTypes.item
                 v[k2]\kill!
@@ -193,6 +194,7 @@ export class Driver
           switch Driver.game_state
             when Game_State.playing
               if Objectives.mode.complete and key == Controls.keys.USE_TURRET
+                Driver.box_counter = 0
                 Objectives.ready = true
               else
                 for k, v in pairs Driver.objects[EntityTypes.player]
@@ -287,6 +289,8 @@ export class Driver
       Driver.state_stack\add Game_State.main_menu
       Driver.elapsed = 0
       Driver.shader = nil
+      Driver.box_counter = 0
+      Driver.max_boxes = 5
 
       -- Global UI
       export UI = UIHandler!

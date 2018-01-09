@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _base_0 = {
     setSpeedOverride = function(self, new_speed, ratio)
       local x, y = new_speed:getComponents()
@@ -90,8 +89,11 @@ do
         self.position:add(self.speed:multiply(dt))
       end
       self.speed = Vector(start_speed:getComponents())
-      local radius = self:getHitBox().radius
       if self.id ~= EntityTypes.wall then
+        local radius = self:getHitBox().radius
+        if self.getAttackHitBox then
+          radius = self:getAttackHitBox().radius
+        end
         self.position.x = clamp(self.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius)
         self.position.y = clamp(self.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius)
       end
@@ -183,7 +185,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y, sprite, x_speed, y_speed)
       if x_speed == nil then
         x_speed = 0

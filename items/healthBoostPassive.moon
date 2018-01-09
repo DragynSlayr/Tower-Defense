@@ -7,7 +7,7 @@ export class HealthBoostPassive extends PassiveItem
       player.max_health *= @amount
       player.health = player.max_health
     super sprite, nil, effect
-    @name = "Health Up"
+    @name = "Berry Yogurt"
     @description = "Raises player health by " .. ((@amount - 1) * 100) .. "%"
 
   unequip: (player) =>

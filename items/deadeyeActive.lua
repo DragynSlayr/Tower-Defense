@@ -1,9 +1,8 @@
 do
-  local _class_0
   local _parent_0 = ActiveItem
   local _base_0 = {
     getStats = function(self)
-      local stats = _class_0.__parent.__base.getStats(self)
+      local stats = _parent_0.getStats(self)
       table.insert(stats, "Damage Multiplier: " .. self.damage_multiplier)
       return stats
     end,
@@ -25,7 +24,7 @@ do
       self.player.movement_blocked = false
     end,
     pickup = function(self, player)
-      _class_0.__parent.__base.pickup(self, player)
+      _parent_0.pickup(self, player)
       self.damage_scale = player.damage * 10 * self.damage_multiplier
     end,
     use = function(self)
@@ -63,7 +62,7 @@ do
       end
     end,
     draw2 = function(self)
-      _class_0.__parent.__base.draw2(self)
+      _parent_0.draw2(self)
       if self.used then
         love.graphics.push("all")
         love.graphics.setShader(Driver.shader)
@@ -87,7 +86,7 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self)
       self.rarity = self:getRandomRarity()
       local cd = ({
@@ -103,8 +102,8 @@ do
         player.movement_blocked = true
         self.damage = 0
       end
-      _class_0.__parent.__init(self, sprite, cd, effect)
-      self.name = "Dead Eye"
+      _parent_0.__init(self, sprite, cd, effect)
+      self.name = "12 O'clock"
       self.description = "Take aim and fire"
       self.effect_time = 6
       self.effect_timer = 0
@@ -126,10 +125,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

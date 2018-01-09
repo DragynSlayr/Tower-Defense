@@ -1,10 +1,9 @@
 do
-  local _class_0
   local _parent_0 = PassiveItem
   local _base_0 = { }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self)
       self.rarity = self:getRandomRarity()
       local cd = ({
@@ -22,8 +21,8 @@ do
         local bomb = Bomb(x, y)
         return Driver:addObject(bomb, EntityTypes.background)
       end
-      _class_0.__parent.__init(self, sprite, cd, effect)
-      self.name = "Bomb"
+      _parent_0.__init(self, sprite, cd, effect)
+      self.name = "Tele-frag"
       self.description = "A bomb randomly spawns on the screen"
     end,
     __base = _base_0,
@@ -33,10 +32,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

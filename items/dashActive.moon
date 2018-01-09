@@ -13,5 +13,5 @@ export class DashActive extends ActiveItem
         player.position.x = clamp player.position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius
         player.position.y = clamp player.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius
     super sprite, cd, effect
-    @name = "Dash"
+    @name = "Insain Bolt"
     @description = "Dash in the direction you are moving"

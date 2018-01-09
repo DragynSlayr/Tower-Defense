@@ -1,20 +1,31 @@
 do
-  local _class_0
   local _parent_0 = PassiveItem
   local _base_0 = { }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self)
       local sprite = Sprite("item/movingTurret.tga", 32, 32, 1, 1.75)
       local effect
       effect = function(self, player)
-        local speed = Vector(-player.speed.x, -player.speed.y)
+        local multipliers = {
+          -1,
+          1
+        }
         for k, t in pairs(player.turret) do
-          t.speed = speed
+          local radius = t:getAttackHitBox().radius * 1
+          if t.speed:getLength() == 0 then
+            t.speed = Vector((pick(multipliers)) * player.max_speed * 0.5, (pick(multipliers)) * player.max_speed * 0.5)
+          end
+          if t.position.x - radius <= Screen_Size.border[1] or t.position.x + radius >= Screen_Size.border[3] then
+            t.speed = Vector(t.speed.x * -1, t.speed.y)
+          end
+          if t.position.y - radius <= Screen_Size.border[2] or t.position.y + radius >= Screen_Size.border[4] + Screen_Size.border[2] then
+            t.speed = Vector(t.speed.x, t.speed.y * -1)
+          end
         end
       end
-      _class_0.__parent.__init(self, sprite, 0, effect)
+      _parent_0.__init(self, sprite, 0, effect)
       self.name = "Moving Turret"
       self.description = "Your turret moves"
     end,
@@ -25,10 +36,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end

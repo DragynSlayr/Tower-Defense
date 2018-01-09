@@ -23,7 +23,7 @@ export class EarthShatterActive extends ActiveItem
           x, y = v\getComponents!
           @createShatter x, y, angle + (math.pi / 2)
     super sprite, cd, effect
-    @name = "Earth Shatter"
+    @name = "School Zone"
     @description = "Slow enemies"
     @effect_time = 6
 

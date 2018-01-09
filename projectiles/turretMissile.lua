@@ -1,5 +1,4 @@
 do
-  local _class_0
   local _parent_0 = HomingProjectile
   local _base_0 = {
     setTurret = function(self, turret)
@@ -10,7 +9,7 @@ do
     end,
     update = function(self, dt)
       if self.moving then
-        return _class_0.__parent.__base.update(self, dt)
+        return _parent_0.update(self, dt)
       else
         self.sprite:update(dt)
         if self.elapsed < self.wait_time then
@@ -31,7 +30,7 @@ do
     end,
     draw = function(self)
       if self.moving then
-        return _class_0.__parent.__base.draw(self)
+        return _parent_0.draw(self)
       else
         self.sprite:draw(self.position.x, self.position.y)
         if DEBUGGING then
@@ -63,11 +62,11 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  _class_0 = setmetatable({
+  local _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("projectile/bullet_anim.tga", 32, 16, 0.5, 1.25)
       sprite:setScale(0.95, 1.65)
-      _class_0.__parent.__init(self, x, y, nil, sprite)
+      _parent_0.__init(self, x, y, nil, sprite)
       self.damage = Stats.turret[3] * 15
       self.speed_multiplier = 500
       self.elapsed = 0
@@ -82,10 +81,7 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        local parent = rawget(cls, "__parent")
-        if parent then
-          return parent[name]
-        end
+        return _parent_0[name]
       else
         return val
       end
