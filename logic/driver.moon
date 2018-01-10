@@ -73,13 +73,13 @@ export class Driver
       current_width, current_height, current_flags = love.window.getMode!
 
       num_diff = 0
-      if flags.fullscreen != current_flags.fullscreen
+      if flags.fullscreen ~= current_flags.fullscreen
         num_diff += 1
-      if flags.vsync != current_flags.vsync
+      if flags.vsync ~= current_flags.vsync
         num_diff += 1
-      if width != current_width
+      if width ~= current_width
         num_diff += 1
-      if height != current_height
+      if height ~= current_height
         num_diff += 1
 
       if num_diff > 0

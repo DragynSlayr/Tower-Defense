@@ -16,7 +16,7 @@ export class ItemFrame extends UIElement
     @frameType = ItemFrameTypes.default
 
     check_button = Button @x + (@width * 0.5) - (50 * Scale.width), @y + @height - (25 * Scale.height), 50 * Scale.width, 50 * Scale.height, "", () =>
-      if @master.frameType != ItemFrameTypes.transfer
+      if @master.frameType ~= ItemFrameTypes.transfer
         error "Shouldn't be possible check ScreenCreator"
         return
       if @master.item.item_type == ItemTypes.active

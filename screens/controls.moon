@@ -23,8 +23,8 @@ export class ControlsHandler extends Screen
     @selected_text = ""
 
   keyreleased: (key) =>
-    if @selected != ""
-      if key != "backspace"
+    if @selected ~= ""
+      if key ~= "backspace"
         @keys[@key_names[@selected]] = key
         @button.text = key
         writeKey @key_names[@selected], key
@@ -34,7 +34,7 @@ export class ControlsHandler extends Screen
       @selected_text = ""
 
   draw: =>
-    if @selected != "" and @button
+    if @selected ~= "" and @button
       @button.selected = true
       love.graphics.push "all"
       love.graphics.setFont Renderer.hud_font

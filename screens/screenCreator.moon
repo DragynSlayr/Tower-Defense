@@ -78,7 +78,7 @@ export class ScreenCreator
       new_width = tonumber new_res[1]
       new_height = tonumber new_res[3]
 
-      res_changed = new_width != Screen_Size.width or new_height != Screen_Size.height
+      res_changed = new_width ~= Screen_Size.width or new_height ~= Screen_Size.height
 
       flags = {}
       flags.fullscreen = fs_cb.checked and not res_changed
@@ -87,13 +87,13 @@ export class ScreenCreator
       current_width, current_height, current_flags = love.window.getMode!
 
       num_diff = 0
-      if flags.fullscreen != current_flags.fullscreen
+      if flags.fullscreen ~= current_flags.fullscreen
         num_diff += 1
-      if flags.vsync != current_flags.vsync
+      if flags.vsync ~= current_flags.vsync
         num_diff += 1
-      if new_width != current_width
+      if new_width ~= current_width
         num_diff += 1
-      if new_height != current_height
+      if new_height ~= current_height
         num_diff += 1
 
       if num_diff > 0
