@@ -1,8 +1,9 @@
 do
+  local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
     kill = function(self)
-      _parent_0.kill(self)
+      _class_0.__parent.__base.kill(self)
       return MusicPlayer:play(self.death_sound)
     end,
     __tostring = function(self)
@@ -25,7 +26,7 @@ do
         self.speed:toUnitVector()
         self.speed = self.speed:multiply(clamp(self.speed_multiplier, 0, self.max_speed))
         self.speed_multiplier = self.speed_multiplier + 1
-        _parent_0.update(self, dt)
+        _class_0.__parent.__base.update(self, dt)
         local vec = Vector(0, 0)
         self.sprite.rotation = self.speed:getAngleBetween(vec)
         if not self.target then
@@ -65,7 +66,7 @@ do
         self.speed:toUnitVector()
         self.speed = self.speed:multiply(clamp(self.speed_multiplier, 0, self.max_speed))
         self.speed_multiplier = self.speed_multiplier + 1
-        _parent_0.update(self, dt)
+        _class_0.__parent.__base.update(self, dt)
         local vec = Vector(0, 0)
         self.sprite.rotation = self.speed:getAngleBetween(vec)
       end
@@ -86,7 +87,7 @@ do
         self:getHitBox():draw()
       end
       love.graphics.pop()
-      return _parent_0.draw(self)
+      return _class_0.__parent.__base.draw(self)
     end,
     findNearestTarget = function(self, all)
       if all == nil then
@@ -134,12 +135,12 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, x, y, sprite, attack_delay, attack_speed, target)
       if target == nil then
         target = nil
       end
-      _parent_0.__init(self, x, y, sprite)
+      _class_0.__parent.__init(self, x, y, sprite)
       self.target = target
       local bounds = self.sprite:getBounds(0, 0)
       self.attack_range = bounds.radius * 2
@@ -187,7 +188,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

@@ -1,4 +1,5 @@
 do
+  local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
     setShader = function(self, shader, apply)
@@ -30,7 +31,7 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, x, y, sprite, alpha_start, alpha_end, life_time)
       if alpha_start == nil then
         alpha_start = 255
@@ -41,7 +42,7 @@ do
       if life_time == nil then
         life_time = 1
       end
-      _parent_0.__init(self, x, y, sprite:getCopy())
+      _class_0.__parent.__init(self, x, y, sprite:getCopy())
       self.alpha = alpha_start
       self.alpha_start = alpha_start
       self.alpha_end = alpha_end
@@ -60,7 +61,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

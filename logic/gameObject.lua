@@ -1,4 +1,5 @@
 do
+  local _class_0
   local _base_0 = {
     setSpeedOverride = function(self, new_speed, ratio)
       local x, y = new_speed:getComponents()
@@ -185,7 +186,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, x, y, sprite, x_speed, y_speed)
       if x_speed == nil then
         x_speed = 0

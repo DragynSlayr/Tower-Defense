@@ -1,4 +1,5 @@
 do
+  local _class_0
   local _parent_0 = Enemy
   local _base_0 = {
     __tostring = function(self)
@@ -10,12 +11,12 @@ do
       end
       if Driver.objects[EntityTypes.turret] then
         if #Driver.objects[EntityTypes.turret] ~= 0 then
-          _parent_0.update(self, dt, false)
+          _class_0.__parent.__base.update(self, dt, false)
         else
-          _parent_0.update(self, dt, true)
+          _class_0.__parent.__base.update(self, dt, true)
         end
       else
-        _parent_0.update(self, dt, true)
+        _class_0.__parent.__base.update(self, dt, true)
       end
       self.sprite.rotation = self.sprite.rotation - (math.pi / 4)
     end,
@@ -54,11 +55,11 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("enemy/circle.tga", 26, 26, 1, 1.75)
       local attack_speed = math.max(0.5, 0.75 - (0.01 * Objectives:getScaling()))
-      _parent_0.__init(self, x, y, sprite, 1, attack_speed)
+      _class_0.__parent.__init(self, x, y, sprite, 1, attack_speed)
       self.enemyType = EnemyTypes.turret
       self.score_value = 150
       self.exp_given = self.score_value + (self.score_value * 0.35 * Objectives:getLevel())
@@ -77,7 +78,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

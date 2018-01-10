@@ -1,11 +1,12 @@
 do
+  local _class_0
   local _parent_0 = GameObject
   local _base_0 = { }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, x, y, sprite)
-      _parent_0.__init(self, x, y, sprite)
+      _class_0.__parent.__init(self, x, y, sprite)
       self.draw_health = false
       self.id = EntityTypes.background
       self.solid = false
@@ -17,7 +18,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

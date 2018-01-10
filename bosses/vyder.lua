@@ -1,4 +1,5 @@
 do
+  local _class_0
   local _parent_0 = Boss
   local _base_0 = {
     getHitBox = function(self)
@@ -15,7 +16,7 @@ do
         local dist = self.speed:getLength()
         self.speed:toUnitVector()
         self.speed = self.speed:multiply(self.speed_multiplier)
-        _parent_0.update(self, dt)
+        _class_0.__parent.__base.update(self, dt)
         self.chase_time = self.chase_time + dt
         if dist <= self:getHitBox().radius or self.chase_time >= 3 then
           self.chase_time = 0
@@ -39,7 +40,7 @@ do
         local dist = self.speed:getLength()
         self.speed:toUnitVector()
         self.speed = self.speed:multiply(self.speed_multiplier * self.boost_multiplier)
-        _parent_0.update(self, dt)
+        _class_0.__parent.__base.update(self, dt)
         self.chase_time = self.chase_time + dt
         if dist < self:getHitBox().radius + (self.attack_range / 2) or self.ai_time >= 1 then
           self.ai_time = 0
@@ -63,12 +64,12 @@ do
           self.target_position = Driver:getRandomPosition()
         end
       elseif 6 == _exp_0 then
-        _parent_0.update(self, dt)
+        _class_0.__parent.__base.update(self, dt)
         self.speed = Vector(self.target_position.x - self.position.x, self.target_position.y - self.position.y)
         local dist = self.speed:getLength()
         self.speed:toUnitVector()
         self.speed = self.speed:multiply(self.speed_multiplier)
-        _parent_0.update(self, dt)
+        _class_0.__parent.__base.update(self, dt)
         self.chase_time = self.chase_time + dt
         if dist <= self:getHitBox().radius or self.chase_time >= 3 then
           self.chase_time = 0
@@ -92,16 +93,16 @@ do
         love.graphics.setShader()
         love.graphics.pop()
       end
-      return _parent_0.draw(self)
+      return _class_0.__parent.__base.draw(self)
     end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("boss/fox_bat/fox_bat.tga", 729, 960, 1, 1)
       sprite:setScale(0.25, 0.25)
-      _parent_0.__init(self, x, y, sprite)
+      _class_0.__parent.__init(self, x, y, sprite)
       self.bossType = BossTypes.vyder
       self.score_value = 1000
       self.exp_given = self.score_value + (self.score_value * 0.35 * Objectives:getLevel())
@@ -132,7 +133,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

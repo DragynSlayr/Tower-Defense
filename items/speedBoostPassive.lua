@@ -1,14 +1,15 @@
 do
+  local _class_0
   local _parent_0 = PassiveItem
   local _base_0 = {
     unequip = function(self, player)
-      _parent_0.unequip(self, player)
+      _class_0.__parent.__base.unequip(self, player)
       player.max_speed = player.max_speed / self.amount
     end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self)
       self.rarity = self:getRandomRarity()
       self.amount = ({
@@ -23,7 +24,7 @@ do
       effect = function(self, player)
         player.max_speed = player.max_speed * self.amount
       end
-      _parent_0.__init(self, sprite, nil, effect)
+      _class_0.__parent.__init(self, sprite, nil, effect)
       self.name = "Speed Up"
       self.description = "Raises player speed by " .. ((self.amount - 1) * 100) .. "%"
     end,
@@ -34,7 +35,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

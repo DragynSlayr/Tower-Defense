@@ -1,4 +1,5 @@
 do
+  local _class_0
   local _parent_0 = Wave
   local _base_0 = {
     start = function(self)
@@ -23,7 +24,7 @@ do
       return Driver:addObject(tess, EntityTypes.goal)
     end,
     finish = function(self)
-      _parent_0.finish(self)
+      _class_0.__parent.__base.finish(self)
       return Driver:removeObject(self.trail, false)
     end,
     entityKilled = function(self, entity)
@@ -39,7 +40,7 @@ do
       end
     end,
     update = function(self, dt)
-      _parent_0.update(self, dt)
+      _class_0.__parent.__base.update(self, dt)
       if not self.waiting then
         self.parent.time_remaining = self.parent.time_remaining - dt
         self.elapsed = self.elapsed + dt
@@ -77,14 +78,14 @@ do
         message = "second"
       end
       self.parent.message1 = "\t" .. num .. " " .. message .. " remaining!"
-      return _parent_0.draw(self)
+      return _class_0.__parent.__base.draw(self)
     end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, parent)
-      _parent_0.__init(self, parent)
+      _class_0.__parent.__init(self, parent)
       self.target = 3
       self.captured = 0
       self.dead = 0
@@ -120,7 +121,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

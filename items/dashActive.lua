@@ -1,9 +1,10 @@
 do
+  local _class_0
   local _parent_0 = ActiveItem
   local _base_0 = { }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self)
       self.rarity = self:getRandomRarity()
       local cd = ({
@@ -26,7 +27,7 @@ do
           player.position.y = clamp(player.position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius)
         end
       end
-      _parent_0.__init(self, sprite, cd, effect)
+      _class_0.__parent.__init(self, sprite, cd, effect)
       self.name = "Insain Bolt"
       self.description = "Dash in the direction you are moving"
     end,
@@ -37,7 +38,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

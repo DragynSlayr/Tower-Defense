@@ -1,10 +1,11 @@
 do
+  local _class_0
   local _base_0 = {
     update = function(self, dt) end,
     draw = function(self) end
   }
   _base_0.__index = _base_0
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self) end,
     __base = _base_0,
     __name = "Screen"

@@ -1,8 +1,9 @@
 local Node
 do
+  local _class_0
   local _base_0 = { }
   _base_0.__index = _base_0
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, data)
       self.data = data
       self.next = nil
@@ -21,6 +22,7 @@ do
   Node = _class_0
 end
 do
+  local _class_0
   local _base_0 = {
     add = function(self, object)
       local new_node = Node(object)
@@ -60,7 +62,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self)
       self.head = nil
       self.length = 0

@@ -1,17 +1,18 @@
 do
+  local _class_0
   local _parent_0 = Mode
   local _base_0 = {
     nextWave = function(self)
-      _parent_0.nextWave(self)
+      _class_0.__parent.__base.nextWave(self)
       local num = (((self.level_count - 1) * 3) + self.wave_count) * 3
       self.wave = EliminationWave(self, num + 5)
     end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, parent)
-      _parent_0.__init(self, parent)
+      _class_0.__parent.__init(self, parent)
       self.objective_text = "Eliminate all enemies"
       self.mode_type = ModeTypes.elimination
     end,
@@ -22,7 +23,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

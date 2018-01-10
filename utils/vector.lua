@@ -1,4 +1,5 @@
 do
+  local _class_0
   local _base_0 = {
     getLength = function(self)
       return math.sqrt((self.x * self.x) + (self.y * self.y))
@@ -47,7 +48,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, x, y, isUnit)
       if x == nil then
         x = 0

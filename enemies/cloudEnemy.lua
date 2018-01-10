@@ -1,13 +1,14 @@
 do
+  local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
     kill = function(self)
-      _parent_0.kill(self)
+      _class_0.__parent.__base.kill(self)
       self.trail.health = 0
       for k, v in pairs(self.children) do
         v.health = 0
         v.update = function(self, dt)
-          return _parent_0.kill(self, dt)
+          return _class_0.__parent.__base.kill(self, dt)
         end
       end
     end,
@@ -34,25 +35,25 @@ do
           te.item_drop_chance = 0
           te.update = function(self, dt)
             self.health = self.max_health
-            return _parent_0.update(self, dt)
+            return _class_0.__parent.__base.update(self, dt)
           end
           Driver:addObject(te, EntityTypes.enemy)
           table.insert(self.children, te)
           self.ai_phase = 1
         end
       end
-      return _parent_0.update(self, dt)
+      return _class_0.__parent.__base.update(self, dt)
     end,
     draw = function(self)
-      return _parent_0.draw(self)
+      return _class_0.__parent.__base.draw(self)
     end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("enemy/cloud.tga", 32, 32, 1, 1.25)
-      _parent_0.__init(self, x, y, sprite)
+      _class_0.__parent.__init(self, x, y, sprite)
       self.id = EntityTypes.enemy
       self.value = 1
       self.item_drop_chance = 0.10
@@ -103,7 +104,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

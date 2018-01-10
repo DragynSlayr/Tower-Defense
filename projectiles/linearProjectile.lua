@@ -1,4 +1,5 @@
 do
+  local _class_0
   local _parent_0 = HomingProjectile
   local _base_0 = {
     update = function(self, dt)
@@ -11,7 +12,7 @@ do
       if not self:isOnScreen(Screen_Size.bounds) then
         self.health = 0
       end
-      _parent_0.update(self, dt)
+      _class_0.__parent.__base.update(self, dt)
       local filters = {
         EntityTypes.player,
         EntityTypes.turret
@@ -35,7 +36,7 @@ do
       end
     end,
     draw = function(self)
-      _parent_0.draw(self)
+      _class_0.__parent.__base.draw(self)
       if DEBUGGING then
         love.graphics.push("all")
         love.graphics.setShader()
@@ -47,7 +48,7 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, x, y, speed, dist, sprite)
       if dist == nil then
         dist = Screen_Size.width
@@ -55,7 +56,7 @@ do
       local target_pos = Vector(speed:getComponents())
       target_pos = target_pos:multiply(dist)
       target_pos:add((Vector(x, y)))
-      _parent_0.__init(self, x, y, (GameObject(target_pos.x, target_pos.y, sprite)), sprite)
+      _class_0.__parent.__init(self, x, y, (GameObject(target_pos.x, target_pos.y, sprite)), sprite)
       self.speed_multiplier = 100
       self.damage = 1 / 10
     end,
@@ -66,7 +67,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

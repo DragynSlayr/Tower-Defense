@@ -1,4 +1,5 @@
 do
+  local _class_0
   local _parent_0 = Wave
   local _base_0 = {
     entityKilled = function(self, entity)
@@ -21,14 +22,14 @@ do
     end,
     draw = function(self)
       self.parent.message1 = "\t" .. "BOSS BATTLE!!"
-      return _parent_0.draw(self)
+      return _class_0.__parent.__base.draw(self)
     end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, parent, boss)
-      _parent_0.__init(self, parent)
+      _class_0.__parent.__init(self, parent)
       self.boss = boss
     end,
     __base = _base_0,
@@ -38,7 +39,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

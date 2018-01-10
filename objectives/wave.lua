@@ -1,4 +1,5 @@
 do
+  local _class_0
   local _base_0 = {
     start = function(self) end,
     finish = function(self)
@@ -26,7 +27,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, parent)
       self.elapsed = 0
       self.delay = 5

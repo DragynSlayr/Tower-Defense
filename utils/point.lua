@@ -1,4 +1,5 @@
 do
+  local _class_0
   local _base_0 = {
     rotate = function(self, angle)
       local vec = Vector(self.x, self.y)
@@ -13,7 +14,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, x, y)
       if x == nil then
         x = 0

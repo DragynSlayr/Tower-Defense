@@ -1,4 +1,5 @@
 do
+  local _class_0
   local _base_0 = {
     newFont = function(self, size)
       return love.graphics.newFont(PATH_PREFIX .. "assets/fonts/opsb.ttf", size * Scale.height)
@@ -68,7 +69,7 @@ do
     end
   }
   _base_0.__index = _base_0
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self)
       self.queue = { }
       self.giant_font = love.graphics.newFont(PATH_PREFIX .. "assets/fonts/opsb.ttf", 250 * Scale.height)

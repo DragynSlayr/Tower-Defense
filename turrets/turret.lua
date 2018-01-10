@@ -1,4 +1,5 @@
 do
+  local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
     getStats = function(self)
@@ -23,7 +24,7 @@ do
       end
       self.sprite.shader:send("health", self.health / self.max_health)
       self.sprite.should_shade = Objectives.shader == nil
-      _parent_0.update(self, dt)
+      _class_0.__parent.__base.update(self, dt)
       if Upgrade.turret_special[2] then
         if self.health <= (self.max_health / 2) and self.shield_available then
           self.shield_available = false
@@ -133,7 +134,7 @@ do
         love.graphics.circle("fill", self.position.x, self.position.y, self.range, 360)
         love.graphics.pop()
       end
-      _parent_0.draw(self)
+      _class_0.__parent.__base.draw(self)
       love.graphics.push("all")
       love.graphics.setShader(Driver.shader)
       local font = Renderer.small_font
@@ -174,9 +175,9 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, x, y, range, sprite, cooldown)
-      _parent_0.__init(self, x, y, sprite, 0, 0)
+      _class_0.__parent.__init(self, x, y, sprite, 0, 0)
       self.max_health = Stats.turret[1]
       self.damage = Stats.turret[3]
       self.attack_speed = Stats.turret[5]
@@ -197,7 +198,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

@@ -1,4 +1,5 @@
 do
+  local _class_0
   local _parent_0 = GameObject
   local _base_0 = {
     onCollide = function(self, entity)
@@ -17,7 +18,7 @@ do
       end
     end,
     update = function(self, dt)
-      _parent_0.update(self, dt)
+      _class_0.__parent.__base.update(self, dt)
       self.capture_amount = clamp(self.capture_amount, 0, self.max_health)
       if self.tesseract and self.unlocked then
         self.timer = self.timer + dt
@@ -36,7 +37,7 @@ do
         love.graphics.setLineWidth(ratio * 20)
         love.graphics.line(self.position.x, self.position.y + (self.sprite.scaled_height * 0.33), self.tesseract.position.x, self.tesseract.position.y)
       end
-      _parent_0.draw(self)
+      _class_0.__parent.__base.draw(self)
       love.graphics.push("all")
       love.graphics.setShader(Driver.shader)
       love.graphics.setColor(0, 0, 0, 255)
@@ -53,10 +54,10 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("objective/flag.tga", 34, 16, 1, 2.5)
-      _parent_0.__init(self, x, y, sprite)
+      _class_0.__parent.__init(self, x, y, sprite)
       self.id = EntityTypes.goal
       self.goal_type = GoalTypes.capture
       self.health = 10
@@ -77,7 +78,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

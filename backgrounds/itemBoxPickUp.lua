@@ -1,8 +1,9 @@
 do
+  local _class_0
   local _parent_0 = BackgroundObject
   local _base_0 = {
     update = function(self, dt)
-      _parent_0.update(self, dt)
+      _class_0.__parent.__base.update(self, dt)
       if Driver.objects[EntityTypes.player] then
         for k, p in pairs(Driver.objects[EntityTypes.player]) do
           local player = p:getHitBox()
@@ -17,10 +18,10 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("item/box.tga", 32, 32, 1, 1.75)
-      return _parent_0.__init(self, x, y, sprite)
+      return _class_0.__parent.__init(self, x, y, sprite)
     end,
     __base = _base_0,
     __name = "ItemBoxPickUp",
@@ -29,7 +30,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

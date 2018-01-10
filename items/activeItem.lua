@@ -1,8 +1,9 @@
 do
+  local _class_0
   local _parent_0 = Item
   local _base_0 = {
     getStats = function(self)
-      local stats = _parent_0.getStats(self)
+      local stats = _class_0.__parent.__base.getStats(self)
       table.insert(stats, "Cooldown: " .. self.charge_time .. "s")
       return stats
     end,
@@ -47,7 +48,7 @@ do
       return love.graphics.pop()
     end,
     update2 = function(self, dt)
-      _parent_0.update2(self, dt)
+      _class_0.__parent.__base.update2(self, dt)
       if self.charged then
         self.sprite:update(dt)
       end
@@ -73,12 +74,12 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, sprite, charge_time, effect)
       if charge_time == nil then
         charge_time = 0
       end
-      _parent_0.__init(self, sprite)
+      _class_0.__parent.__init(self, sprite)
       self.item_type = ItemTypes.active
       self.charged = true
       self.charge_time = charge_time
@@ -96,7 +97,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end

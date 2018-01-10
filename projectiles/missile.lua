@@ -1,4 +1,5 @@
 do
+  local _class_0
   local _parent_0 = HomingProjectile
   local _base_0 = {
     findTarget = function(self)
@@ -25,11 +26,11 @@ do
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
-  local _class_0 = setmetatable({
+  _class_0 = setmetatable({
     __init = function(self, x, y)
       local sprite = Sprite("projectile/missile.tga", 32, 16, 1, 1)
       sprite:scaleUniformly(1.25, 1.50)
-      _parent_0.__init(self, x, y, nil, sprite)
+      _class_0.__parent.__init(self, x, y, nil, sprite)
       self.damage = Stats.player[3] * 120
       self.speed_multiplier = 250
       self.target = self:findTarget()
@@ -46,7 +47,10 @@ do
     __index = function(cls, name)
       local val = rawget(_base_0, name)
       if val == nil then
-        return _parent_0[name]
+        local parent = rawget(cls, "__parent")
+        if parent then
+          return parent[name]
+        end
       else
         return val
       end
