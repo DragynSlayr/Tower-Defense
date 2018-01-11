@@ -1,8 +1,0 @@
-require("backgrounds.backgroundObject")
-require("backgrounds.bomb")
-require("backgrounds.blackHole")
-require("backgrounds.frostField")
-require("backgrounds.poisonField")
-require("backgrounds.healingField")
-require("backgrounds.itemBoxPickUp")
-return require("backgrounds.jitter")
