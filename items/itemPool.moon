@@ -31,19 +31,38 @@ export class ItemPoolHandler
       HealthBoostPassive,
       DamageAbsorbPassive,
       MovingTurretPassive,
-      DamageReflectPassive,
-      NullItem
+      DamageReflectPassive
     }
     @generatePool!
 
+    chances = {50, 26, 15, 8, 1}
+    @chances = {}
+    for i = 1, 4
+      sum = 0
+      for j = 1, 5 - i
+        sum += chances[j]
+      @chances[i] = sum
+
   generatePool: =>
-      items = {}
-      for k, item in pairs @items
-        for i = 1, item.probability
-          table.insert items, item
-      @items = items
-      shuffle @items
+    new_items = {}
+    for i = 1, 5
+      new_items[i] = {}
+    for idx, item in pairs @items
+      for i = item.lowest_rarity, item.highest_rarity
+        table.insert new_items[i], item
+    @items = new_items
 
   getItem: =>
-    item = pick @items
-    return EarthShatterActive!--item!
+    rarity = 1
+    num = math.random! * 100
+    if num >= @chances[1]
+      rarity = 5
+    elseif num >= @chances[2]
+      rarity = 4
+    elseif num >= @chances[3]
+      rarity = 3
+    elseif num >= @chances[4]
+      rarity = 2
+
+    item = pick @items[rarity]
+    return (item rarity)

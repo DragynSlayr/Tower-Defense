@@ -1,5 +1,6 @@
 export class Item extends GameObject
-  @probability = 1
+  @lowest_rarity = 1
+  @highest_rarity = 5
   new: (sprite) =>
     super 0, 0, sprite
     @item_type = nil
@@ -13,32 +14,14 @@ export class Item extends GameObject
     @damage = 0
     @name = "No name"
     @description = "No description"
-    if not @rarity
-      @rarity = 5
-
-  getRandomRarity: =>
-    blackChance  = 50
-    greenChance  = 26
-    blueChance   = 15
-    purpleChance = 8
-    orangeChance = 1
-
-    num = math.random! * 100
-    if num > blackChance + greenChance + blueChance + purpleChance
-      return 5
-    elseif num > blackChance + greenChance + blueChance
-      return 4
-    elseif num > blackChance + greenChance
-      return 3
-    elseif num > blackChance
-      return 2
-    else
-      return 1
+    @quote = nil
 
   getStats: =>
     stats = {}
     table.insert stats, @name
     table.insert stats, @description
+    if @quote
+      table.insert stats, @quote
     return stats
 
   pickup: (player) =>
