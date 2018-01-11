@@ -279,8 +279,10 @@ export class Player extends GameObject
       if love.keyboard.isDown Controls.keys.SHOOT_DOWN
         bullet_speed\add (Vector 0, @bullet_speed)
       if bullet_speed\getLength! > 0
+        --bullet_speed\add (@speed\multiply 0.5)
         bullet = FilteredBullet @position.x, @position.y, @damage, bullet_speed, filters
-        bullet.max_dist = @getHitBox!.radius + (2 * (@attack_range + @range_boost))
+        --ratio = @speed\getLength! / @max_speed
+        bullet.max_dist = (@getHitBox!.radius + (2 * (@attack_range + @range_boost)))-- * (math.max 0.5, ratio)
         if @knocking_back
           bullet.sprite = @knock_back_sprite
           bullet.knockback = true
