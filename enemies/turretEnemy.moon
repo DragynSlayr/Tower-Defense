@@ -7,11 +7,11 @@ export class TurretEnemy extends Enemy
     @score_value = 150
     @exp_given = @score_value + (@score_value * 0.35 * Objectives\getLevel!)
 
-    @health = math.min 577, 15 + (93.75 * Objectives\getScaling!)
+    @health = 15 + (36 * Objectives\getScaling!)
     @max_health = @health
-    @max_speed = math.min 360 * Scale.diag, (200 + (26.5 * Objectives\getScaling!)) * Scale.diag
+    @max_speed = 200 * Scale.diag--math.min 360 * Scale.diag, (200 + (26.5 * Objectives\getScaling!)) * Scale.diag
     @speed_multiplier = @max_speed
-    @damage = math.min 46, 2 + (7.35 * Objectives\getScaling!)
+    @damage = 2--math.min 46, 2 + (7.35 * Objectives\getScaling!)
 
     sound = Sound "turret_enemy_death.ogg", 0.75, false, 0.75, true
     @death_sound = MusicPlayer\add sound

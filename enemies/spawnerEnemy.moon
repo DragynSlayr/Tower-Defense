@@ -7,11 +7,11 @@ export class SpawnerEnemy extends Enemy
     @score_value = 50
     @exp_given = @score_value + (@score_value * 0.15 * Objectives\getLevel!)
 
-    @health = math.min 400, 12 + (66 * Objectives\getScaling!)
+    @health = 12 + (28 * Objectives\getScaling!)
     @max_health = @health
-    @max_speed = math.min 450 * Scale.diag, (150 + (50 * Objectives\getScaling!)) * Scale.diag
+    @max_speed = 150 * Scale.diag--math.min 450 * Scale.diag, (150 + (50 * Objectives\getScaling!)) * Scale.diag
     @speed_multiplier = @max_speed
-    @damage = math.min 28, 1 + (4.45 * Objectives\getScaling!)
+    @damage = 1--math.min 28, 1 + (4.45 * Objectives\getScaling!)
 
     sound = Sound "spawner_enemy_death.ogg", 0.75, false, 1.25, true
     @death_sound = MusicPlayer\add sound
