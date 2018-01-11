@@ -1,8 +1,0 @@
-require("projectiles.projectile")
-require("projectiles.filteredBullet")
-require("projectiles.bullet")
-require("projectiles.playerBullet")
-require("projectiles.missile")
-require("projectiles.linearProjectile")
-require("projectiles.splittingShot")
-return require("projectiles.turretMissile")

@@ -1,8 +1,0 @@
-require("enemies.enemy")
-require("enemies.cloudEnemy")
-require("enemies.basicEnemy")
-require("enemies.playerEnemy")
-require("enemies.turretEnemy")
-require("enemies.strongEnemy")
-require("enemies.spawnerEnemy")
-return require("enemies.captureEnemy")

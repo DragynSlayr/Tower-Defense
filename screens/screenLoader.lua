@@ -1,7 +1,0 @@
-require("screens.screenCreator")
-require("screens.screen")
-require("screens.controls")
-require("screens.upgrade")
-require("screens.inventory")
-require("screens.pause")
-return require("screens.gameOver")
