@@ -1,6 +1,7 @@
 export class MoltenCoreActive extends ActiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  @lowest_rarity = 3
+  new: (rarity) =>
+    @rarity = rarity
     cd = ({30, 27, 24, 21, 18})[@rarity]
     sprite = Sprite "item/moltenCoreActive.tga", 32, 32, 1, 1.75
     effect = (player) =>

@@ -1,6 +1,6 @@
 export class DamageBoostActive extends ActiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  new: (rarity) =>
+    @rarity = rarity
     cd = ({15, 14, 13, 12, 11})[@rarity]
     sprite = Sprite "item/damageBoost.tga", 32, 32, 1, 1.75
     effect = (player) =>

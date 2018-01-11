@@ -1,5 +1,7 @@
 export class ExtraLifePassive extends PassiveItem
-  new: =>
+  @lowest_rarity = 5
+  new: (rarity) =>
+    @rarity = rarity
     sprite = Sprite "item/extraLife.tga", 26, 26, 1, 56 / 26
     effect = (player) =>
       player.lives += 1

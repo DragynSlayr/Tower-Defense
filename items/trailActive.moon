@@ -1,6 +1,7 @@
 export class TrailActive extends ActiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  @lowest_rarity = 4
+  new: (rarity) =>
+    @rarity = rarity
     cd = ({30, 25, 20, 15, 10})[@rarity]
     sprite = Sprite "item/trailActive.tga", 32, 32, 1, 1.75
     effect = (player) =>
@@ -11,7 +12,7 @@ export class TrailActive extends ActiveItem
       @trail = trail
       Driver\addObject @trail, EntityTypes.particle
     super sprite, cd, effect
-    @name = "Fire Trail"
+    @name = "Tinder Stream"
     @description = "A trail of fire follows the player"
     @effect_time = ({7.5, 7.75, 8, 8.25, 8.5})[@rarity]
     @onEnd = () -> Driver\removeObject @trail, false

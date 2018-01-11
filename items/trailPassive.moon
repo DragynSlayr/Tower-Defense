@@ -1,6 +1,6 @@
 export class TrailPassive extends PassiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  new: (rarity) =>
+    @rarity = rarity
     @life_time = ({1.5, 1.75, 2, 2.25, 2.5})[@rarity]
     sprite = Sprite "item/trailPassive.tga", 32, 32, 1, 1.75
     effect = (player) =>
@@ -11,7 +11,7 @@ export class TrailPassive extends PassiveItem
       @trail = trail
       Driver\addObject @trail, EntityTypes.particle
     super sprite, nil, effect
-    @name = "Poison Trail"
+    @name = "Straight Contamination"
     @description = "A trail of poison follows the player"
 
   getStats: =>

@@ -1,6 +1,7 @@
 export class DashActive extends ActiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  @lowest_rarity = 5
+  new: (rarity) =>
+    @rarity = rarity
     cd = ({5, 4, 3, 2, 1})[@rarity]
     sprite = Sprite "item/dashActive.tga", 32, 32, 1, 1.75
     effect = (player) =>

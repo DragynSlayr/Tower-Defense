@@ -1,6 +1,7 @@
 export class BombActive extends ActiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  @lowest_rarity = 3
+  new: (rarity) =>
+    @rarity = rarity
     cd = ({15, 12.5, 10, 7.5, 5})[@rarity]
     sprite = Sprite "background/bomb.tga", 32, 32, 1, 1.75
     effect = (player) =>

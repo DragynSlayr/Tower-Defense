@@ -1,5 +1,7 @@
 export class MovingTurretPassive extends PassiveItem
-  new: =>
+  @lowest_rarity = 5
+  new: (rarity) =>
+    @rarity = rarity
     sprite = Sprite "item/movingTurret.tga", 32, 32, 1, 1.75
     effect = (player) =>
       multipliers = {-1, 1}
@@ -12,5 +14,5 @@ export class MovingTurretPassive extends PassiveItem
         if t.position.y - radius <= Screen_Size.border[2] or t.position.y + radius >= Screen_Size.border[4] + Screen_Size.border[2]
           t.speed = Vector t.speed.x, t.speed.y * -1
     super sprite, 0, effect
-    @name = "Moving Turret"
+    @name = "Loco Turret"
     @description = "Your turret moves"

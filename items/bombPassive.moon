@@ -1,6 +1,6 @@
 export class BombPassive extends PassiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  new: (rarity) =>
+    @rarity = rarity
     cd = ({7, 6, 5, 4, 3})[@rarity]
     sprite = Sprite "item/bomb.tga", 32, 32, 1, 1.75
     effect = (player) =>

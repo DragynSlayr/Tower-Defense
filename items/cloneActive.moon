@@ -1,6 +1,8 @@
 export class CloneActive extends ActiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  @lowest_rarity = 4
+  @highest_rarity = 4
+  new: (rarity) =>
+    @rarity = rarity
     cd = ({25, 24, 23, 22, 21})[@rarity]
     sprite = Sprite "player/test.tga", 16, 16, 2, 3.50
     sprite\setRotationSpeed -math.pi / 2

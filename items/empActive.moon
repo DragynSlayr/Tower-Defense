@@ -1,6 +1,7 @@
 export class EMPActive extends ActiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  @lowest_rarity = 3
+  new: (rarity) =>
+    @rarity = rarity
     cd = ({20, 18, 16, 14, 12})[@rarity]
     sprite = Sprite "item/emp.tga", 32, 32, 1, 1.75
     effect = (player) =>

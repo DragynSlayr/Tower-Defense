@@ -1,5 +1,7 @@
 export class TurretSlagPassive extends PassiveItem
-  new: =>
+  @lowest_rarity = 4
+  new: (rarity) =>
+    @rarity = rarity
     sprite = Sprite "item/turretSlagPassive.tga", 32, 32, 1, 1.75
     effect = (player) =>
       if Driver.objects[EntityTypes.turret]
@@ -10,5 +12,5 @@ export class TurretSlagPassive extends PassiveItem
             bullet.slagging = true
             Driver\addObject bullet, EntityTypes.bullet
     super sprite, 1, effect
-    @name = "Slag Shot"
+    @name = "Huge Impairment"
     @description = "Turret shoots slagging shots"

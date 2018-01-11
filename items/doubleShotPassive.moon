@@ -1,6 +1,6 @@
 export class DoubleShotPassive extends PassiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  new: (rarity) =>
+    @rarity = rarity
     @damage_multiplier = ({0.5, 0.6, 0.7, 0.8, 0.9})[@rarity]
     sprite = Sprite "item/doubleShotPassive.tga", 32, 32, 1, 1.75
     effect = (player) =>

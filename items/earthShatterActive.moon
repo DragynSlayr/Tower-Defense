@@ -1,6 +1,6 @@
 export class EarthShatterActive extends ActiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  new: (rarity) =>
+    @rarity = rarity
     cd = ({20, 18, 16, 14, 12})[@rarity]
     sprite = Sprite "item/earthShatterActive.tga", 32, 32, 1, 1.75
     effect = (player) =>

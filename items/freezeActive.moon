@@ -1,6 +1,6 @@
 export class FreezeFieldActive extends ActiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  new: (rarity) =>
+    @rarity = rarity
     cd = ({15, 14, 13, 12, 11})[@rarity]
     sprite = Sprite "background/frostField.tga", 32, 32, 2, 1.75
     effect = (player) =>

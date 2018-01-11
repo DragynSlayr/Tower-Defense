@@ -1,6 +1,6 @@
 export class DragonStrikeActive extends ActiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  new: (rarity) =>
+    @rarity = rarity
     cd = ({18, 16, 14, 12, 10})[@rarity]
     sprite = Sprite "item/dragonStrikeActive.tga", 32, 32, 1, 1.75
     sprite\setRotationSpeed -math.pi / 3

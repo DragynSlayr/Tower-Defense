@@ -1,6 +1,6 @@
 export class MissileActive extends ActiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  new: (rarity) =>
+    @rarity = rarity
     cd = ({15, 14, 13, 12, 11})[@rarity]
     sprite = Sprite "projectile/missile.tga", 32, 16, 1, 1.75
     effect = (player) =>

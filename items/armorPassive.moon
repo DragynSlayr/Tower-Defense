@@ -1,6 +1,7 @@
 export class ArmorPassive extends PassiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  @lowest_rarity = 3
+  new: (rarity) =>
+    @rarity = rarity
     cd = ({0.5, 0.4, 0.3, 0.2, 0.1})[@rarity]
     sprite = Sprite "item/armorPassive.tga", 32, 32, 1, 1.75
     effect = (player) =>

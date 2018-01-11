@@ -1,6 +1,7 @@
 export class BlackHoleActive extends ActiveItem
-  new: =>
-    @rarity = @getRandomRarity!
+  @lowest_rarity = 5
+  new: (rarity) =>
+    @rarity = rarity
     cd = ({20, 18, 16, 14, 12})[@rarity]
     sprite = Sprite "background/blackhole.tga", 32, 32, 1, 1.75
     sprite\setRotationSpeed -math.pi / 2
