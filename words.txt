@@ -257,6 +257,7 @@ bosses_beaten
 bounds
 box
 box_color
+box_counter
 box_size
 boxes
 buffed
@@ -278,6 +279,7 @@ cd
 ceil
 center
 chance
+chances
 change
 change_time
 change_timer
@@ -493,7 +495,6 @@ getProperties
 getRadius
 getRandomEnemy
 getRandomPosition
-getRandomRarity
 getRandomUnitStart
 getScaling
 getStats
@@ -529,6 +530,7 @@ height
 height_scale
 high_scores
 higher_draw
+highest_rarity
 hit
 hold_delay
 hold_timer
@@ -623,6 +625,7 @@ log
 love
 lower
 lower_draw
+lowest_rarity
 lstrip
 m
 main_menu
@@ -633,6 +636,7 @@ master
 math
 max
 max_armor
+max_boxes
 max_cols
 max_delay
 max_depth
@@ -689,6 +693,7 @@ newSource
 newVec
 new_height
 new_item
+new_items
 new_node
 new_res
 new_width
@@ -779,6 +784,7 @@ queue
 quit
 quitGame
 quit_button
+quote
 r
 radius
 random
