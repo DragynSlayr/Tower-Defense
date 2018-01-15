@@ -15,6 +15,7 @@ table.insert queue, "ui.uiLoader"
 --+------------------+--
 table.insert queue, "logic.gameObject"
 table.insert queue, "logic.player"
+table.insert queue, "logic.collision"
 
 --+--------------+--
 --| Load Enemies |--

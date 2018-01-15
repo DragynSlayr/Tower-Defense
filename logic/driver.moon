@@ -90,11 +90,11 @@ export class Driver
       export KEY_CHANGED = true
 
     addObject: (object, id) =>
-      if @objects[id]
-        @objects[id][#@objects[id] + 1] = object
-      else
-        @objects[id] = {}
-        @addObject(object, id)
+      --if @objects[id]
+      @objects[id][#@objects[id] + 1] = object
+      --else
+      --  @objects[id] = {}
+      --  @addObject(object, id)
 
     removeObject: (object, player_kill = true) =>
       found = false
@@ -284,6 +284,8 @@ export class Driver
       export Renderer = ObjectRenderer!
 
       Driver.objects = {}
+      for k, v in pairs EntityTypes.layers
+        Driver.objects[k] = {}
       Driver.game_state = Game_State.none
       Driver.state_stack = Stack!
       Driver.state_stack\add Game_State.main_menu
@@ -297,6 +299,9 @@ export class Driver
 
       -- Debugging menu
       export Debugger = DebugMenu!
+
+      -- Global collision checker
+      export Collision = CollisionChecker!
 
       -- Global objectives
       export Objectives = ObjectivesHandler!
@@ -353,6 +358,9 @@ export class Driver
             for k, v in pairs Driver.objects
               for k2, o in pairs v
                 o\update dt
+            Collision\update dt
+            for k, v in pairs Driver.objects
+              for k2, o in pairs v
                 if o.health <= 0 or not o.alive
                   Driver\removeObject o
             Objectives\update dt
