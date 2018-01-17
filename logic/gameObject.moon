@@ -18,6 +18,7 @@ export class GameObject
 
     @solid = true
     @colliders = {}
+    @last_position = Vector @position\getComponents!
 
     @contact_damage = false
     @item_drop_chance = 0.00
@@ -99,6 +100,7 @@ export class GameObject
 
   update: (dt) =>
     if not @alive return
+    @last_position = Vector @position\getComponents!
     if @shielded
       @shield_timer += dt
       if @shield_timer >= @max_shield_time
