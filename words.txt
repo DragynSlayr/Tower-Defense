@@ -31,6 +31,8 @@ CheckBox
 Circle
 CloneActive
 CloudEnemy
+Collision
+CollisionChecker
 Color
 ComboBox
 Controls
@@ -204,6 +206,7 @@ add
 addChild
 addItem
 addObject
+addPair
 addPoint
 addScore
 addSkill
@@ -299,6 +302,7 @@ circ
 circle
 clamp
 class
+clear
 clearAll
 clearObjects
 clone
@@ -307,6 +311,9 @@ closest_distance
 coin
 col_idx
 collectable
+colliders
+colliding
+collision
 color
 colors
 complete
@@ -379,7 +386,6 @@ directory
 disconnect
 dist
 dist_travelled
-dist_vec
 dist_x
 dist_y
 do
@@ -575,6 +581,8 @@ item_type
 items
 k
 k2
+k3
+k4
 key
 key_names
 keyboard
@@ -713,6 +721,7 @@ num_missiles
 num_modes
 num_turrets
 o
+o2
 obj
 object
 objective_text
