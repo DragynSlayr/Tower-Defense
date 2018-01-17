@@ -1,7 +1,7 @@
 export class Turret extends GameObject
   new: (x, y, range, sprite, cooldown) =>
     super x, y, sprite, 0, 0
-    @colliders = {EntityTypes.player}
+    @colliders = {EntityTypes.enemy, EntityTypes.boss}
 
     @max_health   = Stats.turret[1]
     @damage       = Stats.turret[3]

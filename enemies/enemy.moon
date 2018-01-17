@@ -13,6 +13,8 @@ export class Enemy extends GameObject
     @corner_target = true
     @item_drop_chance = 0.10
 
+    @colliders = {EntityTypes.enemy, EntityTypes.player, EntityTypes.turret, EntityTypes.goal}
+
     sprite_copy = sprite\getCopy!
     sprite_copy\setColor {50, 50, 50, 255}
     @trail = nil--ParticleTrail x, y, sprite_copy, @

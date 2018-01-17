@@ -8,3 +8,4 @@ export class DefendGoal extends GameObject
     @goal_type = GoalTypes.defend
     @health = math.min 185, 20 + (27.5 * Objectives\getScaling!)
     @max_health = @health
+    @colliders = {EntityTypes.player, EntityTypes.enemy}

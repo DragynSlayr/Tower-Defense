@@ -12,3 +12,4 @@ export class AttackGoal extends GameObject
     @item_drop_chance = 0.2
     @score_value = 100
     @exp_given = @score_value + (@score_value * 0.25 * Objectives\getLevel!)
+    @colliders = {EntityTypes.player, EntityTypes.enemy}

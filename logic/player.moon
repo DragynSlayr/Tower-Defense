@@ -4,7 +4,7 @@ export class Player extends GameObject
     super x, y, sprite
     @sprite\setRotationSpeed -math.pi / 2
 
-    @colliders = {EntityTypes.turret}
+    @colliders = {EntityTypes.enemy, EntityTypes.goal, EntityTypes.boss}
 
     @max_health      = Stats.player[1]
     @attack_range    = Stats.player[2]

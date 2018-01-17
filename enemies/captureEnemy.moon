@@ -7,6 +7,7 @@ export class CaptureEnemy extends Enemy
     --@exp_given = @score_value + (@score_value * 0.35 * Objectives\getLevel!)
     --@solid = false
     @corner_target = false
+    @colliders = {EntityTypes.player, EntityTypes.turret}
 
     @health = 5 + (12 * Objectives\getScaling!)
     @max_health = @health
