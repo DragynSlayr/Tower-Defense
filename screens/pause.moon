@@ -91,9 +91,9 @@ export class PauseScreen extends Screen
         y = map i, 1, #stats, (Screen_Size.height * 0.4) + (40 * Scale.height), Screen_Size.height * 0.60
         icons[i]\draw x, y + (9 * Scale.height)
         Renderer\drawHUDMessage (string.format "%.2f", stats[i]), x + (10 * Scale.width) + bounds.radius, y, @font
-    Renderer\drawAlignedMessage Inventory.message1, Screen_Size.height * 0.85, "center", Renderer.hud_font
-    Renderer\drawAlignedMessage Inventory.message2, Screen_Size.height * 0.89, "center", Renderer.hud_font
-    love.graphics.setFont Renderer.small_font
+    Renderer\drawAlignedMessage Inventory.message1, Screen_Size.height * 0.85, "center", (Renderer\newFont 30)
+    Renderer\drawAlignedMessage Inventory.message2, Screen_Size.height * 0.89, "center", (Renderer\newFont 30)
+    love.graphics.setFont (Renderer\newFont 20)
     love.graphics.setColor 0, 0, 0, 255
     for i = 1, 3
       y = 0.04
@@ -102,7 +102,7 @@ export class PauseScreen extends Screen
       for k, v in pairs @controls[i]
         love.graphics.printf v, (Screen_Size.width / 3) * (i - 1), Screen_Size.height * y, Screen_Size.width / 3, "center"
         y += 0.055
-    love.graphics.setFont Renderer.hud_font
+    love.graphics.setFont (Renderer\newFont 30)
     love.graphics.setColor 0, 0, 0, 255
     love.graphics.printf (@current_layer + 1) .. " / " .. (@layer_idx + 1), 0, Screen_Size.height * 0.74, Screen_Size.width, "center"
     x = Screen_Size.width * 0.25

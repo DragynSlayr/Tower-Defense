@@ -1,5 +1,5 @@
 export class TooltipButton extends Button
-  new: (x, y, width, height, text, action, font = Renderer.hud_font, tooltips) =>
+  new: (x, y, width, height, text, action, font = (Renderer\newFont 30), tooltips) =>
     super x, y, width, height, text, action, font
     @tooltips = tooltips
 

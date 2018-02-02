@@ -1,5 +1,5 @@
 export class UIElement
-  new: (x, y, text = "", font = Renderer.status_font) =>
+  new: (x, y, text = "", font = (Renderer\newFont 50)) =>
     @x = x
     @y = y
     @text = text

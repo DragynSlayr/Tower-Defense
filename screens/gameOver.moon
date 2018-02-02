@@ -66,7 +66,7 @@ export class GameOverScreen extends Screen
     love.graphics.rectangle "fill", x, y, width, height
 
     love.graphics.setColor 0, 255, 255, 255
-    love.graphics.setFont Renderer.hud_font
+    love.graphics.setFont (Renderer\newFont 30)
 
     gap = 20
 
@@ -75,6 +75,6 @@ export class GameOverScreen extends Screen
       if y - y_start < height
         love.graphics.printf node.name, x + (gap * Scale.width), y, width - (2 * gap * Scale.width), "left"
         love.graphics.printf node.score, x + (gap * Scale.width), y, width - (2 * gap * Scale.width), "right"
-        y += Renderer.hud_font\getHeight! + (5 * Scale.height)
+        y += (Renderer\newFont 30)\getHeight! + (5 * Scale.height)
 
     love.graphics.pop!

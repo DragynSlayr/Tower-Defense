@@ -1,18 +1,14 @@
 -- Class for rendering GameObjects and text
 export class ObjectRenderer
   new: =>
-    -- Initialize queue and layers
+    -- Initialize queue and cache
     @queue = {}
-
-    -- Load fonts
-    @giant_font  = love.graphics.newFont PATH_PREFIX .. "assets/fonts/opsb.ttf", 250 * Scale.height
-    @title_font  = love.graphics.newFont PATH_PREFIX .. "assets/fonts/opsb.ttf", 70 * Scale.height
-    @status_font = love.graphics.newFont PATH_PREFIX .. "assets/fonts/opsb.ttf", 50 * Scale.height
-    @hud_font    = love.graphics.newFont PATH_PREFIX .. "assets/fonts/opsb.ttf", 30 * Scale.height
-    @small_font  = love.graphics.newFont PATH_PREFIX .. "assets/fonts/opsb.ttf", 20 * Scale.height
+    @font_cache = {}
 
   newFont: (size) =>
-    return love.graphics.newFont PATH_PREFIX .. "assets/fonts/opsb.ttf", size * Scale.height
+    if not @font_cache[size]
+      @font_cache[size] = love.graphics.newFont PATH_PREFIX .. "assets/fonts/lm-r.ttf", size
+    return @font_cache[size]
 
   -- Adds a drawing function to the queue
   -- func: The drawing function
@@ -47,7 +43,7 @@ export class ObjectRenderer
   -- x: X location of the message
   -- y: Y location of the message
   -- font: The font to use
-  drawHUDMessage: (message, x, y, font = @hud_font, color = Color!) =>
+  drawHUDMessage: (message, x, y, font = (Renderer\newFont 30), color = Color!) =>
     -- Store transforms
     love.graphics.push "all"
 
@@ -68,11 +64,11 @@ export class ObjectRenderer
   -- message: The message
   -- y: Y location of the message
   -- font: The font to use
-  drawStatusMessage: (message, y = 0, font = @status_font, color = Color!) =>
+  drawStatusMessage: (message, y = 0, font = (Renderer\newFont 20), color = Color!) =>
     -- Draw text in the center of the screen
     @drawAlignedMessage message, y, "center", font, color
 
-  drawAlignedMessage: (message, y, alignment = "center", font = @status_font, color = Color!) =>
+  drawAlignedMessage: (message, y, alignment = "center", font = (Renderer\newFont 20), color = Color!) =>
     -- Store transforms
     love.graphics.push "all"
 

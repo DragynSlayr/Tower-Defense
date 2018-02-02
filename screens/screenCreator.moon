@@ -15,8 +15,8 @@ export class ScreenCreator
     for k, v in pairs Controls.key_names
       key = split v, "_"
       key = toTitle (key[1] .. " " .. key[2])
-      UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * y, key, Renderer.small_font)
-      b = Button Screen_Size.width * 0.55, Screen_Size.height * y, 125, 35, Controls.keys[v], nil, Renderer.small_font
+      UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * y, key, (Renderer\newFont 20))
+      b = Button Screen_Size.width * 0.55, Screen_Size.height * y, 125, 35, Controls.keys[v], nil, (Renderer\newFont 20)
       b.action = (() ->
         Controls.selected = k
         Controls.button = b
@@ -40,22 +40,22 @@ export class ScreenCreator
       UI\set_screen Screen_State.controls
     UI\add controls_button
 
-    UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * 0.255, "Fullscreen", Renderer.small_font)
+    UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * 0.255, "Fullscreen", (Renderer\newFont 20))
     fs_cb = CheckBox Screen_Size.width * 0.55, Screen_Size.height * 0.255, 50, nil
     fs_cb.checked = love.window.getFullscreen!
     UI\add fs_cb
 
-    UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * 0.31, "Vertical Sync", Renderer.small_font)
+    UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * 0.31, "Vertical Sync", (Renderer\newFont 20))
     vs_cb = CheckBox Screen_Size.width * 0.55, Screen_Size.height * 0.31, 50, nil
     vs_cb.checked = current_flags.vsync
     UI\add vs_cb
 
-    UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * 0.365, "Show FPS", Renderer.small_font)
+    UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * 0.365, "Show FPS", (Renderer\newFont 20))
     fps_cb = CheckBox Screen_Size.width * 0.55, Screen_Size.height * 0.365, 50, nil
     fps_cb.checked = SHOW_FPS
     UI\add fps_cb
 
-    UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * 0.41, "Resolution", Renderer.small_font)
+    UI\add (Text Screen_Size.width * 0.45, Screen_Size.height * 0.41, "Resolution", (Renderer\newFont 20))
     resolutions = {
       "1920 x 1080",
       "1600 x 900",
@@ -69,7 +69,7 @@ export class ScreenCreator
       table.insert resolutions, current_res
       table.sort resolutions, (a, b) ->
         return (tonumber (split a, " ")[1]) > (tonumber (split b, " ")[1])
-    res_cb = ComboBox Screen_Size.width * 0.55, Screen_Size.height * 0.41, 125, 35, resolutions, Renderer.small_font
+    res_cb = ComboBox Screen_Size.width * 0.55, Screen_Size.height * 0.41, 125, 35, resolutions, (Renderer\newFont 20)
     res_cb.text = current_res
     UI\add res_cb
 
@@ -204,7 +204,7 @@ export class ScreenCreator
   createGameOverMenu: =>
     UI\set_screen Screen_State.game_over
 
-    title = Text Screen_Size.width / 2, Renderer.giant_font\getHeight! / 2, "GAME OVER", Renderer.giant_font
+    title = Text Screen_Size.width / 2, (Renderer\newFont 250)\getHeight! / 2, "GAME OVER", (Renderer\newFont 250)
     UI\add title
 
     restart_button = Button (Screen_Size.width / 2) - (127.5 * Scale.width), Screen_Size.height - (35 * Scale.height), 250, 60, "Restart", () ->
@@ -251,11 +251,11 @@ export class ScreenCreator
       mod = i - 1
       y = Screen_Size.height / 4
       space = 425 * Scale.height
-      UI\add Text (90 - (5 * mod)) * Scale.width, y + (space * mod), names[i], Renderer.hud_font
+      UI\add Text (90 - (5 * mod)) * Scale.width, y + (space * mod), names[i], (Renderer\newFont 30)
 
       for j = 1, num_stats
         y = (25 + (j * 65) + (425 * mod)) * Scale.height
-        UI\add Text (0.5 * Screen_Size.width) - (400 * Scale.width), y, stats[i][j], Renderer.small_font
+        UI\add Text (0.5 * Screen_Size.width) - (400 * Scale.width), y, stats[i][j], (Renderer\newFont 20)
         if j ~= num_stats
           stats_table = Upgrade.player_stats
           current_stats = Stats.player
@@ -345,10 +345,10 @@ export class ScreenCreator
     title = Text Screen_Size.width / 2, 25 * Scale.height, "Inventory"
     UI\add title
 
-    passive_text = Text Screen_Size.width * 0.60, Screen_Size.height * 0.15, "Passives", Renderer.hud_font
+    passive_text = Text Screen_Size.width * 0.60, Screen_Size.height * 0.15, "Passives", (Renderer\newFont 30)
     UI\add passive_text
 
-    active_text = Text Screen_Size.width * 0.15, Screen_Size.height * 0.15, "Active", Renderer.hud_font
+    active_text = Text Screen_Size.width * 0.15, Screen_Size.height * 0.15, "Active", (Renderer\newFont 30)
     UI\add active_text
 
     active_item_frame = ItemFrame Screen_Size.width * 0.15, (Screen_Size.height * 0.15) + (125 * Scale.height)
@@ -398,7 +398,7 @@ export class ScreenCreator
       Objectives\nextMode!
     UI\add continue_button
 
-    text = Text Screen_Size.width * 0.43, (Screen_Size.height * 0.8) + (75 * Scale.height), "Item Rarity", (Renderer\newFont 25)
+    text = Text Screen_Size.width * 0.43, (Screen_Size.height * 0.8) + (75 * Scale.height), "Item Rarity", (Renderer\newFont 30)
     UI\add text
 
     sprite = Sprite "ui/icons/arrow.tga", 8, 40, 1, 10

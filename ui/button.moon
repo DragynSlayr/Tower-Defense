@@ -7,7 +7,7 @@ export class Button extends UIElement
   -- height: Height of the Button
   -- text: Text to be shown on the Button
   -- action: Function to execute when the Button is clicked
-  new: (x, y, width, height, text, action, font = Renderer.hud_font) =>
+  new: (x, y, width, height, text, action, font = (Renderer\newFont 30)) =>
     super x, y, text, font
 
     -- Store values

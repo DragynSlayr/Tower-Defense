@@ -46,7 +46,7 @@ export class InventoryScreen extends Screen
 
   draw: =>
     love.graphics.push "all"
-    love.graphics.setFont Renderer.hud_font
+    love.graphics.setFont (Renderer\newFont 30)
     limit = Screen_Size.width * 0.30
     if @item
       stats = @item\getStats!
@@ -58,7 +58,7 @@ export class InventoryScreen extends Screen
         love.graphics.setColor color\get!
         love.graphics.printf v, 0, y, limit, "center"
         multiplier = 1
-        total_width = Renderer.hud_font\getWidth v
+        total_width = (Renderer\newFont 30)\getWidth v
         if total_width > limit
           multiplier = math.ceil (total_width / limit)
         y += 35 * multiplier * Scale.height
@@ -73,6 +73,6 @@ export class InventoryScreen extends Screen
     love.graphics.setLineWidth 5
     for k, v in pairs x
       love.graphics.setColor colors[k][1], colors[k][2], colors[k][3], colors[k][4]
-      love.graphics.rectangle "line", (v * Screen_Size.width) - ((55 + (2.5 * (k - 1))) * Scale.width), y, (110 + (5 * (k - 1))) * Scale.width, 40 * Scale.height
-    Renderer\drawHUDMessage "x " .. @boxes, 175 * Scale.width, Screen_Size.height - (100 * Scale.height), Renderer.small_font
+      love.graphics.rectangle "line", (v * Screen_Size.width) - ((55 + (12.5 * (k - 1))) * Scale.width), y, (110 + (25 * (k - 1))) * Scale.width, 40 * Scale.height
+    Renderer\drawHUDMessage "x " .. @boxes, 175 * Scale.width, Screen_Size.height - (100 * Scale.height), (Renderer\newFont 20)
     love.graphics.pop!

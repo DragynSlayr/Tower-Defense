@@ -390,7 +390,8 @@ export class Driver
           love.graphics.rectangle "fill", 0, bounds[2] + bounds[4], bounds[3], bounds[2]
           love.graphics.pop!
 
-          Renderer\drawAlignedMessage ScoreTracker.score .. "\t", 20 * Scale.height, "right", Renderer.hud_font
+          font = Renderer\newFont 30
+          Renderer\drawAlignedMessage ScoreTracker.score .. "\t", 20 * Scale.height, "right", font
           Renderer\drawAll!
           Objectives\draw!
 
@@ -402,7 +403,8 @@ export class Driver
                 message ..= #Driver.objects[layer]
               else
                 message ..= 0
-              Renderer\drawAlignedMessage message, y, "left", Renderer.small_font, (Color 255, 255, 255)
+              font = Renderer\newFont 20
+              Renderer\drawAlignedMessage message, y, "left", font, (Color 255, 255, 255)
               y += 25
         when Game_State.upgrading
           Upgrade\draw!
@@ -416,10 +418,10 @@ export class Driver
         when Game_State.game_over
           GameOver\draw!
       love.graphics.setColor 0, 0, 0, 127
-      love.graphics.setFont Renderer.small_font
-      love.graphics.printf VERSION .. "\t", 0, Screen_Size.height - (25 * Scale.height), Screen_Size.width, "right"
+      love.graphics.setFont (Renderer\newFont 20)
+      love.graphics.printf VERSION, 0, Screen_Size.height - (25 * Scale.height), Screen_Size.width - (10 * Scale.width), "right"
       if SHOW_FPS
-        love.graphics.printf love.timer.getFPS! .. " FPS\t", 0, Screen_Size.height - (50 * Scale.height), Screen_Size.width, "right"
+        love.graphics.printf love.timer.getFPS! .. " FPS", 0, Screen_Size.height - (50 * Scale.height), Screen_Size.width - (10 * Scale.width), "right"
       love.graphics.pop!
 
       if DEBUG_MENU

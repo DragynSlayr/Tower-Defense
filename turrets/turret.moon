@@ -131,7 +131,7 @@ export class Turret extends GameObject
     super!
     love.graphics.push "all"
     love.graphics.setShader Driver.shader
-    font = Renderer.small_font
+    font = (Renderer\newFont 20)
     love.graphics.setFont font
     --message = math.floor ((@health / @max_health) * 100)
     --message ..= " %"

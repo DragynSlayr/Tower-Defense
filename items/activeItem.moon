@@ -42,7 +42,7 @@ export class ActiveItem extends Item
 
     if not @charged
       love.graphics.setColor 0, 0, 0, 127
-      font = Renderer.hud_font
+      font = Renderer\newFont 30
       love.graphics.setFont font
       message = math.ceil (@charge_time - @timer)
       love.graphics.printf message, x + (60 * Scale.width * 0.5), y - (font\getHeight! / 2), 60 * Scale.width, "center"

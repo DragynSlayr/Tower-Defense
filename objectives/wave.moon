@@ -26,7 +26,8 @@ export class Wave
   draw: =>
     if @waiting
       love.graphics.push "all"
+      -- TODO: Fix this to be right aligned
       message = (@delay - math.floor @elapsed)
-      Renderer\drawStatusMessage message, love.graphics.getHeight! / 2, Renderer.giant_font, Color 255, 255, 255, 255
-      Renderer\drawAlignedMessage "Next wave in: " .. message .. "\t", 50 * Scale.height, "right", Renderer.hud_font
+      Renderer\drawStatusMessage message, love.graphics.getHeight! / 2, (Renderer\newFont 250), Color 255, 255, 255, 255
+      Renderer\drawAlignedMessage "Next wave in: " .. message .. "\t", 50 * Scale.height, "right", (Renderer\newFont 30)
       love.graphics.pop!
