@@ -1,6 +1,13 @@
 export class ComboBox extends Button
   new: (x, y, width, height, options, font) =>
-    super x, y, width, height, options[1], nil, font
+    max_width = 0
+    max_idx = 1
+    for k, v in pairs options
+      option_width = font\getWidth v
+      if option_width > max_width
+        max_width = option_width
+        max_idx = k
+    super x, y, max_width * 1.2, height, options[max_idx], nil, font
 
     @options = options
     @open = false
