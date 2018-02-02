@@ -44,5 +44,5 @@ export class AttackWave extends Wave
     message = "beacons"
     if num == 1
       message = "beacon"
-    @parent.message1 = "\t" .. num .. " " .. message .. " remaining!"
+    @parent.message1 = num .. " " .. message .. " remaining!"
     super!

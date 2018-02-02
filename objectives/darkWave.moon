@@ -81,5 +81,5 @@ export class DarkWave extends Wave
     message = "hearts"
     if num == 1
       message = "heart"
-    @parent.message1 = "\t" .. num .. " " .. message .. " remaining!"
+    @parent.message1 = num .. " " .. message .. " remaining!"
     super!

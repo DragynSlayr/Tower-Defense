@@ -82,5 +82,5 @@ export class CaptureWave extends Wave
     num = math.floor @parent.time_remaining
     if num == 1
       message = "second"
-    @parent.message1 = "\t" .. num .. " " .. message .. " remaining!"
+    @parent.message1 = num .. " " .. message .. " remaining!"
     super!

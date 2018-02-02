@@ -40,5 +40,5 @@ export class EliminationWave extends Wave
     message = "enemies"
     if num == 1
       message = "enemy"
-    @parent.message1 = "\t" .. num .. " " .. message .. " remaining!"
+    @parent.message1 = num .. " " .. message .. " remaining!"
     super!

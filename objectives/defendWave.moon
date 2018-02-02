@@ -39,5 +39,5 @@ export class DefendWave extends Wave
     num = math.floor @target
     if num == 1
       message = "second"
-    @parent.message1 = "\t" .. num .. " " .. message .. " remaining!"
+    @parent.message1 = num .. " " .. message .. " remaining!"
     super!

@@ -18,5 +18,5 @@ export class BossWave extends Wave
       Objectives.shader = @boss.shader
 
   draw: =>
-    @parent.message1 = "\t" .. "BOSS BATTLE!!"
+    @parent.message1 = "BOSS BATTLE!!"
     super!
