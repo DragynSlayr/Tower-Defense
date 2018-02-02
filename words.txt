@@ -452,6 +452,7 @@ flags
 floor
 focus
 font
+font_cache
 for
 format
 found
@@ -509,7 +510,6 @@ getTopScores
 getVolume
 getWidth
 getWords
-giant_font
 globe_index
 globes
 goal
@@ -545,7 +545,6 @@ hole
 hover
 hover_color
 hover_sprite
-hud_font
 i
 icons
 id
@@ -919,7 +918,6 @@ skill_points
 slag_timer
 slagged
 slagging
-small_font
 small_sprite
 socket
 solid
@@ -962,7 +960,6 @@ state_stack
 static
 stats
 stats_table
-status_font
 stop
 str
 string
@@ -1002,7 +999,6 @@ time_remaining
 timer
 title
 title_color
-title_font
 toTitle
 toUnitVector
 to_spawn
@@ -1010,7 +1006,6 @@ to_traverse
 toggle
 tooltips
 tostring
-total_width
 touching
 trail
 transfer
