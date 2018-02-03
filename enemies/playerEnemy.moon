@@ -21,7 +21,7 @@ export class PlayerEnemy extends Enemy
 
   findNearestTarget: =>
     closest = nil
-    closest_distance = math.max love.graphics.getWidth! * 2, love.graphics.getHeight! * 2
+    closest_distance = math.max Screen_Size.width * 2, Screen_Size.height * 2
     if Driver.objects[EntityTypes.player]
       for k, v in pairs Driver.objects[EntityTypes.player]
         player = v\getHitBox!

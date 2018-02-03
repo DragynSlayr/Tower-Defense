@@ -50,7 +50,7 @@ export class Enemy extends GameObject
     @findNearestTarget search
     if not @target return
     dist = @position\getDistanceBetween @target.position
-    if dist < love.graphics.getWidth! / 4 or not @corner_target
+    if dist < Screen_Size.width / 4 or not @corner_target
       @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
       @speed\toUnitVector!
       @speed = @speed\multiply clamp @speed_multiplier, 0, @max_speed
@@ -107,7 +107,7 @@ export class Enemy extends GameObject
 
   findNearestTarget: (all = false) =>
     closest = nil
-    closest_distance = math.max love.graphics.getWidth! * 2, love.graphics.getHeight! * 2
+    closest_distance = math.max Screen_Size.width * 2, Screen_Size.height * 2
     if Driver.objects[EntityTypes.player]
       for k, v in pairs Driver.objects[EntityTypes.player]
         player = v\getHitBox!

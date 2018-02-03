@@ -93,7 +93,7 @@ export class Turret extends GameObject
 
   findTarget: =>
     closest = nil
-    closest_distance = math.max love.graphics.getWidth! * 2, love.graphics.getHeight! * 2
+    closest_distance = math.max Screen_Size.width * 2, Screen_Size.height * 2
     if Driver.objects[EntityTypes.enemy]
       for k, v in pairs Driver.objects[EntityTypes.enemy]
         player = v\getHitBox!
@@ -138,7 +138,7 @@ export class Turret extends GameObject
     h = string.format "%.1f", @health
     m = string.format "%.1f", @max_health
     message = h .. " / " .. m
-    width = (font\getWidth "185.0 / 185.0") + (5 * Scale.width)
+    width = (font\getWidth message) + (5 * Scale.width)
     height = font\getHeight!
     love.graphics.setColor 0, 0, 0, 50
     love.graphics.rectangle "fill", @position.x - (width / 2) - (2 * Scale.width), @position.y + (@sprite.scaled_height / 2), width + (4 * Scale.width), height + (2 * Scale.height), 4 * Scale.diag
@@ -160,6 +160,6 @@ export class Turret extends GameObject
     circle = @getHitBox!
     x, y = circle.center\getComponents!
     radius = @range
-    xOn = x - radius >= 0 and x + radius <= love.graphics.getWidth!
-    yOn = y - radius >= 0 and y + radius <= love.graphics.getHeight!
+    xOn = x - radius >= 0 and x + radius <= Screen_Size.width
+    yOn = y - radius >= 0 and y + radius <= Screen_Size.height
     return xOn and yOn

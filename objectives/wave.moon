@@ -27,7 +27,7 @@ export class Wave
     if @waiting
       love.graphics.push "all"
       message = (@delay - math.floor @elapsed)
-      Renderer\drawStatusMessage message, love.graphics.getHeight! / 2, (Renderer\newFont 250), Color 255, 255, 255, 255
+      Renderer\drawStatusMessage message, Screen_Size.half_height, (Renderer\newFont 250), Color 255, 255, 255, 255
 
       message = "Next wave in: " .. message
       font = Renderer\newFont 30

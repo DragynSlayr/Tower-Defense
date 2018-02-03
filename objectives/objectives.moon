@@ -98,7 +98,7 @@ export class ObjectivesHandler
     else
       return (SpawnerEnemy), 5
 
-  spawn: (typeof, layer, i = 0, x = (math.random love.graphics.getWidth!), y = (math.random love.graphics.getHeight!)) =>
+  spawn: (typeof, layer, i = 0, x = (math.random Screen_Size.width), y = (math.random Screen_Size.height)) =>
     enemy = typeof x, y
     touching = false
     for k, v in pairs Driver.objects

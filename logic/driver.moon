@@ -140,6 +140,7 @@ export class Driver
           for k, i in pairs p.equipped_items
             i\pickup p2
           p2.exp = p.exp
+          p2.exp_lerp = p.exp_lerp
           p2.level = p.level
           Driver\removeObject p, false
           Driver\addObject p2, EntityTypes.player
@@ -330,7 +331,7 @@ export class Driver
       --Map\loadMap 1
 
       -- Create a player
-      Objectives\spawn (Player), EntityTypes.player, 0, love.graphics.getWidth! / 2, love.graphics.getHeight! / 2
+      Objectives\spawn (Player), EntityTypes.player, 0, Screen_Size.half_width, Screen_Size.half_height
 
       -- Start game
       Objectives\nextMode!

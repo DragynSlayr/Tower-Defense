@@ -17,7 +17,7 @@ export randomSign = () ->
 
 -- Get a random point on a circle
 -- radius: The radius of the circle
-export getRandomUnitStart = (radius = love.graphics.getHeight! / 3) ->
+export getRandomUnitStart = (radius = Screen_Size.height / 3) ->
   vec = Vector 1, 0
   num = ((math.random 0, 361) / 360) * 2 * math.pi
   vec\rotate num
