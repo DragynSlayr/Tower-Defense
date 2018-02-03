@@ -391,7 +391,9 @@ export class Driver
           love.graphics.pop!
 
           font = Renderer\newFont 30
-          Renderer\drawAlignedMessage ScoreTracker.score .. "\t", 20 * Scale.height, "right", font
+          love.graphics.setFont font
+          love.graphics.setColor 0, 0, 0, 255
+          love.graphics.printf ScoreTracker.score, Screen_Size.width - (100 * Scale.width), (20 * Scale.width) - (font\getHeight! / 2), 90 * Scale.width, "right"
           Renderer\drawAll!
           Objectives\draw!
 
