@@ -133,33 +133,6 @@ export class GameObject
     @position.x = clamp @position.x, Screen_Size.border[1] + radius, Screen_Size.border[3] - radius
     @position.y = clamp @position.y, Screen_Size.border[2] + radius, (Screen_Size.border[4] + Screen_Size.border[2]) - radius
 
-    --TODO: Replace this with global Collision Checker
-    -- @speed = Vector start_speed\getComponents!
-    -- if not @solid
-    --   return
-    -- for k, v in pairs Driver.objects
-    --   for k2, o in pairs v
-    --     if not (@id == EntityTypes.wall and o.id == EntityTypes.wall)
-    --       if not ((@id == EntityTypes.player and o.id == EntityTypes.turret) or (@id == EntityTypes.turret and o.id == EntityTypes.player))
-    --         if o ~= @ and o.solid
-    --           other = o\getHitBox!
-    --           this = @getHitBox!
-    --           if other\contains this
-    --             @position = start
-    --             dist = other\getCollisionDistance this
-    --             dist = math.sqrt math.sqrt math.abs dist
-    --             dist_vec = Vector dist, dist
-    --             if @speed\getLength! > 0
-    --               if @id ~= EntityTypes.player
-    --                 @position\add dist_vec\multiply -1
-    --             if o.speed\getLength! > 0
-    --               if o.id ~= EntityTypes.player
-    --                 o.position\add dist_vec
-    --             if @contact_damage
-    --               o\onCollide @
-    --             if o.contact_damage
-    --               @onCollide o
-
   draw: =>
     love.graphics.push "all"
     old_color = @sprite.color[2]
