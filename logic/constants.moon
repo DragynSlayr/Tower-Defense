@@ -112,9 +112,12 @@ export calcScreen = () ->
 
   export Scale = {}
 
+  -- TODO: Fix this scaling, recheck math
   Scale.width  = Screen_Size.width / 1600
   Scale.height = Screen_Size.height / 900
-  Scale.diag   = math.sqrt((Screen_Size.width * Screen_Size.width) + (Screen_Size.height * Screen_Size.height)) / math.sqrt((1600 * 1600) + (900 *900))
+  a = (Screen_Size.width * Screen_Size.width) + (Screen_Size.height * Screen_Size.height)
+  b = (1600 * 1600) + (900 * 900)
+  Scale.diag   = (math.sqrt a) / (math.sqrt b)
 
   Screen_Size.border = {0, 70 * Scale.height, Screen_Size.width, Screen_Size.height - (140 * Scale.height)}
 
