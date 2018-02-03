@@ -73,6 +73,7 @@ export class Player extends GameObject
 
     @level = 1
     @exp = 0
+    @exp_lerp = @exp
     @next_exp = @calcExp (@level + 1)
 
     @can_shoot = true
@@ -324,6 +325,7 @@ export class Player extends GameObject
       @level += 1
       Upgrade\addPoint 1
       @next_exp = @calcExp @level
+    @exp_lerp = math.min @exp_lerp + (120 * dt), @exp
 
   draw: =>
     if not @alive return
@@ -351,30 +353,49 @@ export class Player extends GameObject
 
       remaining = clamp @elapsed, 0, @turret_cooldown--@turret_timer, 0, @turret_max
       love.graphics.setColor 0, 0, 0, 255
-      love.graphics.rectangle "fill", x_start + Scale.width, love.graphics.getHeight! - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height
+      love.graphics.rectangle "fill", x_start + Scale.width, Screen_Size.height - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height
       love.graphics.setColor 0, 0, 255, 255
       ratio = remaining / @turret_cooldown--@turret_max
       if @charged
         ratio = 1
-      love.graphics.rectangle "fill", x_start + (4 * Scale.width), love.graphics.getHeight! - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height
+      love.graphics.rectangle "fill", x_start + (4 * Scale.width), Screen_Size.height - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height
 
       message = @turret_count .. "/" .. @max_turrets
       Renderer\drawHUDMessage message, (x_start + 205) * Scale.width, Screen_Size.height - (30 * Scale.height), @font
 
+      y_start = Screen_Size.height - (60 * Scale.height)
+
       love.graphics.setColor 0, 0, 0, 255
-      love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (200 * Scale.width), love.graphics.getHeight! - (45 * Scale.height), 400 * Scale.width, 20 * Scale.height
+      love.graphics.rectangle "fill", Screen_Size.half_width - (200 * Scale.width), y_start, 400 * Scale.width, 20 * Scale.height
       love.graphics.setColor 255, 0, 0, 255
       ratio = @health / @max_health
-      love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (197 * Scale.width), love.graphics.getHeight! - (42 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
+      love.graphics.rectangle "fill", Screen_Size.half_width - (197 * Scale.width), y_start + (3 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
       if @armored
         love.graphics.setColor 0, 127, 255, 255
         ratio = @armor / @max_armor
-        love.graphics.rectangle "fill", (love.graphics.getWidth! / 2) - (197 * Scale.width), love.graphics.getHeight! - (42 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
+        love.graphics.rectangle "fill", Screen_Size.half_width - (197 * Scale.width), y_start + (3 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
 
-      Renderer\drawAlignedMessage "Player Health", Screen_Size.height - (57 * Scale.height), nil, @font
+      love.graphics.setColor 0, 0, 0, 255
+      love.graphics.rectangle "fill", Screen_Size.half_width - (200 * Scale.width), y_start + (32 * Scale.height), 400 * Scale.width, 20 * Scale.height
+      love.graphics.setColor 175, 175, 125, 255
+      next_exp = @calcExp (@level + 1)
+      ratio = @exp_lerp / next_exp
+      love.graphics.rectangle "fill", Screen_Size.half_width - (197 * Scale.width), y_start + (35 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
 
-      level_info = "Level: " .. @level .. "\tExp: " .. (math.floor @exp) .. "/" .. (@calcExp (@level + 1))
-      Renderer\drawAlignedMessage level_info, Screen_Size.height - (12 * Scale.height), nil, @font
+      love.graphics.setFont @font
+      love.graphics.setColor 0, 0, 0, 255
+      x_offset = 325 * Scale.width
+
+      limit = (@font\getWidth ".") * 17
+
+      y = y_start + (1.5 * Scale.height)
+      love.graphics.printf "Health", Screen_Size.half_width - x_offset, y, limit, "left"
+      love.graphics.printf @health .. "/" .. @max_health .. " HP", Screen_Size.half_width + (x_offset * 0.75), y, limit, "left"
+
+      y = y_start + (33.5 * Scale.height)
+      love.graphics.printf "Level: " .. @level, Screen_Size.half_width - x_offset, y, limit, "left"
+      love.graphics.printf (math.floor @exp) .. "/" .. (@calcExp (@level + 1)) .. " XP", Screen_Size.half_width + (x_offset * 0.75), y, limit, "left"
+
 
     if SHOW_RANGE
       love.graphics.setColor 0, 255, 255, 255
