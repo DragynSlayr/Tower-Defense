@@ -6,6 +6,7 @@ export class ObjectRenderer
     @font_cache = {}
 
   newFont: (size) =>
+    size = math.floor (size * Scale.diag)
     if not @font_cache[size]
       @font_cache[size] = love.graphics.newFont PATH_PREFIX .. "assets/fonts/lm-r.ttf", size
     return @font_cache[size]

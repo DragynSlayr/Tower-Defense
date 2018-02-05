@@ -24,7 +24,7 @@ export class Sprite
     @height, @width = height, width
 
     -- Scale image
-    @x_scale, @y_scale = scale * Scale.width, scale * Scale.height
+    @x_scale, @y_scale = scale * Scale.diag, scale * Scale.diag
     @scaled_width, @scaled_height = @width * @x_scale, @height * @y_scale
 
     -- Load all images of this Sprite's animation
