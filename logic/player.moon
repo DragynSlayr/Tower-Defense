@@ -361,7 +361,7 @@ export class Player extends GameObject
       love.graphics.rectangle "fill", x_start + (4 * Scale.width), Screen_Size.height - (27 * Scale.height), 194 * ratio * Scale.width, 14 * Scale.height
 
       message = @turret_count .. "/" .. @max_turrets
-      Renderer\drawHUDMessage message, (x_start + 205) * Scale.width, Screen_Size.height - (30 * Scale.height), @font
+      Renderer\drawHUDMessage message, (x_start + 210) * Scale.width, Screen_Size.height - (30 * Scale.height), @font
 
       y_start = Screen_Size.height - (60 * Scale.height)
 
