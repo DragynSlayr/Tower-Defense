@@ -7,7 +7,7 @@ export class ComboBox extends Button
       if option_width > max_width
         max_width = option_width
         max_idx = k
-    super x, y, max_width * 1.2, height, options[max_idx], nil, font
+    super x, y, (max_width * 1.2) / Scale.width, height, options[max_idx], nil, font
 
     @options = options
     @open = false
