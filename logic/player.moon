@@ -33,8 +33,6 @@ export class Player extends GameObject
 
     @range_boost   = 0
     @speed_boost   = 0
-    @missile_timer    = 0
-    @max_missile_time = 5.5
     @speed_range   = @sprite\getBounds!.radius + (150 * Scale.diag)
     @turret_count  = @max_turrets
     @charged       = true
@@ -90,6 +88,12 @@ export class Player extends GameObject
     stats[4] = @max_speed
     stats[5] = @attack_speed
     return stats
+
+  hasItem: (itemType) =>
+    for k, v in pairs @equipped_items
+      if (v.__class == itemType)
+        return true
+    return false
 
   onCollide: (object) =>
     if not @alive return
@@ -225,13 +229,6 @@ export class Player extends GameObject
     for k, i in pairs @equipped_items
       i\update dt
 
-    @missile_timer += dt
-    if @missile_timer >= @max_missile_time
-      @missile_timer = 0
-      if Upgrade.player_special[3]
-        missile = Missile @position.x, @position.y
-        Driver\addObject missile, EntityTypes.bullet
-
     for k, bullet_position in pairs @globes
       bullet_position\rotate dt * 1.25 * math.pi
 
@@ -245,22 +242,10 @@ export class Player extends GameObject
       @elapsed = 0
       @charged = true
 
-    boosted = false
     for k, v in pairs @turret
       if not v.alive
         @num_turrets -= 1
         @turret[k] = nil
-      elseif Upgrade.player_special[2]
-        turret = v\getAttackHitBox!
-        player = @getHitBox!
-        player.radius += v.range / 5
-        if turret\contains player
-          boosted = true
-
-    if boosted
-      @range_boost = @attack_range
-    else
-      @range_boost = 0
 
     @speed_boost = 0
     @attack_timer += dt
@@ -271,7 +256,7 @@ export class Player extends GameObject
         if v.goal_type == GoalTypes.attack
           table.insert filters, EntityTypes.goal
           break
-    if @attack_timer >= @attack_speed-- / (Upgrade.player_stats[5] + 1)
+    if @attack_timer >= @attack_speed
       bullet_speed = Vector 0, 0
       if love.keyboard.isDown Controls.keys.SHOOT_LEFT
         bullet_speed\add (Vector -@bullet_speed, 0)
@@ -282,9 +267,7 @@ export class Player extends GameObject
       if love.keyboard.isDown Controls.keys.SHOOT_DOWN
         bullet_speed\add (Vector 0, @bullet_speed)
       if bullet_speed\getLength! > 0
-        --bullet_speed\add (@speed\multiply 0.5)
         bullet = FilteredBullet @position.x, @position.y, @damage, bullet_speed, filters
-        --ratio = @speed\getLength! / @max_speed
         bullet.max_dist = (@getHitBox!.radius + (2 * (@attack_range + @range_boost)))-- * (math.max 0.5, ratio)
         if @knocking_back
           bullet.sprite = @knock_back_sprite
@@ -351,7 +334,7 @@ export class Player extends GameObject
 
       x_start = (9 * Scale.width)
 
-      remaining = clamp @elapsed, 0, @turret_cooldown--@turret_timer, 0, @turret_max
+      remaining = clamp @elapsed, 0, @turret_cooldown
       love.graphics.setColor 0, 0, 0, 255
       love.graphics.rectangle "fill", x_start + Scale.width, Screen_Size.height - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height
       love.graphics.setColor 0, 0, 255, 255

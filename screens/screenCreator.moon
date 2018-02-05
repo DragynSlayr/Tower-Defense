@@ -226,26 +226,29 @@ export class ScreenCreator
     UI\add title
 
     names = {"Player", "Turret"}
-    stats = {{"Health", "Range", "Damage", "Speed", "Rate of Fire", "Special"}, {"Health", "Range", "Damage", "Cooldown", "Attack Delay", "Special"}}
-    num_stats = 6
-    trees = {Upgrade_Trees.player_stats, Upgrade_Trees.turret_stats, Upgrade_Trees.player_special, Upgrade_Trees.turret_special}
-    specials = {{"Life Steal", "Range Boost", "Missile", "Speed Boost"}, {"Extra Turret", "Shield", "Multiple Targets", "Burst"}}
-    num_specials = 4
-    descriptions = {
-      {"Recover life from hit enemies", "Double player range near turret", "A homing missile spawns periodically", "Player speed increases for every enemy near them"},
-      {"Up to 2 turrets can be placed", "Allies receive a temporary shield when a turret gets to half health", "Turret can hit more than a single enemy", "A barrage of bullets is fired when placed"}
+    stats = {
+      {"Health", "Range", "Damage", "Speed", "Rate of Fire"},--, "Special"},
+      {"Health", "Range", "Damage", "Cooldown", "Attack Delay"}--, "Special"}
     }
-    width = 0
+    num_stats = 5
+    trees = {Upgrade_Trees.player_stats, Upgrade_Trees.turret_stats}--, Upgrade_Trees.player_special, Upgrade_Trees.turret_special}
+    --specials = {{"Life Steal", "Range Boost", "Missile", "Speed Boost"}, {"Extra Turret", "Shield", "Multiple Targets", "Burst"}}
+    --num_specials = 4
+    --descriptions = {
+    --  {"Recover life from hit enemies", "Double player range near turret", "A homing missile spawns periodically", "Player speed increases for every enemy near them"},
+    --  {"Up to 2 turrets can be placed", "Allies receive a temporary shield when a turret gets to half health", "Turret can hit more than a single enemy", "A barrage of bullets is fired when placed"}
+    --}
+    --width = 0
     font = Renderer\newFont 15
     font2 = Renderer\newFont 20
 
-    for k, v in pairs specials
-      for k2, v2 in pairs v
-        w = font\getWidth v2
-        if w >= width
-          width = w
+    --for k, v in pairs specials
+    --  for k2, v2 in pairs v
+    --    w = font\getWidth v2
+    --    if w >= width
+    --      width = w
 
-    width *= 1.1
+    --width *= 1.1
 
     for i = 1, 2
       mod = i - 1
@@ -256,71 +259,71 @@ export class ScreenCreator
       for j = 1, num_stats
         y = (25 + (j * 65) + (425 * mod)) * Scale.height
         UI\add Text (0.5 * Screen_Size.width) - (400 * Scale.width), y, stats[i][j], (Renderer\newFont 20)
-        if j ~= num_stats
-          stats_table = Upgrade.player_stats
-          current_stats = Stats.player
-          if i == 2
-            stats_table = Upgrade.turret_stats
-            current_stats = Stats.turret
-          tt = Tooltip (0.5 * Screen_Size.width) + (375 * Scale.width), y, (() =>
-            level = stats_table[j]
-            if level == Upgrade.max_skill
-              return "Upgrade Complete!"
+        --if j ~= num_stats
+        stats_table = Upgrade.player_stats
+        current_stats = Stats.player
+        if i == 2
+          stats_table = Upgrade.turret_stats
+          current_stats = Stats.turret
+        tt = Tooltip (0.5 * Screen_Size.width) + (375 * Scale.width), y, (() =>
+          level = stats_table[j]
+          if level == Upgrade.max_skill
+            return "Upgrade Complete!"
+          else
+            modifier = 0
+            if level > 0
+              modifier = Upgrade.amount[i][j][level]
+
+            amount = 0
+            amount = Upgrade.amount[i][j][level + 1] - modifier
+            --if i == 1 and j == 5
+            --if j == 5
+            --  amount /= stats_table[j] + 1
+            --else
+            amount /= current_stats[j]
+            amount *= 100
+
+            message = "  " .. names[i] .. "  " .. stats[i][j] .. "  by  " .. (string.format "%d", math.floor math.abs amount) .. "%"
+            if amount < 0
+              message = "Decrease" .. message
             else
-              modifier = 0
-              if level > 0
-                modifier = Upgrade.amount[i][j][level]
-
-              amount = 0
-              amount = Upgrade.amount[i][j][level + 1] - modifier
-              --if i == 1 and j == 5
-              --if j == 5
-              --  amount /= stats_table[j] + 1
-              --else
-              amount /= current_stats[j]
-              amount *= 100
-
-              message = "  " .. names[i] .. "  " .. stats[i][j] .. "  by  " .. (string.format "%d", math.floor math.abs amount) .. "%"
-              if amount < 0
-                message = "Decrease" .. message
-              else
-                message = "Increase" .. message
-              return message
-          ), font2
-          ttb = TooltipBox Screen_Size.half_width - (250 * Scale.width), y + (0 * Scale.height), 100 * Scale.width, 40 * Scale.height, (() =>
-            if not @index
-              @index = 1
-            return Upgrade.upgrade_cost[@index]
-          )
-          b = TooltipButton (0.5 * Screen_Size.width) + (340 * Scale.width), y, 50, 50, "+", (() ->
-            result = Upgrade\addSkill trees[i], j
-            if result
-              if ttb.index < #Upgrade.upgrade_cost
-                ttb.index += 1
-                ttb.x += ttb.width
-              else
-                ttb.blocked = true
-          ), nil, {tt, ttb}
-          UI\add b
-          UI\add tt
-          UI\add ttb
-        else
-          x = (0.5 * Screen_Size.width) - (260 * Scale.width)
-          for k = 1, num_specials
-            special_table = Upgrade.player_special
-            if i == 2
-              special_table = Upgrade.turret_special
-            tt = Tooltip x - ((font\getWidth descriptions[i][k]) / 2), y - (30 * Scale.height), (() =>
-              return descriptions[i][k]
-            ), font
-            b = TooltipButton x, y, width + 10, 30, specials[i][k], (() =>
-              result = Upgrade\addSkill trees[2 + i], k
-              @active = not result
-            ), font, {tt}
-            x += b.width + (10 * Scale.width)
-            UI\add b
-            UI\add tt
-            UI\add tt2
+              message = "Increase" .. message
+            return message
+        ), font2
+        ttb = TooltipBox Screen_Size.half_width - (250 * Scale.width), y + (0 * Scale.height), 100 * Scale.width, 40 * Scale.height, (() =>
+          if not @index
+            @index = 1
+          return Upgrade.upgrade_cost[@index]
+        )
+        b = TooltipButton (0.5 * Screen_Size.width) + (340 * Scale.width), y, 50, 50, "+", (() ->
+          result = Upgrade\addSkill trees[i], j
+          if result
+            if ttb.index < #Upgrade.upgrade_cost
+              ttb.index += 1
+              ttb.x += ttb.width
+            else
+              ttb.blocked = true
+        ), nil, {tt, ttb}
+        UI\add b
+        UI\add tt
+        UI\add ttb
+        --else
+        --  x = (0.5 * Screen_Size.width) - (260 * Scale.width)
+        --  for k = 1, num_specials
+        --    special_table = Upgrade.player_special
+        --    if i == 2
+        --      special_table = Upgrade.turret_special
+        --    tt = Tooltip x - ((font\getWidth descriptions[i][k]) / 2), y - (30 * Scale.height), (() =>
+        --      return descriptions[i][k]
+        --    ), font
+        --    b = TooltipButton x, y, width + 10, 30, specials[i][k], (() =>
+        --      result = Upgrade\addSkill trees[2 + i], k
+        --      @active = not result
+        --    ), font, {tt}
+        --    x += b.width + (10 * Scale.width)
+        --    UI\add b
+        --    UI\add tt
+        --    UI\add tt2
 
     --Button Screen_Size.width - (370 * Scale.width), Screen_Size.height - (32 * Scale.height)
 

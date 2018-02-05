@@ -22,6 +22,7 @@ export class ItemPoolHandler
       ArmorPassive,
       CurryPassive,
       TrailPassive,
+      MissilePassive,
       ExtraLifePassive,
       DoubleShotPassive,
       RangeBoostPassive,
@@ -31,7 +32,8 @@ export class ItemPoolHandler
       HealthBoostPassive,
       DamageAbsorbPassive,
       MovingTurretPassive,
-      DamageReflectPassive
+      DamageReflectPassive,
+      TurretRangeBoostPassive
     }
     @generatePool!
 
@@ -49,7 +51,8 @@ export class ItemPoolHandler
       new_items[i] = {}
     for idx, item in pairs @items
       for i = item.lowest_rarity, item.highest_rarity
-        table.insert new_items[i], item
+        for j = 1, item.probability
+          table.insert new_items[i], item
     @items = new_items
 
   getItem: =>

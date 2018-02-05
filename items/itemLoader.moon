@@ -39,6 +39,7 @@ require "items.bombPassive"
 require "items.armorPassive"
 require "items.curryPassive"
 require "items.trailPassive"
+require "items.missilePassive"
 require "items.extraLifePassive"
 require "items.doubleShotPassive"
 require "items.rangeBoostPassive"
@@ -49,6 +50,7 @@ require "items.healthBoostPassive"
 require "items.damageAbsorbPassive"
 require "items.movingTurretPassive"
 require "items.damageReflectPassive"
+require "items.turretRangeBoostPassive"
 
 --+------------------+--
 --| Depends on items |--

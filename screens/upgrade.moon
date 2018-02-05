@@ -55,18 +55,18 @@ export class UpgradeScreen extends Screen
             @turret_stats[idx] += 1
             Stats.turret[idx] = Base_Stats.turret[idx] + (@amount[2][idx][@turret_stats[idx]])--(@turret_stats[idx] * @amount[2][idx])
             success = true
-      when Upgrade_Trees.player_special
-        if not @player_special[idx]
-          if @skill_points >= 5
-            @player_special[idx] = true
-            @skill_points -= 5
-            success = true
-      when Upgrade_Trees.turret_special
-        if not @turret_special[idx]
-          if @skill_points >= 5
-            @turret_special[idx] = true
-            @skill_points -= 5
-            success = true
+      --when Upgrade_Trees.player_special
+      --  if not @player_special[idx]
+      --    if @skill_points >= 5
+      --      @player_special[idx] = true
+      --      @skill_points -= 5
+      --      success = true
+      --when Upgrade_Trees.turret_special
+      --  if not @turret_special[idx]
+      --    if @skill_points >= 5
+      --      @turret_special[idx] = true
+      --      @skill_points -= 5
+      --      success = true
     return success
 
   draw: =>

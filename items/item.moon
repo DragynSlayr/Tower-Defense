@@ -1,6 +1,7 @@
 export class Item extends GameObject
   @lowest_rarity = 1
   @highest_rarity = 5
+  @probability = 1
   new: (sprite) =>
     super 0, 0, sprite
     @item_type = nil

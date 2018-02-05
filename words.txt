@@ -107,6 +107,7 @@ Map
 MapCreator
 Missile
 MissileActive
+MissilePassive
 Mode
 ModeTypes
 MoltenCoreActive
@@ -176,6 +177,7 @@ Trie
 Turret
 TurretEnemy
 TurretMissile
+TurretRangeBoostPassive
 TurretSlagPassive
 UI
 UIElement
@@ -431,6 +433,7 @@ exists
 exit_button
 exp
 exp_given
+exp_lerp
 export
 extends
 factor
@@ -522,6 +525,7 @@ half_height
 half_width
 hasChild
 hasCurve
+hasItem
 hasNode
 hasWord
 has_character_limit
@@ -578,6 +582,7 @@ item_drop_chance
 item_grid
 item_type
 items
+j
 k
 k2
 k3
@@ -610,7 +615,6 @@ lengthof
 letter
 level
 level_count
-level_info
 life_time
 life_time_range
 limit
@@ -650,7 +654,6 @@ max_depth
 max_dist
 max_health
 max_height
-max_missile_time
 max_particles
 max_rows
 max_saved
@@ -667,7 +670,6 @@ message1
 message2
 min
 missile
-missile_timer
 mode
 mode_type
 modes
@@ -935,7 +937,6 @@ spawn_num
 spawn_time
 spawner
 spawnerChance
-special_table
 spectrum
 speed
 speed_add
@@ -1068,6 +1069,7 @@ writeKey
 x
 xOn
 x_border
+x_offset
 x_scale
 x_shear
 x_space
