@@ -210,6 +210,9 @@ export class Player extends GameObject
   update: (dt) =>
     if not @alive return
 
+    for k, i in pairs @equipped_items
+      i\update dt
+
     if @keys_pushed == 0 or @movement_blocked
       @speed = Vector 0, 0
       super dt
@@ -225,9 +228,6 @@ export class Player extends GameObject
       @speed = start
 
     @lock_sprite\update dt
-
-    for k, i in pairs @equipped_items
-      i\update dt
 
     for k, bullet_position in pairs @globes
       bullet_position\rotate dt * 1.25 * math.pi
@@ -278,17 +278,6 @@ export class Player extends GameObject
 
     if attacked
       @attack_timer = 0
-
-    for k2, filter in pairs filters
-      if Driver.objects[filter]
-        for k, v in pairs Driver.objects[filter]
-          enemy = v\getHitBox!
-          player = @getHitBox!
-          player.radius += @attack_range + @range_boost
-          if enemy\contains player
-            if Upgrade.player_special[4]
-              @speed_boost += @max_speed / 4
-    @speed_boost = math.min @speed_boost, @max_speed
 
     if Driver.objects[EntityTypes.goal]
       for k, v in pairs Driver.objects[EntityTypes.goal]
@@ -373,7 +362,8 @@ export class Player extends GameObject
 
       y = y_start + (1.5 * Scale.height)
       love.graphics.printf "Health", Screen_Size.half_width - x_offset, y, limit, "left"
-      love.graphics.printf @health .. "/" .. @max_health .. " HP", Screen_Size.half_width + (x_offset * 0.75), y, limit, "left"
+      health = string.format "%.2f/%.2f HP", @health, @max_health
+      love.graphics.printf health, Screen_Size.half_width + (x_offset * 0.75), y, limit, "left"
 
       y = y_start + (33.5 * Scale.height)
       love.graphics.printf "Level: " .. @level, Screen_Size.half_width - x_offset, y, limit, "left"

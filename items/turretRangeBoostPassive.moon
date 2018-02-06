@@ -19,5 +19,5 @@ export class TurretRangeBoostPassive extends PassiveItem
       else
         player.range_boost = 0
     super sprite, 0, effect
-    @name = "High ground"
+    @name = "High Ground"
     @description = "Double range near turret"

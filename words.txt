@@ -97,6 +97,7 @@ Item_Rarity
 Item_Rarity_Text
 Jitter
 KEY_CHANGED
+LifeStealPassive
 LinearProjectile
 LinkedList
 MOVE_DOWN
@@ -157,6 +158,7 @@ ShieldActive
 Sound
 SpawnerEnemy
 SpeedBoostPassive
+SpeedBoostSpecialPassive
 SplitShot
 Sprite
 Stack

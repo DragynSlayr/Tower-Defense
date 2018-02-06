@@ -10,8 +10,8 @@ export class PlayerBullet extends HomingProjectile
 
   kill: =>
     super!
-    if Upgrade.player_special[1]
-      if Driver.objects[EntityTypes.player]
-        for k, p in pairs Driver.objects[EntityTypes.player]
+    if Driver.objects[EntityTypes.player]
+      for k, p in pairs Driver.objects[EntityTypes.player]
+        if p\hasItem (LifeStealPassive)
           p.health += Stats.player[3] * 0.01
           p.health = math.min p.health, p.max_health

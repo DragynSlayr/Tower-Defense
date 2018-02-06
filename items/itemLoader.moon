@@ -41,6 +41,7 @@ require "items.curryPassive"
 require "items.trailPassive"
 require "items.missilePassive"
 require "items.extraLifePassive"
+require "items.lifeStealPassive"
 require "items.doubleShotPassive"
 require "items.rangeBoostPassive"
 require "items.speedBoostPassive"
@@ -51,6 +52,7 @@ require "items.damageAbsorbPassive"
 require "items.movingTurretPassive"
 require "items.damageReflectPassive"
 require "items.turretRangeBoostPassive"
+require "items.speedBoostSpecialPassive"
 
 --+------------------+--
 --| Depends on items |--

@@ -24,6 +24,7 @@ export class ItemPoolHandler
       TrailPassive,
       MissilePassive,
       ExtraLifePassive,
+      LifeStealPassive,
       DoubleShotPassive,
       RangeBoostPassive,
       SpeedBoostPassive,
@@ -33,7 +34,8 @@ export class ItemPoolHandler
       DamageAbsorbPassive,
       MovingTurretPassive,
       DamageReflectPassive,
-      TurretRangeBoostPassive
+      TurretRangeBoostPassive,
+      SpeedBoostSpecialPassive
     }
     @generatePool!
 
