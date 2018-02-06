@@ -168,7 +168,7 @@ export class ScreenCreator
     UI\add text
 
     sprite = Sprite "turret/turret.tga", 34, 16, 2, 50 / 34
-    x = Screen_Size.width * 0.90--0.80
+    x = Screen_Size.width * 0.90
     y = Screen_Size.height * 0.4
     icon = Icon x, y, sprite
     UI\add icon
@@ -219,7 +219,7 @@ export class ScreenCreator
   createUpgradeMenu: =>
     UI\set_screen Screen_State.upgrade
 
-    bg = Background {255, 255, 255, 255}--{8, 167, 0, 255}
+    bg = Background {255, 255, 255, 255}
     UI\add bg
 
     title = Text Screen_Size.width / 2, 25 * Scale.height, "Upgrade"
@@ -227,8 +227,8 @@ export class ScreenCreator
 
     names = {"Player", "Turret"}
     stats = {
-      {"Health", "Range", "Damage", "Speed", "Rate of Fire"},--, "Special"},
-      {"Health", "Range", "Damage", "Cooldown", "Attack Delay"}--, "Special"}
+      {"Health", "Range", "Damage", "Speed", "Rate of Fire"}
+      {"Health", "Range", "Damage", "Cooldown", "Attack Delay"}
     }
     num_stats = 5
     trees = {Upgrade_Trees.player_stats, Upgrade_Trees.turret_stats}--, Upgrade_Trees.player_special, Upgrade_Trees.turret_special}
@@ -242,14 +242,6 @@ export class ScreenCreator
     font = Renderer\newFont 15
     font2 = Renderer\newFont 20
 
-    --for k, v in pairs specials
-    --  for k2, v2 in pairs v
-    --    w = font\getWidth v2
-    --    if w >= width
-    --      width = w
-
-    --width *= 1.1
-
     for i = 1, 2
       mod = i - 1
       y = Screen_Size.height / 4
@@ -259,7 +251,6 @@ export class ScreenCreator
       for j = 1, num_stats
         y = (25 + (j * 65) + (425 * mod)) * Scale.height
         UI\add Text (0.5 * Screen_Size.width) - (400 * Scale.width), y, stats[i][j], (Renderer\newFont 20)
-        --if j ~= num_stats
         stats_table = Upgrade.player_stats
         current_stats = Stats.player
         if i == 2
@@ -276,10 +267,6 @@ export class ScreenCreator
 
             amount = 0
             amount = Upgrade.amount[i][j][level + 1] - modifier
-            --if i == 1 and j == 5
-            --if j == 5
-            --  amount /= stats_table[j] + 1
-            --else
             amount /= current_stats[j]
             amount *= 100
 
@@ -307,25 +294,6 @@ export class ScreenCreator
         UI\add b
         UI\add tt
         UI\add ttb
-        --else
-        --  x = (0.5 * Screen_Size.width) - (260 * Scale.width)
-        --  for k = 1, num_specials
-        --    special_table = Upgrade.player_special
-        --    if i == 2
-        --      special_table = Upgrade.turret_special
-        --    tt = Tooltip x - ((font\getWidth descriptions[i][k]) / 2), y - (30 * Scale.height), (() =>
-        --      return descriptions[i][k]
-        --    ), font
-        --    b = TooltipButton x, y, width + 10, 30, specials[i][k], (() =>
-        --      result = Upgrade\addSkill trees[2 + i], k
-        --      @active = not result
-        --    ), font, {tt}
-        --    x += b.width + (10 * Scale.width)
-        --    UI\add b
-        --    UI\add tt
-        --    UI\add tt2
-
-    --Button Screen_Size.width - (370 * Scale.width), Screen_Size.height - (32 * Scale.height)
 
     inventory_button = Button Screen_Size.width - (150 * Scale.width), Screen_Size.height - (32 * Scale.height), 200, 45, "Inventory", () ->
       UI\set_screen Screen_State.inventory
