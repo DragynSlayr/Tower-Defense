@@ -67,6 +67,7 @@ EnemyPoisonParticle
 EnemyTypes
 EntityTypes
 ExtraLifePassive
+ExtraTurretPassive
 FakeFindGoal
 FilteredBullet
 FindGoal
@@ -179,7 +180,10 @@ Trie
 Turret
 TurretEnemy
 TurretMissile
+TurretMissilePassive
+TurretMultiTargetPassive
 TurretRangeBoostPassive
+TurretShieldPassive
 TurretSlagPassive
 UI
 UIElement
@@ -691,6 +695,7 @@ moving_particles
 msg
 multiplier
 multiply
+multitarget
 n
 name
 names
@@ -732,6 +737,7 @@ objects
 off_time
 old_center
 old_color
+old_num
 old_sprite
 old_trail_delay
 old_x
