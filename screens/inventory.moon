@@ -74,5 +74,5 @@ export class InventoryScreen extends Screen
     for k, v in pairs x
       love.graphics.setColor colors[k][1], colors[k][2], colors[k][3], colors[k][4]
       love.graphics.rectangle "line", (v * Screen_Size.width) - ((60 + (15 * (k - 1))) * Scale.width), y, (120 + (30 * (k - 1))) * Scale.width, 40 * Scale.height
-    Renderer\drawHUDMessage "x " .. @boxes, 175 * Scale.width, Screen_Size.height - (100 * Scale.height), (Renderer\newFont 20)
+    Renderer\drawHUDMessage "x" .. @boxes, 175 * Scale.width, Screen_Size.height - (100 * Scale.height), (Renderer\newFont 20)
     love.graphics.pop!
