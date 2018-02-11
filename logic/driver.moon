@@ -89,6 +89,8 @@ export class Driver
 
       export KEY_CHANGED = true
 
+      --export KEY_PUSHED = false
+
     addObject: (object, id) =>
       --if @objects[id]
       @objects[id][#@objects[id] + 1] = object
@@ -170,6 +172,7 @@ export class Driver
       love.event.quit 0
 
     keypressed: (key, scancode, isrepeat) ->
+      --export KEY_PUSHED = true
       if key == "printscreen"
         screenshot = love.graphics.newScreenshot true
         screenshot\encode "png", "screenshots/" .. os.time! .. ".png"
@@ -204,6 +207,13 @@ export class Driver
               GameOver\keypressed key, scancode, isrepeat
 
     keyreleased: (key) ->
+      --pushed = false
+      --for k, v in pairs Controls.keys
+      --  print k, v
+      --  if love.keyboard.isDown v
+      --    pushed = true
+      --    break
+      --export KEY_PUSHED = pushed
       if DEBUG_MENU
         Debugger\keyreleased key
       else
@@ -340,6 +350,8 @@ export class Driver
       Driver.restart!
 
     update: (dt) ->
+      --if not KEY_PUSHED
+      --  return
       if DEBUG_MENU
         Debugger\update dt
       else
