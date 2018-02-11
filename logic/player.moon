@@ -26,8 +26,6 @@ export class Player extends GameObject
 
     @can_place = true
     @max_turrets = 1
-    if Upgrade.turret_special[1]
-      @max_turrets = 2
     @num_turrets = 0
     @turret = {}
 
@@ -150,18 +148,6 @@ export class Player extends GameObject
         turret = BasicTurret @position.x, @position.y, @turret_cooldown
         Driver\addObject turret, EntityTypes.turret
         MusicPlayer\play @place_sound
-
-        if Upgrade.turret_special[4]
-          num_missiles = 12
-          angle = 2 * math.pi * (1 / num_missiles)
-          point = Vector @getHitBox!.radius + (20 * Scale.diag), 0
-          for i = 1, num_missiles
-            missile = TurretMissile @position.x + point.x, @position.y + point.y
-            missile\setTurret turret
-            if (i % 2) == 0
-              missile.rotation_direction = -1
-            Driver\addObject missile, EntityTypes.bullet
-            point\rotate angle
 
         if @num_turrets < @max_turrets
           @num_turrets += 1
@@ -349,7 +335,7 @@ export class Player extends GameObject
 
       love.graphics.setColor 0, 0, 0, 255
       love.graphics.rectangle "fill", Screen_Size.half_width - (200 * Scale.width), y_start + (32 * Scale.height), 400 * Scale.width, 20 * Scale.height
-      love.graphics.setColor 175, 175, 125, 255
+      love.graphics.setColor 255, 235, 4, 255
       next_exp = @calcExp (@level + 1)
       ratio = @exp_lerp / next_exp
       love.graphics.rectangle "fill", Screen_Size.half_width - (197 * Scale.width), y_start + (35 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height

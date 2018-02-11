@@ -47,12 +47,16 @@ require "items.rangeBoostPassive"
 require "items.speedBoostPassive"
 require "items.turretSlagPassive"
 require "items.damageBoostPassive"
+require "items.extraTurretPassive"
 require "items.healthBoostPassive"
 require "items.damageAbsorbPassive"
 require "items.movingTurretPassive"
+require "items.turretShieldPassive"
 require "items.damageReflectPassive"
+require "items.turretMissilePassive"
 require "items.turretRangeBoostPassive"
 require "items.speedBoostSpecialPassive"
+require "items.turretMultiTargetPassive"
 
 --+------------------+--
 --| Depends on items |--

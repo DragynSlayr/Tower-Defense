@@ -231,14 +231,7 @@ export class ScreenCreator
       {"Health", "Range", "Damage", "Cooldown", "Attack Delay"}
     }
     num_stats = 5
-    trees = {Upgrade_Trees.player_stats, Upgrade_Trees.turret_stats}--, Upgrade_Trees.player_special, Upgrade_Trees.turret_special}
-    --specials = {{"Life Steal", "Range Boost", "Missile", "Speed Boost"}, {"Extra Turret", "Shield", "Multiple Targets", "Burst"}}
-    --num_specials = 4
-    --descriptions = {
-    --  {"Recover life from hit enemies", "Double player range near turret", "A homing missile spawns periodically", "Player speed increases for every enemy near them"},
-    --  {"Up to 2 turrets can be placed", "Allies receive a temporary shield when a turret gets to half health", "Turret can hit more than a single enemy", "A barrage of bullets is fired when placed"}
-    --}
-    --width = 0
+    trees = {Upgrade_Trees.player_stats, Upgrade_Trees.turret_stats}
     font = Renderer\newFont 15
     font2 = Renderer\newFont 20
 
@@ -369,7 +362,7 @@ export class ScreenCreator
       Objectives\nextMode!
     UI\add continue_button
 
-    text = Text Screen_Size.width * 0.43, (Screen_Size.height * 0.8) + (75 * Scale.height), "Item Rarity", (Renderer\newFont 30)
+    text = Text Screen_Size.width * 0.445, (Screen_Size.height * 0.8) + (75 * Scale.height), "Item Rarity", (Renderer\newFont 30)
     UI\add text
 
     sprite = Sprite "ui/icons/arrow.tga", 8, 40, 1, 10

@@ -20,6 +20,8 @@ export class Turret extends GameObject
 
     @sprite\setShader love.graphics.newShader "shaders/health.fs"
 
+    @multitarget = false
+
   getStats: =>
     stats = {}
     stats[1] = @max_health
@@ -41,23 +43,10 @@ export class Turret extends GameObject
     @sprite.shader\send "health", @health / @max_health
     @sprite.should_shade = Objectives.shader == nil
     super dt
-    if Upgrade.turret_special[2]
-      if @health <= (@max_health / 2) and @shield_available
-        @shield_available = false
-        if Driver.objects[EntityTypes.turret]
-          for k, t in pairs Driver.objects[EntityTypes.turret]
-            t.shielded = true
-        if Driver.objects[EntityTypes.player]
-          for k, v in pairs Driver.objects[EntityTypes.player]
-            v.shielded = true
-        if Driver.objects[EntityTypes.goal]
-          for k, v in pairs Driver.objects[EntityTypes.goal]
-            if v.goal_type == GoalTypes.defend
-              v.shielded = true
     attacked = false
     @attack_timer += dt
     if @attack_timer >= @attack_speed
-      if Upgrade.turret_special[3]
+      if @multitarget
         filters = {EntityTypes.enemy, EntityTypes.boss}
         for k2, filter in pairs filters
           if Driver.objects[filter]
@@ -110,15 +99,6 @@ export class Turret extends GameObject
         if dist\getLength! < closest_distance
           closest_distance = dist\getLength!
           closest = v
-    --if Driver.objects[EntityTypes.goal]
-      --for k, v in pairs Driver.objects[EntityTypes.goal]
-        --if v.goal_type == GoalTypes.tesseract
-          --turret = v\getHitBox!
-          --enemy = @getAttackHitBox!
-          --dist = Vector enemy.center.x - turret.center.x, enemy.center.y - turret.center.y
-          --if dist\getLength! < closest_distance
-            --closest_distance = dist\getLength!
-            --closest = v
     @target = closest
 
   draw: =>
