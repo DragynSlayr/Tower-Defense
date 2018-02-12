@@ -236,13 +236,12 @@ export class ScreenCreator
     font2 = Renderer\newFont 20
 
     for i = 1, 2
-      mod = i - 1
-      y = Screen_Size.height / 4
-      space = 425 * Scale.height
-      UI\add Text (90 - (5 * mod)) * Scale.width, y + (space * mod), names[i], (Renderer\newFont 30)
+      start_y = (Screen_Size.height / 3) * i
+      UI\add Text Screen_Size.width * 0.125, start_y, names[i], (Renderer\newFont 30)
+      start_y -= (65 * 2) * Scale.height
 
       for j = 1, num_stats
-        y = (25 + (j * 65) + (425 * mod)) * Scale.height
+        y = start_y + (((j - 1) * 65) * Scale.height)
         UI\add Text (0.5 * Screen_Size.width) - (400 * Scale.width), y, stats[i][j], (Renderer\newFont 20)
         stats_table = Upgrade.player_stats
         current_stats = Stats.player
@@ -293,17 +292,10 @@ export class ScreenCreator
       Driver.game_state = Game_State.inventory
     UI\add inventory_button
 
-    continue_button = Button Screen_Size.width - (150 * Scale.width), Screen_Size.height - (32 * Scale.height), 200, 45, "Continue", () ->
-      UI\set_screen Screen_State.none
-      Driver.game_state = Game_State.playing
-      Driver\respawnPlayers!
-      Objectives\nextMode!
-    --UI\add continue_button
-
   createInventoryMenu: =>
     UI\set_screen Screen_State.inventory
 
-    bg = Background {255, 255, 255, 255}--{8, 167, 0, 255}
+    bg = Background {255, 255, 255, 255}
     UI\add bg
 
     title = Text Screen_Size.width / 2, 25 * Scale.height, "Inventory"

@@ -45,14 +45,14 @@ export class UpgradeScreen extends Screen
           if @skill_points >= @upgrade_cost[@player_stats[idx] + 1]
             @skill_points -= @upgrade_cost[@player_stats[idx] + 1]
             @player_stats[idx] += 1
-            Stats.player[idx] = Base_Stats.player[idx] + (@amount[1][idx][@player_stats[idx]])--(@player_stats[idx] * @amount[1][idx])
+            Stats.player[idx] = Base_Stats.player[idx] + (@amount[1][idx][@player_stats[idx]])
             return true
       when Upgrade_Trees.turret_stats
         if @turret_stats[idx] < @max_skill
           if @skill_points >= @upgrade_cost[@turret_stats[idx] + 1]
             @skill_points -= @upgrade_cost[@turret_stats[idx] + 1]
             @turret_stats[idx] += 1
-            Stats.turret[idx] = Base_Stats.turret[idx] + (@amount[2][idx][@turret_stats[idx]])--(@turret_stats[idx] * @amount[2][idx])
+            Stats.turret[idx] = Base_Stats.turret[idx] + (@amount[2][idx][@turret_stats[idx]])
             return true
     return false
 
@@ -62,7 +62,7 @@ export class UpgradeScreen extends Screen
       for i = 1, #@player_stats
         height = 40 * Scale.height
         width = 600 * Scale.width
-        y = (25 * Scale.height) + (i * 65 * Scale.height) - (height / 2) + (425 * j * Scale.height)
+        y = ((Screen_Size.height / 3) * (j + 1)) - (150 * Scale.height) + (((i - 1) * 65) * Scale.height)
         x = (0.5 * Screen_Size.width) - (width / 2)
         ratio = @player_stats[i] / @max_skill
         if j == 1
