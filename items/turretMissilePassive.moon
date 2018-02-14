@@ -2,7 +2,6 @@ export class TurretMissilePassive extends PassiveItem
   @lowest_rarity = 5
   new: (rarity) =>
     @rarity = rarity
-    -- TODO: This sprite needs work
     sprite = Sprite "item/turretMissilePassive.tga", 32, 32, 1, 1.75
     @old_num = 0
     @num_missiles = 12
