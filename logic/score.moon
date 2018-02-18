@@ -29,6 +29,8 @@ export class ScoreArray
       return node
 
   sort: =>
+    if @sorted
+      return
     for i = 1, #@elements - 1
       max = i
       for j = i + 1, #@elements
