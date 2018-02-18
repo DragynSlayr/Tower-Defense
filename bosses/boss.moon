@@ -6,3 +6,4 @@ export class Boss extends GameObject
 
     @bossType = nil
     @contact_damage = true
+    @solid = false

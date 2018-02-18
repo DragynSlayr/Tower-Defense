@@ -33,10 +33,11 @@ export class CollisionChecker
       b = collision[2]
       a.position = a.last_position
       b.position = b.last_position
-      if a.speed\getLength! > 0
-        a.position\add (a.speed\multiply dt)
-      if b.speed\getLength! > 0
-        b.position\add (b.speed\multiply (-1 * dt))
+      if a.solid and b.solid
+        if a.speed\getLength! > 0
+          a.position\add (a.speed\multiply dt)
+        if b.speed\getLength! > 0
+          b.position\add (b.speed\multiply (-1 * dt))
       if a.contact_damage
         b\onCollide a
       if b.contact_damage
