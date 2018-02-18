@@ -7,8 +7,8 @@ export class BossMode extends Mode
 
   resetBosses: =>
     bosses = {
-      --BossTest,
-      --BossVyder,
+      BossTest,
+      BossVyder,
       BossSerpent
     }
     shuffle bosses
