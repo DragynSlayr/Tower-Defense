@@ -16,16 +16,14 @@ export class ItemGrid extends UIElement
     for k, v in pairs @items
       if item.name == v.item.name
         if item.rarity > v.item.rarity
-          if Driver.objects[EntityTypes.player]
-            for k2, p in pairs Driver.objects[EntityTypes.player]
-              v.item\unequip p
+          for k2, p in pairs Driver.objects[EntityTypes.player]
+            v.item\unequip p
           new_item = ItemFrame v.x + (v.width / 2), v.y + (v.width / 2), item
           new_item.draw_layer = v.draw_layer
           new_item.usable = false
           @items[k] = new_item
-          if Driver.objects[EntityTypes.player]
-            for k2, p in pairs Driver.objects[EntityTypes.player]
-              item\pickup p
+          for k2, p in pairs Driver.objects[EntityTypes.player]
+            item\pickup p
         return
     length = #@items
     x = @x + (@col_idx * ((@box_size + @spacing) * Scale.width))
@@ -42,9 +40,8 @@ export class ItemGrid extends UIElement
         @col_idx = 0
         @row_idx = 0
         @layer_idx += 1
-    if Driver.objects[EntityTypes.player]
-      for k, p in pairs Driver.objects[EntityTypes.player]
-        item\pickup p
+    for k, p in pairs Driver.objects[EntityTypes.player]
+      item\pickup p
 
   nextLayer: =>
     if @current_layer + 1 <= @layer_idx

@@ -49,13 +49,10 @@ export class TurretMissile extends HomingProjectile
 
   findTarget: =>
     targets = {}
-    if Driver.objects[EntityTypes.enemy]
-      targets = concatTables targets, Driver.objects[EntityTypes.enemy]
-    if Driver.objects[EntityTypes.boss]
-      targets = concatTables targets, Driver.objects[EntityTypes.boss]
-    if Driver.objects[EntityTypes.goal]
-      goals = {GoalTypes.attack, GoalTypes.capture}
-      for k, g in pairs Driver.objects[EntityTypes.goal]
-        if tableContains goals, g.goal_type
-          table.insert targets, g
+    targets = concatTables targets, Driver.objects[EntityTypes.enemy]
+    targets = concatTables targets, Driver.objects[EntityTypes.boss]
+    goals = {GoalTypes.attack, GoalTypes.capture}
+    for k, g in pairs Driver.objects[EntityTypes.goal]
+      if tableContains goals, g.goal_type
+        table.insert targets, g
     return pick targets

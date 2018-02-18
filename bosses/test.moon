@@ -17,11 +17,10 @@ export class BossTest extends Boss
 
     @shader = love.graphics.newShader "shaders/distance.fs"
     @shader\send "screen_size", {Screen_Size.width, Screen_Size.height}
-    if Driver.objects[EntityTypes.player]
-      for k, v in pairs Driver.objects[EntityTypes.player]
-        @shader\send "player_pos", {v.position.x, v.position.y}
-        @target = v
-        break
+    for k, v in pairs Driver.objects[EntityTypes.player]
+      @shader\send "player_pos", {v.position.x, v.position.y}
+      @target = v
+      break
 
     @ai_phase = 1
     @ai_time = 0

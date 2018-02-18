@@ -8,23 +8,19 @@ export class BlackHole extends BackgroundObject
 
   kill: =>
     super!
-    if Driver.objects[EntityTypes.enemy]
-      for k, e in pairs Driver.objects[EntityTypes.enemy]
-        e.speed_override = false
-    if Driver.objects[EntityTypes.boss]
-      for k, b in pairs Driver.objects[EntityTypes.boss]
-        b.speed_override = false
+    for k, e in pairs Driver.objects[EntityTypes.enemy]
+      e.speed_override = false
+    for k, b in pairs Driver.objects[EntityTypes.boss]
+      b.speed_override = false
 
   update: (dt) =>
     super dt
-    if Driver.objects[EntityTypes.enemy]
-      for k, e in pairs Driver.objects[EntityTypes.enemy]
-        @applyPull e, dt
-        @applyDamage e
-    if Driver.objects[EntityTypes.boss]
-      for k, b in pairs Driver.objects[EntityTypes.boss]
-        @applyPull b, dt
-        @applyDamage b
+    for k, e in pairs Driver.objects[EntityTypes.enemy]
+      @applyPull e, dt
+      @applyDamage e
+    for k, b in pairs Driver.objects[EntityTypes.boss]
+      @applyPull b, dt
+      @applyDamage b
     @life_time -= dt
     if @life_time <= 0
       @health = 0
@@ -43,10 +39,9 @@ export class BlackHole extends BackgroundObject
     vec = Vector x, y
     damage = 0
     num = 0
-    if Driver.objects[EntityTypes.player]
-      for k, p in pairs Driver.objects[EntityTypes.player]
-        damage += p.damage
-        num += 1
+    for k, p in pairs Driver.objects[EntityTypes.player]
+      damage += p.damage
+      num += 1
     damage /= num
     ratio = vec\getLength! / @diag
     ratio *= 300

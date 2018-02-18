@@ -7,9 +7,8 @@ export class EMPActive extends ActiveItem
     effect = (player) =>
       filters = {EntityTypes.enemy, EntityTypes.boss}
       for k2, filter in pairs filters
-        if Driver.objects[filter]
-          for k, v in pairs Driver.objects[filter]
-            v.movement_disabled = true
+        for k, v in pairs Driver.objects[filter]
+          v.movement_disabled = true
     super sprite, cd, effect
     @name = "Enemies Must Pause"
     @description = "Disables enemies"
@@ -17,9 +16,8 @@ export class EMPActive extends ActiveItem
     @onEnd = () ->
       filters = {EntityTypes.enemy, EntityTypes.boss}
       for k2, filter in pairs filters
-        if Driver.objects[filter]
-          for k, v in pairs Driver.objects[filter]
-            v.movement_disabled = false
+        for k, v in pairs Driver.objects[filter]
+          v.movement_disabled = false
 
   getStats: =>
     stats = super!

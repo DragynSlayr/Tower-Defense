@@ -108,29 +108,26 @@ export class Enemy extends GameObject
   findNearestTarget: (all = false) =>
     closest = nil
     closest_distance = math.max Screen_Size.width * 2, Screen_Size.height * 2
-    if Driver.objects[EntityTypes.player]
-      for k, v in pairs Driver.objects[EntityTypes.player]
-        player = v\getHitBox!
+    for k, v in pairs Driver.objects[EntityTypes.player]
+      player = v\getHitBox!
+      enemy = @getHitBox!
+      dist = Vector enemy.center.x - player.center.x, enemy.center.y - player.center.y
+      if dist\getLength! < closest_distance
+        closest_distance = dist\getLength!
+        closest = v
+    for k, v in pairs Driver.objects[EntityTypes.turret]
+      turret = v\getAttackHitBox!
+      enemy = @getHitBox!
+      dist = Vector enemy.center.x - turret.center.x, enemy.center.y - turret.center.y
+      if dist\getLength! < closest_distance
+        closest_distance = dist\getLength!
+        closest = v
+    for k, v in pairs Driver.objects[EntityTypes.goal]
+      if v.goal_type == GoalTypes.defend
+        goal = v\getHitBox!
         enemy = @getHitBox!
-        dist = Vector enemy.center.x - player.center.x, enemy.center.y - player.center.y
+        dist = Vector enemy.center.x - goal.center.x, enemy.center.y - goal.center.y
         if dist\getLength! < closest_distance
           closest_distance = dist\getLength!
           closest = v
-    if Driver.objects[EntityTypes.turret]
-      for k, v in pairs Driver.objects[EntityTypes.turret]
-        turret = v\getAttackHitBox!
-        enemy = @getHitBox!
-        dist = Vector enemy.center.x - turret.center.x, enemy.center.y - turret.center.y
-        if dist\getLength! < closest_distance
-          closest_distance = dist\getLength!
-          closest = v
-    if Driver.objects[EntityTypes.goal]
-      for k, v in pairs Driver.objects[EntityTypes.goal]
-        if v.goal_type == GoalTypes.defend
-          goal = v\getHitBox!
-          enemy = @getHitBox!
-          dist = Vector enemy.center.x - goal.center.x, enemy.center.y - goal.center.y
-          if dist\getLength! < closest_distance
-            closest_distance = dist\getLength!
-            closest = v
     @target = closest

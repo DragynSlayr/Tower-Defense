@@ -19,17 +19,16 @@ export class LinearProjectile extends HomingProjectile
 
     filters = {EntityTypes.player, EntityTypes.turret}
     for k2, filter in pairs filters
-      if Driver.objects[filter]
-        for k, v in pairs Driver.objects[filter]
-          target = v\getHitBox!
-          if v.getAttackHitBox
-            target = v\getAttackHitBox!
-          bullet = @getHitBox!
-          bullet.radius += @attack_range
-          if target\contains bullet
-            v\onCollide @
-            MusicPlayer\play @death_sound
-            @kill!
+      for k, v in pairs Driver.objects[filter]
+        target = v\getHitBox!
+        if v.getAttackHitBox
+          target = v\getAttackHitBox!
+        bullet = @getHitBox!
+        bullet.radius += @attack_range
+        if target\contains bullet
+          v\onCollide @
+          MusicPlayer\play @death_sound
+          @kill!
 
   draw: =>
     super!

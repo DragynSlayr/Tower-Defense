@@ -25,14 +25,13 @@ export class CaptureWave extends Wave
 
   start: =>
     tess = TesseractGoal Screen_Size.half_width, Screen_Size.height * 0.75
-    if Driver.objects[EntityTypes.goal]
-      num = math.random 1, #Driver.objects[EntityTypes.goal]
-      for k, g in pairs Driver.objects[EntityTypes.goal]
-        if k == num
-          @trail.position = g.position
-        g.unlocked = true
-        g.tesseract = tess
-        g.capture_amount /= 2
+    num = math.random 1, #Driver.objects[EntityTypes.goal]
+    for k, g in pairs Driver.objects[EntityTypes.goal]
+      if k == num
+        @trail.position = g.position
+      g.unlocked = true
+      g.tesseract = tess
+      g.capture_amount /= 2
 
     for i = 1, @spawn_num
       Objectives\spawn (CaptureEnemy), EntityTypes.enemy
@@ -47,9 +46,8 @@ export class CaptureWave extends Wave
   entityKilled: (entity) =>
     if entity.id == EntityTypes.goal and entity.goal_type == GoalTypes.tesseract
       @goal_complete = true
-      if Driver.objects[EntityTypes.goal]
-        for k, g in pairs Driver.objects[EntityTypes.goal]
-          g.tesseract = nil
+      for k, g in pairs Driver.objects[EntityTypes.goal]
+        g.tesseract = nil
     elseif entity.id == EntityTypes.enemy and entity.enemyType == EnemyTypes.turret
       Objectives\spawn (TurretEnemy), EntityTypes.enemy
 
@@ -73,9 +71,8 @@ export class CaptureWave extends Wave
     if @goal_complete
       @complete = true
       Driver\killEnemies!
-      if Driver.objects[EntityTypes.goal]
-        for k, o in pairs Driver.objects[EntityTypes.goal]
-          o.unlocked = false
+      for k, o in pairs Driver.objects[EntityTypes.goal]
+        o.unlocked = false
 
   draw: =>
     message = "seconds"

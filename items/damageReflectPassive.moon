@@ -13,16 +13,15 @@ export class DamageReflectPassive extends PassiveItem
         if math.random! >= ((100 - @chance) / 100)
           filters = {EntityTypes.enemy, EntityTypes.boss}
           for k2, typeof in pairs filters
-            if Driver.objects[typeof]
-              for k, e in pairs Driver.objects[typeof]
-                enemy = e\getHitBox!
-                p = player\getHitBox!
-                p.radius += player.attack_range + player.range_boost
-                if p\contains enemy
-                  temp_damage = player.damage
-                  player.damage = difference
-                  e\onCollide player
-                  player.damage = temp_damage
+            for k, e in pairs Driver.objects[typeof]
+              enemy = e\getHitBox!
+              p = player\getHitBox!
+              p.radius += player.attack_range + player.range_boost
+              if p\contains enemy
+                temp_damage = player.damage
+                player.damage = difference
+                e\onCollide player
+                player.damage = temp_damage
     super sprite, 0, effect
     @name = "Vary Parry"
     @description = "Has a chance to reflect damage taken"

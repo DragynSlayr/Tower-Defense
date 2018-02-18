@@ -49,16 +49,15 @@ export class FilteredBullet extends GameObject
       return
 
     for k, filter in pairs @filter
-      if Driver.objects[filter]
-        for k2, o in pairs Driver.objects[filter]
-          target = o\getHitBox!
-          bullet = @getHitBox!
-          bullet.radius += @attack_range
-          if target\contains bullet
-            o\onCollide @
-            MusicPlayer\play @death_sound
-            @health = 0
-            @target_hit = true
+      for k2, o in pairs Driver.objects[filter]
+        target = o\getHitBox!
+        bullet = @getHitBox!
+        bullet.radius += @attack_range
+        if target\contains bullet
+          o\onCollide @
+          MusicPlayer\play @death_sound
+          @health = 0
+          @target_hit = true
 
   kill: =>
     super!

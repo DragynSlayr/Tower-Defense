@@ -22,12 +22,11 @@ export class PlayerEnemy extends Enemy
   findNearestTarget: =>
     closest = nil
     closest_distance = math.max Screen_Size.width * 2, Screen_Size.height * 2
-    if Driver.objects[EntityTypes.player]
-      for k, v in pairs Driver.objects[EntityTypes.player]
-        player = v\getHitBox!
-        enemy = @getHitBox!
-        dist = Vector enemy.center.x - player.center.x, enemy.center.y - player.center.y
-        if dist\getLength! < closest_distance
-          closest_distance = dist\getLength!
-          closest = v
+    for k, v in pairs Driver.objects[EntityTypes.player]
+      player = v\getHitBox!
+      enemy = @getHitBox!
+      dist = Vector enemy.center.x - player.center.x, enemy.center.y - player.center.y
+      if dist\getLength! < closest_distance
+        closest_distance = dist\getLength!
+        closest = v
     @target = closest

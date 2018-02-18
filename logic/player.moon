@@ -237,11 +237,10 @@ export class Player extends GameObject
     @attack_timer += dt
     attacked = false
     filters = {EntityTypes.enemy, EntityTypes.boss}
-    if Driver.objects[EntityTypes.goal]
-      for k, v in pairs Driver.objects[EntityTypes.goal]
-        if v.goal_type == GoalTypes.attack
-          table.insert filters, EntityTypes.goal
-          break
+    for k, v in pairs Driver.objects[EntityTypes.goal]
+      if v.goal_type == GoalTypes.attack
+        table.insert filters, EntityTypes.goal
+        break
     if @attack_timer >= @attack_speed
       bullet_speed = Vector 0, 0
       if love.keyboard.isDown Controls.keys.SHOOT_LEFT
@@ -265,14 +264,13 @@ export class Player extends GameObject
     if attacked
       @attack_timer = 0
 
-    if Driver.objects[EntityTypes.goal]
-      for k, v in pairs Driver.objects[EntityTypes.goal]
-        if v.goal_type == GoalTypes.capture
-          goal = v\getHitBox!
-          player = @getHitBox!
-          player.radius += @repair_range
-          if goal\contains player
-            v\onCollide @
+    for k, v in pairs Driver.objects[EntityTypes.goal]
+      if v.goal_type == GoalTypes.capture
+        goal = v\getHitBox!
+        player = @getHitBox!
+        player.radius += @repair_range
+        if goal\contains player
+          v\onCollide @
 
     if @show_turret
       turret = BasicTurret @position.x, @position.y

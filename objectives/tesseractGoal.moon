@@ -25,9 +25,8 @@ export class TesseractGoal extends GameObject
     super dt
     health = 0
     max_health = 0
-    if Driver.objects[EntityTypes.goal]
-      for k, g in pairs Driver.objects[EntityTypes.goal]
-        if g.capture_amount
-          health += g.capture_amount
-          max_health += g.max_health
+    for k, g in pairs Driver.objects[EntityTypes.goal]
+      if g.capture_amount
+        health += g.capture_amount
+        max_health += g.max_health
     @reduction = health / max_health

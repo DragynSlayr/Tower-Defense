@@ -12,7 +12,7 @@ export class CloudEnemy extends GameObject
     @max_speed = math.min 500 * Scale.diag, (175 + (54 * Objectives\getScaling!)) * Scale.diag
     @speed_multiplier = @max_speed
 
-    if Driver.objects[EntityTypes.player] and #Driver.objects[EntityTypes.player] > 0
+    if #Driver.objects[EntityTypes.player] > 0
       @target = Driver.objects[EntityTypes.player][1]
     else
       @health = 0

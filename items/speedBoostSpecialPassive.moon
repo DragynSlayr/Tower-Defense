@@ -7,13 +7,12 @@ export class SpeedBoostSpecialPassive extends PassiveItem
       filters = {EntityTypes.enemy, EntityTypes.boss}
       boost = 0
       for k2, filter in pairs filters
-        if Driver.objects[filter]
-          for k, v in pairs Driver.objects[filter]
-            enemy = v\getHitBox!
-            p = player\getHitBox!
-            p.radius += player.attack_range + player.range_boost
-            if enemy\contains p
-              boost += player.max_speed / 4
+        for k, v in pairs Driver.objects[filter]
+          enemy = v\getHitBox!
+          p = player\getHitBox!
+          p.radius += player.attack_range + player.range_boost
+          if enemy\contains p
+            boost += player.max_speed / 4
       player.speed_boost = math.min boost, player.max_speed
     super sprite, 0, effect
     @name = "Scaredy Cat"

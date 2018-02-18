@@ -24,10 +24,9 @@ export class ObjectRenderer
 
     -- Draw each GameObject in the layers
     for k, layer in pairs EntityTypes.order
-      if Driver.objects[layer]
-        for i, object in pairs Driver.objects[layer]
-          if object.draw
-            object\draw!
+      for i, object in pairs Driver.objects[layer]
+        if object.draw
+          object\draw!
 
     -- Call each function in the queue
     for k, func in pairs @queue

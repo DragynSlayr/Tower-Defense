@@ -6,29 +6,26 @@ export class Bomb extends BackgroundObject
     @max_time = 0
     @attack_range = 100 * Scale.diag
     @action_sprite = ActionSprite "background/bombAction.tga", 32, 32, 3, 2, @, () =>
-      if Driver.objects[EntityTypes.enemy]
-        for k, e in pairs Driver.objects[EntityTypes.enemy]
+      for k, e in pairs Driver.objects[EntityTypes.enemy]
+        target = e\getHitBox!
+        bomb = @parent\getHitBox!
+        bomb.radius += @parent.attack_range
+        if target\contains bomb
+          e\kill!
+      goals = {GoalTypes.tesseract, GoalTypes.attack, GoalTypes.find}
+      for k, e in pairs Driver.objects[EntityTypes.goal]
+        if tableContains goals, e.goal_type
           target = e\getHitBox!
           bomb = @parent\getHitBox!
           bomb.radius += @parent.attack_range
           if target\contains bomb
             e\kill!
-      if Driver.objects[EntityTypes.goal]
-        goals = {GoalTypes.tesseract, GoalTypes.attack, GoalTypes.find}
-        for k, e in pairs Driver.objects[EntityTypes.goal]
-          if tableContains goals, e.goal_type
-            target = e\getHitBox!
-            bomb = @parent\getHitBox!
-            bomb.radius += @parent.attack_range
-            if target\contains bomb
-              e\kill!
-      if Driver.objects[EntityTypes.boss]
-        for k, b in pairs Driver.objects[EntityTypes.boss]
-          target = b\getHitBox!
-          bomb = @parent\getHitBox!
-          bomb.radius += @parent.attack_range
-          if target\contains bomb
-            b\kill!
+      for k, b in pairs Driver.objects[EntityTypes.boss]
+        target = b\getHitBox!
+        bomb = @parent\getHitBox!
+        bomb.radius += @parent.attack_range
+        if target\contains bomb
+          b\kill!
       @parent\kill!
 
   update: (dt) =>

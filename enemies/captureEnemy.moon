@@ -23,7 +23,6 @@ export class CaptureEnemy extends Enemy
 
   findNearestTarget: =>
     if not @target or not @target.alive
-      if Driver.objects[EntityTypes.goal]
+      @target = pick Driver.objects[EntityTypes.goal]
+      while @target.goal_type == GoalTypes.tesseract
         @target = pick Driver.objects[EntityTypes.goal]
-        while @target.goal_type == GoalTypes.tesseract
-          @target = pick Driver.objects[EntityTypes.goal]

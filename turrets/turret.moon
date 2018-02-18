@@ -49,15 +49,14 @@ export class Turret extends GameObject
       if @multitarget
         filters = {EntityTypes.enemy, EntityTypes.boss}
         for k2, filter in pairs filters
-          if Driver.objects[filter]
-            for k, e in pairs Driver.objects[filter]
-              enemy = e\getHitBox!
-              turret = @getAttackHitBox!
-              turret.radius += @range
-              if enemy\contains turret
-                bullet = Bullet @position.x, @position.y - @sprite.scaled_height / 2 + 10, e, @damage
-                Driver\addObject bullet, EntityTypes.bullet
-                attacked = true
+          for k, e in pairs Driver.objects[filter]
+            enemy = e\getHitBox!
+            turret = @getAttackHitBox!
+            turret.radius += @range
+            if enemy\contains turret
+              bullet = Bullet @position.x, @position.y - @sprite.scaled_height / 2 + 10, e, @damage
+              Driver\addObject bullet, EntityTypes.bullet
+              attacked = true
       else
         if @target and @target.alive
           enemy = @target\getHitBox!
@@ -83,22 +82,20 @@ export class Turret extends GameObject
   findTarget: =>
     closest = nil
     closest_distance = math.max Screen_Size.width * 2, Screen_Size.height * 2
-    if Driver.objects[EntityTypes.enemy]
-      for k, v in pairs Driver.objects[EntityTypes.enemy]
-        player = v\getHitBox!
-        enemy = @getAttackHitBox!
-        dist = Vector enemy.center.x - player.center.x, enemy.center.y - player.center.y
-        if dist\getLength! < closest_distance
-          closest_distance = dist\getLength!
-          closest = v
-    if Driver.objects[EntityTypes.boss]
-      for k, v in pairs Driver.objects[EntityTypes.boss]
-        turret = v\getHitBox!
-        enemy = @getAttackHitBox!
-        dist = Vector enemy.center.x - turret.center.x, enemy.center.y - turret.center.y
-        if dist\getLength! < closest_distance
-          closest_distance = dist\getLength!
-          closest = v
+    for k, v in pairs Driver.objects[EntityTypes.enemy]
+      player = v\getHitBox!
+      enemy = @getAttackHitBox!
+      dist = Vector enemy.center.x - player.center.x, enemy.center.y - player.center.y
+      if dist\getLength! < closest_distance
+        closest_distance = dist\getLength!
+        closest = v
+    for k, v in pairs Driver.objects[EntityTypes.boss]
+      turret = v\getHitBox!
+      enemy = @getAttackHitBox!
+      dist = Vector enemy.center.x - turret.center.x, enemy.center.y - turret.center.y
+      if dist\getLength! < closest_distance
+        closest_distance = dist\getLength!
+        closest = v
     @target = closest
 
   draw: =>

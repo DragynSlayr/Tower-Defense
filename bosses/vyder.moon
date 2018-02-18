@@ -59,10 +59,7 @@ export class BossVyder extends Boss
           @ai_phase += 1
       when 2
         targets = {}
-        if Driver.objects[EntityTypes.player]
-          targets = concatTables targets, Driver.objects[EntityTypes.player]
-        --if Driver.objects[EntityTypes.turret]
-          --targets = concatTables targets, Driver.objects[EntityTypes.turret]
+        targets = concatTables targets, Driver.objects[EntityTypes.player]
         target = pick targets
         @target_position = target.position
         @ai_time = 0

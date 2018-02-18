@@ -13,18 +13,16 @@ export class PoisonField extends BackgroundObject
     @timer += dt
     if @timer >= @poison_delay
       @timer = 0
-      if Driver.objects[EntityTypes.enemy]
-        for k, e in pairs Driver.objects[EntityTypes.enemy]
-          target = e\getHitBox!
-          poison = @getHitBox!
-          if target\contains poison
-            e.health = clamp e.health - @poison_amount, 0, e.max_health
-      if Driver.objects[EntityTypes.boss]
-        for k, b in pairs Driver.objects[EntityTypes.boss]
-          target = b\getHitBox!
-          poison = @getHitBox!
-          if target\contains poison
-            b.health = clamp b.health - @poison_amount, 0, b.max_health
+      for k, e in pairs Driver.objects[EntityTypes.enemy]
+        target = e\getHitBox!
+        poison = @getHitBox!
+        if target\contains poison
+          e.health = clamp e.health - @poison_amount, 0, e.max_health
+      for k, b in pairs Driver.objects[EntityTypes.boss]
+        target = b\getHitBox!
+        poison = @getHitBox!
+        if target\contains poison
+          b.health = clamp b.health - @poison_amount, 0, b.max_health
     @life_time -= dt
     if @life_time <= 0
       @health = 0

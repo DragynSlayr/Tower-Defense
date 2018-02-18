@@ -16,10 +16,9 @@ export class DarkWave extends Wave
     @heart_max_time = map math.random!, 0, 1, lower, lower + 1
 
   start: =>
-    if Driver.objects[EntityTypes.player]
-      for k, p in pairs Driver.objects[EntityTypes.player]
-        @health = map p.health, 0, p.max_health, 0, @max_health
-        p.attack_range = Base_Stats.player[2]
+    for k, p in pairs Driver.objects[EntityTypes.player]
+      @health = map p.health, 0, p.max_health, 0, @max_health
+      p.attack_range = Base_Stats.player[2]
     @respawnHearts!
 
   respawnHearts: =>
@@ -51,18 +50,16 @@ export class DarkWave extends Wave
       @heart_timer = @heart_max_time
 
   update: (dt) =>
-    if Driver.objects[EntityTypes.player]
-      for k, v in pairs Driver.objects[EntityTypes.player]
-        Objectives.shader\send "player_pos", {v.position.x, v.position.y}
-        break
+    for k, v in pairs Driver.objects[EntityTypes.player]
+      Objectives.shader\send "player_pos", {v.position.x, v.position.y}
+      break
 
     super dt
     if not @waiting
-      if Driver.objects[EntityTypes.player]
-        for k, v in pairs Driver.objects[EntityTypes.player]
-          @health -= (1 * dt)
-          v.health = map @health, 0, @max_health, 0, Stats.player[1]
-          v.health = clamp v.health, 0, v.max_health
+      for k, v in pairs Driver.objects[EntityTypes.player]
+        @health -= (1 * dt)
+        v.health = map @health, 0, @max_health, 0, Stats.player[1]
+        v.health = clamp v.health, 0, v.max_health
 
       if @killed >= @target
         Driver\killEnemies!

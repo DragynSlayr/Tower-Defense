@@ -73,17 +73,13 @@ export class PauseScreen extends Screen
     stats = {}
     for j = 1, 2
       y = Screen_Size.height * 0.4
-      if Driver.objects[EntityTypes.player] and #Driver.objects[EntityTypes.player] > 0
+      if #Driver.objects[EntityTypes.player] > 0
         stats = Driver.objects[EntityTypes.player][1]\getStats!
-      else
-        stats = Stats.player
       x = Screen_Size.width * 0.05
       icons = @player_icons
       if j == 2
-        if Driver.objects[EntityTypes.turret] and #Driver.objects[EntityTypes.turret] > 0
+        if #Driver.objects[EntityTypes.turret] > 0
           stats = Driver.objects[EntityTypes.turret][1]\getStats!
-        else
-          stats = Stats.turret
         x = Screen_Size.width * 0.90
         icons = @turret_icons
       bounds = @sprites[j]\getBounds x, y

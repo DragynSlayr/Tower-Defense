@@ -119,12 +119,11 @@ export class Driver
               break
 
     clearObjects: (typeof) =>
-      if Driver.objects[typeof]
-        objects = {}
-        for k, o in pairs Driver.objects[typeof]
-          objects[#objects + 1] = o
-        for k, o in pairs objects
-          Driver\removeObject o, false
+      objects = {}
+      for k, o in pairs Driver.objects[typeof]
+        objects[#objects + 1] = o
+      for k, o in pairs objects
+        Driver\removeObject o, false
 
     clearAll: (excluded = {EntityTypes.player}) =>
       for k, v in pairs Driver.objects
@@ -136,29 +135,26 @@ export class Driver
       Driver\clearObjects EntityTypes.bullet
 
     respawnPlayers: =>
-      if Driver.objects[EntityTypes.player]
-        for k, p in pairs Driver.objects[EntityTypes.player]
-          p2 = Player Screen_Size.half_width, Screen_Size.half_height--p.position.x, p.position.y
-          for k, i in pairs p.equipped_items
-            i\pickup p2
-          p2.exp = p.exp
-          p2.exp_lerp = p.exp_lerp
-          p2.level = p.level
-          Driver\removeObject p, false
-          Driver\addObject p2, EntityTypes.player
+      for k, p in pairs Driver.objects[EntityTypes.player]
+        p2 = Player Screen_Size.half_width, Screen_Size.half_height--p.position.x, p.position.y
+        for k, i in pairs p.equipped_items
+          i\pickup p2
+        p2.exp = p.exp
+        p2.exp_lerp = p.exp_lerp
+        p2.level = p.level
+        Driver\removeObject p, false
+        Driver\addObject p2, EntityTypes.player
 
     isClear: (count_enemies = true, count_bullets = true) =>
       sum = 0
       if count_enemies
-        if Driver.objects[EntityTypes.enemy]
-          for k, v in pairs Driver.objects[EntityTypes.enemy]
-            if v.alive
-              sum += 1
+        for k, v in pairs Driver.objects[EntityTypes.enemy]
+          if v.alive
+            sum += 1
       if count_bullets
-        if Driver.objects[EntityTypes.bullet]
-          for k, b in pairs Driver.objects[EntityTypes.bullet]
-            if b.alive
-              sum += 1
+        for k, b in pairs Driver.objects[EntityTypes.bullet]
+          if b.alive
+            sum += 1
       return sum == 0
 
     getRandomPosition: =>
@@ -413,11 +409,7 @@ export class Driver
           if DEBUGGING
             y = 100
             for k, layer in pairs EntityTypes.order
-              message = layer .. ": "
-              if Driver.objects[layer]
-                message ..= #Driver.objects[layer]
-              else
-                message ..= 0
+              message = layer .. ": " .. #Driver.objects[layer]
               font = Renderer\newFont 20
               Renderer\drawAlignedMessage message, y, "left", font, (Color 255, 255, 255)
               y += 25
