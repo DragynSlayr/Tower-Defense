@@ -8,3 +8,4 @@ require "bosses.boss"
 --+-----------------+--
 require "bosses.vyder"
 require "bosses.test"
+require "bosses.serpent"
