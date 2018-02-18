@@ -17,6 +17,7 @@ BombActive
 BombPassive
 Boss
 BossMode
+BossSerpent
 BossTest
 BossTypes
 BossVyder
@@ -224,6 +225,7 @@ ai_phase
 ai_time
 alignment
 alive
+allParts
 alpha
 alpha_end
 alpha_start
@@ -256,6 +258,7 @@ block_rotation
 block_shader
 blocked
 blue
+body_sprite
 bomb
 boost
 boost_multiplier
@@ -320,6 +323,7 @@ coin
 col_idx
 collectable
 colliders
+colliders2
 colliding
 collision
 color
@@ -425,6 +429,7 @@ empty
 enabled
 encode
 end_delay
+end_y
 enemy
 enemyType
 enemy_poison
@@ -460,6 +465,7 @@ fire
 flags
 floor
 focus
+following
 font
 font_cache
 for
@@ -475,6 +481,7 @@ fullscreen
 g
 game_over
 game_state
+gap
 generatePool
 get
 getAbsolute
@@ -727,6 +734,7 @@ not
 num
 num_missiles
 num_modes
+num_parts
 num_turrets
 o
 o2
@@ -762,8 +770,10 @@ p
 p2
 pairs
 parent
+part
 particle
 particle_type
+parts
 passive
 passive_grid
 passive_text
@@ -828,6 +838,7 @@ repeating
 require
 res_cb
 res_changed
+resetBosses
 resetProperties
 resetText
 reset_chars
@@ -852,6 +863,7 @@ rotation
 rotation_direction
 rotation_speed
 row_idx
+row_y
 rstrip
 runText
 s
@@ -873,6 +885,8 @@ screenshot
 selected
 selected_text
 send
+separation_distance
+serpent
 server_address
 server_port
 setArmor
@@ -935,7 +949,6 @@ sort
 sorted
 sound
 sounds
-space
 spacing
 spawn
 spawnHeart
@@ -963,6 +976,7 @@ start
 start_button
 start_damage
 start_rotation
+start_y
 started
 startsWith
 state_stack
@@ -987,6 +1001,7 @@ t3
 table
 tableContains
 tableToString
+tail_sprite
 target
 target_hit
 target_position
