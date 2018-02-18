@@ -3,14 +3,33 @@ export class BossMode extends Mode
     super parent
     @objective_text = "Eliminate the boss"
     @mode_type = ModeTypes.boss
-    @bosses = {
-      BossVyder,
-      BossTest
+    @resetBosses!
+
+  resetBosses: =>
+    bosses = {
+      --BossTest,
+      --BossVyder,
+      BossSerpent
     }
+    shuffle bosses
+    @bosses = LinkedList!
+    for k, boss in pairs bosses
+      @bosses\add boss
+
+    n = @bosses.head
+    s = ""
+    while n
+      s ..= n.data.__class.__name
+      if n.next
+        s ..= ", "
+      n = n.next
+    print s
 
   nextWave: =>
     super!
-    boss = pick @bosses
+    if @bosses.length == 0
+      @resetBosses!
+    boss = @bosses\remove!
     @wave = BossWave @, boss
 
   finish: =>
