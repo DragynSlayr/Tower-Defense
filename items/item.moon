@@ -31,7 +31,7 @@ export class Item extends GameObject
     @contact_damage = false
     @solid = false
     @player = player
-    print "Equipped " .. @name
+    --print "Equipped " .. @name
 
   unequip: (player) =>
     successful = false
@@ -40,10 +40,10 @@ export class Item extends GameObject
         table.remove player.equipped_items, k
         successful = true
         break
-    if successful
-      print "Unequipped " .. @name
-    else
-      print "Couldn't unequip " .. @name
+    --if successful
+    --  print "Unequipped " .. @name
+    --else
+    --  print "Couldn't unequip " .. @name
 
   use: =>
     return
