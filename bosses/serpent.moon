@@ -1,27 +1,34 @@
 export class BossSerpent extends Boss
   new: (x, y) =>
-    sprite = Sprite "boss/serpent/head.tga", 56, 84, 1, 1
+    sprite = Sprite "boss/serpent/head.tga", 50, 55, 1, 60 / 50
+    sprite\setColor {127, 200, 127, 255}
     super x, y, sprite
     @bossType = BossTypes.serpent
     @score_value = 1000
     @exp_given = @score_value + (@score_value * 0.25 * Objectives\getLevel!)
 
+    @num_parts = 250
+    @separation_distance = 15 * Scale.diag
+
     @health = 1000
     @max_health = @health
     @max_speed = 250
     @speed_multiplier = @max_speed
-    @damage = 0.02
+    @damage = 0.02 / @num_parts
 
     @ai_phase = 1
     @ai_time = 0
 
-    @body_sprite = Sprite "boss/serpent/body.tga", 48, 48, 1, 1
-    @tail_sprite = Sprite "boss/serpent/tail.tga", 48, 96, 1, 1
+    @body_sprite = Sprite "boss/serpent/body.tga", 48, 48, 1, 60 / 48
+    @tail_sprite = Sprite "boss/serpent/tail.tga", 48, 96, 1, 60 / 48
+
+    @colliders2 = @colliders
+    @colliders = {}
+    @attack_range = 50 * Scale.diag
 
     @target = Driver.objects[EntityTypes.player][1]
 
     @parts = {}
-    @num_parts = 250
 
     angle = (2 * math.pi) / (@num_parts + 1)
 
@@ -41,6 +48,9 @@ export class BossSerpent extends Boss
 
     @parts[1].following = @
 
+    @allParts = @parts
+    table.insert @allParts, @
+
   update: (dt) =>
     @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
     @speed\toUnitVector!
@@ -53,16 +63,35 @@ export class BossSerpent extends Boss
     for i = 1, @num_parts
       x = @parts[i].following.position.x - @parts[i].position.x
       y = @parts[i].following.position.y - @parts[i].position.y
-      speed = Vector x, y, true
-      @parts[i].position\add (speed\multiply (dt * @speed_multiplier))
+      speed = Vector x, y
+      if speed\getLength! > @separation_distance
+        speed\toUnitVector!
+        @parts[i].position\add (speed\multiply (dt * @speed_multiplier))
+
+    boss = @getHitBox!
+    boss.radius += @attack_range
+    for k, layer in pairs @colliders2
+      for k2, v in pairs Driver.objects[layer]
+        for k3, part in pairs @allParts
+          enemy = v\getHitBox!
+          if v.getAttackHitBox
+            enemy = v\getAttackHitBox!
+          boss.center = Point part.position\getComponents!
+          if boss\contains enemy
+            v\onCollide @
 
   draw: =>
     for i = @num_parts, 1, -1
       part = @parts[i]
       if i >= (@num_parts * 0.95)
         @tail_sprite.rotation = (part.position\getAngleBetween part.following.position) + (math.pi / 2)
+        @tail_sprite\setColor {127, 0, 127, 255}
         @tail_sprite\draw part.position\getComponents!
       else
         @body_sprite.rotation = @sprite.rotation + math.pi
+        if (i % 2) == 0
+          @body_sprite\setColor {255, 0, 127, 255}
+        else
+          @body_sprite\setColor {0, 127, 255, 255}
         @body_sprite\draw part.position\getComponents!
     super!

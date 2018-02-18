@@ -35,6 +35,7 @@ export class ObjectivesHandler
       --@nextMode!
       -- Boss Wave
       @mode = @boss_mode
+    @mode = @boss_mode
     @mode\start!
 
     --@mode.complete = true
