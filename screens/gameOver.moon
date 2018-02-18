@@ -53,28 +53,35 @@ export class GameOverScreen extends Screen
   draw: =>
     for k, v in pairs @ui_objects
       v\draw!
-    Renderer\drawAlignedMessage "Score: " .. ScoreTracker.score, 270 * Scale.height
 
     love.graphics.push "all"
-    x_start = 400
-    x = x_start * Scale.width
-    y_start = 300 * Scale.height
-    y = y_start
-    width = Screen_Size.width - (x_start * 2 * Scale.width)
-    height = 475 * Scale.height
+
+    font = Renderer\newFont 30
+    num_rows = 15
+    gap = 20 * Scale.width
+    row_height = font\getHeight!
+    x = 400 * Scale.width
+    width = Screen_Size.width - (x * 2)
+    height = row_height * num_rows
+    y = Screen_Size.half_height - (height / 2)
+
+    end_y = y + height
+    Renderer\drawAlignedMessage "Score: " .. ScoreTracker.score, end_y + ((Screen_Size.height - end_y) / 4), nil, Renderer\newFont 60
+
     love.graphics.setColor 0, 0, 0, 127
     love.graphics.rectangle "fill", x, y, width, height
 
     love.graphics.setColor 0, 255, 255, 255
-    love.graphics.setFont (Renderer\newFont 30)
-
-    gap = 20
+    love.graphics.setFont font
 
     ScoreTracker.high_scores\sort!
-    for k, node in pairs ScoreTracker.high_scores.elements
-      if y - y_start < height
-        love.graphics.printf node.name, x + (gap * Scale.width), y, width - (2 * gap * Scale.width), "left"
-        love.graphics.printf node.score, x + (gap * Scale.width), y, width - (2 * gap * Scale.width), "right"
-        y += (Renderer\newFont 30)\getHeight! + (5 * Scale.height)
+    for i = 1, num_rows
+      node = ScoreTracker.high_scores.elements[i]
+      row_y = y + (row_height * (i - 1))
+      name = i .. ") "
+      if i < 10
+        name ..= " "
+      love.graphics.printf name .. node.name, x + gap, row_y, width - (2 * gap), "left"
+      love.graphics.printf node.score, x + gap, row_y, width - (2 * gap), "right"
 
     love.graphics.pop!
