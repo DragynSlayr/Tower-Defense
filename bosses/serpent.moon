@@ -53,9 +53,14 @@ export class BossSerpent extends Boss
 
   update: (dt) =>
     @speed = Vector @target.position.x - @position.x, @target.position.y - @position.y
-    @speed\toUnitVector!
-    @speed = @speed\multiply @speed_multiplier
-    @sprite.rotation = @speed\getAngle! + math.pi
+    if @speed\getLength! > @separation_distance
+      @speed\toUnitVector!
+      @speed = @speed\multiply @speed_multiplier
+      @sprite.rotation = @speed\getAngle! + math.pi
+    else
+      old_speed = Vector @speed\getComponents!
+      @speed = Vector 0, 0
+      @sprite.rotation = old_speed\getAngle! + math.pi
     super dt
 
     @ai_time += dt
@@ -83,15 +88,21 @@ export class BossSerpent extends Boss
   draw: =>
     for i = @num_parts, 1, -1
       part = @parts[i]
+      sprite = nil
       if i >= (@num_parts * 0.95)
-        @tail_sprite.rotation = (part.position\getAngleBetween part.following.position) + (math.pi / 2)
-        @tail_sprite\setColor {127, 0, 127, 255}
-        @tail_sprite\draw part.position\getComponents!
+        sprite = @tail_sprite
+        sprite.rotation = (part.position\getAngleBetween part.following.position) + (math.pi / 2)
+        sprite\setColor {127, 0, 127, 255}
       else
-        @body_sprite.rotation = @sprite.rotation + math.pi
+        sprite = @body_sprite
+        sprite.rotation = @sprite.rotation + math.pi
         if (i % 2) == 0
-          @body_sprite\setColor {255, 0, 127, 255}
+          sprite\setColor {255, 0, 127, 255}
         else
-          @body_sprite\setColor {0, 127, 255, 255}
-        @body_sprite\draw part.position\getComponents!
+          sprite\setColor {0, 127, 255, 255}
+      sprite\draw part.position\getComponents!
+      if DEBUGGING
+        hitbox = @getHitBox!
+        hitbox.center = Point part.position\getComponents!
+        hitbox\draw!
     super!
