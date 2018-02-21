@@ -84,7 +84,10 @@ export class Score
     @connected = false
     @tryConnection!
 
-    @loadScores!
+    if not @connected
+      @loadScores!
+    else
+      @retrieveScores!
 
     @elapsed = 0
     @update_delay = 1

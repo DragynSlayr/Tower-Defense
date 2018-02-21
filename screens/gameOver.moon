@@ -75,7 +75,7 @@ export class GameOverScreen extends Screen
     love.graphics.setFont font
 
     ScoreTracker.high_scores\sort!
-    for i = 1, num_rows
+    for i = 1, (math.min num_rows, #ScoreTracker.high_scores.elements)
       node = ScoreTracker.high_scores.elements[i]
       row_y = y + (row_height * (i - 1))
       name = i .. ") "
