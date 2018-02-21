@@ -38,8 +38,7 @@ export class Player extends GameObject
     @globes = {}
     @globe_index = 1
 
-    bounds = @getHitBox!
-    width = bounds.radius + @attack_range
+    width = @getHitBox!.radius + (2 * @attack_range)
     num = 5
     for i = 1, num
       angle = ((math.pi * 2) / num) * i
@@ -346,7 +345,7 @@ export class Player extends GameObject
 
       y = y_start + (1.5 * Scale.height)
       love.graphics.printf "Health", Screen_Size.half_width - x_offset, y, limit, "left"
-      health = string.format "%.2f/%.2f HP", @health, @max_health
+      health = string.format "%.2f/%.2f HP", (@health + @armor), @max_health
       love.graphics.printf health, Screen_Size.half_width + (x_offset * 0.75), y, limit, "left"
 
       y = y_start + (33.5 * Scale.height)
