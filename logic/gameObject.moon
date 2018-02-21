@@ -50,6 +50,8 @@ export class GameObject
     y_scale = @sprite.scaled_height / 32
     @movement_disabled_sprite\setScale x_scale * 1.5, y_scale * 1.5
 
+    @charmed = false
+
   setSpeedOverride: (new_speed, ratio) =>
     x, y = new_speed\getComponents!
     @speed_add = Vector x, y, true
@@ -135,11 +137,13 @@ export class GameObject
 
   draw: =>
     love.graphics.push "all"
-    old_color = @sprite.color[2]
+    old_color = @sprite.color
+    if @charmed
+      @sprite.color = {200, 0, 127}
     if @slagged
-        @sprite.color[2] = 0
+      @sprite.color[2] = 0
     @sprite\draw @position.x, @position.y
-    @sprite.color[2] = old_color
+    @sprite.color = old_color
     if @movement_disabled
       @movement_disabled_sprite\draw @position.x, @position.y
     -- Draw bounds if debugging
