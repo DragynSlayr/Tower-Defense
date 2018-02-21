@@ -16,6 +16,8 @@ export class TurretEnemy extends Enemy
     sound = Sound "turret_enemy_death.ogg", 0.75, false, 0.75, true
     @death_sound = MusicPlayer\add sound
 
+    @attack_filters = {}
+
   __tostring: =>
     return "T: " .. @enemyType .. "\tH: " .. @max_health .. "\tD: " .. @damage .. "\tS: " .. @max_speed
 
