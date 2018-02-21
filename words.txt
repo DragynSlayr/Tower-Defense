@@ -28,6 +28,7 @@ CaptureEnemy
 CaptureGoal
 CaptureMode
 CaptureWave
+CharmActive
 CheckBox
 Circle
 CloneActive
@@ -97,6 +98,7 @@ ItemPoolHandler
 ItemTypes
 Item_Rarity
 Item_Rarity_Text
+JacketActive
 Jitter
 KEY_CHANGED
 LifeStealPassive
@@ -241,6 +243,7 @@ arrow
 atan2
 attack
 attack_delay
+attack_filters
 attack_range
 attack_speed
 attack_timer
@@ -302,6 +305,7 @@ char_index
 character_limit
 charge_time
 charged
+charmed
 chase_time
 cheat
 check_button
@@ -417,6 +421,7 @@ dt
 dynamic
 e
 effect
+effect_chance
 effect_sprite
 effect_time
 effect_timer
@@ -555,6 +560,7 @@ high_scores
 higher_draw
 highest_rarity
 hit
+hitbox
 hold_delay
 hold_timer
 holding_back
@@ -732,6 +738,7 @@ normal
 normal_sprite
 not
 num
+num_bullets
 num_missiles
 num_modes
 num_parts
@@ -743,9 +750,13 @@ object
 objective_text
 objects
 off_time
+old_attack_filters
 old_center
 old_color
+old_damage
 old_num
+old_solid
+old_speed
 old_sprite
 old_trail_delay
 old_x
@@ -765,6 +776,7 @@ options
 or
 order
 os
+other
 other_controls
 p
 p2
@@ -885,6 +897,7 @@ screenshot
 selected
 selected_text
 send
+sep
 separation_distance
 serpent
 server_address
@@ -1008,7 +1021,6 @@ target_position
 targets
 te
 temp
-temp_damage
 tess
 tesseract
 test
