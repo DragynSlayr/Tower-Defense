@@ -4,8 +4,10 @@ export class ItemPoolHandler
       EMPActive,
       BombActive,
       DashActive,
+      CharmActive,
       CloneActive,
       TrailActive,
+      JacketActive,
       ShieldActive,
       DeadEyeActive,
       MissileActive,
@@ -43,7 +45,7 @@ export class ItemPoolHandler
     }
     @generatePool!
 
-    chances = {50, 26, 15, 8, 1}
+    chances = {38, 28, 17, 12, 5}--{50, 26, 15, 8, 1}
     @chances = {}
     for i = 1, 4
       sum = 0
