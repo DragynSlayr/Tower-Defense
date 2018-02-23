@@ -15,12 +15,15 @@ export class Turret extends GameObject
 
     @id = EntityTypes.turret
     @draw_health = false
+    @draw_health_message = true
 
     @shield_available = true
 
     @sprite\setShader love.graphics.newShader "shaders/health.fs"
 
     @multitarget = false
+
+    @shot_position = Vector 0, (-@sprite.scaled_height / 2) + 10
 
   getStats: =>
     stats = {}
@@ -54,8 +57,7 @@ export class Turret extends GameObject
             turret = @getAttackHitBox!
             turret.radius += @range
             if enemy\contains turret
-              bullet = Bullet @position.x, @position.y - @sprite.scaled_height / 2 + 10, e, @damage
-              Driver\addObject bullet, EntityTypes.bullet
+              @fire!
               attacked = true
       else
         if @target and @target.alive
@@ -68,8 +70,7 @@ export class Turret extends GameObject
           else
             --@target\onCollide @
             if @target
-              bullet = Bullet @position.x, @position.y - @sprite.scaled_height / 2 + 10, @target, @damage
-              Driver\addObject bullet, EntityTypes.bullet
+              @fire!
               attacked = true
               if @target.health <= 0
                 @target = nil
@@ -78,6 +79,10 @@ export class Turret extends GameObject
           @findTarget!
     if attacked
       @attack_timer = 0
+
+  fire: =>
+    bullet = Bullet @position.x + @shot_position.x, @position.y + @shot_position.y, @target, @damage
+    Driver\addObject bullet, EntityTypes.bullet
 
   findTarget: =>
     closest = nil
@@ -108,19 +113,20 @@ export class Turret extends GameObject
     super!
     love.graphics.push "all"
     love.graphics.setShader Driver.shader
-    font = (Renderer\newFont 20)
-    love.graphics.setFont font
-    --message = math.floor ((@health / @max_health) * 100)
-    --message ..= " %"
-    h = string.format "%.1f", @health
-    m = string.format "%.1f", @max_health
-    message = h .. " / " .. m
-    width = (font\getWidth message) + (5 * Scale.width)
-    height = font\getHeight!
-    love.graphics.setColor 0, 0, 0, 50
-    love.graphics.rectangle "fill", @position.x - (width / 2) - (2 * Scale.width), @position.y + (@sprite.scaled_height / 2), width + (4 * Scale.width), height + (2 * Scale.height), 4 * Scale.diag
-    love.graphics.setColor 0, 255, 0, 255
-    love.graphics.printf message, @position.x - (width / 2), @position.y + (@sprite.scaled_height / 2), width, "center"
+    if @draw_health_message
+      font = (Renderer\newFont 20)
+      love.graphics.setFont font
+      --message = math.floor ((@health / @max_health) * 100)
+      --message ..= " %"
+      h = string.format "%.1f", @health
+      m = string.format "%.1f", @max_health
+      message = h .. " / " .. m
+      width = (font\getWidth message) + (5 * Scale.width)
+      height = font\getHeight!
+      love.graphics.setColor 0, 0, 0, 50
+      love.graphics.rectangle "fill", @position.x - (width / 2) - (2 * Scale.width), @position.y + (@sprite.scaled_height / 2), width + (4 * Scale.width), height + (2 * Scale.height), 4 * Scale.diag
+      love.graphics.setColor 0, 255, 0, 255
+      love.graphics.printf message, @position.x - (width / 2), @position.y + (@sprite.scaled_height / 2), width, "center"
     love.graphics.setShader!
     love.graphics.pop!
 
