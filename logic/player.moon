@@ -18,6 +18,7 @@ export class Player extends GameObject
     @hit = false
     @attack_timer = 0
     @lives = 1
+    @exp_multiplier = 1
 
     @id = EntityTypes.player
     @draw_health = false
