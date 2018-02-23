@@ -31,14 +31,18 @@ export class CollisionChecker
     for k, collision in pairs @pairs.colliding
       a = collision[1]
       b = collision[2]
-      if a.solid
+      if not (a.charmed or b.charmed)
+        if a.solid
+          a.position = a.last_position
+          if a.speed\getLength! > 0
+            a.position\add (a.speed\multiply dt)
+        if b.solid
+          b.position = b.last_position
+          if b.speed\getLength! > 0
+            b.position\add (b.speed\multiply (-1 * dt))
+      else
         a.position = a.last_position
-        if a.speed\getLength! > 0
-          a.position\add (a.speed\multiply dt)
-      if b.solid
         b.position = b.last_position
-        if b.speed\getLength! > 0
-          b.position\add (b.speed\multiply (-1 * dt))
       if a.contact_damage
         b\onCollide a
       if b.contact_damage
