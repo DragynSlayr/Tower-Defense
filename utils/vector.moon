@@ -20,8 +20,9 @@ export class Vector
   -- Convert the Vector to a unit vector by dividing by length
   toUnitVector: =>
     length = @getLength!
-    @x /= length
-    @y /= length
+    if length > 0
+      @x /= length
+      @y /= length
 
   -- Gets the angle between 2 vectors
   -- vec: The other vector
