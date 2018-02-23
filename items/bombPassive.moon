@@ -7,6 +7,7 @@ export class BombPassive extends PassiveItem
       x = math.random Screen_Size.border[1], Screen_Size.border[3]
       y = math.random Screen_Size.border[2], Screen_Size.border[4]
       bomb = Bomb x, y
+      bomb.attack_range = 33 * Scale.diag
       Driver\addObject bomb, EntityTypes.background
     super sprite, cd, effect
     @name = "Tele-frag"
