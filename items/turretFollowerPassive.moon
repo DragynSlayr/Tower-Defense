@@ -1,5 +1,4 @@
 export class TurretFollowerPassive extends PassiveItem
-  @probability = 1000
   new: (rarity) =>
     @rarity = rarity
     sprite = Sprite "item/turretFollowerPassive.tga", 32, 32, 1, 1.75
