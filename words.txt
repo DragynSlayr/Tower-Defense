@@ -1,6 +1,8 @@
 ActionSprite
 ActiveItem
 ArmorPassive
+AttackClone
+AttackCloneActive
 AttackGoal
 AttackMode
 AttackWave
@@ -60,6 +62,7 @@ DefendWave
 DoubleShotPassive
 DragonStrikeActive
 Driver
+DrunkActive
 EMPActive
 EarthShatterActive
 EliminationMode
@@ -68,11 +71,13 @@ Enemy
 EnemyPoisonParticle
 EnemyTypes
 EntityTypes
+ExpBoostPassive
 ExtraLifePassive
 ExtraTurretPassive
 FakeFindGoal
 FilteredBullet
 FindGoal
+FollowerTurret
 FreezeFieldActive
 FrostField
 GameObject
@@ -101,6 +106,7 @@ Item_Rarity_Text
 JacketActive
 Jitter
 KEY_CHANGED
+KamikazeActive
 LifeStealPassive
 LinearProjectile
 LinkedList
@@ -159,6 +165,7 @@ ScreenCreator
 Screen_Size
 Screen_State
 ShieldActive
+SoulCollectActive
 Sound
 SpawnerEnemy
 SpeedBoostPassive
@@ -167,7 +174,9 @@ SplitShot
 Sprite
 Stack
 Stats
+StealthActive
 StrongEnemy
+StutterShotPassive
 TOGGLE_TURRET
 TesseractGoal
 TestMode
@@ -182,6 +191,7 @@ TrailPassive
 Trie
 Turret
 TurretEnemy
+TurretFollowerPassive
 TurretMissile
 TurretMissilePassive
 TurretMultiTargetPassive
@@ -281,6 +291,8 @@ buffed
 bullet
 bullet_position
 bullet_speed
+bullet_time
+bullet_timer
 button
 buttons
 byte
@@ -397,6 +409,7 @@ diag
 diff
 difference
 difficulty
+directions
 directories
 directory
 disconnect
@@ -415,9 +428,11 @@ drawFaded
 drawHUDMessage
 drawStatusMessage
 draw_health
+draw_health_message
 draw_layer
 draw_lock
 dt
+duration
 dynamic
 e
 effect
@@ -450,6 +465,7 @@ exit_button
 exp
 exp_given
 exp_lerp
+exp_multiplier
 export
 extends
 factor
@@ -468,6 +484,7 @@ findTarget
 finish
 fire
 flags
+flipControls
 floor
 focus
 following
@@ -595,6 +612,7 @@ isPlaying
 isVisible
 is_clone
 is_on
+is_soul
 is_word
 item
 item_drop_chance
@@ -750,12 +768,13 @@ object
 objective_text
 objects
 off_time
+old
 old_attack_filters
 old_center
+old_collide
 old_color
 old_damage
 old_num
-old_solid
 old_speed
 old_sprite
 old_trail_delay
@@ -898,6 +917,7 @@ selected
 selected_text
 send
 sep
+sep_dist
 separation_distance
 serpent
 server_address
@@ -944,6 +964,7 @@ shield_timer
 shielded
 shift
 shoot_controls
+shot_position
 should_shade
 show_stats
 show_turret
@@ -979,6 +1000,8 @@ speed_multiplier
 speed_override
 speed_override_ratio
 speed_range
+speed_time
+speed_timer
 split
 splitted
 sprite
@@ -1021,6 +1044,7 @@ target_position
 targets
 te
 temp
+temp_damage
 tess
 tesseract
 test
@@ -1059,6 +1083,7 @@ turretChance
 turret_cooldown
 turret_count
 turret_icons
+turret_placed
 turret_spawn_num
 turret_special
 turret_stats
