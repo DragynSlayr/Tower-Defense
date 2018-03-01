@@ -45,6 +45,9 @@ export class Item extends GameObject
     --else
     --  print "Couldn't unequip " .. @name
 
+  onKill: (entity) =>
+    return
+
   use: =>
     return
 
