@@ -31,6 +31,8 @@ export class SoulCollectActive extends ActiveItem
       player.onCollide = (object) =>
         if object.is_soul
           object.health = 0
+          @health += @max_health * 0.05
+          @health = math.min @health, @max_health
         else
           @old_collide object
     super sprite, cd, effect
