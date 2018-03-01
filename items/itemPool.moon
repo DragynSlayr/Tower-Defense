@@ -4,6 +4,7 @@ export class ItemPoolHandler
       EMPActive,
       BombActive,
       DashActive,
+      NukeActive,
       CharmActive,
       CloneActive,
       DrunkActive,
