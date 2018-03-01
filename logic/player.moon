@@ -93,6 +93,11 @@ export class Player extends GameObject
         return true
     return false
 
+  onKill: (entity) =>
+    @exp += entity.exp_given * @exp_multiplier
+    for k, i in pairs @equipped_items
+      i\onKill entity
+
   onCollide: (object) =>
     if not @alive return
     if object.id == EntityTypes.item
