@@ -24,10 +24,11 @@ export class Mode
     @started = true
 
   finish: =>
-    Driver\clearObjects EntityTypes.turret
-    Driver\clearObjects EntityTypes.bullet
-    Driver\clearObjects EntityTypes.background
-    Driver\clearObjects EntityTypes.goal
+    --Driver\clearObjects EntityTypes.turret
+    --Driver\clearObjects EntityTypes.bullet
+    --Driver\clearObjects EntityTypes.background
+    --Driver\clearObjects EntityTypes.goal
+    Driver\clearAll {EntityTypes.player, EntityTypes.item}
     for k, p in pairs Driver.objects[EntityTypes.player]
       p.num_turrets = 0
       p.can_place = true
