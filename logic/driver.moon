@@ -106,7 +106,7 @@ export class Driver
             if object == o
               if player_kill
                 for k, player in pairs Driver.objects[EntityTypes.player]
-                  player.exp += (o.exp_given * player.exp_multiplier)
+                  player\onKill o
 
                 if Driver.box_counter < Driver.max_boxes and math.random! <= o.item_drop_chance
                   Driver.box_counter += 1
