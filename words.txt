@@ -125,6 +125,7 @@ MoltenCoreActive
 MovingTurretPassive
 MusicHandler
 MusicPlayer
+NukeActive
 NullItem
 ObjectRenderer
 Objectives
@@ -782,6 +783,7 @@ old_x
 old_y
 onCollide
 onEnd
+onKill
 onSelect
 on_time
 open
@@ -1134,6 +1136,7 @@ x_scale
 x_shear
 x_space
 x_start
+xs
 y
 yOn
 y_border
