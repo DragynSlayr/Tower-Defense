@@ -101,11 +101,11 @@ export class PauseScreen extends Screen
     love.graphics.setFont (Renderer\newFont 30)
     love.graphics.setColor 0, 0, 0, 255
     love.graphics.printf (@current_layer + 1) .. " / " .. (@layer_idx + 1), 0, Screen_Size.height * 0.74, Screen_Size.width, "center"
-    x = Screen_Size.width * 0.25
     for k, frame in pairs @item_grid.items
       if k >= @lower_draw and k <= @higher_draw
+        x = ((Screen_Size.width / (@higher_draw - @lower_draw + 2)) * ((k - @lower_draw) + 1))
         old_x, old_y, old_center = frame.x, frame.y, frame.center
-        frame.x = x + ((k - @lower_draw) * 100)
+        frame.x = x - (frame.width / 2)
         frame.y = Screen_Size.height * 0.8
         frame.center = Point frame.x + (frame.width / 2), frame.y + (frame.width / 2)
         frame\draw!
