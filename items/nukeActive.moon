@@ -5,7 +5,7 @@ export class NukeActive extends ActiveItem
     sprite = Sprite "item/nukeActive.tga", 32, 32, 1, 1.75
     sprite\setRotationSpeed math.pi / 3
     effect = (player) => return
-    super sprite, 0, effect
+    super sprite, 25, effect
     @name = "Tactical Nuke"
     @description = "25 Killstreak Required"
     @effect_time = 9.9
@@ -47,13 +47,13 @@ export class NukeActive extends ActiveItem
       love.graphics.push "all"
       phase = 255 * (math.sin (10 * @effect_timer))
       love.graphics.setColor 200, phase, phase, 255
-      font = Renderer\newFont 65
+      font = Renderer\newFont 20
       love.graphics.setFont font
       message = string.format "Nuke incoming! 0:0%.2f", @effect_time - @effect_timer
       width = (font\getWidth message) / 2
       x = Screen_Size.half_width - width
-      y = Screen_Size.half_height - (font\getHeight! / 2)
-      r = (math.sin (12.5 * @effect_timer)) / 2
+      y = 75 * Scale.height--Screen_Size.half_height - (font\getHeight! / 2)
+      r = 0--(math.sin (12.5 * @effect_timer)) / 2
       xs = ((math.sin (6.25 * @effect_timer)) / 2) + 1.5
-      love.graphics.printf message, x + width, y, width * 2, "center", r, xs, 1, width, 0
+      love.graphics.printf message, x + width, y, width * 2, "left", r, xs, 1, width, 0
       love.graphics.pop!
