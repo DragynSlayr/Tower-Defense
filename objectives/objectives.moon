@@ -25,6 +25,15 @@ export class ObjectivesHandler
     @ready = false
     @bosses_beaten = 0
 
+    s = ""
+    i = 1
+    while i <= #@modes
+      s ..= @modes[i].__class.__name
+      if (i + 1 <= #@modes)
+        s ..= ", "
+      i += 1
+    print s
+
   nextMode: =>
     @counter += 1
     if @counter <= @num_modes
