@@ -257,12 +257,12 @@ export class Player extends GameObject
       if love.keyboard.isDown Controls.keys.SHOOT_DOWN
         bullet_speed\add (Vector 0, @bullet_speed)
       if bullet_speed\getLength! > 0
-        bullet = FilteredBullet @position.x, @position.y, @damage, bullet_speed, filters
-        bullet.max_dist = (@getHitBox!.radius + (2 * (@attack_range + @range_boost)))-- * (math.max 0.5, ratio)
-        if @knocking_back
-          bullet.sprite = @knock_back_sprite
-          bullet.knockback = true
         if @can_shoot
+          bullet = @createBullet @position.x, @position.y, @damage, bullet_speed, filters
+          bullet.max_dist = (@getHitBox!.radius + (2 * (@attack_range + @range_boost)))
+          if @knocking_back
+            bullet.sprite = @knock_back_sprite
+            bullet.knockback = true
           Driver\addObject bullet, EntityTypes.bullet
           attacked = true
 
@@ -287,6 +287,9 @@ export class Player extends GameObject
       Upgrade\addPoint 1
       @next_exp = @calcExp @level
     @exp_lerp = math.min @exp_lerp + (120 * dt), @exp
+
+  createBullet: (x, y, damage, speed, filters) =>
+    return FilteredBullet x, y, damage, speed, filters
 
   draw: =>
     if not @alive return

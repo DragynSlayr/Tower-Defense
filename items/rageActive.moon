@@ -11,13 +11,15 @@ export class RageActive extends ActiveItem
       @old[1] = player.max_shield_time
       @old[2] = player.damage
       @old[3] = player.shield_sprite
+      @old[4] = @player.sprite.color
+      @old[5] = @player.createBullet
       player.shield_sprite = Sprite "effect/rageShield.tga", 32, 32, 1, 2
       player.shield_sprite\setRotationSpeed (math.pi / 2)
       player.shielded = true
       player.shield_timer = 0
       player.max_shield_time = @start_effect_time
     super sprite, 10, effect
-    @name = "Test Item"
+    @name = "Harvest"
     @description = "Kill to gain power"
     @start_effect_time = 10
     @start_effect_delta = 3
@@ -33,6 +35,8 @@ export class RageActive extends ActiveItem
       @player.max_shield_time = @old[1]
       @player.damage = @old[2]
       @player.shield_sprite = @old[3]
+      @player.sprite\setColor {@old[4]}
+      @player.createBullet = @old[5]
       @old = nil
       @resetCounters!
 
@@ -65,6 +69,14 @@ export class RageActive extends ActiveItem
           @effect_timer = clamp @effect_timer - @effect_delta, 0, @effect_timer
           @effect_time += @effect_delta
           @effect_delta *= 0.95
+
+          @old[4] = @player.sprite.color
+          @old[5] = @player.fireBullet
+          @player.sprite\setColor {0, 0, 0, 255}
+          @player.createBullet = (x, y, damage, speed, filters) =>
+            bullet = FilteredBullet x, y, damage, speed, filters
+            bullet.sprite\setColor {0, 0, 0, 255}
+            return bullet
 
   update2: (dt) =>
     if @used
