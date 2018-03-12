@@ -105,6 +105,7 @@ export class GameObject
     @last_position = Vector @position\getComponents!
     if @shielded
       @shield_timer += dt
+      @shield_sprite\update dt
       if @shield_timer >= @max_shield_time
         @shield_timer = 0
         @shielded = false
