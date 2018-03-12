@@ -7,12 +7,12 @@ export class RageActive extends ActiveItem
     -- TODO: Change this sprite
     sprite = Sprite "background/clone.tga", 32, 32, 1, 1.75
     effect = (player) =>
-      player.old = {}
-      player.old[1] = player.max_shield_time
-      player.old[2] = player.damage
-      player.old[3] = player.shield_sprite
+      @old = {}
+      @old[1] = player.max_shield_time
+      @old[2] = player.damage
+      @old[3] = player.shield_sprite
       player.shield_sprite = Sprite "effect/rageShield.tga", 32, 32, 1, 3
-      player.shield_sprite\setRotationSpeed (math.pi / 2)
+      player.shield_sprite\setRotationSpeed math.pi
       player.shielded = true
       player.shield_timer = 0
       player.max_shield_time = @start_effect_time
@@ -20,46 +20,54 @@ export class RageActive extends ActiveItem
     @name = "Test"
     @description = "Gio's Item"
     @start_effect_time = 10
-    @effect_time = @start_effect_time
     @start_effect_delta = 3
-    @effect_delta = @start_effect_delta
     @start_target_delta = 3
-    @target_delta = @start_target_delta
     @start_target_count = 3
-    @target_count = @start_target_count
     @kill_count = 0
+    @last_target = 0
+    @old = {}
+    @resetCounters!
     @onEnd = () =>
+      print "End"
       @player.shielded = false
       @player.shield_timer = 0
-      @player.max_shield_time = @player.old[1]
-      @player.damage = @player.old[2]
-      @player.shield_sprite = @player.old[3]
-      @player.old = nil
-      @effect_time = @start_effect_time
-      @effect_delta = @start_effect_delta
-      @target_delta = @start_target_delta
-      @target_count = @start_target_count
-      @kill_count = 0
+      @player.max_shield_time = @old[1]
+      @player.damage = @old[2]
+      @player.shield_sprite = @old[3]
+      @old = nil
+      @resetCounters!
+
+  resetCounters: =>
+    @effect_time = @start_effect_time
+    @effect_delta = @start_effect_delta
+    @target_delta = @start_target_delta
+    @target_count = @start_target_count
+    @kill_count = 0
+    @last_target = 0
 
   onKill: (entity) =>
-    if entity.id == EntityTypes.enemy and entity.__class != CaptureEnemy
-      @kill_count += 1
-      if @kill_count >= @target_count
-        @target_count += @target_delta
-        @target_delta += 1
+    if @used
+      if entity.id == EntityTypes.enemy and entity.__class != CaptureEnemy
+        @kill_count += 1
+        if @kill_count >= @target_count
+          @last_target = @target_count
 
-        @player.damage += @effect_delta / 4
-        @player.shield_timer = clamp @player.shield_timer - @effect_delta, 0, @player.shield_timer
-        @player.max_shield_time += @effect_delta
-        @effect_timer = clamp @effect_timer - @effect_delta, 0, @effect_timer
-        @effect_time += @effect_delta
-        @effect_delta *= 0.95
+          @target_count += @target_delta
+          @target_delta += 1
 
-      print @kill_count .. " / " .. @target_count
+          @player.damage += @effect_delta / 4
+          @player.shield_timer = clamp @player.shield_timer - @effect_delta, 0, @player.shield_timer
+          @player.max_shield_time += @effect_delta
+          @effect_timer = clamp @effect_timer - @effect_delta, 0, @effect_timer
+          @effect_time += @effect_delta
+          @effect_delta *= 0.95
+
+        print @kill_count .. " / " .. @target_count .. " / " .. @last_target
+        print (@kill_count - @last_target) .. " / " .. (@target_count - @last_target)
 
   update2: (dt) =>
     if @used
       @charge_time = @effect_time + @timer
-      r = @kill_count / @target_count
+      r = (@kill_count - @last_target) / (@target_count - @last_target)
       @player.shield_sprite\setColor {r * 255, 0, 0, 255}
     super dt
