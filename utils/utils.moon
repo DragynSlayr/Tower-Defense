@@ -3,6 +3,8 @@ export cheat = () ->
   Upgrade.skill_points = 255
   UI\set_screen Screen_State.upgrade
   Driver.game_state = Game_State.upgrading
+  ItemPool.getItem = () =>
+    return RageActive 5
 
 -- Seed random and dispose of some values
 math.randomseed os.time!
