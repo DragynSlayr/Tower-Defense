@@ -1,7 +1,5 @@
 export class HarvestActive extends ActiveItem
-  @lowest_rarity = 1
-  @highest_rarity = 5
-  @probability = 1000
+  @lowest_rarity = 5
   new: (rarity) =>
     @rarity = rarity
     sprite = Sprite "item/harvestActive.tga", 32, 32, 1, 1.75
