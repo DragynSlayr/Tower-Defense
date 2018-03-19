@@ -18,7 +18,7 @@ require "ui.itemFrame"
 --+---------------------+--
 require "ui.itemGrid"
 require "ui.comboBox"
-require "ui.checkBox"
+require "ui.checkbox"
 require "ui.tooltip"
 require "ui.tooltipButton"
 require "ui.tooltipBox"
