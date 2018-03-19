@@ -4,7 +4,7 @@ export cheat = () ->
   UI\set_screen Screen_State.upgrade
   Driver.game_state = Game_State.upgrading
   ItemPool.getItem = () =>
-    return RageActive 5
+    return HarvestActive 5
 
 -- Seed random and dispose of some values
 math.randomseed os.time!

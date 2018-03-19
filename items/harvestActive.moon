@@ -1,11 +1,11 @@
-export class RageActive extends ActiveItem
+export class HarvestActive extends ActiveItem
   @lowest_rarity = 1
   @highest_rarity = 5
   @probability = 1000
   new: (rarity) =>
     @rarity = rarity
-    -- TODO: Change this sprite
-    sprite = Sprite "background/clone.tga", 32, 32, 1, 1.75
+    sprite = Sprite "item/harvestActive.tga", 32, 32, 1, 1.75
+    sprite\setRotationSpeed (math.pi / 6)
     effect = (player) =>
       @old = {}
       @old[1] = player.max_shield_time
@@ -28,6 +28,7 @@ export class RageActive extends ActiveItem
     @kill_count = 0
     @last_target = 0
     @old = {}
+    @color_changed = false
     @resetCounters!
     @onEnd = () =>
       @player.shielded = false
@@ -37,7 +38,7 @@ export class RageActive extends ActiveItem
       @player.shield_sprite = @old[3]
       @player.sprite\setColor {@old[4]}
       @player.createBullet = @old[5]
-      @old = nil
+      @color_changed = false
       @resetCounters!
 
   resetCounters: =>
@@ -70,13 +71,15 @@ export class RageActive extends ActiveItem
           @effect_time += @effect_delta
           @effect_delta *= 0.95
 
-          @old[4] = @player.sprite.color
-          @old[5] = @player.fireBullet
-          @player.sprite\setColor {0, 0, 0, 255}
-          @player.createBullet = (x, y, damage, speed, filters) =>
-            bullet = FilteredBullet x, y, damage, speed, filters
-            bullet.sprite\setColor {0, 0, 0, 255}
-            return bullet
+          if not @color_changed
+            @color_changed = true
+            @old[4] = @player.sprite.color
+            @old[5] = @player.fireBullet
+            @player.sprite\setColor {0, 0, 0, 255}
+            @player.createBullet = (x, y, damage, speed, filters) =>
+              bullet = FilteredBullet x, y, damage, speed, filters
+              bullet.sprite\setColor {0, 0, 0, 255}
+              return bullet
 
   update2: (dt) =>
     if @used
