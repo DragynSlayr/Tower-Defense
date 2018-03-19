@@ -10,6 +10,7 @@ export class ItemPoolHandler
       DrunkActive,
       TrailActive,
       JacketActive,
+      SentryActive,
       ShieldActive,
       DeadEyeActive,
       HarvestActive,
