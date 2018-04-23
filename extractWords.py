@@ -6,6 +6,9 @@ num_lines = 0
 files = []
 ignore = [".git", "assets"]
 key_words = {}
+SPLIT_CHAR = "\\"
+if os.uname()[0] == "Linux":
+    SPLIT_CHAR = "/"
 
 brackets = [("[", "]"), ("{", "}"), ("(", ")"), ("\"", "\"")]
 
@@ -27,12 +30,12 @@ to_remove = removeChars(to_remove, "\\")
 
 def parseDirs(arg, dirname, names):
     global files
-    splitted = dirname.split("\\")
+    splitted = dirname.split(SPLIT_CHAR)
     if len(splitted) > 1:
-        if not dirname.split("\\")[1] in ignore:
+        if not splitted[1] in ignore:
             for name in names:
                 if name.split(".")[1] == "moon":
-                    files.append(dirname + "\\" + name)
+                    files.append(dirname + SPLIT_CHAR + name)
 
 
 os.path.walk(".", parseDirs, "")
