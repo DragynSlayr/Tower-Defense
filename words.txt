@@ -85,6 +85,7 @@ GameOver
 GameOverScreen
 Game_State
 GoalTypes
+HarvestActive
 HealingField
 HealingFieldActive
 HealthBoostPassive
@@ -165,6 +166,7 @@ Screen
 ScreenCreator
 Screen_Size
 Screen_State
+SentryActive
 ShieldActive
 SoulCollectActive
 Sound
@@ -344,6 +346,7 @@ colliders2
 colliding
 collision
 color
+color_changed
 colors
 complete
 completer
@@ -365,6 +368,7 @@ corners
 cos_angle
 count
 counter
+createBullet
 createControlsMenu
 createDirectory
 createDragon
@@ -438,6 +442,7 @@ dynamic
 e
 effect
 effect_chance
+effect_delta
 effect_sprite
 effect_time
 effect_timer
@@ -484,6 +489,7 @@ findNearestTarget
 findTarget
 finish
 fire
+fireBullet
 flags
 flipControls
 floor
@@ -634,6 +640,7 @@ keys
 keys_pushed
 kill
 killEnemies
+kill_count
 killed
 knock_back_sprite
 knockback
@@ -642,6 +649,7 @@ last_health
 last_position
 last_pressed
 last_released
+last_target
 last_text
 layer
 layer_idx
@@ -872,6 +880,7 @@ require
 res_cb
 res_changed
 resetBosses
+resetCounters
 resetProperties
 resetText
 reset_chars
@@ -1013,7 +1022,11 @@ sqrt
 start
 start_button
 start_damage
+start_effect_delta
+start_effect_time
 start_rotation
+start_target_count
+start_target_delta
 start_y
 started
 startsWith
@@ -1041,6 +1054,8 @@ tableContains
 tableToString
 tail_sprite
 target
+target_count
+target_delta
 target_hit
 target_position
 targets
