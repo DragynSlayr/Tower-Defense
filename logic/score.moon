@@ -71,7 +71,7 @@ export class Score
     @score_threshold = 10000
     @shift = 128
 
-    if not love.filesystem.exists "HIGH_SCORES"
+    if not love.filesystem.getInfo "HIGH_SCORES"
       love.filesystem.write "HIGH_SCORES", ""
 
     @high_scores = ScoreArray!

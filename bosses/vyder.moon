@@ -112,7 +112,7 @@ export class BossVyder extends Boss
     if DEBUGGING
       love.graphics.push "all"
       love.graphics.setShader Driver.shader
-      love.graphics.setColor 255, 0, 0, 255
+      setColor 255, 0, 0, 255
       love.graphics.circle "fill", @target_position.x, @target_position.y, 3, 360
       love.graphics.setShader!
       love.graphics.pop!

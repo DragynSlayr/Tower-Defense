@@ -64,6 +64,6 @@ export class Rectangle
 
   draw: =>
     love.graphics.push "all"
-    love.graphics.setColor 0, 255, 0, 255
+    setColor 0, 255, 0, 255
     love.graphics.rectangle "line", @corners[1].x, @corners[1].y, @width, @height
     love.graphics.pop!

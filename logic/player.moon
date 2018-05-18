@@ -297,10 +297,10 @@ export class Player extends GameObject
       i\draw!
     if DEBUGGING
       love.graphics.push "all"
-      love.graphics.setColor 0, 0, 255, 100
+      setColor 0, 0, 255, 100
       player = @getHitBox!
       love.graphics.circle "fill", @position.x, @position.y, @attack_range + player.radius + @range_boost, 360
-      love.graphics.setColor 0, 255, 0, 100
+      setColor 0, 255, 0, 100
       love.graphics.circle "fill", @position.x, @position.y, @speed_range, 360
       love.graphics.pop!
     super!
@@ -308,7 +308,7 @@ export class Player extends GameObject
       @lock_sprite\draw @position.x, @position.y
 
     if @show_stats
-      love.graphics.setColor 0, 0, 0, 255
+      setColor 0, 0, 0, 255
       love.graphics.setFont @font
       message = "Turret Cooldown"
       love.graphics.printf message, 9 * Scale.width, Screen_Size.height - (47 * Scale.height) - @font\getHeight! / 2, 205 * Scale.width, "center"
@@ -316,9 +316,9 @@ export class Player extends GameObject
       x_start = (9 * Scale.width)
 
       remaining = clamp @elapsed, 0, @turret_cooldown
-      love.graphics.setColor 0, 0, 0, 255
+      setColor 0, 0, 0, 255
       love.graphics.rectangle "fill", x_start + Scale.width, Screen_Size.height - (30 * Scale.height), 200 * Scale.width, 20 * Scale.height
-      love.graphics.setColor 0, 0, 255, 255
+      setColor 0, 0, 255, 255
       ratio = remaining / @turret_cooldown--@turret_max
       if @charged
         ratio = 1
@@ -329,25 +329,25 @@ export class Player extends GameObject
 
       y_start = Screen_Size.height - (60 * Scale.height)
 
-      love.graphics.setColor 0, 0, 0, 255
+      setColor 0, 0, 0, 255
       love.graphics.rectangle "fill", Screen_Size.half_width - (200 * Scale.width), y_start, 400 * Scale.width, 20 * Scale.height
-      love.graphics.setColor 255, 0, 0, 255
+      setColor 255, 0, 0, 255
       ratio = @health / @max_health
       love.graphics.rectangle "fill", Screen_Size.half_width - (197 * Scale.width), y_start + (3 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
       if @armored
-        love.graphics.setColor 0, 127, 255, 255
+        setColor 0, 127, 255, 255
         ratio = @armor / @max_armor
         love.graphics.rectangle "fill", Screen_Size.half_width - (197 * Scale.width), y_start + (3 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
 
-      love.graphics.setColor 0, 0, 0, 255
+      setColor 0, 0, 0, 255
       love.graphics.rectangle "fill", Screen_Size.half_width - (200 * Scale.width), y_start + (32 * Scale.height), 400 * Scale.width, 20 * Scale.height
-      love.graphics.setColor 255, 235, 4, 255
+      setColor 255, 235, 4, 255
       next_exp = @calcExp (@level + 1)
       ratio = @exp_lerp / next_exp
       love.graphics.rectangle "fill", Screen_Size.half_width - (197 * Scale.width), y_start + (35 * Scale.height), 394 * ratio * Scale.width, 14 * Scale.height
 
       love.graphics.setFont @font
-      love.graphics.setColor 0, 0, 0, 255
+      setColor 0, 0, 0, 255
       x_offset = 325 * Scale.width
 
       limit = (@font\getWidth ".") * 17
@@ -363,7 +363,7 @@ export class Player extends GameObject
 
 
     if SHOW_RANGE
-      love.graphics.setColor 0, 255, 255, 255
+      setColor 0, 255, 255, 255
       for k, bullet_position in pairs @globes
         boost = Vector @range_boost, 0
         angle = bullet_position\getAngle!

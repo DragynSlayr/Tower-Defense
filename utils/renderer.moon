@@ -51,7 +51,7 @@ export class ObjectRenderer
     love.graphics.setShader!
 
     -- Apply new transforms
-    love.graphics.setColor color\get!
+    setColor color\get!
     love.graphics.setFont font
 
     -- Display the message
@@ -76,7 +76,7 @@ export class ObjectRenderer
     love.graphics.setShader!
 
     -- Apply new transforms
-    love.graphics.setColor color\get!
+    setColor color\get!
     love.graphics.setFont font
 
     -- Draw an aligned message to the screen

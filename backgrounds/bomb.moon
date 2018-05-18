@@ -27,7 +27,7 @@ export class Bomb extends BackgroundObject
     love.graphics.push "all"
     love.graphics.setShader Driver.shader
     color = map @action_sprite.current_frame, 1, @action_sprite.frames, 200, 0
-    love.graphics.setColor color, color, color, 127
+    setColor color, color, color, 127
     bounds = @getHitBox!
     love.graphics.circle "fill", @position.x, @position.y, bounds.radius + @attack_range, 360
     love.graphics.setShader!

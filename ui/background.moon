@@ -11,6 +11,6 @@ export class Background extends UIElement
     if @sprite
       @sprite\draw Screen_Size.half_width, Screen_Size.half_height
     else
-      love.graphics.setColor @color[1], @color[2], @color[3], @color[4]
+      setColor @color[1], @color[2], @color[3], @color[4]
       love.graphics.rectangle "fill", 0, 0, Screen_Size.width, Screen_Size.height
     love.graphics.pop!

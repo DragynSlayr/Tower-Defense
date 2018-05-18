@@ -107,7 +107,7 @@ export class Turret extends GameObject
     if not @alive return
     if DEBUGGING-- or SHOW_RANGE
       love.graphics.push "all"
-      love.graphics.setColor 255, 0, 0, 127
+      setColor 255, 0, 0, 127
       love.graphics.circle "fill", @position.x, @position.y, @range, 360
       love.graphics.pop!
     super!
@@ -123,9 +123,9 @@ export class Turret extends GameObject
       message = h .. " / " .. m
       width = (font\getWidth message) + (5 * Scale.width)
       height = font\getHeight!
-      love.graphics.setColor 0, 0, 0, 50
+      setColor 0, 0, 0, 50
       love.graphics.rectangle "fill", @position.x - (width / 2) - (2 * Scale.width), @position.y + (@sprite.scaled_height / 2), width + (4 * Scale.width), height + (2 * Scale.height), 4 * Scale.diag
-      love.graphics.setColor 0, 255, 0, 255
+      setColor 0, 255, 0, 255
       love.graphics.printf message, @position.x - (width / 2), @position.y + (@sprite.scaled_height / 2), width, "center"
     love.graphics.setShader!
     love.graphics.pop!
@@ -133,7 +133,7 @@ export class Turret extends GameObject
   drawFaded: =>
     if not @alive return
     love.graphics.push "all"
-    love.graphics.setColor 100, 100, 100, 127
+    setColor 100, 100, 100, 127
     love.graphics.circle "fill", @position.x, @position.y, @range, 360
     @sprite\draw @position.x, @position.y
     love.graphics.pop!

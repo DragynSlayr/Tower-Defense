@@ -98,17 +98,17 @@ export class Button extends UIElement
       else
         -- Draw colored box
         if @selected
-          love.graphics.setColor @hover_color\get!
+          setColor @hover_color\get!
         else
-          love.graphics.setColor @idle_color\get!
+          setColor @idle_color\get!
         love.graphics.rectangle "fill", @x, @y, @width, @height
     else
-      love.graphics.setColor 127, 127, 127, 255
+      setColor 127, 127, 127, 255
       love.graphics.rectangle "fill", @x, @y, @width, @height
 
     -- Draw centered text
     love.graphics.setFont @font
-    love.graphics.setColor 0, 0, 0
+    setColor 0, 0, 0
     height = @font\getHeight!
     love.graphics.printf @text, @x, @y + ((@height - height) / 2), @width, "center"
 

@@ -61,7 +61,7 @@ export class Mode
   draw: =>
     @wave\draw!
     love.graphics.push "all"
-    love.graphics.setColor 0, 0, 0, 255
+    setColor 0, 0, 0, 255
     font = Renderer\newFont 30
     love.graphics.setFont font
     love.graphics.printf @message1, 10 * Scale.width, 20 * Scale.height, Screen_Size.width, "left"

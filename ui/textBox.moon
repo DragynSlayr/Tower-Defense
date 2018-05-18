@@ -190,12 +190,12 @@ export class TextBox extends UIElement
   draw: =>
     love.graphics.push "all"
 
-    love.graphics.setColor @color[1], @color[2], @color[3], @color[4]
+    setColor @color[1], @color[2], @color[3], @color[4]
     love.graphics.rectangle "fill", @x, @y, @width, @height
 
     text = @getText!
 
-    love.graphics.setColor @text_color[1], @text_color[2], @text_color[3], @text_color[4]
+    setColor @text_color[1], @text_color[2], @text_color[3], @text_color[4]
     height = @font\getHeight!-- * Scale.height
     width = @font\getWidth (@getLine @lines_index, @char_index)
     --width = (@font\getWidth text) * Scale.width
@@ -205,7 +205,7 @@ export class TextBox extends UIElement
     @cursor.position = Point @x + (12 * Scale.width) + width, @y + (height / 2) + ((@lines_index - 1) * height)
 
     if @active
-      love.graphics.setColor @text_color[1], @text_color[2], @text_color[3], @cursor.alpha
+      setColor @text_color[1], @text_color[2], @text_color[3], @cursor.alpha
       love.graphics.rectangle "fill", @cursor.position.x, @cursor.position.y, 10 * Scale.width, height
 
     love.graphics.pop!

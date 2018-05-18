@@ -68,13 +68,13 @@ export class UpgradeScreen extends Screen
         if j == 1
           ratio = @turret_stats[i] / @max_skill
 
-        love.graphics.setColor 178, 150, 0, 255
+        setColor 178, 150, 0, 255
         love.graphics.rectangle "fill", x, y, width, height
 
-        love.graphics.setColor 255, 215, 0, 255
+        setColor 255, 215, 0, 255
         love.graphics.rectangle "fill", x + (3 * Scale.width), y + (3 * Scale.height), (width - (6 * Scale.width)) * ratio, height - (6 * Scale.height)
 
-        love.graphics.setColor 0, 0, 0, 255
+        setColor 0, 0, 0, 255
         for i = x, x + width, width / @max_skill
           love.graphics.line i, y, i, y + height
 

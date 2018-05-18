@@ -41,7 +41,7 @@ export class CaptureGoal extends GameObject
       ratio = @capture_amount / @max_health
       blue = math.floor (ratio * 255)
       red = 255 - blue
-      love.graphics.setColor red, 127, blue, blue
+      setColor red, 127, blue, blue
       love.graphics.setLineWidth ratio * 20
       love.graphics.line @position.x, @position.y + (@sprite.scaled_height * 0.33), @tesseract.position.x, @tesseract.position.y
 
@@ -49,15 +49,15 @@ export class CaptureGoal extends GameObject
     love.graphics.push "all"
     love.graphics.setShader Driver.shader
 
-    love.graphics.setColor 0, 0, 0, 255
+    setColor 0, 0, 0, 255
     radius = @sprite.scaled_height / 2
     love.graphics.rectangle "fill", (@position.x - radius) - (3 * Scale.width), (@position.y + radius) + (3 * Scale.height), (radius * 2) + (6 * Scale.width), 16 * Scale.height
 
-    love.graphics.setColor 0, 127, 255, 255
+    setColor 0, 127, 255, 255
     ratio = @capture_amount / @max_health
     love.graphics.rectangle "fill", @position.x - radius, (@position.y + radius) + (6 * Scale.height), (radius * 2) * ratio, 10 * Scale.height
 
-    love.graphics.setColor 255, 127, 0, 255
+    setColor 255, 127, 0, 255
     love.graphics.rectangle "fill", @position.x - radius + ((radius * 2) * ratio), (@position.y + radius) + (6 * Scale.height), (radius * 2) * (1 - ratio), 10 * Scale.height
 
     love.graphics.setShader!

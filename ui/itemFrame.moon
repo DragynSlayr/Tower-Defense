@@ -110,23 +110,23 @@ export class ItemFrame extends UIElement
 
   draw: =>
     love.graphics.push "all"
-    love.graphics.setColor 200, 200, 200, 255
+    setColor 200, 200, 200, 255
     love.graphics.rectangle "fill", @x, @y, @width, @height
     if not @empty
-      love.graphics.setColor 0, 0, 0, 0
+      setColor 0, 0, 0, 0
       switch @item.item_type
         when ItemTypes.active
-          love.graphics.setColor 255, 0, 0, 127
+          setColor 255, 0, 0, 127
         when ItemTypes.passive
-          love.graphics.setColor 0, 0, 255, 127
+          setColor 0, 0, 255, 127
       love.graphics.rectangle "fill", @x, @y, @width, @height
       names = {"Item Box", "Empty"}
       if not tableContains names, @item.name
         color = Item_Rarity[@item.rarity]
-        love.graphics.setColor color[1], color[2], color[3], color[4]
+        setColor color[1], color[2], color[3], color[4]
         gap = 10
         love.graphics.rectangle "fill", @x + (gap * Scale.width), @y + (gap * Scale.height), @width - (2 * gap * Scale.width), @height - (2 * gap * Scale.height)
-    love.graphics.setColor 0, 0, 0, 255
+    setColor 0, 0, 0, 255
     love.graphics.rectangle "line", @x, @y, @width, @height
     if @phase == 1
       @sprite\draw @center.x, @center.y

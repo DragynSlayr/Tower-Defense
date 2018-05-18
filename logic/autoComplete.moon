@@ -60,7 +60,7 @@ export class AutoComplete
   draw: =>
     love.graphics.push "all"
 
-    love.graphics.setColor 0, 255, 255, 255
+    setColor 0, 255, 255, 255
     love.graphics.setFont @font
 
     height = @font\getHeight!

@@ -35,6 +35,6 @@ export class LinearProjectile extends HomingProjectile
     if DEBUGGING
       love.graphics.push "all"
       love.graphics.setShader!
-      love.graphics.setColor 0, 127, 127, 200
+      setColor 0, 127, 127, 200
       love.graphics.circle "fill", @target.position.x, @target.position.y, 20, 360
       love.graphics.pop!

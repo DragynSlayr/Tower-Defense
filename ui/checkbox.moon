@@ -35,7 +35,7 @@ export class CheckBox extends Button
       if @checked
         @checked_sprite\draw shift_x, shift_y
     else
-      love.graphics.setColor 127, 127, 127, 255
+      setColor 127, 127, 127, 255
       love.graphics.rectangle "fill", @x, @y, @width, @height
 
     love.graphics.pop!

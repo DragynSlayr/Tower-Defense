@@ -29,7 +29,7 @@ export class UIElement
 
   draw: =>
     love.graphics.push "all"
-    love.graphics.setColor @color[1], @color[2], @color[3], @color[4]
+    setColor @color[1], @color[2], @color[3], @color[4]
     love.graphics.setFont @font
     height = @font\getHeight!
     width = @font\getWidth @text

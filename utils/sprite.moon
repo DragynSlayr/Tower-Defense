@@ -11,7 +11,7 @@ export class Sprite
     @props = {height, width, delay, scale}
 
     path = "assets/sprites/" .. name
-    if love.filesystem.exists (PATH_PREFIX .. path)
+    if love.filesystem.getInfo (PATH_PREFIX .. path)
       path = PATH_PREFIX .. path
 
     -- Load the image
@@ -158,7 +158,7 @@ export class Sprite
         love.graphics.setShader Driver.shader
 
     -- Color sprite
-    love.graphics.setColor @color[1], @color[2], @color[3], @color[4]
+    setColor @color[1], @color[2], @color[3], @color[4]
 
     -- Draw the sprite
     love.graphics.draw @image, @sprites[@current_frame], math.floor(x), math.floor(y), @rotation, @x_scale, @y_scale, @width / 2, @height / 2, @x_shear, @y_shear

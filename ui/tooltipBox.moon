@@ -21,9 +21,9 @@ export class TooltipBox extends Tooltip
       love.graphics.push "all"
       x = @x - (@width / 2)
       y = @y - (@height / 2)
-      love.graphics.setColor @box_color[1], @box_color[2], @box_color[3], @alpha
+      setColor @box_color[1], @box_color[2], @box_color[3], @alpha
       love.graphics.rectangle "fill", x, y, @width, @height
-      love.graphics.setColor @color[1], @color[2], @color[3], @color[4]
+      setColor @color[1], @color[2], @color[3], @color[4]
       love.graphics.setFont @font
       love.graphics.printf @text, x, @y - (@font\getHeight! / 2), @width, @alignment
       love.graphics.pop!

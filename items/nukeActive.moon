@@ -46,7 +46,7 @@ export class NukeActive extends ActiveItem
     if @used
       love.graphics.push "all"
       phase = 255 * (math.sin (10 * @effect_timer))
-      love.graphics.setColor 200, phase, phase, 255
+      setColor 200, phase, phase, 255
       font = Renderer\newFont 20
       love.graphics.setFont font
       message = string.format "Nuke incoming! 0:0%.2f", @effect_time - @effect_timer

@@ -33,15 +33,15 @@ export class ActiveItem extends Item
     y = Screen_Size.height - (35 * Scale.height)
 
     if @charged
-      love.graphics.setColor 132, 87, 15, 200
+      setColor 132, 87, 15, 200
     else
-      love.graphics.setColor 15, 87, 132, 200
+      setColor 15, 87, 132, 200
     love.graphics.rectangle "fill", x - (60 * Scale.width * 0.5), y - (60 * Scale.height * 0.5), 60 * Scale.width, 60 * Scale.height
 
     @sprite\draw x, y
 
     if not @charged
-      love.graphics.setColor 0, 0, 0, 127
+      setColor 0, 0, 0, 127
       font = Renderer\newFont 30
       love.graphics.setFont font
       message = math.ceil (@charge_time - @timer)
@@ -54,12 +54,12 @@ export class ActiveItem extends Item
       x = @player.position.x - radius
       y = @player.position.y + radius + (5 * Scale.height)
 
-      love.graphics.setColor 0, 0, 0, 255
+      setColor 0, 0, 0, 255
       love.graphics.rectangle "fill", x, y, radius * 2, 10 * Scale.height
 
       ratio = (@effect_time - @effect_timer) / @effect_time
 
-      love.graphics.setColor 0, 255, 255, 200
+      setColor 0, 255, 255, 200
       love.graphics.rectangle "fill", x + (1 * Scale.width), y + (1 * Scale.height), ((radius * 2) - (2 * Scale.width)) * ratio, 8 * Scale.height
 
       love.graphics.setShader!

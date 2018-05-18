@@ -36,7 +36,7 @@ export class Wave
       x = Screen_Size.width - width - (10 * Scale.width)
       y = (50 * Scale.height) - (height / 2)
       love.graphics.setFont font
-      love.graphics.setColor 0, 0, 0, 255
+      setColor 0, 0, 0, 255
       love.graphics.printf message, x, y, width * 1.5, "left"
 
       love.graphics.pop!

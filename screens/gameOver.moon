@@ -68,10 +68,10 @@ export class GameOverScreen extends Screen
     end_y = y + height
     Renderer\drawAlignedMessage "Score: " .. ScoreTracker.score, end_y + ((Screen_Size.height - end_y) / 4), nil, Renderer\newFont 60
 
-    love.graphics.setColor 0, 0, 0, 127
+    setColor 0, 0, 0, 127
     love.graphics.rectangle "fill", x, y, width, height
 
-    love.graphics.setColor 0, 255, 255, 255
+    setColor 0, 255, 255, 255
     love.graphics.setFont font
 
     ScoreTracker.high_scores\sort!

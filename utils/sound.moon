@@ -9,7 +9,7 @@ export class Sound
   new: (name, volume = 1.0, looping = true, pitch = 1.0, static = false) =>
 
     path = "assets/sounds/" .. name
-    if love.filesystem.exists (PATH_PREFIX .. path)
+    if love.filesystem.getInfo (PATH_PREFIX .. path)
       path = PATH_PREFIX .. path
 
     -- Load Sound

@@ -40,6 +40,6 @@ export class KamikazeActive extends ActiveItem
     super!
     if DEBUGGING or @used
       love.graphics.push "all"
-      love.graphics.setColor 127, 127, 0, 127
+      setColor 127, 127, 0, 127
       love.graphics.circle "fill", @player.position.x, @player.position.y, @player\getHitBox!.radius + @radius, 360
       love.graphics.pop!

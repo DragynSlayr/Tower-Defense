@@ -55,7 +55,7 @@ export class InventoryScreen extends Screen
         color = @text_color
         if k == 1
           color = @title_color
-        love.graphics.setColor color\get!
+        setColor color\get!
         love.graphics.printf v, 0, y, limit, "center"
         multiplier = 1
         total_width = (Renderer\newFont 30)\getWidth v
@@ -63,16 +63,16 @@ export class InventoryScreen extends Screen
           multiplier = math.ceil (total_width / limit)
         y += 35 * multiplier * Scale.height
     else
-      love.graphics.setColor @title_color\get!
+      setColor @title_color\get!
       love.graphics.printf @message1, 0, Screen_Size.height * 0.40, limit, "center"
-      love.graphics.setColor @text_color\get!
+      setColor @text_color\get!
       love.graphics.printf @message2, 0, Screen_Size.height * 0.44, limit, "center"
     y = Screen_Size.height * 0.15 - (20 * Scale.height)
     x = {0.15, 0.60}
     colors = {{255, 0, 0, 255}, {0, 0, 255, 255}}
     love.graphics.setLineWidth 5
     for k, v in pairs x
-      love.graphics.setColor colors[k][1], colors[k][2], colors[k][3], colors[k][4]
+      setColor colors[k][1], colors[k][2], colors[k][3], colors[k][4]
       love.graphics.rectangle "line", (v * Screen_Size.width) - ((60 + (15 * (k - 1))) * Scale.width), y, (120 + (30 * (k - 1))) * Scale.width, 40 * Scale.height
     Renderer\drawHUDMessage "x" .. @boxes, 175 * Scale.width, Screen_Size.height - (100 * Scale.height), (Renderer\newFont 20)
     love.graphics.pop!

@@ -13,7 +13,7 @@ export class Driver
       love.filesystem.setIdentity "Tower Defense"
       love.filesystem.createDirectory "screenshots"
 
-      if not love.filesystem.exists "SETTINGS"
+      if not love.filesystem.getInfo "SETTINGS"
         defaults = "MODS_ENABLED 0\n"
         defaults ..= "FILES_DUMPED 0\n"
         defaults ..= "FULLSCREEN 1\n"
@@ -48,7 +48,7 @@ export class Driver
 
         files = getAllFiles "assets"
         for k, v in pairs files
-          if not love.filesystem.exists "mods/" .. v
+          if not love.filesystem.getInfo ("mods/" .. v)
             print "DUMPING " .. v
             contents, size = love.filesystem.read v
             love.filesystem.write "mods/" .. v, contents
@@ -387,7 +387,7 @@ export class Driver
       love.graphics.push "all"
       if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none
         love.graphics.setShader Driver.shader
-      love.graphics.setColor 75, 163, 255, 255
+      setColor 75, 163, 255, 255
       love.graphics.rectangle "fill", 0, 0, Screen_Size.width, Screen_Size.height
       if Driver.game_state == Game_State.playing or UI.current_screen == Screen_State.none
         love.graphics.setShader!
@@ -397,7 +397,7 @@ export class Driver
       switch Driver.game_state
         when Game_State.playing
           love.graphics.push "all"
-          love.graphics.setColor 15, 87, 132, 200
+          setColor 15, 87, 132, 200
           bounds = Screen_Size.border
           love.graphics.rectangle "fill", 0, 0, bounds[3], bounds[2]
           love.graphics.rectangle "fill", 0, bounds[2] + bounds[4], bounds[3], bounds[2]
@@ -405,7 +405,7 @@ export class Driver
 
           font = Renderer\newFont 30
           love.graphics.setFont font
-          love.graphics.setColor 0, 0, 0, 255
+          setColor 0, 0, 0, 255
           love.graphics.printf ScoreTracker.score, 0, (20 * Scale.width) - (font\getHeight! / 2), Screen_Size.width - (10 * Scale.width), "right"
           Renderer\drawAll!
           Objectives\draw!
@@ -428,7 +428,7 @@ export class Driver
           Pause\draw!
         when Game_State.game_over
           GameOver\draw!
-      love.graphics.setColor 0, 0, 0, 127
+      setColor 0, 0, 0, 127
       love.graphics.setFont (Renderer\newFont 20)
       love.graphics.printf VERSION, 0, Screen_Size.height - (25 * Scale.height), Screen_Size.width - (10 * Scale.width), "right"
       if SHOW_FPS

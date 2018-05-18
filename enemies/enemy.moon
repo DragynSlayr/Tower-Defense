@@ -97,10 +97,10 @@ export class Enemy extends GameObject
     if not @alive return
     love.graphics.push "all"
     if DEBUGGING
-      love.graphics.setColor 255, 0, 255, 127
+      setColor 255, 0, 255, 127
     if @sprite == @action_sprite
       alpha = map @action_sprite.current_frame, 1, @action_sprite.frames, 100, 255
-      love.graphics.setColor 255, 0, 0, alpha
+      setColor 255, 0, 0, alpha
     if DEBUGGING --or @sprite == @action_sprite
       @getHitBox!\draw!
     love.graphics.pop!

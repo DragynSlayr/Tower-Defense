@@ -3,7 +3,7 @@ export class MapCreator
     @maps = {}
 
     for i = 1, 1
-      @maps[i] = (love.graphics.newImage "assets/sprites/maps/" .. i .. ".tga")\getData!
+      @maps[i] = love.image.newImageData ("assets/sprites/maps/" .. i .. ".tga")
 
   loadMap: (num) =>
     current = @maps[num]

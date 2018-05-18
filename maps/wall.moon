@@ -18,12 +18,12 @@ export class Wall extends GameObject
     love.graphics.push "all"
 
     if DEBUGGING
-      love.graphics.setColor 0, 255, 0, 255
+      setColor 0, 255, 0, 255
       @getHitBox!\draw!
 
     love.graphics.setShader Driver.shader
 
-    love.graphics.setColor @color\get!
+    setColor @color\get!
     love.graphics.rectangle "fill", @position.x, @position.y, @width, @height
 
     love.graphics.setShader!
