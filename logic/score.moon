@@ -82,7 +82,7 @@ export class Score
     @server_port = 19615
 
     @connected = false
-    @tryConnection!
+    --@tryConnection!
 
     if not @connected
       @loadScores!
