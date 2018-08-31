@@ -34,7 +34,7 @@ export class HarvestActive extends ActiveItem
       @player.max_shield_time = @old[1]
       @player.damage = @old[2]
       @player.shield_sprite = @old[3]
-      @player.sprite\setColor {@old[4]}
+      @player.sprite.color = @old[4]
       @player.createBullet = @old[5]
       @color_changed = false
       @resetCounters!
