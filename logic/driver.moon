@@ -174,8 +174,7 @@ export class Driver
     keypressed: (key, scancode, isrepeat) ->
       --export KEY_PUSHED = true
       if key == "printscreen"
-        screenshot = love.graphics.newScreenshot true
-        screenshot\encode "png", "screenshots/" .. os.time! .. ".png"
+        screenshot = love.graphics.captureScreenshot ("screenshots/" .. os.time! .. ".png")
 
       if DEBUG_MENU
         if DEBUG_MENU_ENABLED
